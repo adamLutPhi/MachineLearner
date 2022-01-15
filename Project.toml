@@ -1,3 +1,9 @@
+
+name = "Ahmad Lutfi"
+uuid="c122adfc-62f5-4866-b040-b8e5fdeb7800"
+
+version = "0.0.1"
+
 [deps]
 Debugger = "31a5f54b-26ea-5ae9-a837-f05ce5417438"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
