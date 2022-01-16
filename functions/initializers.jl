@@ -53,11 +53,13 @@ function init(randomGenerator,seed ,μ=1,σ=0)
     inputs:
 
     Mean μ [] (fixed, #TODO: can it be a Variable?)
-    STD σ    (fixed , #TODO: can it be Variable?)
+    STD σ    (fixed , #TODO: can it be a Variable?)
     RNG seed
     Function randomGenerator(seed)
 
-    # TODO: Does the seed `remain` the same? can it be(come) changeable afterwards?
+    # TODO:
+    Q1. Does the seed `remain` the same? OR
+    Q2.can it be(come) changeable afterwards?
     """
 
     model.μ = μ

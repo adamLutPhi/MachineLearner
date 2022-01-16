@@ -9,7 +9,7 @@ Ahmad Lutfi
 =#
 
 include("functions/*")
-
+include("generators/*")
 
 # --- # up nexr
 #=
