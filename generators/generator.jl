@@ -17,7 +17,7 @@ function genericGenerator(sampleSize=300,min=1::Int64,max=10::genericGenerator64
     """
     mimicing a caglag range(d) process
     ("continue à droite, limite à gauche")
-    starts from 1 - the origin (not 0?)
+    starts from 1 (me: it always start at 0, so why now it starts from 1?)- the origin (not 0?)#[to ponder Upon ...]
 
     """
     #initializes with a vector
