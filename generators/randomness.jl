@@ -7,11 +7,11 @@ https://stackoverflow.com/questions/24326876/generating-a-random-integer-in-rang
 
 =#
 
-export genericGenerator,randMatrix,randVector,randvalue
+export randvalue,randVector,randMatrix
 
 module randomness()
 
-export randvalue, randMatrix
+# export randvalue, randMatrix
     function randvalue(min=1::Int64, max=10::Int64)
         """
         retunrs a single value
