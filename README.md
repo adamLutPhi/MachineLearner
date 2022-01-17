@@ -7,4 +7,4 @@ A Deep Learning Repository
 
 Please check back later
 
-Thank you !
+Thank you
