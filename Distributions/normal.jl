@@ -1,7 +1,10 @@
 module normal()
 
+export sqrt2π,pdf,cdf
 
-    function pdf() 
+#const π = pi
+const sqrt2π =sqrt(2*pi)
+    function pdf()
 
     end
 
