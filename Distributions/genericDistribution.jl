@@ -6,7 +6,7 @@ module genericDistribution
 E(x)=0
 σ(x)=1
 
-pdf(x)
+pdf(x)= smoothFunction
 
 cdf(x) #TODO: approx Integral of pdf(x)
 
