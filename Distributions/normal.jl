@@ -1,4 +1,6 @@
-include("./functions")
+#include("./functions")
+#include("~/functions")
+include("functions/SmoothFunctions/smoothFunction.jl")
 #ERROR: could not open file #reason not found
 module normal()
 

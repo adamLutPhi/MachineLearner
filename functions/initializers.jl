@@ -22,7 +22,7 @@ function init(randomGenerator ::Any, seed ::Any , μ=1, σ=0)
 
     randomGenerator = randomGenerator(seed)
 
-    returns randomGenerator
+    return randomGenerator
 end
 
 function init(randomGenerator,seed ,μ=1,σ=0)
@@ -44,7 +44,7 @@ function init(randomGenerator,seed ,μ=1,σ=0)
 
     model.randomGenerator = randomGenerator(seed)
 
-    returns randomGenerator
+    return randomGenerator
 end
 
 
@@ -52,8 +52,8 @@ function init(randomGenerator,seed ,μ=1,σ=0)
     """
     inputs:
 
-    Mean μ [] (fixed, #TODO: can it be a Variable?)
-    STD σ    (fixed , #TODO: can it be a Variable?)
+    Mean μ [1st moment] (fixed, #TODO: can it be a Variable?)
+    STD σ   [2nd moment] (fixed , #TODO: can it be a Variable?)
     RNG seed
     Function randomGenerator(seed)
 
