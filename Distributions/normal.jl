@@ -1,3 +1,5 @@
+include("./functions")
+#ERROR: could not open file #reason not found
 module normal()
 
 export sqrt2π,pdf,cdf
