@@ -4,23 +4,31 @@ export smooth, iscontinuous, isdifferentiable
 module smoothFunction
 
 #--- Real Functions
-function iscontinuous()
-
+function iscontinuous(x)
+```
+checks whether function x is continuous
+```
+return true #skip for now
 end
 
 
-function isdifferentiable()
-
+function isdifferentiable(x)
+```
+Checks whether function x isDifferentiable
+```
+    return true # skip for now
 end
 
 
 function smooth(x)
-    """
+    ```
     A smooth function basis function, that is:
         1.continuous
         2.differentiablle
-    """
-    return exp(x)
+    ```
+    smooth = exp(x)
+    if isdifferentiable(smooth) &&  iscontinuous(smooth)
+    return smooth
 
 end
 
