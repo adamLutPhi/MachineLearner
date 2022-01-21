@@ -6,7 +6,10 @@ A Deep Learning Repository
 Life is a set of Different opportunities. the objective is to Utilze the most of it, in an effective manner - ~90% of the time (_Almost Surely_) 
 
 ## what I'm learning with this project
-- [ ] learning how to generate a Normal distribution Generator (using the Ziggurat Method)
+- [ ] learning how to generate a Normal distribution Generator (using the Ziggurat Method) (but befor that:
+- [ ] - [ ] learning how to create a  generator function:
+- [ ] how to create an RNG
+- [ ] which RNG to Pick? 
 
 
 # A WIP (Work In Progress) Project
