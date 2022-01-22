@@ -1,34 +1,52 @@
+include("src/constants.jl")
 
 export leastUpperBound, greateestLowerBound,sup,inf
-mutable struct range{a,b}
+
+module bounds
+
+#--- range struct: a custom range structure
+
+```
+rangeStruct
+
+initialized to -∞ +infity
+```
+mutable struct rangeStruct{a,b}
     a=-Inf;b=Inf
 end
 
-function leastUpperBound(range)
-
-
-end
-
-function greatestLowerBound(range)
-
-end
 
 
 #---
-function sup(range)
-"""
-Supremum function
+function leastUpperBound(rangeStruct)
 
-The supremum of a set is its least upper bound and the infimum is its greatest upper bound. Definition 2.2. Suppose that A ⊂ R is a set of real numbers. If M ∈ R is an upper bound of A such that M ≤ M′ for every upper bound M′ of A, then M is called the supremum of A,
- denoted M = sup A.
-"""
+return sup(rangeStruct)
+end
+
+```
+the least UpperBound
+returns the supremum ` or the sup ("soup")`
+```
+return sup(range)
+end
+
+
+
+# greatest Upper Bound
+
+```
+# Infimum function
+is the Greatest upper bound
+[me: of an (Unordered) Collection]
+
+
+```
+function inf(rangeStruct)
 
 end
 
-function inf(range)
-"""
-Infimum function
-"""
 
+function greatestLowerBound(rangeStruct)
 
+    return inf(rangeStruct)
 end
