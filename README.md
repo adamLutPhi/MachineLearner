@@ -12,8 +12,8 @@ sth: something
  
 
 Life is a Set of Different opportunities. the objective is to Utilze the most of it, in an _effective manner_ - __~90%__ of the time (_Almost Surely_) 
-The best learning is that One where I'm pushing myself, poly shaped- spaghetti-like shape - trying to figure out the its heads from its tails
-For more details on  changes, please check out the [CHANGELOG](CHANGELOG.md)
+The best learning is that One where I'm pushing myself, on a Poly-shaped, Spaghetti-like Project (like this one) - trying to figure out its heads from its tails
+For more details on changes, please check out the [CHANGELOG](CHANGELOG.md)
 
 ## what I'm learning with this project (I gotta say!)
 - [ ] How to create a Normal Distribution Generator (using the Ziggurat Method) - but before that (hot shot):
