@@ -38,16 +38,6 @@ Update README.md - committed 4 days ago - Verified  e04b652   <br />
 Commit: adds a new genericGenerator function f6f773a   <br />
 
 <br />
-# &#x1F4C5; Commits on Jan 15, 2022 <br />
-Commit: renames main to DeepLearner - committed 6 days ago 9c06890   <br />
-Commit: edit save changes - committed 6 days ago 4f184cb   <br />
-Commit: adds initializers - committed 6 days ago e759dcd   <br />
-commit: add changes (to main work files & folder ) - committed 6 days ago cc48847   <br />
-Commit: adds seeders, generators  … - committed 6 days ago 1423574   <br />
-Commit: edits files -committed 6 days ago 4823b73   <br />
-commit - initial: adds Comments - committed 6 days ago 822dc37   <br />
-
-#---
 
 # &#x1F4C5; Commits on Jan 15, 2022
 commit: adds an idea files for JetBrains IDE -committed 6 days ago
