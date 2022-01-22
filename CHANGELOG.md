@@ -20,12 +20,12 @@ commit: adds testing area in zigguratfor experimentation  … - committed 5 minu
 commit: edits:  … committed 3 days ago 31d7724   <br />
 Commit:  … committed 3 days ago 2a5ee6b   <br />
 #---  <br />
-Commits on Jan 17, 2022 commint revoke workflows (temporarily) c4cd02d   <br />
+# &#x1F4C5; Commits on Jan 17, 2022 commint revoke workflows (temporarily) c4cd02d   <br />
 
 Merge branch 'main' of https://github.com/adamwillisXanax/DeepLearner …  … 1f93d16   <br />
 Commit: adds Julia TagBotn@adamwillisXanaxnadamwillisXanax committed 4 days ago
 
-# Commits on Jan 16, 2022 <br />
+# &#x1F4C5; Commits on Jan 16, 2022 <br />
 Merge pull request #2 from adamwillisXanax/add-license-copyLeft  … - committed 4 days ago Verified  3ea4cb9   <br />
 Create LICENSE - committed 4 days ago Verified  56e978d   <br />
 Commit: adds genericDistribution - committed 4 days ago - 961b160   <br />
@@ -38,7 +38,7 @@ Update README.md - committed 4 days ago - Verified  e04b652   <br />
 Commit: adds a new genericGenerator function f6f773a   <br />
 
 <br />
-# Commits on Jan 15, 2022 <br />
+# &#x1F4C5; Commits on Jan 15, 2022 <br />
 Commit: renames main to DeepLearner - committed 6 days ago 9c06890   <br />
 Commit: edit save changes - committed 6 days ago 4f184cb   <br />
 Commit: adds initializers - committed 6 days ago e759dcd   <br />
@@ -49,7 +49,7 @@ commit - initial: adds Comments - committed 6 days ago 822dc37   <br />
 
 #---
 
-# Commits on Jan 15, 2022
+# &#x1F4C5; Commits on Jan 15, 2022
 commit: adds an idea files for JetBrains IDE -committed 6 days ago
 Verified  20e34d9  
 Commits on Jan 14, 2022
