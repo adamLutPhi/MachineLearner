@@ -5,7 +5,9 @@ A Deep Learning Repository
 
 ## 🗺 legend
 (): optional
+<br />
 []: important
+<br />
 sth: something 
  
 
@@ -26,6 +28,6 @@ if you're looking for a final produce,
 Please check back later
 
 But, if you can give a hand,
-please step in the Scene, & help out
-Your help would be much appreciated, Thank you
-(though I always love the high of `Figuring things Out` on my own
+please step in the Scene, & give a hand
+Your Help would be much appreciated, Thank you
+(though I always appreciate & Love the High of `Figuring things Out` on my own
