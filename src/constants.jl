@@ -23,12 +23,15 @@ the logic:using the rule
 "if an error has a digit 0, that means the digit
     (associated with this error) is accurate"
 
-a homegrown way, fabricated out of the spaciousness
-in the head - creativity
+a homebrewed way, fabricated out of the spaciousness
+in the head - Creativity
 
 ```
-function accurate digits
-
+function accuratedigits()
+    return
+end
+#--- Testing area
+#=
 digi=6
 _6 = ϵ(digi*exp(1))
 ϵ(12)
