@@ -8,8 +8,9 @@ Ahmad Lutfi
 
 =#
 
-include("functions/*")
-include("generators/*")
+include("./src/functions/*")
+include("./src/functions/Generators/*")
+
 
 # --- # up nexr
 #=
