@@ -42,16 +42,15 @@ needs at least 2 loops
 function genSample(sampleSize=50::Int64,min=0::Int64,max=100::Int64)
  #range(min=0, stop=max; length=max, step=1)
 
-    for i in range(start=min, stop=max; length=max-min, step=1)    # sampleSize +1 & i < max+1 : #generate sample
 
-       # for #TODO: 
-
+    for i  in enumerate(sampleSize) #generate sample
+    
         #initializes with a vector (TODO:Q.why a vector? isn't a point enough | this context?) - maybe that is the main problem
         randVector(min,max)
     end
 end
 
- end
+
 
 #---- testing area -- craziness allowed
 
@@ -129,17 +128,16 @@ A = randn(rng, 10, 10)
 num1 = randn(rng, 1)
 num2=randn(rng,1) # instead of randn(10, 10)
 @test inv(inv(A)) ≈ A
-#---range
-range1(a=lobound,b=upbound) = lobound:stepSize:length(upbound)
+#---range #okay to use built-in range() , the rest are good  for testing 
+lobound = 1; upbound = 100
+range1(a=lobound,b=upbound) = lobound:stepSize:length(upbound)%
 Random.Sampler
 rand(range1)
 
 
-range2(a=lobound,b=upbound) = (lobound in Base.range(lobound,upbound;(upbound-lobound),stepSize))
+range2(a=lobound,b=upbound) = (lobound in Base.range(lobound::Int64,upbound::64;length=(upbound-lobound),stepSize))
 
-##r range1(2,8)
-
-rand([rng=GLOBAL_RNG],[r])
+r = range1(2,8)
 
 #--- Base.://
 Function
@@ -153,33 +151,26 @@ Divide two integers or rational numbers, giving a Rational result.
 #---range
 
 
-function range_step_stop_length(a,step, len::Integer)
+function range_step_stop_length(a=1,step=1, len=100::Integer)
     start = a - step * (len - oneunit(len))
     if start isa Signed
         # overflow in recomputing length from stop is okay
-        return StepRange{typeof(start),typeof(step)}(start, step, convert(typeof(start), a))
+        return StepRange{typeof(start),typeof(step)}(start, step, (typeof(start), a))
     end
     return StepRangeLen{typeof(start),typeof(start),typeof(step)}(start, step, len)
 end
 
-for i in range(1000)
-	@test(range_step_stop_length)
-
+function numenum()
+  for i in enumerate(1000)
+    if( @test(range_step_stop_length(1,10,1)) )
+     
+    end
+ end
 end
 # Stop and length as the only argument
 function range_stop_length(start,a, len::Integer)
         # overflow in recomputing length from stop is okay
 
-    return StepRangeLen{typeof(start),typeof(start),typeof(step)}(start, step, len)
-end
-# Stop and length as the only argument
-
-a=0;b=100;len = length(b - a)
-#working 
-function range_stop_length(a=0,b=100)
-# Start and length as the only argument
-
-	type_b = typeof(b) # ge type
     return StepRangeLen{type_b,typeof(a)}(a, step, len)
 end
 
