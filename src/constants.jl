@@ -30,6 +30,8 @@ in the head - Creativity
 function accuratedigits()
     return
 end
+
+end 
 #--- Testing area
 #=
 digi=6

@@ -156,6 +156,7 @@ A = randn(rng, 10, 10)
 num1 = randn(rng, 1)
 num2=randn(rng,1) # instead of randn(10, 10)
 @test inv(inv(A)) ≈ A
+@test inv(randn(A))
 #---range
 range1(a=lobound,b=upbound) = lobound:stepSize:length(upbound)
 Random.Sampler
@@ -189,8 +190,8 @@ function range_step_stop_length(a,step, len::Integer)
     return StepRangeLen{typeof(start),typeof(start),typeof(step)}(start, step, len)
 end
 
-for i in range(1000)
-	@test(range_step_stop_length)
+for i in enumerate(1000)
+	@test(range_step_stop_length(1,1,100))
 
 end
 # Stop and length as the only argument
@@ -201,24 +202,24 @@ function range_stop_length(start,a, len::Integer)
 end
 # Stop and length as the only argument
 
-a=0;b=100;len = length(b - a)
+#a=0;b=100;len = length(b - a)
 #working 
-function range_stop_length(a=0,b=100)
-# Start and length as the only argument
+function range_stop_length(a = 0, b = 100)
+    # Start and length as the only argument
 
-	type_b = typeof(b) # ge type
+    type_b = typeof(b) # ge type
     return StepRangeLen{type_b,typeof(a)}(a, step, len)
 end
 
 #---- task
-#define a sampler 
+#define a SamplerType 
 @inline function rand(::TaskLocalRNG, ::SamplerType{UInt64})
     task = current_task()
     s0, s1, s2, s3 = task.rngState0, task.rngState1, task.rngState2, task.rngState3
     tmp = s0 + s3
     res = ((tmp << 23) | (tmp >> 41)) + s0
-    t = s1 << 17
-    s2 = xor(s2, s0)
+    t = s1 << 17 #shift 17 placees
+    s2 = xor(s2, s0) 
     s3 = xor(s3, s1)
     s1 = xor(s1, s2)
     s0 = xor(s0, s3)
