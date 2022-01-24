@@ -146,7 +146,7 @@ end
 # Stop and length as the only argument
 #working 
 function range_stop_length(a, len::Integer)
-<<<<<<< HEAD
+
     #@@ -177,7 +184,7 @@ function range_stop_length(a, len::Integer)
     # overflow in recomputing length from stop is okay
     len = length(b - a)
@@ -154,15 +154,13 @@ function range_stop_length(a, len::Integer)
     # overflow in recomputing length from stop is okay
     #return UnitRange(start, oftype(start, a))
     #end
->>>>>>> d1e55e1e3f0cfc36ea6cc436b99e5eeb640f0342
+
     return StepRangeLen{typeof(start),typeof(start),typeof(step)}(start, step, len)
 end
 # Stop and length as the only argument
 
-<<<<<<< HEAD
 function range_stop_length(a=0,b=100)
 # Start and length as the only argument
-	# @@ -188,7 +195,7 @@ function range_start_length(a, len::Integer)
         # overflow in recomputing length from stop is okay
 		 len = length(b - a)
 
@@ -170,16 +168,15 @@ function range_stop_length(a=0,b=100)
 =======
 # double return
 
-a = 0;
-b = 100;
+
 len = length(b - a);
 
 #working
 function range_stop_length(a = 0, b = 100)
     # Start and length as the only argument
-
+     len = length(b - a)
     type_b = typeof(b)
->>>>>>> d1e55e1e3f0cfc36ea6cc436b99e5eeb640f0342
+
     return StepRangeLen{type_b,typeof(a)}(a, step, len)
 end
 
@@ -201,15 +198,11 @@ end
     task.rngState0, task.rngState1, task.rngState2, task.rngState3 = s0, s1, s2, s3
     res
 end
-<<<<<<< HEAD
-
 
 
 =======
 =#
 # Shared implementation between Xoshiro and TaskLocalRNG -- seeding
-
->>>>>>> d1e55e1e3f0cfc36ea6cc436b99e5eeb640f0342
 
 
 #--- convertions
