@@ -7,9 +7,10 @@ Inspired by the Keras Project
 Ahmad Lutfi
 
 =#
-pwd() # on windows, it's HAIRy
-include("./functions/*")
-include("generators/*")
+
+
+include("./src/functions/*")
+include("./src/functions/Generators/*")
 
 # --- # up nexr
 #=

@@ -1,33 +1,56 @@
+#=
+references:
+
+=#
+
 using random
-include("randomness")
+include("randomness.jl")# fixed: missing .jl !
 
 module generator()
 
 export genericGenerator,randMatrix,randVector,randvalue
-#=
-references:
 
-
-
-=#
-
-function genericGenerator(sampleSize=300,min=1::Int64,max=10::genericGenerator64, genericModel=exp(-x))
-    """
-    mimicing a caglag, range(d) process
+ ```
+    mimicing a caglag, range(d) Process
     ("continue à droite, limite à gauche")
-    starts from 1 - the origin (not 0?)
+    starts from 1 - the origin (not 0?) #TODO:Check
+ ```
 
-    """
+function genericGenerator(sampleSize = 300, min = 1::Int64, max = 10::Int64, genericModel = exp(-x))
+    ```
+    PDF must play a role here
+    as 
+    TODO: use the argument 'genericModel' in a useful function  - does it need another loop?
+    ```
+    for i = 1 in range(start = min, stop = max; length = max, step = 1) # <= sampleSize #generate sample
+        #initializes with a vector (TODO:Q.why a vector? isn't a point enough | this context?) - maybe that is the main problem
+        randVector(min, max)
+    end
+end
+
+function createRange(start, stop, length, step)
+    return range(start, stop; length, step)
+end
+
+```
+we need to figure out 
+-the approach of doing the ziggurat
+-which RNG to use 
+
+needs at least 2 loops
+```
+function genSample(sampleSize=50::Int64,min=0::Int64,max=100::Int64)
+ #range(min=0, stop=max; length=max, step=1)
+
+
     for i  in enumerate(sampleSize) #generate sample
-
-
-        #initializes with a vector (TODO:Q.why a vector? isn't a point enough | this context?)
+    
+        #initializes with a vector (TODO:Q.why a vector? isn't a point enough | this context?) - maybe that is the main problem
         randVector(min,max)
     end
 end
 
 
-end
 
 #---- testing area -- craziness allowed
 
@@ -116,8 +139,6 @@ range2(a=lobound,b=upbound) = (lobound in Base.range(lobound::Int64,upbound::64;
 
 r = range1(2,8)
 
-
-
 #--- Base.://
 Function
 //(num=3, den=5)
@@ -149,28 +170,13 @@ end
 # Stop and length as the only argument
 function range_stop_length(start,a, len::Integer)
         # overflow in recomputing length from stop is okay
-    #    return UnitRange(start, oftype(start, a))
-    #end
-    return StepRangeLen{typeof(start),typeof(start),typeof(step)}(start, step, len)
-end
-# Stop and length as the only argument
-"""
-double return
-"""
 
-function range_stop_length(a=0,b=100)
-# Start and length as the only argument
-	# @@ -188,7 +195,7 @@ function range_start_length(a, len::Integer)
-        # overflow in recomputing length from stop is okay
-		 len = length(b - a)
-        #return UnitRange(oftype(b, a), b)
-    #end
-	type_b = typeof(b)
     return StepRangeLen{type_b,typeof(a)}(a, step, len)
 end
 
 #---- task
-#@inline function rand(::TaskLocalRNG, ::SamplerType{UInt64})
+#define a sampler 
+@inline function rand(::TaskLocalRNG, ::SamplerType{UInt64})
     task = current_task()
     s0, s1, s2, s3 = task.rngState0, task.rngState1, task.rngState2, task.rngState3
     tmp = s0 + s3
@@ -186,6 +192,9 @@ end
     res
 end
 
+
+#--- TaskLocalRNG
+
 # Shared implementation between Xoshiro and TaskLocalRNG -- seeding
 
 function seed!(rng::Union{TaskLocalRNG,Xoshiro})
@@ -194,7 +203,8 @@ function seed!(rng::Union{TaskLocalRNG,Xoshiro})
     setstate!(rng, rand(rd, UInt64), rand(rd, UInt64), rand(rd, UInt64), rand(rd, UInt64))
 end
 
-function seed!(rng::Union{TaskLocalRNG,Xoshiro}, seed::Union{Vector{UInt32}, Vector{UInt64}})
+
+function seed!(rng::Union{TaskLocalRNG,Xoshiro}, seed::Union{Vector{UInt32},Vector{UInt64}}) # TaskLocalRNG defined 
     c = SHA.SHA2_256_CTX()
     SHA.update!(c, reinterpret(UInt8, seed))
     s0, s1, s2, s3 = reinterpret(UInt64, SHA.digest!(c))
@@ -210,9 +220,6 @@ seed!(rng::Union{TaskLocalRNG, Xoshiro}, seed::Integer) = seed!(rng, make_seed(s
     second + UInt128(first)<<64
 end
 =#
-
-
-
 #--- convertions
 
 function array2vector1(T::Any)

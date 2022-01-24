@@ -3,9 +3,10 @@ hong taoh
 https://hongtaoh.com/en/2021/07/11/julia-directory/#to-go-up-by-more-than-one-level
 Xie Xie!
 =#
-include("../../constants.jl") #seems correct directory - works as expected
+include("../../constants.jl") #seems correct directory - works as expected (on mac os)- seems fine on windows too 
 
 #=
+those are testable:
 pwd()
 projectDirectory= dirname(pwd()) #projectDirectory
 homeDirectory = homedir()
@@ -13,10 +14,7 @@ appDirectory = @__DIR__ #ideal root node to navigate from
 constraintsLoc = "src/constants.jl"
 directory = appDirectory * "/" * constraintsLoc
 
-# errors in here /Users/ahmadlutfi/github/DeepLearner/src/functions/RealAnalysis/bounds.jl
-#/Users/ahmadlutfi/github/DeepLearner/src/constants.jl
-# TODO: need for a dynamic directory resolution , from a String
-
+the Plan:
 #1. need to go up , 2 directories [exactly]
 
 cd("../..")
