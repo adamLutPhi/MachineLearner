@@ -119,24 +119,19 @@ for i in range(1000)
 end
 # Stop and length as the only argument
 function range_stop_length(a, len::Integer)
-	#@@ -177,7 +184,7 @@ function range_stop_length(a, len::Integer)
-        # overflow in recomputing length from stop is okay
-        return UnitRange(start, oftype(start, a))
-    end
+    #@@ -177,7 +184,7 @@ function range_stop_length(a, len::Integer)
+    # overflow in recomputing length from stop is okay
+    len = length(b - a)
     return StepRangeLen{typeof(start),typeof(start),typeof(step)}(start, step, len)
 end
 # Stop and length as the only argument
-"""
-double return
-"""
-a=0;b=100;len = length(b - a)
+
 function range_stop_length(a=0,b=100)
 # Start and length as the only argument
 	# @@ -188,7 +195,7 @@ function range_start_length(a, len::Integer)
         # overflow in recomputing length from stop is okay
 		 len = length(b - a)
-        return UnitRange(oftype(b, a), b)
-    end
+
 	type_b = typeof(b)
     return StepRangeLen{type_b,typeof(a)}(a, step, len)
 end
@@ -158,29 +153,7 @@ end
     res
 end
 
-# Shared implementation between Xoshiro and TaskLocalRNG -- seeding
 
-function seed!(rng::Union{TaskLocalRNG,Xoshiro})
-    # as we get good randomness from RandomDevice, we can skip hashing
-    rd = RandomDevice()
-    setstate!(rng, rand(rd, UInt64), rand(rd, UInt64), rand(rd, UInt64), rand(rd, UInt64))
-end
-
-function seed!(rng::Union{TaskLocalRNG,Xoshiro}, seed::Union{Vector{UInt32}, Vector{UInt64}})
-    c = SHA.SHA2_256_CTX()
-    SHA.update!(c, reinterpret(UInt8, seed))
-    s0, s1, s2, s3 = reinterpret(UInt64, SHA.digest!(c))
-    setstate!(rng, s0, s1, s2, s3)
-end
-
-seed!(rng::Union{TaskLocalRNG, Xoshiro}, seed::Integer) = seed!(rng, make_seed(seed))
-
-
-@inline function rand(rng::Union{TaskLocalRNG, Xoshiro}, ::SamplerType{UInt128})
-    first = rand(rng, UInt64)
-    second = rand(rng,UInt64)
-    second + UInt128(first)<<64
-end
 
 
 
