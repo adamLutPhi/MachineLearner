@@ -14,18 +14,46 @@ export genericGenerator,randMatrix,randVector,randvalue
     mimicing a caglag, range(d) Process
     ("continue à droite, limite à gauche")
     starts from 1 - the origin (not 0?) #TODO:Check
- ```
 
-function genericGenerator(sampleSize = 300, min = 1::Int64, max = 10::Int64, genericModel = exp(-x))
+    generates 
+
+
+    Input;
+    GenericModel: Must be a Smooth Function:
+    1. (Continuous on all Interval)
+    2. Differentiable on all Interval 
+    TODO: Add an Appropriate Differentiable module                                       
+
+    ```
+
+function genericGenerator(sampleSize = 300, _min = 1.0, _max = 10.0, genericModel(x) = exp(-x))
     ```
     PDF must play a role here
     as 
     TODO: use the argument 'genericModel' in a useful function  - does it need another loop?
     ```
-    for i = 1 in range(start = min, stop = max; length = max, step = 1) # <= sampleSize #generate sample
+    
+    x = linspace(_min, step, _max)
+    y = zeros(length(x))
+    z=nothing
+    a = nothing;b=nothing
+    for i = 1 in sampleSize # <= sampleSize #generate sample
         #initializes with a vector (TODO:Q.why a vector? isn't a point enough | this context?) - maybe that is the main problem
-        randVector(min, max)
+        b = randVector(_min, _max)
+        c = copy(b)
+        a = a(a, b)
+        j = x[i]
+        y = genericModel(j)
+    
+    
     end
+
+    x = linspace(_min, step, _max)
+
+    y = zeros(length(x))
+  
+
+    return a
 end
 
 function createRange(start, stop, length, step)
@@ -33,21 +61,20 @@ function createRange(start, stop, length, step)
 end
 
 ```
-we need to figure out 
+TODO: we need to figure out 
 -the approach of doing the ziggurat
 -which RNG to use 
 
 needs at least 2 loops
 ```
-function genSample(sampleSize=50::Int64,min=0::Int64,max=100::Int64)
+function genSample(sampleSize=50::Int64,min=0.0,max=1.0)
  #range(min=0, stop=max; length=max, step=1)
-
-    for i in range(start=min, stop=max; length=max-min, step=1)    # sampleSize +1 & i < max+1 : #generate sample
-
+a= nothing
+    for i in enumerate(sampleSize) #range(start=min, stop=max; length=max-min, step=1)    # sampleSize +1 & i < max+1 : #generate sample
        # for #TODO: 
-
         #initializes with a vector (TODO:Q.why a vector? isn't a point enough | this context?) - maybe that is the main problem
-        randVector(min,max)
+        a= (a, randVector(min,max))
+
     end
 end
 
