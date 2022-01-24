@@ -7,8 +7,8 @@ Inspired by the Keras Project
 Ahmad Lutfi
 
 =#
-
-include("functions/*")
+pwd() # on windows, it's HAIRy
+include("./functions/*")
 include("generators/*")
 
 # --- # up nexr

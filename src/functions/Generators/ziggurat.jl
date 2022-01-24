@@ -1,4 +1,4 @@
-using  StableRNGs,Random,Test
+using  StableRNGs,Random,Test,Distributions
 #include("./functions/SmoothFunctions/smoothFunction.jl")
 #include("functions/SmoothFunctions/smoothFunction.jl")
 include("./functions/SmoothFunctions/smoothFunction.jl")
@@ -88,7 +88,6 @@ rand(range1)
 
 range2(a=lobound,b=upbound) = (lobound in Base.range(lobound,upbound;(upbound-lobound),stepSize))
 
-r range1(2,8)
 
 rand([rng=GLOBAL_RNG],[r])
 
@@ -101,48 +100,45 @@ Divide two integers or rational numbers, giving a Rational result.
 
 
 
-#---range
-
+#---range working
 
 function range_step_stop_length(a,step, len::Integer)
     start = a - step * (len - oneunit(len))
     if start isa Signed
         # overflow in recomputing length from stop is okay
-        return StepRange{typeof(start),typeof(step)}(start, step, convert(typeof(start), a))
+
+   
+        return StepRangeLen{typeof(start),typeof(start),typeof(step)}(start, step, len)
     end
-    return StepRangeLen{typeof(start),typeof(start),typeof(step)}(start, step, len)
 end
 
-for i in range(1000)
-	@test(range_step_stop_length)
+#=
+for i in enumerate(range(start=1;length,stop=100,1))
+	@test(range_step_stop_length(1,1,length))
 
 end
+=#
 # Stop and length as the only argument
 function range_stop_length(a, len::Integer)
-	#@@ -177,7 +184,7 @@ function range_stop_length(a, len::Integer)
-        # overflow in recomputing length from stop is okay
-        return UnitRange(start, oftype(start, a))
-    end
+
     return StepRangeLen{typeof(start),typeof(start),typeof(step)}(start, step, len)
 end
 # Stop and length as the only argument
-"""
-double return
-"""
-a=0;b=100;len = length(b - a)
+
+
 function range_stop_length(a=0,b=100)
 # Start and length as the only argument
 	# @@ -188,7 +195,7 @@ function range_start_length(a, len::Integer)
         # overflow in recomputing length from stop is okay
-		 len = length(b - a)
-        return UnitRange(oftype(b, a), b)
-    end
+	 len = length(b - a)
+
 	type_b = typeof(b)
     return StepRangeLen{type_b,typeof(a)}(a, step, len)
 end
 
 #---- task
-#@inline function rand(::TaskLocalRNG, ::SamplerType{UInt64})
+
+@inline function rand(::TaskLocalRNG, ::SamplerType{UInt64})
     task = current_task()
     s0, s1, s2, s3 = task.rngState0, task.rngState1, task.rngState2, task.rngState3
     tmp = s0 + s3
@@ -183,6 +179,19 @@ seed!(rng::Union{TaskLocalRNG, Xoshiro}, seed::Integer) = seed!(rng, make_seed(s
 end
 
 
+function calcZiggurat()
+x = Uniform(-1,1)
+y = Uniform(-1,1)
+w = x^2 + y^2 
+
+#krapinski answer 
+   while true
+    # do stuff
+
+      cond(w > 0 & w <1) || break  
+    end
+
+end 
 
 #--- convertions
 
@@ -194,3 +203,9 @@ function array2vector2(T::Any)
 return
 Float64.(vcat(T[1], vec(T[2])))
 end
+
+
+function ziggurat()
+
+
+    
