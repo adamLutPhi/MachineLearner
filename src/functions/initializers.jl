@@ -82,7 +82,8 @@ function array2vector2(T::Any)
     return
     Float64.(vcat(T[1], vec(T[2])))
 end
-
-[i in rand(1, exp(1 / -x))]
-[j in rand(1, exp(1 / -x))]
-
+for i in enumerate(100)
+    x = [i in rand(0,1)]
+    [i in rand(1, exp(1 / -x))]
+    [j in rand(1, exp(1 / -x))]
+end 
