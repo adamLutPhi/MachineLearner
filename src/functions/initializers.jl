@@ -1,4 +1,4 @@
-  
+
 function init(randomGenerator::Any, seed::Any, μ = 1, σ = 0)
     """
       the First (Functional) Function
@@ -71,3 +71,18 @@ function init(randomGenerator, seed, μ = 1, σ = 0)
     return randomGenerator
 
 end
+
+#--- convertions -  arrays
+function array2vector1(T::Any)
+    return irr(vec(Float64.(T)))
+    rationalize(vec(Float64.(T)))
+end
+
+function array2vector2(T::Any)
+    return
+    Float64.(vcat(T[1], vec(T[2])))
+end
+
+[i in rand(1, exp(1 / -x))]
+[j in rand(1, exp(1 / -x))]
+

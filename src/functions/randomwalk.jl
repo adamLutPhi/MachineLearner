@@ -2,7 +2,7 @@ using Distributions
 
 
 #--- Bernoulli
-```
+```  
 Returns a Bernoulli Probability Density Function (PDF) that is; 
 
 1. Discrete process  
@@ -14,4 +14,7 @@ function pdf(ntimes)
   return Bernoulli(ntimes)
 end
 
+function cdf(pdf)
+    pdf()
+end
 #function #later

@@ -34,9 +34,9 @@ stepSize = 1 # TODO: which steepsize
 # 1 is the least Positive integer in Julia
 # thus its the best in this contest
 
-#--- rng
+#--- RNG
 
-```
+"""
 Reproducibility
 
 By using an RNG parameter initialized with a given seed,
@@ -65,14 +65,16 @@ use third-party packages like StableRNGs.jl.
  can use an RNG, with a fixed seed, to ensure that simply running the test many times does not encounter a failure due to very improbable data (e.g. an extremely ill-conditioned matrix).
 
 The statistical distribution from which random samples are drawn is guaranteed to be the same across any minor Julia releases.
+"""
 
-```
-
-```
+"""
 Results from the 'MersenneTwister'
 were unsatisfactory, I'm afraid 
 TODO: delete block once an alternative been found 
-```
+
+"""
+#NOT RECOMMENDED USING THE MersenneTwister (very bad in number generation)
+
 using Random
 seed = 1234; #1= rand(2)# 2 random variables N/a in julia 1.5
 rng()
@@ -89,7 +91,7 @@ seed2 = rand(Random.seed!(rng), Bool) # (not) reproducible
 seed3 = rand(MersenneTwister(), Bool) # not rng has no seed. Infer reproducible either
 
 #---StableRNG - for stability
-``` ffrom the docs:
+"""from the docs:
 StableRNG is currently an alias for LehmerRNG,
 and implements a well understood
 linear congruential generator (LCG);
@@ -104,7 +106,7 @@ StableRNG is exported from the package,
 LehmerRNG might be renamed, or might be made a
 distinct type from StableRNG in any upcoming minor
 (i.e. non-breaking) release.
-```
+"""
 rng = StableRNG(123)
 A = randn(rng, 10, 10)
 num1 = randn(rng, 1)
@@ -128,9 +130,6 @@ Function
 """
 Divide two integers or rational numbers, giving a Rational result.
 """
-
-
-
 #---range
 
 
@@ -150,11 +149,9 @@ end
 # Stop and length as the only argument
 #working 
 function range_stop_length(a, len::Integer)
-
-    #@@ -177,7 +184,7 @@ function range_stop_length(a, len::Integer)
     # overflow in recomputing length from stop is okay
     len = length(b - a)
-=======
+
     # overflow in recomputing length from stop is okay
     #return UnitRange(start, oftype(start, a))
     #end
@@ -169,11 +166,11 @@ function range_stop_length(a=0,b=100)
 		 len = length(b - a)
 
 	type_b = typeof(b)
-=======
+
 # double return
 
 
-len = length(b - a);
+#len = length(b - a);
 
 #working
 function range_stop_length(a = 0, b = 100)
@@ -184,38 +181,76 @@ function range_stop_length(a = 0, b = 100)
     return StepRangeLen{type_b,typeof(a)}(a, step, len)
 end
 
-#---- task
-#SamplerType is required
-#=
-@inline function rand(::TaskLocalRNG, ::SamplerType{UInt64})
-    task = current_task()
-    s0, s1, s2, s3 = task.rngState0, task.rngState1, task.rngState2, task.rngState3
-    tmp = s0 + s3
-    res = ((tmp << 23) | (tmp >> 41)) + s0
-    t = s1 << 17
-    s2 = xor(s2, s0)
-    s3 = xor(s3, s1)
-    s1 = xor(s1, s2)
-    s0 = xor(s0, s3)
-    s2 = xor(s2, t)
-    s3 = s3 << 45 | s3 >> 19
-    task.rngState0, task.rngState1, task.rngState2, task.rngState3 = s0, s1, s2, s3
-    res
+using Distributions
+function algorithm1()
+    """
+    1. Generate U1, i #from a uniform distribution 
+    2. If i < Lmax, return U1Xi
+    3. Generate j from A
+    4. Ifj=0, returna value from the tail 5. Generate U2
+    6. x ← Xj + U1(Xj−1 − Xj) # Q1. what is U1(Xj−1 − Xj), again? 
+    7. If (fi−1 − fi)U2 < P(x), return x
+    8. Go to 4.
+    """
+    i = Distributions.Uniform(0, 1)
+    U1 = Uniform(0, 1)
+    #3. Generate j from A # Q.what is lmax?
+    rng = StableRNG(123)
+    Lmax = [ rand(rng, 1)
+    if (i < Lmax)
+        return U1Xi #returns a max  value
+    end #otherwise  create a random array A 
+    A = smooth()  # randn(rng, 0, 1) #generate A matrix , via a stable RNG from 0 to 1
+    j = A[rand(1:end)] #randn(rng, 1) #pick 1 value for R  j from A  #done 
+
+for i in enumerate ([i in rand(0,1,1])
+#DEFINE X
+j = A[rand(1:end)] #pick j randomly (from a Uniform distribution)
+#https://discourse.julialang.org/t/generate-random-value-from-a-given-function-out-of-box/5793/4
+using StatsBase, Gadfly
+
+x = linspace(0,π,100)
+P = smooth(x)     # pdf
+P = P/sum(P)   #cdf 
+
+r = StatsBase.sample(1:100, Weights(P),10000)
+plot(x=x[r],Geom.histogram)
+
+if j isa 0
+        return returnValfromTrail()
+    
+        If (fi−1 − fi) U2 < P(x) return x end 
+
+    end
+end
+
+"""
+total number of layers in the modified algorihtm Lmax cannot be determined, 
+until the last layer is calculated,
+"""
+#testing area 
+
+x = X[j] + U1(Xj−1 − Xj)
+
+ε = max(x ,[fi +(x−X[i])*(fi−1 −fi)−P(x)] )
+
+ε=f[i−1] +Log(f[i] −f[i−1])+Xi)*(fi −fi−1))
+ 
+end 
+
+n = 1000000000
+for j in numerate(n)
+
+    
+if 
+
+end 
+
 end
 
 
-=======
-=#
-# Shared implementation between Xoshiro and TaskLocalRNG -- seeding
-
-
-#--- convertions
-
-function array2vector1(T::Any)
-    return irr(vec(Float64.(T)))
-    rationalize(vec(Float64.(T)))
+function returnValfromTrail() end 
+    
 end
-function array2vector2(T::Any)
-    return
-    Float64.(vcat(T[1], vec(T[2])))
-end
+
+
