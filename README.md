@@ -32,6 +32,9 @@ please step in the Scene, & give a hand
 Your Help would be much appreciated, Thank you
 (though I always appreciate & Love the High of `Figuring things Out` on my own
 
+## Disclaimer
+this is for Educational purposes only
+The author won't not be held responsible, for any immature actions, & or signs of code abuse, at all costs
 
 ## Author
 
