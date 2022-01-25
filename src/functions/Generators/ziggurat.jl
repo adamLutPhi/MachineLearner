@@ -182,6 +182,34 @@ function range_stop_length(a = 0, b = 100)
 end
 
 using Distributions
+
+function algorithm2()
+    """Rejection sampling method : 3 step process
+    does PRN means RNG? (maybenot, more likely a whole PDF)
+    idea: probability distribution P(x) is subsumed by a set of boxes, resembling a ziggurat
+
+   1. Generate 2 PRNs x, y #from a uniform distribution , together, form a point 
+    
+   2. If y < P(x) return x # accepted retrun true too if possible
+
+   3. else point rejected 
+   then go back & draw another point (select & test )
+ 
+   --------------
+In a ziggurat algorithm, 
+the desired probability distribution P(x) lies beneath a 
+stack of rectangular layers. Layers are designed such that 
+they all contain the exact same area, so that each box can be randomly
+chosen with equal probability using a uniform random integer i 
+to ensure uniform coverage of P(x). The height fi and length Xi of 
+each ziggurat layer are pre-calculated in lookup tables.
+ Because of these lookup tables, ziggurat algorithms are most
+efficiently implemented on systems with large caches (e.g. modern CPUs,
+but not current GPUs) 
+
+  """
+
+end
 function algorithm1()
     """
     1. Generate U1, i #from a uniform distribution 

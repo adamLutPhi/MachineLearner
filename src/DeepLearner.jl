@@ -8,8 +8,8 @@ Ahmad Lutfi
 
 =#
 
-include("./functions/") 
-include("./functions/Generators")
+include("/functions") 
+include("functions/Generators")
 
 
 # --- # up next
