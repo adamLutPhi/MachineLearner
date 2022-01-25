@@ -3,7 +3,6 @@ hong taoh
 https://hongtaoh.com/en/2021/07/11/julia-directory/#to-go-up-by-more-than-one-level
 Xie Xie!
 =#
-include("../../constants.jl") #seems correct directory - works as expected (on mac os)- seems fine on windows too 
 
 #=
 those are testable:
@@ -18,59 +17,55 @@ the Plan:
 #1. need to go up , 2 directories [exactly]
 
 cd("../..")
-
-
-```
-starting from the directory of this file
-go up 3 directories
-```
 =#
+include("../../constants.jl") #seems correct directory - works as expected (on mac os)- seems fine on windows too 
 
-
-
-
-export leastUpperBound, greateestLowerBound,sup,inf
+export leastUpperBound, greateestLowerBound, sup, inf
 
 module bounds
 
 #--- range struct: a custom range structure
 
-```
-rangeStruct
-
-initialized to -∞ +infity
-```
 mutable struct rangeStruct{a,b}
-    a=-Inf;b=Inf
+
+
+    """
+    rangeStruct
+
+    initialized to -∞ +infity
+    """
+
+    a = -Inf
+    b = Inf
 end
 
 
 
 #---
 function leastUpperBound(rangeStruct)
+    """
+    the least UpperBound
+    returns the supremum ` or the sup ("soup")`
+    """
+    return sup(rangeStruct)
 
-return sup(rangeStruct)
 end
 
-```
-the least UpperBound
-returns the supremum ` or the sup ("soup")`
-```
-return sup(range)
-end
 
+#return sup(range)
 
 
 # greatest Upper Bound
 
-```
-# Infimum function
-is the Greatest upper bound
-[me: of an (Unordered) Collection]
 
-
-```
 function inf(rangeStruct)
+    """
+    # Infimum function
+    is the Greatest upper bound
+    [me: of an (Unordered) Collection]
+    TODO: finish coding
+
+    """
 
 end
 
@@ -79,3 +74,9 @@ function greatestLowerBound(rangeStruct)
 
     return inf(rangeStruct)
 end
+
+
+end
+
+
+

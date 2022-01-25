@@ -1,21 +1,21 @@
-
-function init(randomGenerator ::Any, seed ::Any , μ=1, σ=0)
+  
+function init(randomGenerator::Any, seed::Any, μ = 1, σ = 0)
     """
-    the First Functional Function
+      the First (Functional) Function
 
-    Inputs:
+      Inputs:
 
-    Mean μ [1st-Order  moment-generating function]  (fixed, #TODO: can it be a Variable?)
-    STD σ  [2nd-Order moment-generating function] (fixed , #TODO: can it be Variable?)
+      Mean μ [1st-Order  moment-generating function]  (fixed, #TODO: can it be a Variable?)
+      STD σ  [2nd-Order moment-generating function] (fixed , #TODO: can it be Variable?)
 
-    RNG seed
-    Function randomGenerator(seed)
+      RNG seed
+      Function randomGenerator(seed)
 
-    outputs:
+      outputs:
 
 
-    # TODO: Does the seed `remain` the same? can it be(come) changeable afterwards?
-    """
+      # TODO: Does the seed `remain` the same? can it be(come) changeable afterwards?
+      """
     μ = μ
     σ = σ
     seed = seed
@@ -25,7 +25,7 @@ function init(randomGenerator ::Any, seed ::Any , μ=1, σ=0)
     return randomGenerator
 end
 
-function init(randomGenerator,seed ,μ=1,σ=0)
+function init(randomGenerator, seed, μ = 1, σ = 0)
     """
     inputs:
 
@@ -48,7 +48,7 @@ function init(randomGenerator,seed ,μ=1,σ=0)
 end
 
 
-function init(randomGenerator,seed ,μ=1,σ=0)
+function init(randomGenerator, seed, μ = 1, σ = 0)
     """
     inputs:
 

@@ -1,6 +1,6 @@
 #=
-(not an) AI package
-(but a) Statistics-based one
+(not an) AI package 
+(but a) Stochastic-based one
 
 Inspired by the Keras Project
 
@@ -8,11 +8,11 @@ Ahmad Lutfi
 
 =#
 
-include("./src/functions/*")
-include("./src/functions/Generators/*")
+include("./functions/") 
+include("./functions/Generators")
 
 
-# --- # up nexr
+# --- # up next
 #=
 
 z1 = zeros(3,3)

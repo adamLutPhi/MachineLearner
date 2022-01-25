@@ -1,22 +1,5 @@
-function seed()
 
-    """
-    function: generates a seed
-
-    #TODO: can it be nothing?
-
-    # TODO:generate a seed
-
-    """
-
-    seed = 0 #or
-
-
-return seed
-
-end
-
-function seed()
+function seed(s = 1234)
     """
     function: generates a seed
     #TODO: can it be nothing?
@@ -25,7 +8,7 @@ function seed()
 
     """
 
-    seed = 0 #or
+    seed = s #or
 
     return seed
 

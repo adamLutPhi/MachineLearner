@@ -10,9 +10,8 @@ Returns a Bernoulli Probability Density Function (PDF) that is;
 
 ```
 
-
 function pdf(ntimes)
   return Bernoulli(ntimes)
 end
 
-function 
+#function #later
