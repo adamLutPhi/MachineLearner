@@ -19,7 +19,7 @@ For more details on changes, please check out the [CHANGELOG](CHANGELOG.md)
 - [ ] How to create a Normal Distribution Generator (using the Ziggurat Method) - but before that (hot shot):
 - [ ] How to create a  Generator function (in the first place!):
 - [ ] How to create an [acceptable] RNG (Random Number Generator) (I guess it has sth to do with generating  Uniform probability) 
-- [ ] (so) Which RNG to Pick?
+- [ ] (so) Which differentiation Module to Pick?
 *Thinking about it* 🤔
 
 # A WIP (Work In Progress) Project
@@ -31,3 +31,9 @@ But, if you can give a hand,
 please step in the Scene, & give a hand
 Your Help would be much appreciated, Thank you
 (though I always appreciate & Love the High of `Figuring things Out` on my own
+
+
+## Author
+
+[![Logo](https://github.com/adamwillisXanax/adamwillisXanax/blob/main/Assets/logo.png)
+](https://github.com/adamwillisXanax/adamwillisXanax)
