@@ -3,7 +3,7 @@ references:
 
 =#
 
-using random
+using random, Test
 include("randomness.jl")# fixed: missing .jl !
 
 module generator()
@@ -26,21 +26,23 @@ export genericGenerator,randMatrix,randVector,randvalue
 
     ```
 
-function genericGenerator(sampleSize = 300, _min = 1.0, _max = 10.0, genericModel(x) = exp(-x))
-    ```
+        ```
     PDF must play a role here
     as 
     TODO: use the argument 'genericModel' in a useful function  - does it need another loop?
     ```
+#working
+function genericGenerator(sampleSize = 300, _min = 1.0, _max = 10.0, genericModel = exp(-x))
+
     
     x = linspace(_min, step, _max)
     y = zeros(length(x))
-    z=nothing
+   # z=nothing
     a = nothing;b=nothing
-    for i = 1 in sampleSize # <= sampleSize #generate sample
+    for i  in enumerate(sampleSize) # <= sampleSize #generate sample
         #initializes with a vector (TODO:Q.why a vector? isn't a point enough | this context?) - maybe that is the main problem
         b = randVector(_min, _max)
-        c = copy(b)
+       # c = copy(b)
         a = a(a, b)
         j = x[i]
         y = genericModel(j)
@@ -203,7 +205,7 @@ end
 # Stop and length as the only argument
 
 #a=0;b=100;len = length(b - a)
-#working 
+ 
 function range_stop_length(a = 0, b = 100)
     # Start and length as the only argument
 
@@ -211,52 +213,6 @@ function range_stop_length(a = 0, b = 100)
     return StepRangeLen{type_b,typeof(a)}(a, step, len)
 end
 
-#---- task
-#define a SamplerType 
-@inline function rand(::TaskLocalRNG, ::SamplerType{UInt64})
-    task = current_task()
-    s0, s1, s2, s3 = task.rngState0, task.rngState1, task.rngState2, task.rngState3
-    tmp = s0 + s3
-    res = ((tmp << 23) | (tmp >> 41)) + s0
-    t = s1 << 17 #shift 17 placees
-    s2 = xor(s2, s0) 
-    s3 = xor(s3, s1)
-    s1 = xor(s1, s2)
-    s0 = xor(s0, s3)
-    s2 = xor(s2, t)
-    s3 = s3 << 45 | s3 >> 19
-    task.rngState0, task.rngState1, task.rngState2, task.rngState3 = s0, s1, s2, s3
-    res
-end
-
-
-#--- TaskLocalRNG
-
-# Shared implementation between Xoshiro and TaskLocalRNG -- seeding
-
-function seed!(rng::Union{TaskLocalRNG,Xoshiro})
-    # as we get good randomness from RandomDevice, we can skip hashing
-    rd = RandomDevice()
-    setstate!(rng, rand(rd, UInt64), rand(rd, UInt64), rand(rd, UInt64), rand(rd, UInt64))
-end
-
-
-function seed!(rng::Union{TaskLocalRNG,Xoshiro}, seed::Union{Vector{UInt32},Vector{UInt64}}) # TaskLocalRNG defined 
-    c = SHA.SHA2_256_CTX()
-    SHA.update!(c, reinterpret(UInt8, seed))
-    s0, s1, s2, s3 = reinterpret(UInt64, SHA.digest!(c))
-    setstate!(rng, s0, s1, s2, s3)
-end
-
-seed!(rng::Union{TaskLocalRNG, Xoshiro}, seed::Integer) = seed!(rng, make_seed(seed))
-
-#= TaskLocalRNG is undfined for  julia 1.6.5
-@inline function rand(rng::Union{TaskLocalRNG, Xoshiro}, ::SamplerType{UInt128})
-    first = rand(rng, UInt64)
-    second = rand(rng,UInt64)
-    second + UInt128(first)<<64
-end
-=#
 #--- convertions
 
 function array2vector1(T::Any)

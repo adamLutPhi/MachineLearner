@@ -2,12 +2,16 @@ using StableRNGs, Random, Test
 #include("./functions/SmoothFunctions/smoothFunction.jl")
 #include("functions/SmoothFunctions/smoothFunction.jl")
 
+
+#TODO: needs resolution for windows PC 
+#=
 if Sys.iswindows() 
 slash =  "\" 
 else slash = "/";
 end
 
-#="""
+=#
+#checking path difference:
 windowspath = "src\functions\SmoothFunctions\smoothFunction.jl"
 macospath = "/functions/SmoothFunctions/smoothFunction.jl"
 #include("src\functions\SmoothFunctions\smoothFunction.jl") "./functions/SmoothFunctions/smoothFunction.jl")
