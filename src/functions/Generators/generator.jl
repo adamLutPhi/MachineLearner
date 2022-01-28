@@ -31,56 +31,66 @@ export genericGenerator,randMatrix,randVector,randvalue
     as 
     TODO: use the argument 'genericModel' in a useful function  - does it need another loop?
     ```
-#working
-function genericGenerator(sampleSize = 300, _min = 1.0, _max = 10.0, genericModel = exp(-x))
-
-    
-    x = linspace(_min, step, _max)
-    y = zeros(length(x))
-   # z=nothing
-    a = nothing;b=nothing
-    for i  in enumerate(sampleSize) # <= sampleSize #generate sample
-        #initializes with a vector (TODO:Q.why a vector? isn't a point enough | this context?) - maybe that is the main problem
-        b = randVector(_min, _max)
-       # c = copy(b)
-        a = a(a, b)
-        j = x[i]
-        y = genericModel(j)
-    
-    
-    end
-
-    x = linspace(_min, step, _max)
-
-    y = zeros(length(x))
-  
-
-    return a
-end
-
-function createRange(start, stop, length, step)
-    return range(start, stop; length, step)
-end
-
-```
-TODO: we need to figure out 
--the approach of doing the ziggurat
--which RNG to use 
-
-needs at least 2 loops
-```
-function genSample(sampleSize=50::Int64,min=0.0,max=1.0)
- #range(min=0, stop=max; length=max, step=1)
-a= nothing
-    for i in enumerate(sampleSize) #range(start=min, stop=max; length=max-min, step=1)    # sampleSize +1 & i < max+1 : #generate sample
-       # for #TODO: 
-        #initializes with a vector (TODO:Q.why a vector? isn't a point enough | this context?) - maybe that is the main problem
-        a= (a, randVector(min,max))
+   #initialize 
+   function initializer()
+                                  
+   end
+   
+    function genericGenerator(sampleSize = 300, x = linspace(_min, step, _max),genericModel = exp(-x))
 
     end
-end
 
- end
+    #working
+    function genericGenerator(sampleSize = 300, _min = 1.0, _max = 10.0, step = 1, genericModel = exp(-x))
+
+
+        x = linspace(_min, step, _max)
+        y = zeros(length(x))
+        # z=nothing
+        a = nothing
+        b = nothing
+        for i in enumerate(sampleSize) # <= sampleSize #generate sample
+            #initializes with a vector (TODO:Q.why a vector? isn't a point enough | this context?) - maybe that is the main problem
+            b = randVector(_min, _max)
+            # c = copy(b)
+            a = a(a, b)
+            j = x[i]
+            y = genericModel(j)
+
+
+        end
+
+        x = linspace(_min, step, _max)
+
+        y = zeros(length(x))
+
+
+        return a
+    end
+
+    function createRange(start, stop, length, step)
+        return range(start, stop; length, step)
+    end
+
+    ```
+    TODO: we need to figure out 
+    -the approach of doing the ziggurat
+    -which RNG to use 
+
+    needs at least 2 loops
+    ```
+    function genSample(sampleSize = 50::Int64, min = 0.0, max = 1.0)
+        #range(min=0, stop=max; length=max, step=1)
+        a = nothing
+        for i in enumerate(sampleSize) #range(start=min, stop=max; length=max-min, step=1)    # sampleSize +1 & i < max+1 : #generate sample
+            # for #TODO: 
+            #initializes with a vector (TODO:Q.why a vector? isn't a point enough | this context?) - maybe that is the main problem
+            a = (a, randVector(min, max))
+
+        end
+    end
+
+end
 
 #---- testing area -- craziness allowed
 

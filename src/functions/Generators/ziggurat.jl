@@ -209,6 +209,14 @@ j = A[rand(1:end)] #pick j randomly (from a Uniform distribution)
 #https://discourse.julialang.org/t/generate-random-value-from-a-given-function-out-of-box/5793/4
 using StatsBase, Gadfly
 
+"""
+for dynamic transitiooning from a pdf to a cdf, 
+    needs a(n) (suitable ) integration approximation function
+"""
+
+function pdf(x = linspace(0,π,100))
+
+    
 x = linspace(0,π,100)
 P = smooth(x)     # pdf
 P = P/sum(P)   #cdf 
