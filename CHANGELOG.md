@@ -1,4 +1,20 @@
 v0.0.1  <br />  <br />
+# &#x1F4C5; Commits on  Jan-25-2022
+Commits on Jan 25, 2022
+1. Co-authored-by: Ahmad Lutfi <obzajd@gmail.com> committed 16 minutes ago 31f79ec  
+2. Merge remote-tracking branch 'origin/main' committed 27 minutes ago - 37dd36f  
+3. Commit: daily changes (3) committed 33 minutes ago ac9d628  
+4. Commit: daily changes (2) committed 33 minutes ago 7d22b31  
+
+5. Update README.md committed 39 minutes ago d421426 
+6. Commit: edits ziggurat function (1) committed 1 hour ago 4f4dcc1  
+7. commit: Edits files committed 2 hours ago 7c54da6  
+8. Commit:"committed 2 hours ago  201dc9b  
+9. Commit: edit files committed 3 hours ago  c11dd5c,ed374fd  <br />
+11. Update README.md  committed 6 hours ago 5764768  <br />
+
+
+
 # &#x1F4C5; Commits on  Jan-22-2022
 <br />
 Updates README.md - committed 2 minutes ago - Verified  b04bbf1   <br />
