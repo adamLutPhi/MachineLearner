@@ -12,13 +12,12 @@ const sqrt2π =sqrt(2*pi)
 ``` 
 Rule: minimal use of external Modules 
 -More use to Applied 
-TODO: Apply ziggurat for the pdf 
 TODO: Apply Integration on the pdf ( to get the CDF)
 ```
 
-   function pdf()
+function pdf()
 
-    end
+end
 
     
     function cdf()

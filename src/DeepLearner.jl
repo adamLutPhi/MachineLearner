@@ -8,7 +8,7 @@ Ahmad Lutfi
 
 =#
 
-include("/functions") 
+include("functions") 
 include("functions/Generators")
 
 

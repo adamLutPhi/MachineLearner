@@ -6,14 +6,12 @@ global const ϕ = nothing
 global const ∞ = Inf
 global const -∞ = -Inf
 
-
 #Ε(x) = exp(x)
 #error function  ϵ (generic , cherry-picked, smooth)
 #global ϵ(x) =  exp(x)^-1
 
 #end
 end
-
 
 #--- Testing area #craziness allowed
 module accurateDigits
