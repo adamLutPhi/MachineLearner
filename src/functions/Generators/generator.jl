@@ -165,12 +165,18 @@ LehmerRNG might be renamed, or might be made a
 distinct type from StableRNG in any upcoming minor
 (i.e. non-breaking) release.
 ```
-rng = StableRNG(123)
-A = randn(rng, 10, 10)
-num1 = randn(rng, 1)
-num2 = randn(rng, 1) # instead of randn(10, 10)
-@test inv(inv(A)) ≈ A
-@test inv(randn(A))
+
+
+function stableGenerator(seed =1234)
+
+    rng = StableRNG(seed)
+    return rng
+end 
+
+function randomizeStable(seed=1234,nSize=100)
+
+    return randn(rngn,nSize)
+end
 #---range
 range1(a = lobound, b = upbound) = lobound:stepSize:length(upbound)
 Random.Sampler
