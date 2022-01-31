@@ -14,17 +14,30 @@ const sqrt2π = sqrt(2 * pi)
 Rule: minimal use of external Modules 
 -More use to Applied ...
 TODO: Apply Integration on the pdf ( to get the CDF)
+TODO: do a generalized smooth function, taking numeraor,denominator
 ```
- 
-function pdf()
+"""
+zscore 
+"""
+function zscore(x, μ, σ)
+  #  Σ = sum   
+    for i in  enumerate(x)
+    
+    return (x - μ / σ) 
+    end
 
-end
+    #assumes variance DOES NOT CHANGE 
+    function pdf(smooth(exp,numerator=-1,denominator-2), mean = μ, variance=σ)
+
+    return (1/variance*sqrt2π) * (numerator/denominator)*smoothexp,numerator=-1,denominator-2)
+
+    end
 
 
-function cdf()
+    function cdf()
 
 
-end
+    end
 
 
 end
