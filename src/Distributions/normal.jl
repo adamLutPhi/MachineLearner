@@ -1,29 +1,30 @@
 #include("./functions")
 #include("~/functions")
-if Sys. include("functions/SmoothFunctions/smoothFunction.jl")
-#ERROR: could not open file #reason not found
-module normal()
+#if Sys. 
+include("../functions/SmoothFunctions/smoothFunction.jl")
+module normal
 
-export sqrt2π,pdf,cdf
+
+export sqrt2π, pdf, cdf
 
 #const π = pi
-const sqrt2π =sqrt(2*pi)
-    
+const sqrt2π = sqrt(2 * pi)
+
 ``` 
 Rule: minimal use of external Modules 
--More use to Applied 
+-More use to Applied ...
 TODO: Apply Integration on the pdf ( to get the CDF)
 ```
-
+ 
 function pdf()
 
 end
 
-    
-    function cdf()
+
+function cdf()
 
 
-    end
+end
 
 
 end
