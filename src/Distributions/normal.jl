@@ -29,7 +29,7 @@ function zscore(x, μ, σ)
     #assumes variance DOES NOT CHANGE 
     function pdf(smooth(exp,numerator=-1,denominator-2), mean = μ, variance=σ)
 
-    return (1/variance*sqrt2π) * (numerator/denominator)*smoothexp,numerator=-1,denominator-2)
+    return (1/variance*sqrt2π) * (numerator/denominator)*smoothexp(numerator=-1,denominator=2)
 
     end
 
