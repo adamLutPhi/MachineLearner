@@ -9,5 +9,5 @@ struct topic <: idea
         name = name
         meta = meta
     end 
-    function debate(Set{concept}, Set{topic}, Set{issue})
+    function debate(Set{concept} ) #, Set{topic}, Set{issue})
 end
