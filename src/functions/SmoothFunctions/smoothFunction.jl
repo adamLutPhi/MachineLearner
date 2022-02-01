@@ -21,7 +21,7 @@ function isdifferentiable(x)
 end
 
 
-function smooth(x)
+function smooth(x=exp(x))
     """
     A smooth function basis function, that is:
         1.continuous
@@ -32,6 +32,20 @@ function smooth(x)
         return smooth
     end
 end
+
+
+function smooth(x = exp(x),numerator=a,denominator=b)
+    """
+    A smooth function basis function, that is:
+        1.continuous
+        2.differentiablle
+    """
+    smooth = exp(x)
+    if isdifferentiable(smooth) && iscontinuous(smooth)
+        return denominator!=0 ? (numerator/denominator)*smooth : NaN
+    end
+end
+
 
 #--- complex functions
 

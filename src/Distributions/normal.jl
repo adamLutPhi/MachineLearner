@@ -1,26 +1,39 @@
 #include("./functions")
 #include("~/functions")
-if Sys. include("functions/SmoothFunctions/smoothFunction.jl")
-#ERROR: could not open file #reason not found
-module normal()
+#if Sys. 
+include("../functions/SmoothFunctions/smoothFunction.jl")
+module normal
 
-export sqrt2π,pdf,cdf
+
+export sqrt2π, pdf, cdf
 
 #const π = pi
-const sqrt2π =sqrt(2*pi)
-    
+const sqrt2π = sqrt(2 * pi)
+
 ``` 
 Rule: minimal use of external Modules 
--More use to Applied 
-TODO: Apply ziggurat for the pdf 
+-More use to Applied ...
 TODO: Apply Integration on the pdf ( to get the CDF)
+TODO: do a generalized smooth function, taking numeraor,denominator
 ```
+"""
+zscore 
+"""
+function zscore(x, μ, σ)
+  #  Σ = sum   
+    for i in  enumerate(x)
+    
+    return (x - μ / σ) 
+    end
 
-   function pdf()
+    #assumes variance DOES NOT CHANGE 
+    function pdf(smooth(exp,numerator=-1,denominator-2), mean = μ, variance=σ)
+
+    return (1/variance*sqrt2π) * (numerator/denominator)*smoothexp(numerator=-1,denominator=2)
 
     end
 
-    
+
     function cdf()
 
 

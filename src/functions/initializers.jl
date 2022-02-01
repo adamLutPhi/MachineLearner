@@ -72,18 +72,29 @@ function init(randomGenerator, seed, μ = 1, σ = 0)
 
 end
 
-#--- convertions -  arrays
-function array2vector1(T::Any)
-    return irr(vec(Float64.(T)))
-    rationalize(vec(Float64.(T)))
+#---  arrays = convertions - 
+
+function array2rational(T::Any)
+    return rationalize(vec(Float64.(T)))
+
 end
 
-function array2vector2(T::Any)
+function array2irrational(T::Any)
+    return irr(vec(Float64.(T)))
+end 
+
+function array2vector(T::Any)
     return
     Float64.(vcat(T[1], vec(T[2])))
 end
-for i in enumerate(100)
-    x = [i in rand(0,1)]
-    [i in rand(1, exp(1 / -x))]
-    [j in rand(1, exp(1 / -x))]
-end 
+
+#working
+function randomArray(min=0,max=1,n=100,y = exp(1 / -x))
+    a=[];b=[];X=[]
+    for i in enumerate(n)
+        x = [i in rand(min,max)];X=[X x]
+        c=[i in rand(1, y)]; a = [a c]
+        d=[j in rand(1, y)]; b = [b d]
+    end 
+    return X,a,b
+end

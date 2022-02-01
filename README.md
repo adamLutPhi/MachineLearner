@@ -15,13 +15,17 @@ Life is a Set of Different opportunities. the objective is to Utilze the most of
 The best learning is that One where I'm pushing myself, on a Poly-shaped, Spaghetti-like Project (like this one) - trying to figure out its heads from its tails
 For more details on changes, please check out the [CHANGELOG](CHANGELOG.md)
 
-## what I'm learning with this project (I gotta say!)
-- [ ] How to create a Normal Distribution Generator (using the Ziggurat Method) - but before that (hot shot):
+## what I'm learning with this project
+- [ ] How to create a Normal Distribution Generator 
 - [ ] How to create a  Generator function (in the first place!):
-- [ ] How to create an [acceptable] RNG (Random Number Generator) (I guess it has sth to do with generating  Uniform probability) 
+- [x] How to create an [acceptable] RNG (Random Number Generator) (I guess it has sth to do with generating  Uniform probability) : Stable RNG, mersenne twister
 - [ ] (so) Which differentiation Module to Pick?
 *Thinking about it* 🤔
 
+## Lessons learned
+
+- ziggurat function is not a good estimator for tail values (thus, it's inappropriate to use ziggurat first)
+(#TODO: Add own Statistical Repository)
 # A WIP (Work In Progress) Project
 this project is just a seed I sowed,
 if you're looking for a final produce,

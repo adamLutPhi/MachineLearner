@@ -8,9 +8,8 @@ Ahmad Lutfi
 
 =#
 
-include("/src/functions/*")
-include("/src/functions/Generators/*")
 
+include("includes.jl")
 
 # --- # up nexr
 #=
