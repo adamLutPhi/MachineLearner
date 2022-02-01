@@ -12,32 +12,32 @@ sth: something
  
 
 Life is a Set of Different opportunities. the objective is to Utilze the most of it, in an _effective manner_ - __~90%__ of the time (_Almost Surely_) 
-The best learning is that One where I'm pushing myself, on a Poly-shaped, Spaghetti-like Project (like this one) - trying to figure out its heads from its tails
-For more details on changes, please check out the [CHANGELOG](CHANGELOG.md)
+The best learning is that One where id pushing thyself, to face off Poly-shaped, Spaghetti monster- (like this one) 
+
+- trying to figure out its heads from its tails
 
 ## what I'm learning with this project
-- [ ] How to create a Normal Distribution Generator 
-- [ ] How to create a  Generator function (in the first place!):
-- [x] How to create an [acceptable] RNG (Random Number Generator) (I guess it has sth to do with generating  Uniform probability) : Stable RNG, mersenne twister
-- [ ] (so) Which differentiation Module to Pick?
+
+- [x]  Use an [acceptable] RNG (Random Number Generator) ( `StableRNG`)
+
+- [ ] Which differentiation Module to Pick?
+- How to build A NeuralNetwork Model?
 *Thinking about it* 🤔
 
 ## Lessons learned
 
-- ziggurat function is not a good estimator for tail values (thus, it's inappropriate to use ziggurat first)
-(#TODO: Add own Statistical Repository)
+- `Ziggurat function` is biased in sampling data. Samples more around the mean, but not much are in the Tail (that won't be a better fit for  my future goals)
+(opens up a _possibility_ for a **Statistical Repo**)
+
 # A WIP (Work In Progress) Project
-this project is just a seed I sowed,
-if you're looking for a final produce,
-Please check back later
+this project is just a `seed` I sowed
+(If you want a final produce,Please check back later)
 
-But, if you can give a hand,
-please step in the Scene, & give a hand
-Your Help would be much appreciated, Thank you
-(though I always appreciate & Love the High of `Figuring things Out` on my own
-
+If you'd like to  give a `hand`,
+please step in the Scene
+Your Help would be much `Appreciated`-  Thank you
+(though the High of `Figuring things Out` remains tempting
 ## Disclaimer
-this is for Educational purposes only
 The author won't not be held responsible, for any immature actions, & or signs of code abuse, at all costs
 
 ## Author
