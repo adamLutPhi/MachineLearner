@@ -11,7 +11,7 @@ A Deep Learning Repository, you can also view the [project](https://github.com/u
 sth: something 
  
 
-Life is a Set of random variables of `opportunities`. 
+Life is a Set of random variables of `opportunities` 
 [FYI: random Variable is 
 1.Neither a Random: always follow a distribution
 2. Nor a Variable: it is a function of Probability Density(_**me**:frequency_) 
@@ -39,17 +39,18 @@ Early _signs_ of that:
 
 ## Lessons learned 
 
-- `Ziggurat function` is biased in sampling data. Samples more around the mean, but not much are in the Tail (that won't be a better fit for  my future goals)
+- `Ziggurat function` is **Biased** in Data Sampling. Samples are More around the mean, but there aren't as much are  the `Tail Area`. An Ideal sampler would `Uniformly Samples` (on x-Axis), regardless the Distribution & its respective properties  (for that reason, I don't see it as an enhancement). _Alas_, to Cross-reference with another paper (yet to come) that studies Tails, & proves this algorithm is sound, & Fairly Samples data in tail, just as everywhere else
 
-- any Sampling Function is expected to work, Starts sampling from a Uniform locations - whatever Distribution it might be 
+- A Fair Sampler is expected to work, which Starts sampling from a Uniform locations along the x-Axis - whatever Distribution might be considered 
 
-- opens up a _possibility_ for a **Statistical Repo**
+- Opens up a _possibility_ for a **Statistical Repo**
+- For more info, please visit [the Discussion](https://github.com/adamwillisXanax/DeepLearner/discussions/12)
 
 # A WIP (Work In Progress) Project
-this project is just a `seed` I sowed
+This project is just a `seed` I sowed
 (If you want a final produce, Please check back later)
 <br/>
-this repo is on a  `Social Network`
+This repo is on a  `Social Network`
 If you'd like to  give a `hand`,
 Please **step** in the Scene
 Your Help would be much `Appreciated`-  Thank you
