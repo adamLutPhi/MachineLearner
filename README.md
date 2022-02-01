@@ -11,33 +11,51 @@ A Deep Learning Repository, you can also view the [project](https://github.com/u
 sth: something 
  
 
-Life is a Set of Different opportunities. the objective is to Utilze the most of it, in an _effective manner_ - __~90%__ of the time (_Almost Surely_) 
-The best learning is that One where I'm pushing myself, on a Poly-shaped, Spaghetti-like Project (like this one) - trying to figure out its heads from its tails
-For more details on changes, please check out the [CHANGELOG](CHANGELOG.md)
+Life is a Set of random variables of `opportunities`. 
+[FYI: random Variable is 
+1.Neither a Random: always follow a distribution
+2. Nor a Variable: it is a function of Probability Density(_**me**:frequency_) 
+]
+the objective is to Utilze the most of it, in an _effective manner_ - __~90%__ of the time (_Almost Surely_) 
+
+### 🎮 Mixed-Coding mode
+**1.Focus**
+The best learning is that One where pushing thyself, to face off Poly-shaped, Spaghetti monster- (like this one) 
+
+**2.Relax**
+Space in mind, for relaxation.
+Early _signs_ of that: 
+- Once `Creativity` starts lacking, - when new ideas become `transparent` 
+- `Novelity` vanishes into thin air, & Cloud of Routine takes over, its shadows become in everywhere you go  that's when it Hovers over 
 
 ## what I'm learning with this project
-- [ ] How to create a Normal Distribution Generator 
-- [ ] How to create a  Generator function (in the first place!):
-- [x] How to create an [acceptable] RNG (Random Number Generator) (I guess it has sth to do with generating  Uniform probability) : Stable RNG, mersenne twister
-- [ ] (so) Which differentiation Module to Pick?
+
+- [x]  Use an [acceptable] RNG (Random Number Generator) ( `StableRNG`)
+
+- [ ] How to build A NeuralNetwork Model?
+
+- [ ] Which differentiation Module to Pick?
 *Thinking about it* 🤔
 
-## Lessons learned
+## Lessons learned 
 
-- ziggurat function is not a good estimator for tail values (thus, it's inappropriate to use ziggurat first)
-(#TODO: Add own Statistical Repository)
+- `Ziggurat function` is biased in sampling data. Samples more around the mean, but not much are in the Tail (that won't be a better fit for  my future goals)
+
+- any Sampling Function is expected to work, Starts sampling from a Uniform locations - whatever Distribution it might be 
+
+- opens up a _possibility_ for a **Statistical Repo**
+
 # A WIP (Work In Progress) Project
-this project is just a seed I sowed,
-if you're looking for a final produce,
-Please check back later
-
-But, if you can give a hand,
-please step in the Scene, & give a hand
-Your Help would be much appreciated, Thank you
-(though I always appreciate & Love the High of `Figuring things Out` on my own
+this project is just a `seed` I sowed
+(If you want a final produce, Please check back later)
+<br/>
+this repo is on a  `Social Network`
+If you'd like to  give a `hand`,
+Please **step** in the Scene
+Your Help would be much `Appreciated`-  Thank you
+(though the High of `Figuring things Out` remains tempting
 
 ## Disclaimer
-this is for Educational purposes only
 The author won't not be held responsible, for any immature actions, & or signs of code abuse, at all costs
 
 ## Author
