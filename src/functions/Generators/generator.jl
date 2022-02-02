@@ -173,6 +173,13 @@ function stableGenerator(seed =1234)
     return rng
 end 
 
+"""
+yeilds randomized nsamples 
+
+input: 
+seed: both fixed ()random ()
+nsize:100 
+"""
 function randomizeStable(seed=1234,nSize=100)
 
     return randn(rngn,nSize)

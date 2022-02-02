@@ -14,7 +14,7 @@ end
 function isdifferentiable(x)
     """
     Checks whether function x isDifferentiable
-        TODO: pick a SUitable differentiation Module
+        TODO: pick a Suitable differentiation Module
         TODO: Call a differentiation Module
     """
     return true # skip for now
@@ -24,11 +24,11 @@ end
 function smooth(x=exp(x))
     """
     A smooth function basis function, that is:
-        1.continuous
-        2.differentiablle
+        1.continuous #TODO
+        2.differentiablle #TODO 
     """
     smooth = exp(x)
-    if isdifferentiable(smooth) &&  iscontinuous(smooth)
+    if isdifferentiable(smooth) &&  iscontinuous(smooth) #TODO: verification functions 
         return smooth
     end
 end
@@ -47,12 +47,13 @@ function smooth(x = exp(x),numerator=a,denominator=b)
 end
 
 
-#--- complex functions
+#--- complex functions #testing
 
-function analytic(x)
+function analytic()
     """
 
-    TODO: needs further review, please!
+    TODO: needs further review
+    analytic function to be used as input for a laplacian
     """
     isanalytic = nothing
     if  isanalytic 

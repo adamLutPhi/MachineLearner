@@ -39,12 +39,30 @@ Early _signs_ of that:
 
 ## Lessons learned 
 
-- `Ziggurat function` is **Biased** in Data Sampling. Samples are More around the mean, but there aren't as much are  the `Tail Area`. An Ideal sampler would `Uniformly Samples` (on x-Axis), regardless the Distribution & its respective properties  (for that reason, I don't see it as an enhancement). _Alas_, to Cross-reference with another paper (yet to come) that studies Tails, & proves this algorithm is sound, & Fairly Samples data in tail, just as everywhere else
+- `Ziggurat function` is a **Biased** Data Sampler. Samples are More around the Mean, whereas an Ideal  Sampler would fairly 
+but there aren't as much are  the `Tail Area`. An Ideal sampler would `Uniformly Samples` (on x-Axis), regardless the Distribution & its respective properties  (for that reason, I don't see it as an enhancement). _Alas_, to Cross-reference with another paper (yet to come) that studies Tails, & proves this algorithm is sound, & Fairly Samples data in tail, just as everywhere else
 
 - A Fair Sampler is expected to work, which Starts sampling from a Uniform locations along the x-Axis - whatever Distribution might be considered 
 
 - Opens up a _possibility_ for a **Statistical Repo**
 - For more info, please visit [the Discussion](https://github.com/adamwillisXanax/DeepLearner/discussions/12)
+
+# Credits
+
+
+
+## special Thanks
+Heros behind the Scene there lies a list of human beings that I couldn't do without, in the Alphabetic Order:
+
+- Professor Steven G. Johnson @stevengj: providing an `MIT OCW` Julia course (usefully concise course)  
+- Tamas K. Paap [PhD] @tpapp: Useful Code Help  on the `Julia Discourse` 
+
+
+## papers Used 
+
+## Youtube
+
+
 
 # A WIP (Work In Progress) Project
 This project is just a `seed` I sowed
@@ -52,9 +70,8 @@ This project is just a `seed` I sowed
 <br/>
 This repo is on a  `Social Network`
 If you'd like to  give a `hand`,
-Please **step** in the Scene
-Your Help would be much `Appreciated`-  Thank you
-(though the High of `Figuring things Out` remains tempting
+Please **step in**; Your Help would be much `Appreciated`-  Thank you
+(though the High of `Figuring things Out` has a mesmerizing remains tempting)
 
 ## Disclaimer
 The author won't not be held responsible, for any immature actions, & or signs of code abuse, at all costs
