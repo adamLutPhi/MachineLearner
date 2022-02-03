@@ -207,8 +207,11 @@ each ziggurat layer are pre-calculated in lookup tables.
 efficiently implemented on systems with large caches (e.g. modern CPUs,
 but not current GPUs) 
 
-  """
+X
 
+  """
+using Distributions
+  i = Uniform()
 end
 function algorithm1()
     """
