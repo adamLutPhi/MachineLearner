@@ -12,40 +12,42 @@ https://stackoverflow.com/questions/24326876/generating-a-random-integer-in-rang
 @double1010x2 #for a common xorshift manupulator
 
 @inline xorshift_rotl(x::UInt64, k::Int) = (x >>> (0x3f & -k)) | (x << (0x3f & k)) #a commons move for a permutation 
-@inline xorshift_rotl(x::UInt32, k::Int) = (x >>> (0x1f & -k)) | (x << (0x1f & k)) 
+@inline xorshift_rotl(x::UInt32, k::Int) = (x >>> (0x1f & -k)) | (x << (0x1f & k))
 
-using Random
-export genericGenerator, randMatrix, randVector, randvalue
+using Random;
+using StableRNG;
+
+export genericGenerator, randvalue, randMatrix, randVector, randvaluerandtemplate
 global seed = 1234;
-
+global rng = lehemerRNG(seed)
 
 module randomness
 
-#TODO: If is persistent, do Not Reseed (dedault: otherwise reseed) #later 
-export randvalue, randMatrix, randtemplate
-
 #TODO(1):change non-existing MersenneTwister to anything else...
-    function randtemplate(seed = 1234, rng = MersenneTwister(seed), ispersistent = yes)
-        return rng(seed)
-    end
+#TODO(3): If is persistent, do Not Reseed (dedault: otherwise reseed) #later 
 
-    """
-    Returns a single value
+function randtemplate(seed = 1234, rng = MersenneTwister(seed), ispersistent = yes)
+    return rng(seed)
+end
 
-    ```Inputs: 
+"""
+Returns a single value
+
+```Inputs: 
 
     rng(seed) Random Number Generator 
     _min:_max: range any 
 
     Note: Max must be Bounded
 
-    """
+        # 1, 10,  1234, MersenneTwister(seed),  []
+    #TODO: fill an array
+"""
 
 function randvalue(min = 1::Int64, max = 10::Int64, s = []::Int64, rng = MersenneTwisters(seed))
 
-    # 1, 10,  1234, MersenneTwister(seed),  []
-    #TODO: fill an array 
-    return randsubseq(rng, 3, min:max)
+
+    return randsubseq(rng, 3, min:max) #ok# change rng 
     #return rand(min:max) # returns a single value x ∈ [min,max]
 
 end
@@ -58,9 +60,9 @@ randvalue()
 export randvalue, randMatrix
 
 
-using StableRNGs 
+using StableRNGs
 rng = StableRNG(1234) #lehemerRNG
- #rand()
+#rand()
 
 function randvalue(_min = 1::int64, _max = 10::Int64)
     """
@@ -120,17 +122,16 @@ end
  Returns a single Vector with n 
 """
 
-"""
+
 function randVector(_min = 1::Int64, _max = 10::Int64, n = 10::Int64)
 
-  return rand(_min:_max, n) # 1D array - n-element Array{Int64,1}
+    return rand(_min:_max, n) # 1D array - n-element Array{Int64,1}
 
- end
+end
 
-  """
 """
-   returns a single Matrix (2D - Array)
-   """
+ Returns a single Matrix (2D - Array)
+"""
 function randMatrix(a = 10, b = 11, min = 1::Int64, max = 10::Int64)
 
     return rand(min:max, a, b)
@@ -172,11 +173,13 @@ function randArray(r = _min:_max)
 
 #--- helper functions 
 
-#=
-function permutate(rng = MersenneTwisters(1234), n = 10)
+
+function permutate(rng = lehemerRNG(seed), n = 10) #sanity-check #where's the input? (value,Vector,...)
     return randperm(rng(seed), n)
 end
-=#
+
+permutate(rng)
+
 #--- testing 4
 #permutate(MersenneTwisters(1234,n)
 
