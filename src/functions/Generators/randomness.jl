@@ -28,7 +28,7 @@ function randtemplate(seed = 1234, rng = MersenneTwister(seed), ispersistent = y
     return rng(seed)
 end
 
-     """
+    """
     Returns a single value
     
     ```Inputs: 
@@ -75,7 +75,7 @@ Returns c x ∈ [min,max]
 Input:
   min : minimum value  ::Int64 
   max:  maimum value  ::Int64
-    """
+    
     using StableRNGs
     rng = StableRNG(1234)
     rand()
@@ -96,8 +96,8 @@ randvalue(rng,0,1)
 
 
 
- function randVector(a=10, min=1::, max=10::Int64)
-      """
+    function randVector(_min=1::, _max=10::Int64,n=10)
+    """
        Returns a single Vector
        Uniformly
 
@@ -105,7 +105,7 @@ randvalue(rng,0,1)
        
 
       #TODO: Test the output 
-      """
+    """
       return rand(min:max,a) # 1D array - n-element Array{Int64,1}
     end
 
@@ -116,17 +116,18 @@ function randVector(_min = 1::Int64, _max = 10::Int64, n = 10::Int64)
 
 end
 
-    """
+   """ 
     Returns a single Vector with n 
-    
+   """ 
 
-
+"""
 function randVector(_min = 1::Int64, _max = 10::Int64, n = 10::Int64)
 
   return rand(_min:_max, n) # 1D array - n-element Array{Int64,1}
 
  end
 
+  """
   """
      returns a single Matrix (2D - Array)
      """
