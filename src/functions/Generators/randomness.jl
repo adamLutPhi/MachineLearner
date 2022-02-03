@@ -68,35 +68,35 @@ randvalue()
     2. Anomalies' (_min's & _max's) value is Reachable
     
 
-
+"""
 export randvalue, randMatrix
-    """ 
-Returns c x ∈ [min,max]
-Input:
-  min : minimum value  ::Int64 
-  max:  maimum value  ::Int64
     
+    """
+    Returns c x ∈ [min,max]
+
+    Input:
+    min : minimum value  ::Int64 
+    max:  maimum value  ::Int64
+    """    
     using StableRNGs
     rng = StableRNG(1234)
     rand()
-    function randvalue(min = 1::int64, max = 10::Int64)
+    function randvalue(_min = 1::int64, _max = 10::Int64)
         """
-        retunrs a single value
+        returns a single value
         note: max must be Bounded
     
         TODO: return a Float  between 2 Integers x ∈ [min,max]
         """
-        rand(rng,min,max)
-        A = rand(rng,min,max)
+       # rand(rng,_min,_max)
+        A = rand(rng,_min,_max)
         return A # returns a single value  x ∈ [min,max]
     
     end
     
-randvalue(rng,0,1)
+randvalue(rng,0,1) #test
 
 
-
-    function randVector(_min=1::, _max=10::Int64,n=10)
     """
        Returns a single Vector
        Uniformly
@@ -106,6 +106,8 @@ randvalue(rng,0,1)
 
       #TODO: Test the output 
     """
+    function randVector(_min=1::Int64, _max=10::Int64,n=10)
+
       return rand(_min:_max,n) # 1D array - n-element Array{Int64,1}
     end
 
@@ -180,7 +182,7 @@ end
 #--- testing 4
 #permutate(MersenneTwisters(1234,n)
 
-randvalue(min = 1, max = 10, rng = )
+#randvalue(min = 1, max = 10, rng = )#TODO: uncomment lated 
 
 #randvalue(1, 10,  1234, MersenneTwisters(1234),  []) #MersenneTwister has been removed in julia 1.7 
 
