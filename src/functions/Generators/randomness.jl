@@ -106,7 +106,7 @@ randvalue(rng,0,1)
 
       #TODO: Test the output 
     """
-      return rand(min:max,a) # 1D array - n-element Array{Int64,1}
+      return rand(_min:_max,n) # 1D array - n-element Array{Int64,1}
     end
 
 
