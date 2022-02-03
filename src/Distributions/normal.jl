@@ -17,7 +17,7 @@ TODO: Apply Integration on the pdf ( to get the CDF)
 TODO: do a generalized smooth function, taking numeraor,denominator
 ```
 """
-zscore 
+zscore function
 """
 function zscore(x, μ, σ)
   #  Σ = sum   

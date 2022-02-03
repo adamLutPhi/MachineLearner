@@ -10,7 +10,8 @@ double1010x2
 @inline xorshift_rotl(x::UInt32, k::Int) = (x >>> (0x1f & -k)) | (x << (0x1f & k))
 
 =#
-using Random
+using Random, StableRNG
+LehmerRNG
 export genericGenerator, randMatrix, randVector, randvalue
 
 
@@ -133,4 +134,3 @@ randvalue(min = 1, max = 10, rng = )
 
 #randvalue(1, 10,  1234, MersenneTwisters(1234),  []) #MersenneTwister has been removed in julia 1.7 
 
-print(randvalue(4, 4))
