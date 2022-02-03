@@ -32,7 +32,7 @@ function init(randomGenerator, seed, μ = 1, σ = 0)
     Mean μ [1st-Order  moment-generating function]  (fixed, #TODO: can it be a Variable?)
     STD σ  [2nd-Order moment-generating function] (fixed , #TODO: can it be Variable?)
 
-    RNG seed
+    seed: RNG seed
     Function randomGenerator(seed)
 
     # TODO: Does the seed `remain` the same? can it be(come) changeable afterwards?
@@ -44,7 +44,7 @@ function init(randomGenerator, seed, μ = 1, σ = 0)
 
     model.randomGenerator = randomGenerator(seed)
 
-    return randomGenerator
+    return randomGenerator()
 end
 
 
