@@ -15,11 +15,11 @@ https://stackoverflow.com/questions/24326876/generating-a-random-integer-in-rang
 @inline xorshift_rotl(x::UInt32, k::Int) = (x >>> (0x1f & -k)) | (x << (0x1f & k))
 
 using Random;
-using StableRNG;
+using StableRNGs;
 
 export genericGenerator, randvalue, randMatrix, randVector, randvaluerandtemplate
 global seed = 1234;
-global rng = lehemerRNG(seed)
+global rng = StableRNG(seed)
 
 module randomness
 
@@ -53,16 +53,6 @@ function randvalue(min = 1::Int64, max = 10::Int64, s = []::Int64, rng = Mersenn
 end
 
 randvalue()
-
-"""
-
-"""
-export randvalue, randMatrix
-
-
-using StableRNGs
-rng = StableRNG(1234) #lehemerRNG
-#rand()
 
 function randvalue(_min = 1::int64, _max = 10::Int64)
     """
