@@ -1,0 +1,18 @@
+"""
+Credits:
+
+ Tim Holy - JuliaCon 2016 
+
+
+"""
+
+
+"""
+Performing element-wise computations
+
+"""
+
+sqrt(A) #vectorized functions #implicit element-wise computation
+
+"""
+Meaning#
