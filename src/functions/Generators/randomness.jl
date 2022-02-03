@@ -1,17 +1,21 @@
-#=
-references:
 
--Random Int(64):
-https://stackoverflow.com/questions/24326876/generating-a-random-integer-in-range-in-julia
-
-double1010x2 
+"""
+#= credits to:
+M. Tamas K. Paap [PhD] @tpap, for the idea of  randvector & randmatrix ( plus the tip of reading the docs)
+=======
+@double1010x2 for a common xorshift manupulator
 
 @inline xorshift_rotl(x::UInt64, k::Int) = (x >>> (0x3f & -k)) | (x << (0x3f & k))
 @inline xorshift_rotl(x::UInt32, k::Int) = (x >>> (0x1f & -k)) | (x << (0x1f & k))
 
-=#
+References:
+-Random Int(64):
+https://stackoverflow.com/questions/24326876/generating-a-random-integer-in-range-in-julia
+"""
+
 using Random
 export genericGenerator, randMatrix, randVector, randvalue
+global seed = 1234;
 
 
 module randomness
@@ -28,13 +32,14 @@ end
     Returns a single value
     
     ```Inputs: 
+
+
     rng(seed) Random Number Generator 
-    min:max: range any 
+    _min:_max: range any 
     
     Note: Max must be Bounded
     
     """
-global seed = 1234;
 
 function randvalue(min = 1::Int64, max = 10::Int64, s = []::Int64, rng = MersenneTwisters(seed))
 
@@ -63,9 +68,46 @@ randvalue()
     2. Anomalies' (_min's & _max's) value is Reachable
     
 
-    Example: randVector(_1::Int64, _max = 10::Int64, n = 10::Int64)
-    returns #TODO: Test the output 
+
+export randvalue, randMatrix
+    """ 
+Returns c x ∈ [min,max]
+Input:
+  min : minimum value  ::Int64 
+  max:  maimum value  ::Int64
     """
+    using StableRNGs
+    rng = StableRNG(1234)
+    rand()
+    function randvalue(min = 1::int64, max = 10::Int64)
+        """
+        retunrs a single value
+        note: max must be Bounded
+    
+        TODO: return a Float  between 2 Integers x ∈ [min,max]
+        """
+        rand(rng,min,max)
+        A = rand(rng,min,max)
+        return A # returns a single value  x ∈ [min,max]
+    
+    end
+    
+randvalue(rng,0,1)
+
+
+
+ function randVector(a=10, min=1::, max=10::Int64)
+      """
+       Returns a single Vector
+       Uniformly
+
+       Example: randVector(_1::Int64, _max = 10::Int64, n = 10::Int64
+       
+
+      #TODO: Test the output 
+      """
+      return rand(min:max,a) # 1D array - n-element Array{Int64,1}
+    end
 
 
 function randVector(_min = 1::Int64, _max = 10::Int64, n = 10::Int64)
@@ -74,18 +116,26 @@ function randVector(_min = 1::Int64, _max = 10::Int64, n = 10::Int64)
 
 end
 
-
     """
     Returns a single Vector with n 
     
 
-    
-    
-    """
 
 function randVector(_min = 1::Int64, _max = 10::Int64, n = 10::Int64)
 
-    return rand(_min:_max, n) # 1D array - n-element Array{Int64,1}
+  return rand(_min:_max, n) # 1D array - n-element Array{Int64,1}
+
+ end
+
+  """
+     returns a single Matrix (2D - Array)
+     """
+    function randMatrix(a=10, b= 11, min=1::Int64, max=10::Int64)
+
+        return rand(min:max,a,b)
+    end
+
+
 
 end
 

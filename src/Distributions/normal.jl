@@ -10,17 +10,23 @@ export sqrt2π, pdf, cdf
 #const π = pi
 const sqrt2π = sqrt(2 * pi)
 
-``` 
+"""
 Rule: minimal use of external Modules 
 -More use to Applied ...
 TODO: Apply Integration on the pdf ( to get the CDF)
 TODO: do a generalized smooth function, taking numeraor,denominator
-```
+""" 
+
+
 """
 zscore 
+
+the Expectation (E) #Idea: most likely function generator 
+use a randomGenerator() to generate samples around thie number #TODO
+
 """
 function zscore(x, μ, σ)
-  #  Σ = sum   
+  #  Σ = sum   #TODO (for the CDF )
     for i in  enumerate(x)
     
     return (x - μ / σ) 
