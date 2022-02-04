@@ -37,13 +37,6 @@ Early _signs_ of that:
 - [ ] Which differentiation Module to Pick?
 *Thinking about it* 🤔
 
-## Lessons learned 
-
-- `Ziggurat function` is a **Biased** Data Sampler. Samples are More around the Mean, whereas an Ideal  Sampler would fairly 
-but there aren't as much are  the `Tail Area`. An Ideal sampler would `Uniformly Samples` (on x-Axis), regardless the Distribution & its respective properties  (for that reason, I don't see it as an enhancement). _Alas_, to Cross-reference with another paper (yet to come) that studies Tails, & proves this algorithm is sound, & Fairly Samples data in tail, just as everywhere else
-
-- Opens up a _possibility_ for a **Statistical Repo**
-- For more info, please visit [the Discussion](https://github.com/adamwillisXanax/DeepLearner/discussions/12)
 
 # Credits
 
@@ -51,9 +44,18 @@ but there aren't as much are  the `Tail Area`. An Ideal sampler would `Uniformly
 to the Heros behind the Scene; a list of Human Beings, in which I couldn't do this project without, 
 in the Alphabetic Order:
 
-- Professor `Steven G. Johnson` @stevengj: providing an `MIT OCW [18.335J / 6.337J](https://ocw.mit.edu/courses/mathematics/18-335j-introduction-to-numerical-methods-spring-2019/)`  Julia course (usefully Concise Course)on github
-- Tamas K. Paap [PhD] @tpapp: Useful Code Help  on the `Julia Discourse` 
-- Professor `Tim Holy` (Physics): Arrays (as featured, in  [juliacon2016 Keynote - an overview of Arrays](https://www.youtube.com/watch?v=fl0g9tHeghA))
+- Professor `Steven G. Johnson` [@stevengj](https://github.com/stevengj): providing an MIT OCW `Introduction to Numerical Methods` [18.335J / 6.337J](https://ocw.mit.edu/courses/mathematics/18-335j-introduction-to-numerical-methods-spring-2019/)  Julia course (usefully Concise Course) on [github](https://github.com/mitmath/18335/tree/spring19)
+- `Tamas K. Papp [PhD]` [@tpapp](https://github.com/tpapp): Useful Code Help  on the `Julia Discourse` 
+- `Professor Tim Holy` (Neurosciene) [@timholy](https://github.com/timholy): help with Arrays & Holmes (as featured, in  [juliacon2016 Keynote - an overview of Arrays](https://www.youtube.com/watch?v=fl0g9tHeghA))
+
+
+## Lessons learned 
+
+- `Ziggurat function` is a **Biased** Data Sampler. Samples are More around the Mean, whereas an Ideal  Sampler would fairly 
+but there aren't as much are  the `Tail Area`. An Ideal sampler would `Uniformly Samples` (on x-Axis), regardless the Distribution & its respective properties  (for that reason, I don't see it as an enhancement). _Alas_, to Cross-reference with another paper (yet to come) that studies Tails, & proves this algorithm is sound, & Fairly Samples data in tail, just as everywhere else
+
+- Opens up a _possibility_ for a **Statistical Repo**
+- For more info, please visit [the Discussion](https://github.com/adamwillisXanax/DeepLearner/discussions/12)
 
 ## Papers Used 
 
