@@ -77,11 +77,12 @@ array: defines a containes
 """
 
 include("MappedArrays.jl")
-
+"""
 struct Mappedarray{T,N,A<:AbstractArray,f::Int...} <: AbstractArray{T,N}
     f:Int...
     data::A
 end
+"""
 
 struct Mappedarray{T,N,A<:AbstractArray,F<: AbstractArray{T,N}
     f:F
@@ -89,7 +90,6 @@ struct Mappedarray{T,N,A<:AbstractArray,F<: AbstractArray{T,N}
 end
 
 """
-
 notice F is representation 
 julia's compileer 
 knows 
