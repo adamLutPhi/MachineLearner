@@ -1,4 +1,4 @@
-include("src/")
+include(".")
 include("src/functions")
 include("src/functions/Generators")
 include("src/Distributions")

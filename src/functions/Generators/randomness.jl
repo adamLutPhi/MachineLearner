@@ -17,21 +17,58 @@ https://stackoverflow.com/questions/24326876/generating-a-random-integer-in-rang
 using Random, StableRNG
 LehmerRNG
 
+"""
+
+Construction: `StableRNG(seed::Integer)`.
+Seeding: `Random.seed!(rng::StableRNG, seed::Integer)`.
+"""
+mutable struct LehmerRNG <: AbstractRNG
+    state::UInt128
+
+    LehmerRNG(seed::Integer) = seed!(new(), seed)
+
+    function LehmerRNG(; state::UInt128)
+        isodd(state) || throw(ArgumentError("state must be odd"))
+        new(state)
+    end
+end
+
+const StableRNG = LehmerRNG
+
+function seed!(rng::LehmerRNG, seed::Integer)
+    seed >= 0 || throw(ArgumentError("seed must be non-negative"))
+    seed <= typemax(UInt64) ||
+        # this constraint could be loosened a bit if requested
+        throw(ArgumentError("seed must be <= $(typemax(UInt64))"))
+
+    seed = ((seed % UInt128) << 1) | one(UInt128) # must be odd
+    rng.state = seed
+    rng
+end
+
+Base.show(io::IO, rng::LehmerRNG) =
+    print(io, LehmerRNG, "(state=0x", string(rng.state, base=16, pad=32), ")")
+
+function Base.copy!(dst::LehmerRNG, src::LehmerRNG)
+    dst.state = src.state
+    dst
+end
+"""
 export genericGenerator, randMatrix, randVector, randvalue
 
 using Random;
 using StableRNGs;
 # e1e8635157374d87126d9d13be15a2679bccb5f0
-
+"""
 export genericGenerator, randvalue, randMatrix, randVector, randvaluerandtemplate
 global seed = 1234;
 global rng = StableRNG(seed)
 
 module randomness
-
-#TODO(1):change non-existing MersenneTwister to anything else...
-#TODO(3): If is persistent, do Not Reseed (dedault: otherwise reseed) #later 
-
+"""
+TODO(1):change non-existing MersenneTwister to anything else...
+TODO(3): If is persistent, do Not Reseed (dedault: otherwise reseed) #later 
+"""
 function randtemplate(seed = 1234, rng = MersenneTwister(seed), ispersistent = yes)
     return rng(seed)
 end
