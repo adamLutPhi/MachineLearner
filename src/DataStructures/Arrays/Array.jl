@@ -83,7 +83,7 @@ struct Mappedarray{T,N,A<:AbstractArray,f::Int...} <: AbstractArray{T,N}
     data::A
 end
 """
-
+# not working 
 struct Mappedarray{T,N,A<:AbstractArray,F<: AbstractArray{T,N}
     f:F
     data::A

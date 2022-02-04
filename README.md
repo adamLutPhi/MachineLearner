@@ -1,7 +1,7 @@
-# DeepLearner
+# DeepLearner [![wakatime](https://wakatime.com/badge/github/adamwillisXanax/DeepLearner.svg)](https://wakatime.com/badge/github/adamwillisXanax/DeepLearner)
 A Deep Learning Repository, you can also view the [project](https://github.com/users/adamwillisXanax/projects/1/views/1)
 
-[![wakatime](https://wakatime.com/badge/github/adamwillisXanax/DeepLearner.svg)](https://wakatime.com/badge/github/adamwillisXanax/DeepLearner)
+
 
 ## 🗺 legend
 (): optional
