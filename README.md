@@ -45,7 +45,7 @@ in the Alphabetic Order:
 
 - Professor `Steven G. Johnson` [@stevengj](https://github.com/stevengj): providing an MIT OCW `Introduction to Numerical Methods` [18.335J / 6.337J](https://ocw.mit.edu/courses/mathematics/18-335j-introduction-to-numerical-methods-spring-2019/)  Julia course (usefully Concise Course) on [github](https://github.com/mitmath/18335/tree/spring19)
 - `Tamas K. Papp [PhD]` [@tpapp](https://github.com/tpapp): Useful Code Help  on the `Julia Discourse` 
-- `Professor Tim Holy` (Neurosciene) [@timholy](https://github.com/timholy): help with Arrays & Holmes (as featured, in  [juliacon2016 Keynote - an overview of Arrays](https://www.youtube.com/watch?v=fl0g9tHeghA))
+- `Professor Tim Holy` (Neurosciene) [@timholy](https://github.com/timholy): help with Arrays (& Holmes) (as featured, in  [juliacon2016 Keynote - an overview of Arrays](https://www.youtube.com/watch?v=fl0g9tHeghA))
 
 
 ## Lessons learned 
@@ -58,18 +58,19 @@ but there aren't as much are  the `Tail Area`. An Ideal sampler would `Uniformly
 
 ## Papers Used 
 
--The Ziggurat paper, by Christopher D McFarland : `A modified ziggurat algorithm for generating exponentially and
-normally distributed pseudorandom numbers` (including the author's view on the [Tail generation issue](https://github.com/adamwillisXanax/DeepLearner/discussions/12))
+-[The Ziggurat paper](https://arxiv.org/abs/1403.6870), by Christopher D McFarland : `A modified ziggurat algorithm for generating exponentially and
+Normally Distributed Pseudorandom Numbers` (including the author's view on the [Tail generation issue](https://github.com/adamwillisXanax/DeepLearner/discussions/12))
 
-Please Review paper,on p.3:
->We do not improve upon these approaches here and, instead, reuse previous techniques
+Good points of this paper is: it does not use rejection regions (that what makes it fancy to apply it)Please Review (if you will) the paper,on p.3:
+>We do not improve upon these approaches here and, instead, _reuse previous techniques_
 >...
 >Overall, the ZA is ideal for distributions
->with Infrequent Sampling from the tail, i.e. not heavy-tailed distributions.
+>_with Infrequent Sampling from the tail_, i.e. **not heavy-tailed distributions.**
 
-**Paper on citeseer [from here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4812161/pdf/nihms-717849.pdf)
+**Paper on [ar](https://arxiv.org/abs/1403.6870) [from here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4812161/pdf/nihms-717849.pdf)
 
-A modified ziggurat algorithm for generating exponentially- and  normally-distributed pseudorandom numbers
+
+A modified ziggurat algorithm for generating exponentially- and  normally-distributed Pseudorandom Numbers
 ## Youtube
 Personally, the best Neural Network course, easily Explained by a Humble `Prof. S. Sengupta`, (what S. stands for?), by the NPTEL of India [right here](https://www.youtube.com/watch?v=xbYgKoG4x2g&list=PL53BE265CE4A6C056)
 # A WIP (Work In Progress) Project
