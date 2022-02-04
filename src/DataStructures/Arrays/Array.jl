@@ -359,5 +359,42 @@ SO IT Doesn't Even bother to make a function call
 and returns value of it imeediately (that is how compiler Optimizes)
 """
 
+#--- move as much analysis computation 
+"""
+to compile-time
+ so there is less work for the CPU (at runtime)
 
+    -this takes away the work, from th cpu 
+    thee main trick of julia 
+    """
 
+"""Array views in Julia 
+view is still Tied to original (line)data
+allow st new values in the data too
+(just find the inverse function)
+mappedarray: a-> f(a) for a in A
+
+SubArray (has a Parentarray)
+
+slcting out a particular rectangular region 
+in work: 
+variant of subarray (span?)
+
+3.slicePlane
+(span?])
+pros 
+great for 1 off viewers (10 lines of code)
+
+opportunity:great for dimensionality reduction (i.e)
+so no need to larn about (deal with) 4D arrays  
+
+him:doing imaging in a wird tilts 
+selcting plac of 2D array 
+
+4. reshapeArray
+-preservees dimensionality 
++ adds dimantionality to 3D objectss 
+
+5. permutedDimsArray
+view, traditional julia co,umn major 
+v is transpose of this nature
