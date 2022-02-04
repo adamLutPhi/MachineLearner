@@ -1,3 +1,8 @@
+"""
+credits to: @stevengj professor steven G. Johnson of
+the MIT 18.335J / 6.337J -  Numerical Analysis 2019 by  
+18.335J / 6.337J
+"""
 #stableRNG 
 rng = StableRNG(123)
 A = randn(rng, 10, 10)
@@ -26,7 +31,7 @@ global maxiterations = 10
         x = denominator
         """
         for i = 1:n
-            x = (x + a / x) / 2
+            x = (x + a / x) / 2  #parabolic shape
         end
         return x
     end

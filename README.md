@@ -42,28 +42,36 @@ Early _signs_ of that:
 - `Ziggurat function` is a **Biased** Data Sampler. Samples are More around the Mean, whereas an Ideal  Sampler would fairly 
 but there aren't as much are  the `Tail Area`. An Ideal sampler would `Uniformly Samples` (on x-Axis), regardless the Distribution & its respective properties  (for that reason, I don't see it as an enhancement). _Alas_, to Cross-reference with another paper (yet to come) that studies Tails, & proves this algorithm is sound, & Fairly Samples data in tail, just as everywhere else
 
-- A Fair Sampler is expected to work, which Starts sampling from a Uniform locations along the x-Axis - whatever Distribution might be considered 
-
 - Opens up a _possibility_ for a **Statistical Repo**
 - For more info, please visit [the Discussion](https://github.com/adamwillisXanax/DeepLearner/discussions/12)
 
 # Credits
 
+## Special Thanks
+to the Heros behind the Scene; a list of Human Beings, in which I couldn't do this project without, 
+in the Alphabetic Order:
 
-
-## special Thanks
-Heros behind the Scene there lies a list of human beings that I couldn't do without, in the Alphabetic Order:
-
-- Professor Steven G. Johnson @stevengj: providing an `MIT OCW` Julia course (usefully concise course)  
+- Professor `Steven G. Johnson` @stevengj: providing an `MIT OCW [18.335J / 6.337J](https://ocw.mit.edu/courses/mathematics/18-335j-introduction-to-numerical-methods-spring-2019/)`  Julia course (usefully Concise Course)on github
 - Tamas K. Paap [PhD] @tpapp: Useful Code Help  on the `Julia Discourse` 
+- Professor `Tim Holy` (Physics): Arrays (as featured, in  [juliacon2016 Keynote - an overview of Arrays](https://www.youtube.com/watch?v=fl0g9tHeghA))
 
+## Papers Used 
 
-## papers Used 
+-The Ziggurat paper: `A modified ziggurat algorithm for generating exponentially and
+normally distributed pseudorandom numbers` (including the author's view on the [Tail generation issue](https://github.com/adamwillisXanax/DeepLearner/discussions/12))
 
+Please Review paper,on p.3:
+>We do not improve upon these approaches here and, instead, reuse previous techniques
+>...
+>Overall, the ZA is ideal for distributions
+>with Infrequent Sampling from the tail, i.e. not heavy-tailed distributions.
+
+Paper on citeseer [from here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4812161/pdf/nihms-717849.pdf)
+
+A modified ziggurat algorithm for generating exponentially- and
+normally-distributed pseudorandom numbers
 ## Youtube
-
-
-
+Personally, the best Neural Network course, easily Explained by a Humble `Prof. S. Sengupta`, [here](https://www.youtube.com/watch?v=xbYgKoG4x2g&list=PL53BE265CE4A6C056)
 # A WIP (Work In Progress) Project
 This project is just a `seed` I sowed
 (If you want a final produce, Please check back later)
