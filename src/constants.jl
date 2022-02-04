@@ -34,8 +34,9 @@ the logic:using the rule
 
 a homebrewed way, fabricated out of the spaciousness
 in the head - novel Creativity
+#TODO: How to verify this is correct? #need ofr a verification method
 """
-global ϵ(x) = exp(x)^-1
+global ϵ(x) = exp(x)^-1 #this enforces a constantly increasing 
 
 #digi(n::Int64, x::Int64, y::Float64
 function digi(n = 6, x = 1, y = exp(x))
