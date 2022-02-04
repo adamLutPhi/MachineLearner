@@ -8,7 +8,7 @@ A Deep Learning Repository, you can also view the [project](https://github.com/u
 <br />
 []: important
 <br />
-sth: something 
+
  
 
 Life is a Set of random variables of `opportunities` 
@@ -16,15 +16,14 @@ Life is a Set of random variables of `opportunities`
 1.Neither a Random: always follow a distribution
 2. Nor a Variable: it is a function of Probability Density(_**me**:frequency_) 
 ]
-the objective is to Utilze the most of it, in an _effective manner_ - __~90%__ of the time (_Almost Surely_) 
+the objective is to Utilze the most of it, in an _effective manner_- __~90%__ of the time (_Almost Surely_) 
 
 ### 🎮 Mixed-Coding mode
 **1.Focus**
-The best learning is that One where pushing thyself, to face off Poly-shaped, Spaghetti monster- (like this one) 
+The best learning is that One where pushing self, to face off th  Poly-shaped, Spaghetti monster- (like this one) 
 
 **2.Relax**
-Space in mind, for relaxation.
-Early _signs_ of that: 
+Space in mind, in call for relaxation, with Early _signs_ of: 
 - Once `Creativity` starts lacking, - when new ideas become `transparent` 
 - `Novelity` vanishes into thin air, & Cloud of Routine takes over, its shadows become in everywhere you go  that's when it Hovers over 
 
@@ -59,7 +58,7 @@ but there aren't as much are  the `Tail Area`. An Ideal sampler would `Uniformly
 
 ## Papers Used 
 
--The Ziggurat paper: `A modified ziggurat algorithm for generating exponentially and
+-The Ziggurat paper, by Christopher D McFarland : `A modified ziggurat algorithm for generating exponentially and
 normally distributed pseudorandom numbers` (including the author's view on the [Tail generation issue](https://github.com/adamwillisXanax/DeepLearner/discussions/12))
 
 Please Review paper,on p.3:
@@ -68,20 +67,18 @@ Please Review paper,on p.3:
 >Overall, the ZA is ideal for distributions
 >with Infrequent Sampling from the tail, i.e. not heavy-tailed distributions.
 
-Paper on citeseer [from here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4812161/pdf/nihms-717849.pdf)
+**Paper on citeseer [from here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4812161/pdf/nihms-717849.pdf)
 
-A modified ziggurat algorithm for generating exponentially- and
-normally-distributed pseudorandom numbers
+A modified ziggurat algorithm for generating exponentially- and  normally-distributed pseudorandom numbers
 ## Youtube
-Personally, the best Neural Network course, easily Explained by a Humble `Prof. S. Sengupta`, [here](https://www.youtube.com/watch?v=xbYgKoG4x2g&list=PL53BE265CE4A6C056)
+Personally, the best Neural Network course, easily Explained by a Humble `Prof. S. Sengupta`, (what S. stands for?), by the NPTEL of India [right here](https://www.youtube.com/watch?v=xbYgKoG4x2g&list=PL53BE265CE4A6C056)
 # A WIP (Work In Progress) Project
-This project is just a `seed` I sowed
-(If you want a final produce, Please check back later)
+This project is just a Sown`seed`
 <br/>
-This repo is on a  `Social Network`
+as one remembers, Or on a `Social Network`
 If you'd like to  give a `hand`,
-Please **step in**; Your Help would be much `Appreciated`-  Thank you
-(though the High of `Figuring things Out` has a mesmerizing remains tempting)
+Please **step in**; Your Help would be much `Appreciated`-  **_Thank You_**
+_(though getting into the state of `Figuring things Out` has a mesmerizing remains, in its calling )_
 
 ## Disclaimer
 The author won't not be held responsible, for any immature actions, & or signs of code abuse, at all costs
