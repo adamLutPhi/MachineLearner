@@ -161,7 +161,7 @@ end
                                            i::Vararg{Int,N}) where {T,N}
     A.f(A.data[i...])
 end
-@propagate_inbounds function Base.getindex(A::AbstractMultiMappedArray{T,N},
+@propagate_inbounds function Base.getindex(A::c,
                                            i::Vararg{Int,N}) where {T,N}
     A.f(_getindex(CartesianIndex(i), A.data...)...)
 end
@@ -177,7 +177,7 @@ end
     vals = A.finv(convert(T, val)::T)
     _setindex!(A.data, vals, i...)
     return vals
-end
+endf
 
 
 @propagate_inbounds _getindex(i, A, As...) = (A[i], _getindex(i, As...)...)

@@ -22,6 +22,17 @@ include("../../constants.jl") #seems correct directory - works as expected (on m
 
 export leastUpperBound, greateestLowerBound, sup, inf
 
+"""
+it depends on the function'S Characteristics 
+
+    1. Continous?
+    2. discrete (set)?
+
+the Common Issues:
+
+Is the function defined over the  specified range?
+-> check for continuity (over Range) #TODO
+"""
 module bounds
 
 #--- range struct: a custom range structure
@@ -35,7 +46,7 @@ mutable struct rangeStruct{a,b}
     initialized to -∞ +infity
     """
 
-    a = -Inf
+    a = -∞
     b = Inf
 end
 
