@@ -333,18 +333,18 @@ B = Mappedarray(identity,A)
 #--- whi is there no overhead?
 
 F = Base.identity
-struct Mappedarray{T,N,A <: AbstractArray,F} <: AbstractArray{T,N}
+struct Mappedarray{T,N,A<:AbstractArray,F} <: AbstractArray{T,N}
     f::F
-    data::A 
+    data::A
 end
 #set op: Assigning @propagate_inbounds
-@time Base.@propagate_inbounds Base.getindex(A:: Mappedarray, i::Int...)=
-A.f(A.data[i...])
+@time Base.@propagate_inbounds Base.getindex(A::Mappedarray, i::Int...) =
+    A.f(A.data[i...])
 
 #  0.008769 seconds (47 allocations: 3.448 KiB, 61.02% compilation time)
 
-@time Base.getindex(A:: Mappedarray, i::Int...)=
-A.f(A.data[i...]) # 0.000115 seconds (22 allocations: 1.415 KiB)
+@time Base.getindex(A::Mappedarray, i::Int...) =
+    A.f(A.data[i...]) # 0.000115 seconds (22 allocations: 1.415 KiB)
 
 """Lesson
 Base.@propagate_inbounds (Function Inline)
@@ -391,10 +391,184 @@ so no need to larn about (deal with) 4D arrays
 him:doing imaging in a wird tilts 
 selcting plac of 2D array 
 
-4. reshapeArray
+4. ReshapedArray
 -preservees dimensionality 
 + adds dimantionality to 3D objectss 
 
 5. permutedDimsArray
 view, traditional julia co,umn major 
 v is transpose of this nature
+
+don't write any code that Depends on Internal Representation
+
+datastructures present in julia 
+
+mappedarray types:
+
+1 SubArray : (Parentarray,selectedRegion)
+
+2. ReshapedArray: a x b = n x m 
+(#there must be some linear non-linaer relation between domain, co-domain)
+3. permutedDimsArray
+
+what's not in julia (made )
+4.SlicedPlane: (Parentarray, selectedRegion)
+
+
+why: it's very easy for you to create your own data Types 
+
+---------
+Now MappedArray is a scalar transformation: A  = a*M ; (a isa scalar )
+#--- implementing permutedDimsArray (added in 2016)
+
+Concept behind impleementation: P (the view) reindexes as the parent A as 
+#To reindex Parent Array
+        P[inds...] -> A[inds[iperm]...]
+
+#Anytime it passes a set of Indecies to the parent array (Permutated View)
+
+struct permutedDimsArray{T,N,AA <: AbstractArray} <: AbstractArray{T,N}
+    parent::AA 
+    iperm:: Vector{Int} #storing inverse permutation
+    dims::NTuple{N, Int}
+end
+
+"""
+#compiles (wow)
+struct permutedDimsArray{T,N,AA<:AbstractArray} <: AbstractArray{T,N}
+    parent::AA
+    iperm::Vector{Int} #storing inverse permutation (as vectors of integers)
+    dims::NTuple{N,Int}
+end
+#T not defined: me: so is it only defined on runtime? (as it's lazy?)
+Base.@propagate_inbounds function Base.getindex{T,N}(P::PermutedDimsArray{T,N}, I::Vararg{T,N})
+    getindex(P.parent, I[P.iperm]...)
+end
+
+
+"""lesson learned: async method on any array ( via index)
+    invoke @propagate_inbounds onto any function (Array)
+
+        getindex -then-> @propagate_inbounds
+
+1.Apply permutation to Indecies (being supplied here)
+2.Reference them to parent array
+
+"""
+
+#performance check
+
+@time sum(A)#  0.001322 seconds (1 allocation: 16 bytes) 499814.9740729731
+
+@time sum(P) # in demo: parent is undefined #ways of accumulating,it isa not mentioned
+
+"""
+Point permutedDimsArray (Permuted view , of that array) is 400 times Slower
+(v. unhappy with performance)
+how do you go about getting a better performance?
+
+"""
+#--- An impleementation based on tuples 
+
+""" tuples are the trick behind almost everything 
+(that you do, with an array)
+
+"""
+#compiles
+struct PermutedDimsArray{T,N,AA<:AbstractArray,perm,iperm} <: AbstractArray{T,N}
+    parent::AA
+    dims::NTuple{N,Int}
+
+end
+
+"""
+moved inverse permutation iperm 
+into the type parameters 
+(me: that is an old C trick , inserting functions into parameters)
+
+the argument Issue: 
+1. you can't put an array in there  (but at the same time )
+2.  you CAN Put a Tuple (which fastens the Computation Speed,drastically)
+
+storing both prm , perminve (me:acutallly, just passing (physocaly stored in memory: is it? yeah))
+
+so, one is predictable from the other 
+but, essentiallymkes your lif more convinient 
+(in 'certain circumstances' to have both)
+
+"""
+#General case:
+struct structname end
+Base.@propagate_inbounds function (base.getindex{}(A::structname, I::Vararg{typeof,N})
+getindex(A.parent, ntuple(d -> I[[]], Val{N})...) #TODO:how to make that line in unicod
+)#N above for (Rational?/IRrattional? (numberTheory req.)) Polynomial functions
+    #for real analysis ok, but 
+    #if Complex Analysis required, then [ENTER YOUR METHOD HERE] IS REQUIRED 3 
+end
+
+Base.@propagate_inbounds function (base.getindex{}(A::structname, I::Vararg{typeof,N})
+getindex(A.parent, ntuple(d -> I[[]], Val{N})...) #TODO:how to make that line in unicod
+) end
+function dotop1(a, b)
+
+    return a .== b #Assignment is negligible (so do return)
+end
+
+Base.@propagate_inbounds function dotop2(a, b)
+
+    return a .== b #Assignment is negligible (so do return)
+end
+
+m = 1;
+n = 10;
+a = ones(n, m)
+b = ones(m, n)
+@time res1 = dotop1(a, b)
+"""  0.691503 seconds (1.10 M allocations: 56.898 MiB, 9.34% gc time, 99.99% compilation time)
+10×10 BitMatrix
+on rerun:
+ 0.000039 seconds (2 allocations: 144 bytes)
+10×10 BitMatrix
+"""
+using BenchmarkTools
+function dotop2(a, b)
+    @benchmark a .== b
+end
+res2 = dotop2(a, b)
+
+
+
+"""
+BenchmarkTools.Trial: 10000 samples with 136 evaluations.
+ Range (min … max):  708.824 ns … 98.607 μs  ┊ GC (min … max): 0.00% … 98.60% 
+ Time  (median):     963.235 ns              ┊ GC (median):    0.00%
+ Time  (mean ± σ):     1.143 μs ±  1.564 μs  ┊ GC (mean ± σ):  2.79% ±  2.19%
+   █            
+  ▃█▅▄▆▆▃▂▃▂▂▂▂▃▃▄▄▄▄▃▃▃▂▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁ ▂
+  709 ns          Histogram: frequency by time         2.78 μs <
+
+ Memory estimate: 208 bytes, allocs estimate: 4.
+"""
+res3 = @btime a .== b # how to store it's values 
+"""
+ rerun:
+
+BenchmarkTools.Trial: 10000 samples with 138 evaluations.
+ Range (min … max):  710.145 ns … 59.049 μs  ┊ GC (min … max): 0.00% … 96.91% 
+blue Time  (median):     841.304 ns              ┊ GC (median):    0.00%
+green Time  (mean ± σ):     1.019 μs ±  1.329 μs  ┊ GC (mean ± σ):  2.98% ±  2.39%
+  ▇█▆▅▅▅▅▃▄▄▄▃▃▃▃▃▃▃▃▃▂▂▁▁▁▁▁▁ ▁▁                              ▂
+  ███████████████████████████████████▇█▇▇▇▇▆▇▆▇▆▆▅▅▆▅▄▆▄▃▅▄▄▄▄ █
+  710 ns        Histogram: log(frequency) by time      2.47 μs <
+
+ Memory estimate: 208 bytes, allocs estimate: 4.
+ 
+where blue < green 
+Notice: different runs yeilds hugely different discrepencies 
+(that may Hugely affect performance, on medium & long-run)
+#TODO: get @btime's output 
+
+check stabiltiy way of code coding ,...
+
+reliability vs stanility 
+ """

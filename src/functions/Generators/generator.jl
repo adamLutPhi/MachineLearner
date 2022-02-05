@@ -3,13 +3,83 @@ references:
 
 =#
 
-using random, Test
+using Random, Test, StableRNGs, Rebugger, BenchmarkTools #94 dependencies omg 
 include("randomness.jl")# fixed: missing .jl !
-
 module generator
-()
 
 export genericGenerator, randMatrix, randVector, randvalue
+
+#---StableRNG - for stability
+```
+StableRNG is currently an alias for LehmerRNG,
+and implements a well understood
+linear congruential generator (LCG);
+an LCG is not state of the art,
+but is fast and is believed to have
+reasonably good Statistical Properties [1],
+suitable at least for tests of a wide range of packages.
+The choice of this particular RNG is based on its simplicity,
+ which limits the chances for bugs. Note that only
+StableRNG is exported from the package,
+& should be the only type used in client code;
+LehmerRNG might be renamed, or might be made a
+'Distinct type' from StableRNG in any upcoming minor
+(i.e. non-breaking) release.
+```
+
+function stableGenerator(seed = 1234)
+
+    rng = StableRNG(seed)
+    return rng
+end
+
+"""
+yeilds randomized nsamples 
+
+input: 
+seed: both fixed ()random ()
+nsize:100 
+"""
+function randomizeStable(nSize = 100, seed = 1234)
+    """
+#pay attention: this one is not a uniform  
+random gotta use uniform distribution 
+or else, you'll be messing things up really bad 
+    changes randn -to-> rand
+    """
+    #pay attention: this one is not a uniform  
+    return rand(rngn, nSize) # uses default Normal  (not uniform )
+end
+
+#error (Compiler)
+#range2(a = lobound, b = upbound) = (lobound in Base.range(lobound, upbound; (upbound - lobound), stepSize))
+
+##r range1(2,8)
+
+rand([rng = GLOBAL_RNG], [r]) #docs
+
+#--- Base.://
+Function
+//(num = 3, den = 5)
+"""
+Divide two integers or rational numbers, giving a Rational result.
+"""
+#... 
+
+#---range test 
+a = 1
+b = 100
+@time r1 = range1(a = lobound, b = upbound) = lobound:stepSize:length(upbound)
+# 0.000050 seconds (55 allocations: 3.714 KiB)
+
+#@time r2 = Random.Sampler(a, b) # MethodError no matching method 
+#rand(range1)
+@time r3 = rand(a, b) #   0.000010 seconds (1 allocation: 896 bytes)
+#@time r4 = range2(a, b)
+@time r2 = rand(rng, a, b) #  0.028962 seconds (51.49 k allocations: 3.117 MiB, 99.84% compilation time)
+
+
+#---
 
 ```
    mimicing a caglag, range(d) Process
@@ -28,9 +98,9 @@ export genericGenerator, randMatrix, randVector, randvalue
    ```
 
 ```
-PDF must play a role here
+PDF must play a role here #genericModel: is the PDF - HERE
 as 
-TODO: use the argument 'genericModel' in a useful function  - does it need another loop?
+TODO: the argument 'genericModel' is a useful function  - does it need another loop?
 ```
 #working
 function genericGenerator(sampleSize = 300, _min = 1.0, _max = 10.0, genericModel = exp(-x))
@@ -41,7 +111,7 @@ function genericGenerator(sampleSize = 300, _min = 1.0, _max = 10.0, genericMode
     # z=nothing
     a = nothing
     b = nothing
-    for i in enumerate(sampleSize) # <= sampleSize #generate sample
+    for i in enumerate(sampleSize) # <= sampleSize #generate sample #OPTIMIZE THIS LOOP
         #initializes with a vector (TODO:Q.why a vector? isn't a point enough | this context?) - maybe that is the main problem
         b = randVector(_min, _max)
         # c = copy(b)
@@ -61,21 +131,19 @@ function genericGenerator(sampleSize = 300, _min = 1.0, _max = 10.0, genericMode
 end
 
 #---range 
-
+#Compiles
 function createRange(start, stop, length, step)
     return range(start, stop; length, step)
 end
 
 ```
-TODO: we need to figure out:
--which RNG to use 
-
-needs at least 2 loops
+TODO:
+needs at least 2 loops, for a 2DArray matrix (or n loops for an n Array)
 ```
 function genSample(sampleSize = 50::Int64, min = 0.0, max = 1.0)
     #range(min=0, stop=max; length=max, step=1)
     a = nothing
-    for i in enumerate(sampleSize) #range(start=min, stop=max; length=max-min, step=1)    # sampleSize +1 & i < max+1 : #generate sample
+    for i in enumerate(sampleSize) #range(start=min, stop=max; length=max-min, step=1)    # sampleSize +1 & i < max+1 : #generate sample #OPTIMIZE
         # for #TODO: 
         #initializes with a vector (TODO:Q.why a vector? isn't a point enough | this context?) - maybe that is the main problem
         a = (a, randVector(min, max))
@@ -129,79 +197,25 @@ can use an RNG, with a fixed seed, to ensure that simply running the test many t
 The Statistical Distribution from which random samples are drawn is guaranteed to be the same across any minor Julia releases.
 
 ```
-using Random, UUIDs
-seed = 1234;
+using Random#,  # UUIDs # why added this , here?
+#seed = 1234;
+rng = stableGenerator()
+x1 = rand(rng, 2);# returns Uniformly, 2 random variables #rand([rng=GLOBAL_RNG], [S], [dims...])
 
-x1 = rand(2);# returns Uniformly, 2 random variables #rand([rng=GLOBAL_RNG], [S], [dims...])
-
-rng = MersenneTwister(seed); #create a MersenneTwister
+#rng = MersenneTwister(seed); #create a MersenneTwister #TODO:tobeREPLACED
 rand(rng, 2) == x1;#whats the pint storing x1 [reusability]
 reseed = Random.seed!(1234);
 # Random.seed!(MersenneTwister(seed), seed) # (should be) a reproducible condition
 @test rand(rng, 2) == x1 #rand() regenerates everytime it's called 
 
 #rng()
-3points = rand(MersenneTwister(1234), 3)
+_3points = rand(MersenneTwister(1234), 3) #retired
 seed1 = rand(Random.seed!(MersenneTwister(1234)), Bool) # not reproducible
 
 seed2 = rand(Random.seed!(MersenneTwister(1234)), Bool) # (not) reproducible
 
 seed3 = rand(MersenneTwister(), Bool) # not rng has no seed. Infer reproducible either
 
-#---StableRNG - for stability
-```
-StableRNG is currently an alias for LehmerRNG,
-and implements a well understood
-linear congruential generator (LCG);
-an LCG is not state of the art,
-but is fast and is believed to have
-reasonably good Statistical Properties [1],
-suitable at least for tests of a wide range of packages.
-The choice of this particular RNG is based on its simplicity,
- which limits the chances for bugs. Note that only
-StableRNG is exported from the package,
-& should be the only type used in client code;
-LehmerRNG might be renamed, or might be made a
-distinct type from StableRNG in any upcoming minor
-(i.e. non-breaking) release.
-```
-
-
-function stableGenerator(seed =1234)
-
-    rng = StableRNG(seed)
-    return rng
-end 
-
-"""
-yeilds randomized nsamples 
-
-input: 
-seed: both fixed ()random ()
-nsize:100 
-"""
-function randomizeStable(seed=1234,nSize=100)
-
-    return randn(rngn,nSize)
-end
-#---range
-range1(a = lobound, b = upbound) = lobound:stepSize:length(upbound)
-Random.Sampler
-rand(range1)
-
-
-range2(a = lobound, b = upbound) = (lobound in Base.range(lobound, upbound; (upbound - lobound), stepSize))
-
-##r range1(2,8)
-
-rand([rng = GLOBAL_RNG], [r])
-
-#--- Base.://
-Function
-//(num = 3, den = 5)
-"""
-Divide two integers or rational numbers, giving a Rational result.
-"""
 
 
 
@@ -217,7 +231,7 @@ function range_step_stop_length(a, step, len::Integer)
     return StepRangeLen{typeof(start),typeof(start),typeof(step)}(start, step, len)
 end
 
-for i in enumerate(1000)
+for i in enumerate(1000) #OPTIMIZE
     @test(range_step_stop_length(1, 1, 100))
 
 end
@@ -238,7 +252,7 @@ function range_stop_length(a = 0, b = 100)
     return StepRangeLen{type_b,typeof(a)}(a, step, len)
 end
 
-#--- convertions
+#--- convertions credits: Tamas papp @tpapp
 
 function array2vector1(T::Any)
     return irr(vec(Float64.(T)))
