@@ -88,10 +88,8 @@ make this operation v. fast (microseconds)
 
 
 
-"""
-
 imgsc = mappedarray(sqrt, img)
-
+"""
 
 """
 transformations are a
@@ -136,16 +134,7 @@ that is
 
 2.Explicit mapping 
 """
-A = rand()
-sqrt(A)         #implicit element-wise computation
 
-map(sqrt, A)   #explicit element-wise computation 
-
-@time sqrt(A)  # 0.000005 seconds (1 allocation: 16 bytes)
-
-@time map(sqrt, A) # 0.000007 seconds (2 allocations: 32 bytes)
-B = mappedarray(sqrt, A)
-B = mappedarray(func, a)
 
 """
 take sqrt when we ask for values from that array 
@@ -188,7 +177,6 @@ tim's lab's favorite is a one with  lazy initialization (promise-like async)
 include("MappedArrays.jl")
 """
 
-B = Mappedarray(sqrt, A) #only realizes computation whn calling B[i,j,..]
 
 """
 1 create a view of (initial dataset)
@@ -230,6 +218,19 @@ end
 ###
 Mappedarray{T,N}(f, data::AbstractArray{T,N}) =  #defines f as ones
     MappedArray{typeof(f(one(T))),N,typeof(data),typeof(f)}(f, data)
+
+B = Mappedarray(sqrt, A) #only realizes computation whn calling B[i,j,..]
+
+A = rand()
+sqrt(A)         #implicit element-wise computation
+
+map(sqrt, A)   #explicit element-wise computation 
+
+@time sqrt(A)  # 0.000005 seconds (1 allocation: 16 bytes)
+
+@time map(sqrt, A) # 0.000007 seconds (2 allocations: 32 bytes)
+B = mappedarray(sqrt, A)
+B = mappedarray(func, a)
 ###
 ##
 Base.size(A::AbstractMappedArray) = size(A.data)#copies size of original data 
@@ -824,3 +825,153 @@ check stabiltiy way of code coding ,...
 
 reliability vs stanility 
  """
+#General code isa good but isa not entirely free of Overhead 
+
+#from (undiscovered source) 
+
+
+#test a 'dumb wrapper'
+struct wrapper{T,N} <: AbstractArray{T,N}
+    A::Array{T,N}
+end
+
+
+Base.Base.@propagate_inbounds Base.getindex(W::wrapper, i, j, k) = W.A{i,j,k}
+
+"""in llvm most of computations go aways 
+inlining the lowest level of computation that Happens
+( no matter where you make use of the Array)
+Takeaway : try most of the time to use an infix function 
+"""
+#--- a brief look at SubArray
+#changing gears
+A = rand(5, 7, 3)#  A is a 3D Array , you can create subarray (view)
+B = view(A, 2:3, 4, 1:2) #view shoould be 2D (kernel) 2 by 2
+
+struct subarray{T,N,P,I,L} <: AbstractArray{T,N}
+    parent::P # 5 by 7 by 3 Float64 array 
+    indexes::I # (2:3, 4, 1:2) 4 is an integers
+    """notice number in middle is 4 
+    so, it's the Types embedded in indicies tuple, that determine 
+    key properties of the output view of this 
+    
+    what means: 
+    when index B it ends up
+    getting directly translated into 
+    2 gets applied to the first of these
+     indicies 
+     (so it pulls out th 3 from that)
+    
+     2nd index: gets copied from th 'defining value'
+     B[2,2] gets translated into A[(2:3)[2], 4, (1:2)[2]] = A[3,4,2]
+     
+     
+    2nd index gts skipped over
+    doesn't get consumed by the 2nd index
+    
+    get applied to the final member (of this defining tuple)
+    #I hope that's clear 
+    based on how you're defining your sub-array
+    
+    the indicies you supply  to the view 
+    nd up getting applied to different dimensions 
+    (of the original parent array)
+    -not complicated, one you get used to writing code like this 
+    
+    when i'm first in julia: 
+    subarrays defined in strides (parent arrays )  
+    into creating a view : has physical existance in memory 
+    as many of these 
+    
+    that doesn't allow you to use non-uniform 
+    indicies, like vectors of integers 
+    
+    we can select out arbitrary columns to slice through  
+    you can slice it with a matrix, as one of the indicies
+    
+    - this creates a 3 Dimnsional view 
+    dimemsions 1 & 2 of the view come from the first 
+    Dimension A  
+    dim 2 is skipped over
+    dim 3  comes from dim 3 comes from dimntion 3 of A 
+     
+    amazing how infrastructuree becom overtime 
+    
+    #Apply these indicies to the view  indicies
+    in a type aware fashion 
+    (now) we use tuples, rather than arrays
+
+    """
+
+    B = view(A, [1, 3, 4], 4, 1:2)
+    #--- Reindexing using Dispatch: it's all in the Tuples
+
+    # B[ind]
+    x = rand(5,5)
+    newinds ↦ (newinds..., x) # instead of push!(newinds,x)
+    B[inds...] ↦ A[reindex(inds, B.indexes...)...]
+    inds = (2, 2)
+    B.indexes = (2:3, 4, 1:2)
+    #changing index:
+    Base.reindex(( 2, 2), 2:3, 4, 1:2) ↦
+    (3, Base.reindex((2,), 4, 1:2)...) ↦
+    (3, 4, Base.reindex((2,), 1:2)...) ↦
+    (3, 4, 2, Basse.reindex(())) ↦
+    (3, 4, 2)
+end
+
+"""
+reindex ha to bee type-aware 
+"""
+
+"""
+reshapedArray 
+
+a neww type array   alwaay returns the view of array 
+regardless A type 
+"""
+B = reshape(A, (4,5,7))
+
+B[i,j,k] --> B[l] - A[l]
+
+where l = subsizr(B, i , j, k) # convert into linear index
+
+"""easy when fast  linear indexng
+thethat's lineear indexingissssssssssss
+
+you convet into linrar to cartesian indexes
+passed into 
+
+""""
+
+division mwas ccomsumptiopn 
+other wise fallkak algorithnm 
+
+
+"""
+"""
+i = sub2ind(B, i, j, k)
+
+B[i,j,k] - A[sub2ind( A, sub2ind(B,i,j,k)) ...]
+ncl tp cartisian ind for th array 
+    """
+reverse invvolvs rrrrrrgivions slow 
+
+
+added recetly v fast ingteg dimension
+
+# function 
+#focus on iteration 
+
+function mysum(θ)
+
+    s = 0.0
+    for I in eachindex(θ)
+        s += B[I]
+    end
+    s
+
+    humor
+    go back to original patter 
+
+    indexes
