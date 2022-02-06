@@ -831,6 +831,7 @@ reliability vs stanility
 
 
 #test a 'dumb wrapper'
+T = Int
 struct wrapper{T,N} <: AbstractArray{T,N}
     A::Array{T,N}
 end
@@ -845,8 +846,9 @@ Takeaway : try most of the time to use an infix function
 """
 #--- a brief look at SubArray
 #changing gears
-A = rand(5, 7, 3)#  A is a 3D Array , you can create subarray (view)
-B = view(A, 2:3, 4, 1:2) #view shoould be 2D (kernel) 2 by 2
+using Test, BenchmarkTools
+@benchmark A = rand(5, 7, 3)#  A is a 3D Array , you can create subarray (view)  # 212.944 ns (1 allocation: 1008 bytes)
+@benchmark B = view(A, 2:3, 4, 1:2) #view shoould be 2D (kernel) 2 by 2 #40.061 ns (1 allocation: 80 bytes)
 
 struct subarray{T,N,P,I,L} <: AbstractArray{T,N}
     parent::P # 5 by 7 by 3 Float64 array 
@@ -907,13 +909,13 @@ struct subarray{T,N,P,I,L} <: AbstractArray{T,N}
     #--- Reindexing using Dispatch: it's all in the Tuples
 
     # B[ind]
-    x = rand(5,5)
+    x = rand(5, 5)
     newinds ↦ (newinds..., x) # instead of push!(newinds,x)
     B[inds...] ↦ A[reindex(inds, B.indexes...)...]
     inds = (2, 2)
     B.indexes = (2:3, 4, 1:2)
     #changing index:
-    Base.reindex(( 2, 2), 2:3, 4, 1:2) ↦
+    Base.reindex((2, 2), 2:3, 4, 1:2) ↦
     (3, Base.reindex((2,), 4, 1:2)...) ↦
     (3, 4, Base.reindex((2,), 1:2)...) ↦
     (3, 4, 2, Basse.reindex(())) ↦
@@ -929,12 +931,17 @@ reshapedArray
 
 a neww type array   alwaay returns the view of array 
 regardless A type 
-"""
-B = reshape(A, (4,5,7))
+""" #rand(5, 7, 3)
+B = reshape(A, (3, 5, 7)) #compiles
+i = 1;
+j = 1;
+k = 1;
+#where
+l = Base.ind2sub_rs(B, i, j, k) # convert into linear index
 
-B[i,j,k] --> B[l] - A[l]
 
-where l = subsizr(B, i , j, k) # convert into linear index
+B[i, j, k] ↦ B[l] ↦ A[l]
+
 
 """easy when fast  linear indexng
 thethat's lineear indexingissssssssssss
@@ -953,10 +960,31 @@ other wise fallkak algorithnm
 i = sub2ind(B, i, j, k)
 
 B[i,j,k] - A[sub2ind( A, sub2ind(B,i,j,k)) ...]
-ncl tp cartisian ind for th array 
+ncl tp cartesian ind for th array 
     """
-reverse invvolvs rrrrrrgivions slow 
 
+"""ReshapedArray
+-new type:e
+"""
+a = length(A)
+B = reshape(A, (3, 7, 5)) #size 4,5,5 = 4*5*5 = 100 change from (3, 5, 7) to (3, 7, 5)
+"""
+that line returns a view of A 
+if A has fast indexing then 
+    l = sub2ind(B,i,j,k)
+    B[i,j,k] ↦ B[l] ↦ A[l]
+ReshapedArray
+    -new type:e
+    always returns a view of A ( regardless of A's type )
+    one case: 
+    -easy if
+
+reverse involvs rrrrrrgivions slow 
+"""
+↦ = ->
+l = Base._sub2ind(B, i, j, k) # compiles returns 
+B[i, j, k] --> B[l] --> A[l]
+"""
 
 added recetly v fast ingteg dimension
 
@@ -970,7 +998,159 @@ function mysum(θ)
         s += B[I]
     end
   """
-    go back to original patter 
 
-    indexes
+
+"""
+much harder case
+if (it has) no fast linear Indexing then
+ 
+    1.convert it to linear index , then
+
+    2. convert it back to the cartesian index 
+for the reshaped version (of the Array)
+
+Problem: B[i, j, k] invalid function argument
     """
+##otherwise
+B[i, j, k] -> A[Base.ind2sub_rs(A, Base._sub2ind(B, i, j, k))...]
+
+"""computes linar index in a tuple as Fast
+(as it involves multiplications & additions)
+Reverse transformation calls Divisions
+-> that's slow 
+"""
+
+"""main problem: slow Integer Division  libdivide(g++ O3) v
+the fastest c library is written in Julia code
+
+despite getting fast, this Bottleneck is very slow 
+"""
+
+""" last topic: Focus on iteration """
+#one way to sum an array - like this - standard idiomatic code in julia
+function mysum(B)
+    s= 0.0 
+    for I in eachindex(B)
+        s += B[I] #CartesianIndex((2,3,4))
+    end
+    s
+end
+
+"""if B has no 'Fast indexing', then this index here is a CartesianIndex
+meaning: one index per dimension (of the underlying array)
+if this is a reshapedArray, then problem it has to compute those divisions  each time """
+    
+    
+"""
+for code like this, there's no reason to compute , instead
+    Iterating (each element) over the array 
+     don't care how you name the indices 
+     just care that you get the next value (me:as long as they're coming, i'm glad)
+
+     Maybe, you could solve a lot of these cases, where
+in cases where the iteration, the 'Index Retrieval' Problem is difficult to solve
+maybe you can solve that, by coming up with Smart patterns that Iterate
+
+Idea: why not index this with parent index, relative to the original array ?
+
+the rule is: 
+1.simply pop Out of the view 
+2. go right back to the original parent 
+
+i.e. 
+instead of CartesianIndex((2,3,4))
+?: ParentIndex((10,4)), B[ParentIndex((10,4))] -> A[10,4]
+
+that idea works, but runs into little bit of problem:
+
+
+
+     """
+#instead of 
+t = CartesianIndex((2,3,4))
+T = ?: ParentIndex((10,4)), B[ParentIndex((10,4))] -> A[10,4]
+
+# Sometimes
+
+"""copies (all) from source to destination
+```inputs 
+src 
+dest  
+
+
+````
+"""
+function mycopy(dest, src)
+    size(dest) == size(src) || error("sizes must match") # if statement without an iff (plus error handling)
+    for I in eachindex(src) 
+        dest[I] = src[I]
+    end
+    return dest
+end
+
+@benchmark mycopy()
+"""problem specialization:
+If Specialize to return v. paarticular type of index
+(for a particular array)
+ that doesn't really generalize to something else 
+like a copy operation 
+-then-> you can end up into trouble
+"""
+
+"""simple solution"""
+
+"""
+# ?. replace the loop with 
+
+what if you give each array its own Iterator  (?)
+
+"""
+
+for (Idest, Isrc) in zip(eachindex(dest), eachindex(src))
+    dest[Idest] = src[Isrc]
+end 
+#almost right, but dangerous
+
+"""
+1 check 2 Arrays are of the same sizes
+2 say: "U know, I don't care how you Iterate over your own elements"
+(Tim Holy: just do your own thing, man)
+what to do now: i'll just copy values, 1 by 
+
+this kinda works , but really dangerous
+because these axes are not coupled to one another 
+(in any fashion)
+zip: take 2 iterators , let each along march happily (indepndently)
+
+keything: make it too dangerous 
+some joker also added permutedDimsArray
+
+if allow that kinda thing to happen 
+
+    """
+#--- the need for synchronized Iteration 
+
+function mycopy(dest, src)
+size(dest) == size(src) || error("size must match")
+for(Idest, Isrc) in zip(eachindex(dest), eachindex(src))
+    dest[Idest] = src[Isrc]
+end 
+dest 
+end 
+
+"""key concept (modern hardawre )
+when you iterate, over the elemets of the Array 
+you'd like to Do it, in the order which i tored in Memory 
+that alone, Makes enormous difference (in terms of performance)
+
+sum function didn't do that, Becaus
+"""
+
+#tricks array checkEqualSize
+
+function checkEqualSize(dest, src)
+    if size(dest) == size(src) return true; 
+    else error("size must match");return false;
+
+end 
+
