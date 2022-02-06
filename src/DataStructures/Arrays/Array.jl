@@ -969,9 +969,8 @@ function mysum(θ)
     for I in eachindex(θ)
         s += B[I]
     end
-    s
-
-    humor
+  """
     go back to original patter 
 
     indexes
+    """
