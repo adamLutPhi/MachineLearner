@@ -2,13 +2,11 @@
 A Deep Learning Repository, you can also view the [project](https://github.com/users/adamwillisXanax/projects/1/views/1)
 
 
-
 ## 🗺 legend
 (): optional
 <br />
 []: important
 <br />
-
  
 
 Life is a Set of random variables of `opportunities` 
@@ -67,7 +65,7 @@ Good points of this paper is: it does not use rejection regions (that what makes
 >Overall, the ZA is ideal for distributions
 >_with Infrequent Sampling from the tail_, i.e. **not heavy-tailed distributions.**
 
-**Paper on [ar](https://arxiv.org/abs/1403.6870) [from here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4812161/pdf/nihms-717849.pdf)
+**Paper on could be found _[from here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4812161/pdf/nihms-717849.pdf)_**
 
 
 A modified ziggurat algorithm for generating exponentially- and  normally-distributed Pseudorandom Numbers
