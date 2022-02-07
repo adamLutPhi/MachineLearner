@@ -165,7 +165,7 @@ end
 module TestShowType
 export TypeA
 struct TypeA end
-using ..AlsoExportsPair
+#using ..AlsoExportsPair
 end
 
 B[3, 1, 2] == A[1, 2, 3] # true
@@ -191,6 +191,12 @@ parent = [a b']
 perm = sqrt.(parent)
 
 iperm = perm .^ 2
+
+struct PermutedDimsArray{T,N,AA<:AbstractArray,perm,iperm} <: AbstractArray{T,N}
+    parent::AA
+    dims::NTuple{N,Int}
+
+end
 P = PermutedDimsArray{a,n,parent,perm,iperm}
 
 

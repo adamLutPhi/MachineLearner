@@ -47,7 +47,7 @@ mutable struct rangeStruct{a,b}
     """
 
     a = -∞
-    b = Inf
+    b = ∞
 end
 
 

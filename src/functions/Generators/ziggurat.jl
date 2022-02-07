@@ -212,7 +212,7 @@ X
   """
 using Distributions
   i = Uniform()
-end
+
 function algorithm1()
     """
     1. Generate U1, i #from a uniform distribution 
@@ -238,13 +238,13 @@ for i in enumerate ([i in rand(0,1,1])
 #DEFINE X
 j = A[rand(1:end)] #pick j randomly (from a Uniform distribution)
 #https://discourse.julialang.org/t/generate-random-value-from-a-given-function-out-of-box/5793/4
-using StatsBase, Gadfly
+#using StatsBase, Gadfly
 
 x = linspace(0,π,100)
 P = smooth(x)     # pdf
 P = P/sum(P)   #cdf 
 
-r = StatsBase.sample(1:100, Weights(P),10000)
+#r = StatsBase.sample(1:100, Weights(P),10000)
 plot(x=x[r],Geom.histogram)
 
 if j isa 0
@@ -267,13 +267,10 @@ x = X[j] + U1(Xj−1 − Xj)
 
 ε=f[i−1] +Log(f[i] −f[i−1])+Xi)*(fi −fi−1))
  
-end 
+# end 
 
 n = 1000000000
 for j in numerate(n)
-
-    
-if 
 
 end 
 
