@@ -1,13 +1,14 @@
-"""
-KristofferC
-IanButterworth
-00vareladavid
-timholy
-GunnarFarneback
-fredrikekre
-DilumAluthge
-devmotion
-aviatesk
+"""credits: 
+the Julia programming team:
+@KristofferC
+@IanButterworth
+@00vareladavid
+@timholy
+@GunnarFarneback
+@fredrikekre
+@DilumAluthge
+@devmotion
+@aviatesk
 
 inspired by file: manifest.jl 
 
@@ -69,3 +70,9 @@ function read_deps(raw::Dict{String,Any})::Dict{String,UUID}
     end
     return deps
 end
+
+using Test
+@test safe_version("0.2.0")
+
+
+

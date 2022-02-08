@@ -1,28 +1,28 @@
 
 """
 credits in making this file goes to the julia development team:
-         David Widmann @devmotion
-        vid Widmann devmotion
+    David Varela      @00vareladavid   
+    David Widmann      @devmotion
+    Eliott Saba        @staticfloat
+    Fredrik Ekre       @fredrikekre
+    Ian Butterworth    @IanButterworth
+   Kristoffer Carlsson @KristofferC
+                       @ianshmean
+   Tim Holy            @timholy
 
-@fredrikekre
-@staticfloat
-Kristoffer Carlsson @KristofferC
-Ian Butterworth @IanButterworth
-@ianshmean
-Tim Holy @timholy
-David Widmann @devmotion
-David Widmann devmotion
+
 
 """
 
 module SubdirTests
+#=
 import Pkg # ensure we are using the correct Pkg
 
 using Pkg, UUIDs, Test
 using Pkg.REPLMode: pkgstr
 using Pkg.Types: PackageSpec
 using Pkg: stdout_f, stderr_f
-
+=#
 using Utils
 
 # turn /-paths into \-paths on Windows

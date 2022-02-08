@@ -202,26 +202,6 @@ end
 
 ## Display
 
-function Base.showarg(io::IO, A::AbstractMappedArray{T,N}, toplevel=false) where {T,N}
-    print(io, "mappedarray(")
-    func_print(io, A.f, eltypes(A.data))
-    if isa(A, Union{MappedArray,MultiMappedArray})
-        print(io, ", ")
-        func_print(io, A.finv, Tuple{T})
-    end
-    if isa(A, AbstractMultiMappedArray)
-        for a in A.data
-            print(io, ", ")
-            Base.showarg(io, a, false)
-        end
-    else
-        print(io, ", ")
-        Base.showarg(io, A.data, false)
-    end
-    print(io, ')')
-    toplevel && print(io, " with eltype ", T)
-end
-
 function func_print(io, f, types)
     ft = typeof(f)
     mt = ft.name.mt

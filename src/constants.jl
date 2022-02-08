@@ -11,7 +11,7 @@ global const -∞ = -Inf
 #global ϵ(x) =  exp(x)^-1
 
 #end
-end
+#end
 
 #--- Testing area #craziness allowed
 module accurateDigits
@@ -75,12 +75,13 @@ function maxEuclidDigi(a = 5, b = 6)
     return meanDiff
 end
 
-
-end 
-
 maxEuclidDigi(5,6)
 diffDigi(5,6)
   @test diffDigi(5,6) == maxEuclidDigi(5,6) #there was an error during testing
+end 
+end
+
+
 #=
 digi=6
 _6 = ϵ(digi*exp(1))

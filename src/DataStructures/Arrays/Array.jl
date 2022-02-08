@@ -22,14 +22,18 @@ function mysum(A)
     end
     s
 end
-mysum(typeof(rand(5,5)))
+mysum(typeof(rand(5, 5)))
 
 A = rand(10^4, 10^4)
 B = Mappedarray(identity, A)
 
-@benchmark
-@time
+
+@time mysum(A)
 @btime mysum(A)
+@Benchmarking mysum(A)
+
+@time mysum(B)
+@btime mysum(B)
 @Benchmarking mysum(B)
 
 """
@@ -217,7 +221,9 @@ struct Mappedarray{T,N,A<:AbstractArray,F} <: AbstractArray{T,N}
     data::A
 end
 ###
-using MappedArrays;
+using MappedArrays, Test
+
+A = rand(5,5)
 T = ones
 MappedArray{T,N}(f, data::AbstractArray{T,N}) =  #defines f as ones
     MappedArray{typeof(f(one(T))),N,typeof(data),typeof(f)}(f, data)
@@ -232,11 +238,11 @@ map(sqrt, A)   #explicit element-wise computation
 @time sqrt(A)  # 0.000005 seconds (1 allocation: 16 bytes)
 
 @time map(sqrt, A) # 0.000007 seconds (2 allocations: 32 bytes)
-B = mappedarray(sqrt, A)
+B = mappedarray(sqrt, A) # 
 B = mappedarray(func, a)
 ###
 ##
-Base.size(A::AbstractMappedArray) = size(A.data)#copies size of original data 
+@test Base.size(A::AbstractMappedArray) = size(A.data)#copies size of original data  #true #ERROR: (UNEXPECTED) during test
 ###
 Base.Base.@propagate_inbounds Base.getindex(A::Mappedarray, i::Int...) =
     A.f(A.data[i...])
@@ -341,6 +347,7 @@ struct Mappedarray{T,N,A<:AbstractArray,F} <: AbstractArray{T,N}
     f::F
     data::A
 end
+
 #set op: Assigning @propagate_inbounds
 @time Base.@propagate_inbounds Base.getindex(A::Mappedarray, i::Int...) =
     A.f(A.data[i...])
@@ -444,7 +451,9 @@ struct permutedDimsArray{T,N,AA<:AbstractArray} <: AbstractArray{T,N}
     iperm::Vector{Int} #storing inverse permutation (as vectors of integers)
     dims::NTuple{N,Int}
 end
-#T not defined: me: so is it only defined on runtime? (as it's lazy?)
+#T not defined: me: so is it only defined on runtime? (as it's lazy?) - at runtime but in debugging, suffice to give it a try 
+#T = Int64
+# N = 2
 Base.@propagate_inbounds function Base.getindex{T,N}(P::PermutedDimsArray{T,N}, I::Vararg{T,N})
     getindex(P.parent, I[P.iperm]...)
 end
@@ -512,6 +521,7 @@ but, essentiallymkes your lif more convinient
 
 
 
+
 #General case: don't compile this block
 struct structname end
 Base.@propagate_inbounds function (base.getindex{}(A::structname, I::Vararg{typeof,N})
@@ -520,6 +530,7 @@ getindex(A.parent, ntuple(d -> I[[]], Val{N})...) #TODO:how to make that line in
     #for real analysis ok, but 
     #if Complex Analysis required, then [ENTER YOUR METHOD HERE] IS REQUIRED 3 
 end
+
 
 """
 Reindexing, at Level of Tuples
@@ -539,6 +550,7 @@ end
 _setindex!(as::Tuple{}, vals::Tuple{}, inds::Vararg{Int,N}) where {N} = nothing
 
 
+
 """
 """
 m = AA = 1;
@@ -547,7 +559,7 @@ a = ones(N, m)
 b = ones(m, N)
 
 
-#testing
+#---testing
 function testvalue(data)
     if !isempty(data)
         first(data)
@@ -555,3 +567,4 @@ function testvalue(data)
         zero(eltype(data))
     end::eltype(data)
 end
+

@@ -33,7 +33,7 @@ mutable struct LehmerRNG <: AbstractRNG
     end
 end
 
-const StableRNG = LehmerRNG
+#const StableRNG = LehmerRNG
 
 function seed!(rng::LehmerRNG, seed::Integer)
     seed >= 0 || throw(ArgumentError("seed must be non-negative"))
@@ -206,7 +206,6 @@ function randArray(r = _min:_max)
 
 #--- helper functions 
 
-
 function permutate(rng = lehemerRNG(seed), n = 10) #sanity-check #where's the input? (value,Vector,...)
     return randperm(rng(seed), n)
 end
@@ -243,7 +242,7 @@ mutable struct LehmerRNG <: AbstractRNG
 end
 
 state #2 cannot declare a constant, it has already a value 
-const StableRNG = LehmerRNG #invalid redefinition 
+#const StableRNG = LehmerRNG #invalid redefinition 
 
 
 function seed!(rng::LehmerRNG, seed::Integer)
