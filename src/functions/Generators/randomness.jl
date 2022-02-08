@@ -71,7 +71,8 @@ without defining extra types for only this purpose.
 """
 Random.rand(rng::AbstractRNG, d::Random.SamplerTrivial{Die}) = rand(rng, 1:d[].nsides); #tested #works 
 
-function StableSampler(rng)
+function StableSampler(rng) 
+end
     #const StableRNG = LehmerRNG
 
     #--- seed
@@ -383,11 +384,13 @@ function StableSampler(rng)
         x % T + a
     end
 
+    function unknownOne()
     for T in Base.BitInteger_types
         # eval because of ambiguities with `where T <: BitInteger`
         @eval Sampler(::Type{LehmerRNG}, r::AbstractUnitRange{$T}, ::Random.Repetition) =
             SamplerRangeFast(r)
     end
 end
+
 
 #--- 

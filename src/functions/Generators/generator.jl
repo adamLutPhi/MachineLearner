@@ -34,8 +34,8 @@ function stableGenerator(rng = StableRNG(seed), seed = 1234)
     return rng
 end
 
-stableGenerator()
-"""
+rng = stableGenerator(StableRNG(seed), seed ) #works 
+""" 
 yeilds randomized nsamples 
 
 input: 
@@ -69,11 +69,12 @@ Divide two integers or rational numbers, giving a Rational result.
 """
 #... 
 
-#---range test 
+#---range test
+using Test, BenchmarkTools
 a = 1
 b = 100
 @time r1 = range1(a = lobound, b = upbound) = lobound:stepSize:length(upbound)
-@Benchmarking r1 = range1(a = 0, b = 10)
+@benchmark r1 = range1(a = 0, b = 10)
 # 0.000050 seconds (55 allocations: 3.714 KiB)
 
 #@time r2 = Random.Sampler(a, b) # MethodError no matching method 
