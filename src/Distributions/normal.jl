@@ -2,7 +2,7 @@
 #include("~/functions")
 #if Sys. 
 include("../functions/SmoothFunctions/smoothFunction.jl")
-module normal
+module normal <: genericDistribution 
 
 
 export sqrt2π, pdf, cdf
@@ -18,16 +18,12 @@ TODO: do a generalized smooth function, taking numeraor,denominator
 """ 
 
 
-"""
-<<<<<<< HEAD
-zscore function
-=======
-zscore 
+"""zscore function
 
 the Expectation (E) #Idea: most likely function generator 
 use a randomGenerator() to generate samples around thie number #TODO
 
->>>>>>> e1e8635157374d87126d9d13be15a2679bccb5f0
+
 """
 function zscore(x, μ, σ)
   #  Σ = sum   #TODO (for the CDF )
@@ -43,7 +39,9 @@ function zscore(x, μ, σ)
 
     end
 
-
+  """
+  TODO: do an integral approximation of choice
+  """
     function cdf()
 
 
