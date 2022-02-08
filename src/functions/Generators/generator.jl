@@ -2,9 +2,10 @@
 references:
 
 =#
+#using Rebugger
 
-using Random, Test, StableRNGs, Rebugger, BenchmarkTools #94 dependencies omg 
-include("randomness.jl")# fixed: missing .jl !
+using Random, Test, StableRNGs, BenchmarkTools #94 dependencies omg  #ERROR: Init nomethod matching TOMLCache #possibly from Rebugger or #UNKNOWN ERROR
+include("randomness.jl")# fixed: missing .jl ! #ERRORs Found
 module generator
 
 export genericGenerator, randMatrix, randVector, randvalue
@@ -27,12 +28,13 @@ LehmerRNG might be renamed, or might be made a
 (i.e. non-breaking) release.
 ```
 
-function stableGenerator(seed = 1234)
+function stableGenerator(rng = StableRNG(seed), seed = 1234)
 
     rng = StableRNG(seed)
     return rng
 end
 
+stableGenerator()
 """
 yeilds randomized nsamples 
 
@@ -40,7 +42,7 @@ input:
 seed: both fixed ()random ()
 nsize:100 
 """
-function randomizeStable(nSize = 100, seed = 1234)
+function randomizeStable(rng, nSize = 10, seed = 1234) #ERROR:Runtime - out of Memory #unsuitable for this pc- consider a simpler rng
     """
 #pay attention: this one is not a uniform  
 random gotta use uniform distribution 
@@ -48,9 +50,10 @@ or else, you'll be messing things up really bad
     changes randn -to-> rand
     """
     #pay attention: this one is not a uniform  
-    return rand(rngn, nSize) # uses default Normal  (not uniform )
+    return rand(rng, nSize, seed) # uses default Normal  (not uniform )
 end
 
+randomizeStable(rng, 1, seed) #ERROR:Runtime - out of Memory #unsuitable for this pc- consider a simpler rng
 #error (Compiler)
 #range2(a = lobound, b = upbound) = (lobound in Base.range(lobound, upbound; (upbound - lobound), stepSize))
 
@@ -70,6 +73,7 @@ Divide two integers or rational numbers, giving a Rational result.
 a = 1
 b = 100
 @time r1 = range1(a = lobound, b = upbound) = lobound:stepSize:length(upbound)
+@Benchmarking r1 = range1(a = 0, b = 10)
 # 0.000050 seconds (55 allocations: 3.714 KiB)
 
 #@time r2 = Random.Sampler(a, b) # MethodError no matching method 
