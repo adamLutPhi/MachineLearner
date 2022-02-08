@@ -13,15 +13,26 @@ https://stackoverflow.com/questions/24326876/generating-a-random-integer-in-rang
 @inline xorshift_rotl(x::UInt64, k::Int) = (x >>> (0x3f & -k)) | (x << (0x3f & k)) #a commons move for a permutation 
 @inline xorshift_rotl(x::UInt32, k::Int) = (x >>> (0x1f & -k)) | (x << (0x1f & k))
 
+#----
 
-using Random, StableRNG
-LehmerRNG
+using Random, StableRNGs
+#LehmerRNG
 
 """
 
 Construction: `StableRNG(seed::Integer)`.
 Seeding: `Random.seed!(rng::StableRNG, seed::Integer)`.
 """
+seed=12346543975
+"""
+AbstractRNG not defined 
+"""
+
+rng = StableRNG(seed)
+A = randn(rng, 10, 10) # instead of randn(10, 10)
+@test inv(inv(A)) ≈ A
+
+#---
 mutable struct LehmerRNG <: AbstractRNG
     state::UInt128
 
@@ -33,7 +44,18 @@ mutable struct LehmerRNG <: AbstractRNG
     end
 end
 
+#--- rng: declare
+rng = StableRNG(seed)
+A = randn(rng, 10, 10) # instead of randn(10, 10)
+@test inv(inv(A)) ≈ A
+#after rng  geneerator 
+#generic sampler 
+Random.rand(rng::AbstractRNG, d::Random.SamplerTrivial{Die}) = rand(rng, 1:d[].nsides); #tested #works 
+
+function StableSampler(rng, )
 #const StableRNG = LehmerRNG
+
+#--- seed
 
 function seed!(rng::LehmerRNG, seed::Integer)
     seed >= 0 || throw(ArgumentError("seed must be non-negative"))
@@ -53,6 +75,9 @@ function Base.copy!(dst::LehmerRNG, src::LehmerRNG)
     dst.state = src.state
     dst
 end
+
+#--- 
+
 """
 export genericGenerator, randMatrix, randVector, randvalue
 
@@ -342,6 +367,6 @@ for T in Base.BitInteger_types
     @eval Sampler(::Type{LehmerRNG}, r::AbstractUnitRange{$T}, ::Random.Repetition) =
         SamplerRangeFast(r)
 end
-
+end
 
 #--- 

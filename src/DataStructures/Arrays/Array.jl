@@ -22,6 +22,7 @@ function mysum(A)
     end
     s
 end
+
 mysum(typeof(rand(5, 5)))
 
 A = rand(10^4, 10^4)
@@ -341,7 +342,7 @@ B = Mappedarray(identity,A)
 #ERROR: MethodError: no method matching Mappedarray(::typeof(identity),::Matrix{Float64})
 #--- whi is there no overhead?
 
-F = Base.identity
+#F = Base.identity
 #cannot declare constant, already has a value
 struct Mappedarray{T,N,A<:AbstractArray,F} <: AbstractArray{T,N}
     f::F
@@ -451,6 +452,10 @@ struct permutedDimsArray{T,N,AA<:AbstractArray} <: AbstractArray{T,N}
     iperm::Vector{Int} #storing inverse permutation (as vectors of integers)
     dims::NTuple{N,Int}
 end
+"""
+ERROR:
+"""
+
 #T not defined: me: so is it only defined on runtime? (as it's lazy?) - at runtime but in debugging, suffice to give it a try 
 #T = Int64
 # N = 2
@@ -521,7 +526,9 @@ but, essentiallymkes your lif more convinient
 
 
 
-
+"""
+General block: for generalization & abstraction only - Do not usE THIS code Block
+"""
 #General case: don't compile this block
 struct structname end
 Base.@propagate_inbounds function (base.getindex{}(A::structname, I::Vararg{typeof,N})
@@ -552,14 +559,14 @@ _setindex!(as::Tuple{}, vals::Tuple{}, inds::Vararg{Int,N}) where {N} = nothing
 
 
 """
+Testing Area
 """
+#---testing
+
 m = AA = 1;
 n = N = 10;
 a = ones(N, m)
 b = ones(m, N)
-
-
-#---testing
 function testvalue(data)
     if !isempty(data)
         first(data)
