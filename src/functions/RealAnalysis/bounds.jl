@@ -35,6 +35,21 @@ Is the function defined over the  specified range?
 """
 module bounds
 
+#Data tructure
+#(Generalized) function
+add2(x) = x[1] + x[2]
+
+"""
+function 
+    ```inputs : arr: array (me: <: AbstractArray{T,N})
+
+
+
+    ```
+"""
+
+
+
 #--- range struct: a custom range structure
 
 mutable struct rangeStruct{a,b}
