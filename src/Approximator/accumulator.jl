@@ -15,9 +15,10 @@ mutable struct accumulator #<: approximator
     function consume(op,a,b)
     if op isa Add
 
-    else if op isa Sub 
-    else if op isa Mul 
-    else if op isa Div 
+    elseif op isa Sub 
+    elseif op isa Mul 
+    elseif op isa Div 
     end
+end
 
 end

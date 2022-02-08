@@ -90,7 +90,7 @@ stderr_f() = something(DEFAULT_IO[], stderr)
 stdout_f() = something(DEFAULT_IO[], stdout)
 const PREV_ENV_PATH = Ref{String}("") #a goo rule of thumb 
 
-can_fancyprint(io::IO) = (io isa Base.TTY) && (get(ENV, "CI", nothing) != "true")
+can_fancyprint(io::IO) = (io isa Base.TTY) && (get(ENV, "CI", nothing) != "true") # fancyprint: <interesting>
 
 
 end 
