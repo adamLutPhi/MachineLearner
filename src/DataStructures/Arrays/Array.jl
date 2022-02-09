@@ -224,7 +224,7 @@ end
 ###
 using MappedArrays, Test
 
-A = rand(5,5)
+A = rand(5, 5)
 T = ones
 MappedArray{T,N}(f, data::AbstractArray{T,N}) =  #defines f as ones
     MappedArray{typeof(f(one(T))),N,typeof(data),typeof(f)}(f, data)
@@ -338,7 +338,17 @@ B = Mappedarray(identity,A)
 @inbounds macro oneach start of for loop 
 """
 
-
+"""[{
+	"resource": "./DeepLearner/DeepLearner/src/DataStructures/Arrays/Array.jl",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"severity": 2,
+	"message": "Cannot declare constant; it already has a value.",
+	"source": "Julia",
+	"startLineNumber": 347,
+	"startColumn": 1,
+	"endLineNumber": 350,
+	"endColumn": 4
+}]
 #ERROR: MethodError: no method matching Mappedarray(::typeof(identity),::Matrix{Float64})
 #--- whi is there no overhead?
 
@@ -348,7 +358,7 @@ struct Mappedarray{T,N,A<:AbstractArray,F} <: AbstractArray{T,N}
     f::F
     data::A
 end
-
+"""
 #set op: Assigning @propagate_inbounds
 @time Base.@propagate_inbounds Base.getindex(A::Mappedarray, i::Int...) =
     A.f(A.data[i...])
