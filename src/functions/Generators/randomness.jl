@@ -15,7 +15,7 @@ end
 startingHex = 0x2f;
 offset = 0x1f;
 _op = [+, -]
-op
+#op
 :op
 eval()
 function shiftRight(startingHex = 0x2f, offset = 0x1f, K = -k, op = [+, -])
