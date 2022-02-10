@@ -1,5 +1,5 @@
 #---profiling 
-"""NEW - Profiling
+#=NEW - Profiling
 once code is writting, running 
 we hat to profile it ens then you
 
@@ -28,7 +28,8 @@ an instrument profiler adds measurement 'instrumentation' to your source code
 say call f(of x) store results in y: y = f(x) #me: calling f(x) a single variable function 
 
 
-"""
+=#
+using BenchmarkTools
 
 y = f(x) # this is line
 
@@ -303,19 +304,164 @@ Discovering an opportunity for an optimization
 
 =#
 
+#Data definition 
+
+A = rand(10_000, 2)
+B = rand(2, 8_000)
+x = rand(8_000)
 function mult(A, B, x)
         C = A * B
         return C * x
 end
 
-A = rand(10_000, 2)
-B = rand(2, 8_000)
-x = rand(8_000)
-
 mult(A, B, x)
 
-@time mult(A, B, x) # 0.500144 seconds
+@time mult(A, B, x)  # 0.500144 seconds #2.57 M allocations: 748.353 MiB, 4.44% gc time, 77.02% compilation time
 using ProfileSVG
 #Error:@profview is undefined - which macro is it from?
 @profview mult(A, B, x)
 
+"""
+(always) know what to look for!
+it's revealing this 'gemm' where 
+mm is matrix multiply
+mv: matrix vectore (multiply)
+
+most of time spent (lost) multiplying those matrices 
+-Going back above, 'C' is a matrix multiplication - 
+thus, a bottle is easily spottable, now
+
+what if: 
+1.we do the matrix multiplication, first 
+2. do a Second matrix-vector multiplication 
+"""
+function mult2(A, B, x)
+
+        y = B * x
+        return A * y
+
+end
+
+# the use of \approx or ≈
+mult2(A, B, x) ≈ mult(A, B, x) #they are approx. equal 
+mult2(A, B, x) == mult(A, B, x) # but they wont ever be equal 
+error = mult2(A, B, x) - mult(A, B, x)
+#= ME:
+critical side-note:
+this introduces an unexpected  systematic model error  
+=#
+"""Tim Holy
+here the error is small, 
+there's a need for a hight precision  
+so, to a very high-degree of precision , these two are equal
+(to ecach other )
+me: discarding the error, as if it doesn't exist
+like blinding turning an eye on it 
+it won't help much 
+
+
+"""
+
+@time mult2(A, B, x) #0.000718 seconds (3allocations:78.297KiB)
+
+#=we've made a dramatic  Improvement on the matrix multipkucatuib 
+
+=#
+#--- Using profiling to detect "gotchas"
+
+
+#=
+Recall the addTwo was slopw when passed a `Vector{Any}`
+but fast for a `Vector{T}` with concrete `T`` 
+=#
+#= 0.001 ns (0 allocations: 0 bytes)
+(:
+:var"#addTwo#5") (generic function with 1 method)=#
+@btime addTwo(z) = (x = rand(1:5); y = rand(1:5); z = [x, y])
+
+#=  0.001 ns (0 allocations: 0 bytes)
+(::var"#addTwo#6") (generic function with 1 method) =#
+@btime addTwo(z) = (x = rand(1:5); y = rand(1:5); z = Any[x, y])
+
+"""Any type makes  running code longer 
+Q. what if i did it on accident, what should I do now?
+
+sometimes you'll be surpised about the code you write that breaks type-Inference
+
+#BenchmarkTools have a macro  @bprofile 
+Why: to collect profile Data on (code)
+me: outputs statistics of  a 10K samples,  1K evaluations 
+"""
+
+@bprofile addTwo(z) = (x = rand(1:5); y = rand(1:5); z = Any[x, y])
+
+"""
+       
+BenchmarkTools.Trial: 10000 samples with 1000 evaluations.
+ Range (min … max):  0.001 ns … 1.400 ns  ┊ GC (min … 
+max): 0.00% … 0.00%
+ Time  (median):     0.001 ns             ┊ GC (median):    0.00%
+ Time  (mean ± σ):   0.043 ns ± 0.053 ns  ┊ GC (mean ± σ):  0.00% ± 0.00%
+
+  █                        
+    ▄
+  █▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁█ ▂
+  0.001 ns       Histogram: frequency by time        0.1 ns <
+
+ Memory estimate: 0 bytes, allocs estimate: 0.   
+
+ involving strings, 
+ comes from times operation on code
+ prints in REPL all type info & method instumentationif right click on it 
+ it takes you to the code 
+
+ all its copying going on 
+
+ the Hint: the copying (hat's going on)
+ we're starting of fwith an empty string 
+ 2. we're going char by char 
+ 3. the, you add another Whole character to a string 
+ -it's gonna have to copy the old string, with a little extrra space on the end (then the character)
+ """
+
+using Profile, ProfileSVG, ProfileView, BenchmarkTools
+ProfileSVG.view() #initializes ProfileView
+
+charlist = 'a':'z'
+
+randomstring(8)
+@time randomstring(10^5);#4.639694 seconds (300.00 k allocations: 4.672 GiB, 16.61% gc time)
+
+randomstring2(8)
+@time randomstring2(10^5); #in REPL #0.008138 seconds (99.49 k allocations: 1.709 MiB)
+
+ProfileView.@view()
+function randomstring(n::Integer)
+        str = ""
+        for i = 1:n
+                str *= rand(charlist)
+        end
+        return str
+end
+
+"""preallocate is  the answer
+Instead, preallocate some Memory
+ 
+after applying changes, check if it's working, as expected before 
+"""
+
+
+function randomstring2(n::Integer)
+        # preallocate some Memory
+        chars = Vector{UInt8}(undef, n)
+        #preallocate a buffer for this 
+        #instead of growing it each time , simply stash the random variable
+        for i = 1:n
+                chars[i] = rand(charlist) #stash the chars (me:1 by 1)
+        end
+        #return str 
+        return String(chars)
+end
+
+
+#===end of profiling optimization part 1=====
