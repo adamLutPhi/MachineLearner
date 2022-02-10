@@ -425,17 +425,8 @@ max): 0.00% … 0.00%
  """
 
 using Profile, ProfileSVG, ProfileView, BenchmarkTools
-ProfileSVG.view() #initializes ProfileView
+const charlist = 'a':'z' #Global Variable # define as const # 
 
-charlist = 'a':'z'
-
-randomstring(8)
-@time randomstring(10^5);#4.639694 seconds (300.00 k allocations: 4.672 GiB, 16.61% gc time)
-
-randomstring2(8)
-@time randomstring2(10^5); #in REPL #0.008138 seconds (99.49 k allocations: 1.709 MiB)
-
-ProfileView.@view()
 function randomstring(n::Integer)
         str = ""
         for i = 1:n
@@ -463,5 +454,67 @@ function randomstring2(n::Integer)
         return String(chars)
 end
 
+function randomstring3(n::Integer)
+        # preallocate some Memory
+        chars = Vector{UInt8}(undef, n)#local variable #how did he know that, is scope is this function only, isn't that enough to make it local
+        #preallocate a buffer for this 
+        #instead of growing it each time , simply stash the random variable
+        for i = 1:n
+                chars[i] = rand(charlist) #stash the chars (me:1 by 1)
+        end
+        #return str 
+        return String(chars)
+end
 
+ProfileSVG.view() #initializes ProfileView
+
+
+
+randomstring(8)
+@time randomstring(10^5);#4.639694 seconds (300.00 k allocations: 4.672 GiB, 16.61% gc time)
+
+randomstring2(8)
+@time randomstring2(10^5); #in REPL #0.008138 seconds (99.49 k allocations: 1.709 MiB)
+
+ProfileView.@view()
+warntype_last #warntype at last thi clickedd onsa
+@time randomstring3(10^5); # global vairable charlist # 0.063154 seconds (155.18 k allocations: 4.939 MiB, 85.53% compilation time)
+ #=first page on the ma
+ return 
+ main.charlist is a global variable
+  & not constant 
+  since it's not constant - it change the type 
+  any moment 
+  so, julia can't create an optimized version 
+  of this function with Fixed height (length)
+ for charlist
+
+one point of View: it could be multi-threaded (we could change its type)
+takeaway: we can change type of code of fuliea 
+while the code is running 
+
+        so, that would be really bad if it would hit
+        hard wired-in Known Type, & that type change 
+       that would be really problematic 
+if wanna fix  the performance , the way you can do it, declare this list constant 
+
+Takeaway: for any project, determine list of constants, for them to be preallocated each time the project loads 
+that will saved from problems & code performace issues  
+        =# 
+
+#=
+looking at the second method 
+what is that line red ?
+-it's doing dispatch 
+ profile View's other feature 
+ it'll show you code Type, or specialized color version
+ @code_warn_type (warntype_last()../6) (outputs shows which line) on the last thing you clicked on
+=#
+
+#=
+julia can be fast, but you need to learn enought to avoid some common gotchas 
+1. don't use non-`const` global variables
+2. don't use containers like arrays with non-concrete types (unless absolutely necessary)
+3. measure & analyze performance with @time, BenchmarkTools,`@Profile`, `@bProfile`,ProfileView
+=#
 #===end of profiling optimization part 1=====
