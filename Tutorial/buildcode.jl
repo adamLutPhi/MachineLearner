@@ -345,4 +345,14 @@ else #he only other option is Tuple{Float64}
 Note: the absence of the need to call `get_blob_got_argtypes` 
 Uion-splitting generalizes compiletime dispatch 
 
+now debug code make it working
 =#
+
+#---profiling 
+"""
+once code is writting, running 
+we hat to profile it ens
+"""
+
+
+
