@@ -109,9 +109,9 @@ here's julia main Performance bit of  magic:
 takeaway: 
 instead of running it with optimize=false  , can see having figured out which method is gonna be called, in optimize=true 
 =#
-@code_typed optimize=true addTwo((1, 2.0)) #optimize=true performing inlining: inline_expansion
+@code_typed optimize = true addTwo((1, 2.0)) #optimize=true performing inlining: inline_expansion
 
- """
+"""
  this ability to 'pear-in the future' 
  & look-up the functions ahead of time 
  is again a key component 
@@ -132,7 +132,7 @@ by creating a Vector that contains "No Information about the types (of objects) 
 others like: vector int , Float64, nut this line will gonna create a vector of Any 
 """
 
-@code_typed optimize =true addTwo(Any[1,2.0]) ## call irt on a Vector(Any) 
+@code_typed optimize = true addTwo(Any[1, 2.0]) ## call irt on a Vector(Any) 
 
 #=
 Literally any kind of Object, String , a Dictionary,an image, anything you want  
@@ -174,5 +174,175 @@ takeaway: the key decision has to be made, once called the + operator
 Only piece of information, julia has to go on  - It doesn't get very far 
 
 means: this method will be looked up & called when the function is running 
+-this is called run-time dispach:
+schemeatuc of Runtime vs compile-time Dispatch
 
-this is called run-time 
+1. preparing the Arguments
+2. Deciding which specifc  compuled blob to use.like looking up someone's 
+phonenumber in the phone book 
+
+julia literally scans through the method tables - living in a particular memory location 
+machine: 
+1.calling funcition invloves: 
+1.Arguments: getting them ready to be passed in
+& then deciding which specific compile blob to call 
+
+like clicking-up somebody's phonenumber (in a phonebook) [me:Database Analogy]
+-which page, column 
+-it may take time flipping pages** then look-up the phonenumber 
+
+
+* that is already been debated: for a phonebook, it's apriori ordered by the first letter
+this includes a huge proning of the Search Space 
+
+
+#--- Schematic of a compiletime call in psuedo-julia 
+
+push!(execution_stack, args)
+@goto compiled_blob_52383
+
+the blob will retrieve the argument values by popping the execution execution_stack
+
+
+-get the arguments ready to go 
+-transfer execution (to the blob of compile code) [super-fast]
+
+schematic of a runtime in psuedo-Julia:
+1.first: figure out which blob you're gonna get -for the types of arguments 
+(this happens during the running of a function)
+2.look-up process: paging through the method-tables 
+trying to figure-out which is gonna be applicable to this 
+particular set of arguments is the slow process 
+
+# scan the method tables and their lists of compiked blobs for a match 
+# if the right blob hasn't been compiled yet, compile it now 
+
+"""
+blob = get_blob_forargtypes(f, typesof(args))
+
+# the rest looks the same as a compiletime call: 
+push!(execution_stack, args)
+goto(blob)
+
+#---comparing performance of runtime vs compile-time dispatch 
+#=built-in @time macro 
+    handy for something, but it's a very fast function=#
+
+using BenchmarkTools
+
+@btime addTwo(z) setup = (z = rand(2))
+""
+
+"""
+ 0.001 ns (0 allocations: 0 bytes)
+3.0
+it's solved with a nano-second with the cpu codeblock
+"""
+
+
+@btime addTwo((1, 2.0)) setup = (x = rand(1:5); y = rand())
+
+
+"
+we wanna generate  a random integer between 1& 5 for x 
+
+
+ becauser these are not predictable*
+
+ 2.300 ns (0 allocations: 0 bytes) & a random floating number for y 
+
+
+
+2.0372456559896017
+----------
+predictability depends on: 1. rngType (subsequently seed choice #TODO:check persistence of a seed) 2.
+
+"""
+@btime addTwo((x, y)) setup = (x = rand(1:5); y = rand())
+
+"""
+  2.300 ns (0 allocations: 0 bytes)
+2.002507990680424
+pretty much sure that is has been solved
+"""
+@btime addTwo((x, y)) setup = (x = rand(1:5); y = rand(); z = Any[x, y])
+
+"""
+this comes from fact julia has to do method look-up  , at run-time -rather than compile time 
+
+takeaway: make these benchmarks a handy-dandy tool for 
+Ballpark costs of runtime dispach (me: gives a rough sketch of performance)
+
+1. single argument: 15-35ns [hardware specific ]
+2. two arguments: ~100ns 
+
+cost of a single run-time dispatch
+
+whether it's trivial or catastrophic, it totally depends on what you're Doing
+
+1.Trivial:
+If this is 1 operation , it will happen once 
+Over the course of your computation 
+completely utterly irrelevant 
+
+2. complicated
+if it's in an inner-loop (of some computation)
+that you're running a billion times 
+[billion x 1 op 15-35ns]
+
+Many operations start out taking a large fraction a minute 
+After a few optimizations, it's a tiny fraction of a second 
+
+Eliminating run-time dispatch (for newbs) is a single most common thing they could do 
+
+Runtime dispatch isslow 
+
+#--- Union-splitting (new)
+
+an intermediate case 
+-julia Can determine that there are only a few possible arguemnt types 
+
+instead of branching your code (checking each type & element it is )
+
+here we know with certainty that 
+they are (a choice) [from a UnionSplitting] either:
+1.Float32
+2.Float64
+
+
+what we 
+  4.600 ns (0 allocations: 0 bytes)
+0.7754799894275148
+
+Julia checks what type of arguemnt is 
+Then check 1 type of blob 
+
+If it's the other type then it will use the other compile blob 
+
+Warning: there are no blobs looked up at run-time
+
+You just don't know which ones are applicable 
+
+It can check that at runtime 
+But especially if these types are  concrete types 
+There is only one such type  that fits that description 
+
+
+"""
+
+@btime addTwo(z) setup = (x = rand(Float32); y = rand(); z = Union{Float32,Float64}[x, y])
+
+
+argtypes = typeof(args)
+push!(execution_stack, args)
+if argtypes === Tuple{Float32}
+    @goto compiled_blob_52383
+
+else #he only other option is Tuple{Float64}
+    @goto compiled_blob_52951
+
+#=
+Note: the absence of the need to call `get_blob_got_argtypes` 
+Uion-splitting generalizes compiletime dispatch 
+
+=#
