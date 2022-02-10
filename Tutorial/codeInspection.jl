@@ -371,8 +371,8 @@ types
 #= @code_llvm addTwo(1, 2)
 ERROR: LoadError: no unique matching method found for the specified argument 
 types
-=#
-@code_llvm addTwo(1, 2)
+=# #uncomment line for testing only
+#@code_llvm addTwo(1, 2)
 
 
 

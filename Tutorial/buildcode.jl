@@ -1,7 +1,7 @@
 
-#how julia builds code
+#--- show julia builds code
 
-"""
+"""that can give you insight of types (of your code) 
 
 1.text Files read as a string 
 2.-julia lets Files gets parsed into Julia `Expr`
@@ -79,7 +79,8 @@ give all arguments a value for  addTwo( x[1] , x[2])
 """
 addTwo(x) = x[1] + x[2]
 """adding 2 numbers"""
-@code_typed optimize = false addTwo(1, 2.0) #Any[] #no problem
+#we'll review this code 
+#@code_typed optimize = false addTwo(1, 2.0) #Any[] #no problem
 
 #again rewriting in another way:
 addTwo(x) = +(x[1], x[2])
@@ -345,14 +346,81 @@ else #he only other option is Tuple{Float64}
 Note: the absence of the need to call `get_blob_got_argtypes` 
 Uion-splitting generalizes compiletime dispatch 
 
-now debug code make it working
-=#
+now debug code make it working, let's start profiling
 
-#---profiling 
+
+=#
 """
-once code is writting, running 
-we hat to profile it ens
+first it knows what time it is 
+queries the system 
+
+(me:simulates time advancesment : by passing i as an argument )
+time would have advanced by the function call 
+(On) every execution, it gets called 
+that's a very nice way of measuring time 
+
+there are a Quite a few profilers, work this way 
+
+however,
+Insturment profiles come with hurdles:
+
+1.instrumentation slows your code: having to store data at every single function call #TODO: that implements as well in metatrader 
+2.instumentation can block compiler optimizations: the compiled code of the real version may be quire different from that of the instrumented code "minus instrumentation"
+**3.recursion is a bit tricky**: if you also instrument `f`, the added instrumentation inside `f` distorts your measurement of the runtime of `f` itself
+
+so, running code with instrumentation is a very different code, than the code that runs without the instrumentation  
+you're actually getting a misleading picture of the cirumstances  
+
+anytime you do instrumentation inside a function call 
+has a little instrumentation around it -gets complicated to subtract out ]
+costs of insturmentation 
+world has moved on to a different stle of profiler
 """
+i = 17
+push!(timebuffer, ProfileInfo("somefile.jl", i, time()))
+y = f(x)
+push!(timebuffer, ProfileInfo("somefile.jl", i=i+1, time()))
+
+z = g(x,y)
+push!(timebuffer, ProfileInfo("somefile.jl", i=i+1, time()))
+
+
+"""Sampling profilers 
+
+a sampling profiler ,periodically, 
+1.interrupts your code and 
+2. collects program-location data (where you are)
+
+Analogy: 
+
+8 hours a day at work 
+1 hour a day at the gym 
+
+real word 
+waka-time collecting time intervals  of user code activity plus langauge programmed in 
+ shortcoming: does this 100s times over a month
+ 
+ aggregates all responses the
+ 
+ """
+
+using  GLMakie
+location = [rand(1:9) <= 8 ? "work" : "gym" for i = 1:1000]
+for i in enumerate(location[1])
+    
+bins = rand(5:16)
+f = figure()
+hist(f=location; bins = bins) #, normalization = :none
+ylabels("Counts")
+
+
+
+
+
+using PyPlot 
+
+location = [rand]
+
 
 
 
