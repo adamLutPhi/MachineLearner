@@ -154,3 +154,25 @@ julia knows very very little here
 
 this ould have then to be executed by a runtime dispach 
 =#
+
+"""
+1.It knows this arrayref is gonna be called (that's progress of perform)
+2.It Doesn't know what the result will be 
+that reason it knows 
+
+vector of any isn't the type 
+vector of any isn't the type (that julia understands)
+that part is a concrete type can figureout 
+what's gonna be called here 
+
+but it doesn't know what the result will be  
+
+takeaway: the key decision has to be made, once called the + operator 
+
+(it depends on the arguments)
+
+Only piece of information, julia has to go on  - It doesn't get very far 
+
+means: this method will be looked up & called when the function is running 
+
+this is called run-time 
