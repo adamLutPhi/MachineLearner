@@ -271,9 +271,51 @@ Takeaway: in profiler tree: the indentation indicates who called `whom`
 
 Information is attributed to the entire call sequence 
 (aggregated in al time spent in that particular line of code )
+
+different way of checking, it doesn't take a different amount of time 
+
+
 TODO: 
 Q. what is an overhead, & overcount #Research 
+
+u
+
 """
-
-
 Profile.print(format = :tree)
+
+#--visualization of profile data 
+
+
+using ProfileView # `ProfileView` for real work instead
+
+ProfileView.view()
+
+
+#= on jupyter only 
+using ProfileSVG
+
+ProfileSVG.view()
+=#
+#--- Performace profiling in action 
+#=
+Discovering an opportunity for an optimization 
+ by a profile 
+
+=#
+
+function mult(A, B, x)
+        C = A * B
+        return C * x
+end
+
+A = rand(10_000, 2)
+B = rand(2, 8_000)
+x = rand(8_000)
+
+mult(A, B, x)
+
+@time mult(A, B, x) # 0.500144 seconds
+using ProfileSVG
+#Error:@profview is undefined - which macro is it from?
+@profview mult(A, B, x)
+
