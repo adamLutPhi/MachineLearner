@@ -7,17 +7,39 @@ using Dates
 
 """
 note: works on mac & windows
+safe_path credits to: the Julia Programming Team (from [Pkg.jl/src/manifest.jl](https://github.com/JuliaLang/Pkg.jl/blob/master/src/manifest.jl)):
+(ordered as-is by github.com) [10 members]:
+
+Kristoffer Carlsson     @KristofferC
+Ian Butterworth         @IanButterworth #PRO
+David Varela            @00vareladavid
+Tim Holy                @timholy #PRO [neuroscientist, professor, julia tutor]
+Gunnar Farnebäck        @GunnarFarneback
+Fredrik Ekre            @fredrikekre #PRO [postdoc]
+Dilum Aluthge           @DilumAluthge
+Tamas K. Papp           @tpapp
+David Widmann           @devmotion #PRO
+Shuhei Kadowaki         @aviatesk
+
 """
 # turn /-paths into \-paths on Windows
+"""safe_path
+source:
+https://github.com/JuliaLang/Pkg.jl/blob/b4da4946735fe4c7c6bb3e2bc16af95b4e76e487/src/manifest.jl#L57
+
+helps in resolving uris' slashes for windows users 
+
+"""
 function safe_path(path::String)
     if Sys.iswindows() && !isabspath(path)
-        path = joinpath(split(path, "/")...)
+        path = joinpath(split(path, "/")...) # what if: if we can do all urls as "\": thus we'll only Modify for windows users while other OSs can communicate too worry-free  -newly standardized 
     end
     return path
 end
-paths = ["functions", "functions/Generators", "Distributions", "NeuralNet/Networks", "src/DataStructures/Arrays/Array.jl", "tests"]
+paths = ["functions", "functions/Generators", "Distributions", "NeuralNet/Networks", "src/DataStructures/Arrays/Array.jl", "tests"] #Idea: all string paths in here # used in a for loop - in  a custom iterable function #parallizable 
 #TODO: Iterate all locations in paths
 #include(safe_path(".")) #why refeing to thyself?
+#ERROR:PermissionDenied #TODO: find a solution on windows pc to solve previlages in julia
 include(safe_path("functions"))
 include(safe_path("functions/Generators"))
 include(safe_path("Distributions"))
@@ -29,16 +51,17 @@ include(safe_path("src/DataStructures/Arrays/Array.jl"))
 """
 to be called upon path error 
 """
-#= #nice try , needs further checking to see why it defaults to last catch #systemError: Permission Denied (on Windows) # check common # solution?
-function pathRevise(path::String) 
+#= #systemError: Permission Denied (on Windows)#TODO: check common # solution?  #nice try !, needs further checking to see why it defaults to last catch  
+
+function pathRevise(path::String) # TRY TO FIX (possible) url typos 
     strings = split(path, "/")
     try
-        strings[1] = Upper(strings[1])#try Uppercasing the f
+        strings[1] = Upper(strings[1])#Gatcha#1: try Uppercasing the first letter  #(input is a miniscule, while actual directory is Majiscule)
         path = joinpath(strings...)
     catch
     end
     #=for i in enumerate length(strings)
-        #TODO: do minor changes to path - i.e. uppercase other words #todo how to spot others , first?
+        #TODO: do minor changes to path - i.e. uppercase other words #TODO: how to spot others , first? [Hint: names are CamelToed!] #possible-fix #available
 
     end=#
 end

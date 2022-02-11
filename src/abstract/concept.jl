@@ -1,13 +1,23 @@
+#PS: feels like an  NLP course # be more #creative [hint: meta-Idea (explaining the idea ) ] 
 
-abstract type idea end
-struct concept <: idea  
+abstract type abstractIdea end 
+struct idea <: abstractIdea 
+    title::string 
+
+    content::Any 
+    Context::Any # ;)
+end # what makes an idea=  {Title, content} #Context <--- how about it , too? ;)
+
+struct metaIdea <: idea #TODO:Elaborate ...
 """
 an abstract construct(ion)
-rose from an idea 
-could be useful (later)
+Rose from an idea 
+Could be useful (later...) #Q.what makes a concept, a concept? 
 """
+struct concept <: idea  
+
 end 
 
 """
 
-this is a seed, help us by growing it with your support- thank youo 
+this is a seed, help us by growing it with your support- thank you!
