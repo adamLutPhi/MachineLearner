@@ -31,35 +31,38 @@ A trick used threetimes becomes a standard technique  -George Polya -Hungarian m
 f'(x) = (f(x + h) - f(x)) / h
 
 
-"""Differentiation With(out) a Difference 
+"""p.3.Differentiation With(out) a Difference 
 
 ≈ abs(f(x))
 
+Error O(h) (especialy)
+
+My Note:
+this differential function is  #reminder: do a differential repo #TODO
 """
-
-function h(u, f(x), f''(x))
+function h(u, f(x), f_double_prime(x))
     #pythagorean theorem 
-
-    return h ≈ sqrt(u * abs(f(x) / f''(x)))
-
+    return h ≈ sqrt(u * abs(f(x) / f_double_prime(x)))
 end
 
+# Q,which order of complexity is this algorithm?
 
-sqrt(x);
-x_minus_one(x) = x^-1; #  Matrix{Float64} <: DenseMatrix{Float64} <: AbstractMatrix{Float64} <: Any
+a = sqrt(x);
+b = x_minus_one(x) = x^-1; #  Matrix{Float64} <: DenseMatrix{Float64} <: AbstractMatrix{Float64} <: Any
 m = 10;
 n = 10;
-v = rand(m, n) # why is it called matrix 
-sqrt(v) isa x_minus_one(v)
-
+v = rand(m, n) # sqrt only accepted a Squared matrix 
+sqrt(v) ≈ x_minus_one(v) #false they are not equal!!!!!!!!! # not even a false # Q.what is ϵ here (I have never framed ϵ) just working with the Maestro for not 
 #once matrix is rectangular i.e. 10x10 
 sqrt(v) == x_minus_one(v)
 #for all item vij
 sumError = nothing;
 error = zeros(m, n) #nothing ;
+
 rowErrors = nothing;
 colErrors = nothing;
 tmp = nothing;
+
 k = 1
 for i in enumerate(m) #rows 
     #tmp = sum(v, 1) ; #rowErrors[]
@@ -76,6 +79,7 @@ for i in enumerate(m) #rows
         #DimensionMismatch (matrix is not square dimensions are 10x1 )# either sqrt or x_minus_one requires rectangular dimensions 
     end
 end
+#mean = ∑
 print(error)
 #print(colErrors)
 #print(rowErrors)
@@ -96,9 +100,9 @@ colErrors = cumsum(v, dims = 2)
 
 _minCol = minimum(colErrors)
 _maxCol = maximum(colErrors)
-colDispersion = _maxCol -  _minCol
+colDispersion = _maxCol - _minCol
 
-minimum(A[:,4])
+minimum(A[:, 4])
 #=
  0.755532   1.34588   1.45731   2.34489   2.39559   3.2988   3.65703  3.8432   4.60496  **5.48876**
  0.347007   0.35345   0.671001  0.742292  0.848155  1.03871  1.67974  2.25592  2.61558  3.09215
@@ -111,19 +115,20 @@ minimum(A[:,4])
  min ( 0.0863792) error  0.0863792
  =#
 
-@btime rowErrormat = cumsum(error, dims = 1) 143.349 ns (1 allocation: 896 bytes)
-_maxRow= maximum(rowErrormat)
-_minRow= minimum(rowErrormat)
+@btime rowErrormat = cumsum(error, dims = 1) 143.349 ns (1allocation:896bytes)
+_maxRow = maximum(rowErrormat)
+_minRow = minimum(rowErrormat)
 rowDispersion = _maxRow - _minRow
 
 colDispersion < rowDispersion # false positive 
 colDispersion > rowDispersion  #true positive 
-colDispersion > rowDispersion === true #the only statement under question# displays false!
-ratio = max(colDispersion,rowDispersion)/min(colDispersion,rowDispersion)
-ratio = rowDispersion/ colDispersion 
+colDispersion > rowDispersion === true #it should be true,the only statement under question# it displays false!
+ratio = max(colDispersion, rowDispersion) / min(colDispersion, rowDispersion)
+ratio = rowDispersion / colDispersion
 
 xor(colDispersion < rowDispersion, colDispersion > rowDispersion) #always true [true,false] 
-and(colDispersion < rowDispersion, colDispersion > rowDispersion) # always false 
+and= &
+and(colDispersion < rowDispersion, colDispersion > rowDispersion) # hiccup with and # always false 
 
 
 #=
@@ -145,3 +150,4 @@ colErrormat = cumsum(error, dims = 2)
 
  #
 =#
+
