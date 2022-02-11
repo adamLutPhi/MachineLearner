@@ -34,7 +34,7 @@ mutable struct accumulator #<: approximator
 
     """
     function addCall(a::Array{Float64,1}, b::Array{Float64,1}) #vectors a, b 
-        return a + b # do vector multiplication 
+        return a + b # do vector multiplication  #TODO:
     end 
 
     function addCall(a::Array{Float64,2}, b::Array{Float64,2}) #matrix  a, b 
