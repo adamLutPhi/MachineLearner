@@ -3,8 +3,6 @@ using Distributions
 
 #--- Bernoulli
 
-
-function pdf(ntimes)
 """  
 Returns a Bernoulli Probability Density Function (PDF) that is; 
 
@@ -12,6 +10,8 @@ Returns a Bernoulli Probability Density Function (PDF) that is;
 2. I.I.D
 
 """
+function pdf(ntimes)
+
   return Bernoulli(ntimes)
 end
 

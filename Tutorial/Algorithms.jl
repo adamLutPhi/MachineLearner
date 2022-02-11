@@ -1,4 +1,5 @@
 """
+
 A fast language can be beat 
 by a slow one `if` the code in the slow language solves the problem
 more efficiently 
@@ -36,7 +37,7 @@ you may notice there's a little work outside the Innermost loop
 Point of Big-O 
 freedom to ignore terms that are less imprtant 
 me: I have to digress, it's a measure of complexity , as implied by demonstrating an inner-loop i.e. raising the already complex complexity 
--Tim: "you might object", say  you're ignoring certain things   
+-Tim: "you might object", say  you're ignoring certain things  !
 """
 
 for i = i:m 
@@ -49,6 +50,10 @@ for i = i:m
 end 
 #=more accurately, the running time is `a*m + b*m*n`, where a &b are constants # the actual running time 
 (since inner-loop runs m*n times )
+
+Takeaway: Pay attention to the things that grow most quickly
+so O(mn)
+this algorithm is big-O -            a lisence to ignore small ones, yet focus on big ones that matter 
 =#
 
 """Key Rules about memory @41:38
