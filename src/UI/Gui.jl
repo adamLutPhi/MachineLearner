@@ -6,7 +6,7 @@ end
 
 # Import binary definitions
 const suffix = :Leaf
-include("GLib/GLib.jl") #important 
+#=include("GLib/GLib.jl") #important =#
 using .GLib
 using .GLib.MutableTypes
 import .GLib: set_gtk_property!, get_gtk_property, getproperty, FieldRef
@@ -45,10 +45,11 @@ using Serialization
 const Index{I<:Integer} = Union{I, AbstractVector{I}}
 
 export GAccessor
+#=
 include("basic_exports.jl")
 include("long_exports.jl")
 include("long_leaf_exports.jl")
-
+=#
 global const libgtk_version = VersionNumber(
       ccall((:gtk_get_major_version, libgtk), Cint, ()),
       ccall((:gtk_get_minor_version, libgtk), Cint, ()),

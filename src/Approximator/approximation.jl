@@ -521,17 +521,47 @@ acos(cos(z)) = z iff Re z z∈(0,pi)
 how to compute Accurate Value of 
 log \lambda , λ1,λ2 ∈ C
 =#
-log(λ2) - log(λ1);
+# λ1, λ2 = #rand(im,1)# no rand for complex 
+#unwinding number 
+U(z) = (z - log(exp(z))) / 2 * pi * im
+
+λ1 = 0.75;
+λ2 = 0.25;
+lhs = log(λ2) - log(λ1);
 
 z = (λ2 - λ1) / (λ2 + λ1)
+
+z = log(exp(z)) + 2 * pi * im * U(z)
 #=
-log(λ2) - log(λ1) =#
-log(λ2 / λ1) + 2 * pi * i * u * (log(λ2) - log(λ1))
-#=
+log(λ2) - log(λ1) 
+someway, i can rewrite the expression , for more accurate Evaluation 
+by introducing the z:
+=#
+rhs1 = log(λ2 / λ1) + 2 * pi * im * U(log(λ2) - log(λ1))# my bad: U(z) * (log(λ2) - log(λ1)
+
+rhs1_5 = log((1 + z) / (1 - z)) + 2 * pi * im * U(log(λ2)-log(λ1))
+#result clustering rhs1, rhs1_5 
+error_initial = rhs1 -  rhs1_5 # error is the same  (same values )
+
+#= "The Difference of Logs as a log Ratio
+problem: need a correction term 
+solution: that's where the unwinding number steps in  "
 =log((1+z)/(1-z) + 2*π*i*u(log(λ2)-log(λ1))
-=#
 
-#=
+
+=assuming we have a good atanh function 
+=#
+rhs2 = atanh(z) + 2 * pi * im * U(log(λ2) - log(λ1)) #used in state of art matrix log codes 
+
+#=you can be sure that won't give you an accurate estimation 
+(even if lambdas are close )
 used in state of the art matrix log codes 
+
+emphasize: z still has λ2 - λ1 (in it)
+(but they're subtracting original numbers, that was given)
+
 =#
 
+error  = abs(z - rhs2)
+
+isSignificatant = error< 0.05 ==true ||  error >=0.05=

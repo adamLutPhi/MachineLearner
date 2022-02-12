@@ -138,15 +138,15 @@ rand!(a)
 "Random.SamplerType" & "Random.SamplerTrivial" are Default Fallbacks for types and values, respectively. 
 Random.SamplerSimple can be used to store pre-computed values,
 without defining extra types for only this purpose.
-=#
-Random.rand(rng::AbstractRNG, d::Random.SamplerTrivial{Int}) = rand(rng, 1:d[].nsides) #tested #worksc#{Die} 
+=#using Random, StableRNGs
+stablerng = Random.rand(rng::StableRNG, d::Random.SamplerTrivial{Int}) = rand(rng, 1:d[].nsides) #tested #worksc#{Die} # used AbstractRNG (not StableRNG) 
 
-function StableSampler(rng = rng) end
+function StableSampler(rng = rng) end #create an empty sampler 
 #const StableRNG = LehmerRNG
 
 #--- seed
 
-function seed!(rng::LehmerRNG, seed::Integer)
+function seed!(rng::StableRNG, seed::Integer)
     seed >= 0 || throw(ArgumentError("seed must be non-negative"))
     seed <= typemax(UInt64) ||
     # this constraint could be loosened a bit if requested
@@ -157,10 +157,10 @@ function seed!(rng::LehmerRNG, seed::Integer)
     rng
 end
 
-Base.show(io::IO, rng::LehmerRNG) =
+Base.show(io::IO, rng::StableRNG) =
     print(io, LehmerRNG, "(state=0x", string(rng.state, base = 16, pad = 32), ")")
 
-function Base.copy!(dst::LehmerRNG, src::LehmerRNG)
+function Base.copy!(dst::StableRNG, src::StableRNG)
     dst.state = src.state
     dst
 end
@@ -177,7 +177,7 @@ using StableRNGs;
 
 
 global seed = 1234
-global rng = StableRNG(seed)
+global rng = StableRNG(seed) #defaults to LehmerRNG - StableRNG should be specified  
 
 #= module randomness =#
 """
@@ -392,10 +392,11 @@ Base.hash(rng::stableRNG, h::UInt) = hash(rng.state, 0x93f376feff2bc48e % UInt â
 ## Sampling
 
 using StableRNGs
-rng = StableRNG(seed = 1234, state = randState()) # state not asssignment (state dependent method )# self-referencing detected: randState()requires StableRNG,with StableRNG requires RandomState ! 
+#=
+rng = StableRNG(seed = 1234, state = randState()) # cyclic code detected: State not asssignment (state dependent method )# self-referencing detected: randState()requires StableRNG,with StableRNG requires RandomState ! 
+=#
 
-
-function randState(rng::stableRNG, ::SamplerType{UInt128})
+function randState(rng )#::SamplerType{UInt128})
     rng.state *= 0x45a31efc5a35d971261fd0407a968add
     return (rng.state >> 64) % UInt128 #waiting UInt128 ! (i cannot comfortably work with that - too much on the memory)
 end
@@ -445,13 +446,13 @@ function SamplerRangeFast(r::AbstractUnitRange{T}, ::Type{U}) where {T,U}
     SamplerRangeFast{U,T}(first(r), bw, m, mask)
 end
 
-function rand(rng::LehmerRNG, sp::SamplerRangeFast{UInt64,T}) where {T}
+function rand(rng::AbstractRNG, sp::SamplerRangeFast{UInt64,T}) where {T}
     a, bw, m, mask = sp.a, sp.bw, sp.m, sp.mask
     x = rand(rng, LessThan(m, Masked(mask, uniform(UInt64))))
     (x + a % UInt64) % T
 end
 
-function rand(rng::LehmerRNG, sp::SamplerRangeFast{UInt128,T}) where {T}
+function rand(rng::AbstractRNG, sp::SamplerRangeFast{UInt128,T}) where {T}
     a, bw, m, mask = sp.a, sp.bw, sp.m, sp.mask
     x = bw <= 64 ?
         rand(rng,
