@@ -67,15 +67,20 @@ seed = 12346543975
 """
 AbstractRNG not defined 
 """
-
+function sumArray(A, range = 1:12)
+    return [sum(A .== i) for i = range]
+end
 global rng = StableRNG(seed)
 A = randn(rng, 10, 10) # instead of randn(10, 10)
+m = rand(rng, 1:12, 20)
 @test inv(inv(A)) ≈ A
 
+sum
 _error = inv(inv(A)) - A
 
+#TODO: 1 liner sum 
 
-
+# [sum()]
 
 
 #---
@@ -124,7 +129,8 @@ Die(11)
 
 rand(Die, 3)
 
-a = Vector{Die}(undef, 3); rand!(a)
+a = Vector{Die}(undef, 3)
+rand!(a)
 
 #after rng  geneerator 
 #generic sampler 
@@ -344,6 +350,7 @@ mutable struct randomRNG <: AbstractRNG
 
     randomRNG(seed::Integer) = seed!(new(), seed)
 
+    #if redundant, please do Delete 
     function LehmerRNG(; state::UInt128)
         isodd(state) || throw(ArgumentError("state must be odd"))
         new(state)
@@ -354,7 +361,7 @@ state #2 cannot declare a constant, it has already a value
 #const StableRNG = LehmerRNG #invalid redefinition 
 
 
-function seed!(rng::LehmerRNG, seed::Integer)
+function seed!(rng::StableRNG, seed::Integer)
     seed >= 0 || throw(ArgumentError("seed must be non-negative"))
     seed <= typemax(UInt64) ||
     # this constraint could be loosened a bit if requested
@@ -367,41 +374,47 @@ end
 
 print(seed!(stableRNG, seed))
 
-Base.show(io::IO, rng::LehmerRNG) =
+Base.show(io::IO, rng::stableRNG) =
     print(io, LehmerRNG, "(state=0x", string(rng.state, base = 16, pad = 32), ")")
 
-function Base.copy!(dst::LehmerRNG, src::LehmerRNG)
+function Base.copy!(dst::stableRNG, src::stableRNG)
     dst.state = src.state
     dst
 end
 
-Base.copy(src::LehmerRNG) = LehmerRNG(state = src.state)
+Base.copy(src::stableRNG) = stableRNG(state = src.state)
 
-Base.:(==)(x::LehmerRNG, y::LehmerRNG) = x.state == y.state
+Base.:(==)(x::stableRNG, y::stableRNG) = x.state == y.state
 
-Base.hash(rng::LehmerRNG, h::UInt) = hash(rng.state, 0x93f376feff2bc48e % UInt ⊻ h)
+Base.hash(rng::stableRNG, h::UInt) = hash(rng.state, 0x93f376feff2bc48e % UInt ⊻ h)
 
 
 ## Sampling
 
-rng = LehmerRNG()
+using StableRNGs
+rng = StableRNG(seed = 1234, state = randState()) # state not asssignment (state dependent method )# self-referencing detected: randState()requires StableRNG,with StableRNG requires RandomState ! 
 
-function rand(rng::LehmerRNG, ::SamplerType{UInt64})
+
+function randState(rng::stableRNG, ::SamplerType{UInt128})
     rng.state *= 0x45a31efc5a35d971261fd0407a968add
-    (rng.state >> 64) % UInt64
+    return (rng.state >> 64) % UInt128 #waiting UInt128 ! (i cannot comfortably work with that - too much on the memory)
 end
+
+function isEqual(rng, ::SamplerType{T}) #ok #SamplerType #TODO: define 
+
 
 for T = [Bool, Base.BitInteger64_types...]
-    T === UInt64 && continue
-    @eval rand(rng::LehmerRNG, ::SamplerType{$T}) = rand(rng, UInt64) % $T
+    T === UInt128 && continue
+    @eval rand(rng::stableRNG, ::SamplerType{$T}) = rand(rng, UInt128) % $T
 end
 
-rand(rng::LehmerRNG, ::SamplerType{UInt128}) =
+end 
+rand(rng::stableRNG, ::SamplerType{UInt64}) = #UInt128 is bit too large for my requirements  
     rand(rng, UInt64) | ((rand(rng, UInt64) % UInt128) << 64)
 
-rand(rng::LehmerRNG, ::SamplerType{Int128}) = rand(rng, UInt128) % Int128
+rand(rng::stableRNG, ::SamplerType{UInt64}) = rand(rng, UInt128) #Int128  
 
-Random.rng_native_52(::LehmerRNG) = UInt64
+Random.rng_native_52(::stableRNG) = UInt64
 
 
 #--- within a range
