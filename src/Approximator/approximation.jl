@@ -46,6 +46,25 @@ function h(u, f(x), f_double_prime(x))
 end
 
 # Q,which order of complexity is this algorithm?
+#=
+function (model=sqrt(v[m, n]), approx=x_minus_one(v[m, n])
+    for i in enumerate(m) #rows 
+        #tmp = sum(v, 1) ; #rowErrors[]
+        # rowErrors = [rowErrors,tmp]
+        #print(tmp)
+        for j in enumerate(n) # cols #entering j's context  
+
+            error[m, k] = abs(sqrt(v[m, n]) - x_minus_one(v[m, n]))
+            k += 1
+
+            #REVEALED: Sqare Array is a must
+            #DimensionMismatch (matrix is not square dimensions are 10x1 )# either sqrt or x_minus_one requires rectangular dimensions 
+        end
+    end
+end
+=#
+
+
 
 a = sqrt(x);
 b = x_minus_one(x) = x^-1; #  Matrix{Float64} <: DenseMatrix{Float64} <: AbstractMatrix{Float64} <: Any
@@ -64,6 +83,7 @@ colErrors = nothing;
 tmp = nothing;
 
 k = 1
+
 for i in enumerate(m) #rows 
     #tmp = sum(v, 1) ; #rowErrors[]
     # rowErrors = [rowErrors,tmp]
@@ -295,10 +315,10 @@ there are 2 imaginary number specifications :
 im , imag
  =#
 
-z1= imag #generic function with 19 methods 
-z2=im::Complex
- z1 != z2
-z=z2  
+z1 = imag #generic function with 19 methods 
+z2 = im::Complex
+z1 != z2
+z = z2
 cos(acos(z)) == z #false 
 cos(acos(z)) ≈ z  #true! [already an identity]
 # acos(cos(z)) = z # Syntax Error cos(z) is not a valid function 
@@ -306,24 +326,24 @@ cos(acos(z)) ≈ z  #true! [already an identity]
 
 function log10(z::Complex)
     a = log(z)
-    a/log(oftype(real(a),10))
+    a / log(oftype(real(a), 10))
 end
 function log2(z::Complex)
     a = log(z)
-    a/log(oftype(real(a),2))
+    a / log(oftype(real(a), 2))
 end
 
 function exp(z::Complex)
     zr, zi = reim(z)
     if isnan(zr)
-        Complex(zr, zi==0 ? zi : zr)
+        Complex(zr, zi == 0 ? zi : zr)
     elseif !isfinite(zi)
         if zr == Inf
-            Complex(-zr, oftype(zr,NaN))
+            Complex(-zr, oftype(zr, NaN))
         elseif zr == -Inf
             Complex(-zero(zr), copysign(zero(zi), zi))
         else
-            Complex(oftype(zr,NaN), oftype(zi,NaN))
+            Complex(oftype(zr, NaN), oftype(zi, NaN))
         end
     else
         er = exp(zr)
@@ -336,25 +356,25 @@ function exp(z::Complex)
     end
 end
 
-function expm1(z::Complex{T}) where T<:Real
+function expm1(z::Complex{T}) where {T<:Real}
     Tf = float(T)
-    zr,zi = reim(z)
+    zr, zi = reim(z)
     if isnan(zr)
-        Complex(zr, zi==0 ? zi : zr)
+        Complex(zr, zi == 0 ? zi : zr)
     elseif !isfinite(zi)
         if zr == Inf
-            Complex(-zr, oftype(zr,NaN))
+            Complex(-zr, oftype(zr, NaN))
         elseif zr == -Inf
             Complex(-one(zr), copysign(zero(zi), zi))
         else
-            Complex(oftype(zr,NaN), oftype(zi,NaN))
+            Complex(oftype(zr, NaN), oftype(zi, NaN))
         end
     else
         erm1 = expm1(zr)
         if zi == 0
             Complex(erm1, zi)
         else
-            er = erm1+one(erm1)
+            er = erm1 + one(erm1)
             if isfinite(er)
                 wr = erm1 - 2 * er * (sin(convert(Tf, 0.5) * zi))^2
                 return Complex(wr, er * sin(zi))
@@ -366,15 +386,15 @@ function expm1(z::Complex{T}) where T<:Real
     end
 end
 
-function log1p(z::Complex{T}) where T
-    zr,zi = reim(z)
+function log1p(z::Complex{T}) where {T}
+    zr, zi = reim(z)
     if isfinite(zr)
         isinf(zi) && return log(z)
         # This is based on a well-known trick for log1p of real z,
         # allegedly due to Kahan, only modified to handle real(u) <= 0
         # differently to avoid inaccuracy near z==-2 and for correct branch cut
         u = one(float(T)) + z
-        u == 1 ? convert(typeof(u), z) : real(u) <= 0 ? log(u) : log(u)*z/(u-1)
+        u == 1 ? convert(typeof(u), z) : real(u) <= 0 ? log(u) : log(u) * z / (u - 1)
     elseif isnan(zr)
         Complex(zr, zr)
     elseif isfinite(zi)
@@ -384,7 +404,7 @@ function log1p(z::Complex{T}) where T
     end
 end
 
-function exp2(z::Complex{T}) where T
+function exp2(z::Complex{T}) where {T}
     z = float(z)
     er = exp2(real(z))
     theta = imag(z) * log(convert(float(T), 2))
@@ -392,7 +412,7 @@ function exp2(z::Complex{T}) where T
     Complex(er * c, er * s)
 end
 
-function exp10(z::Complex{T}) where T
+function exp10(z::Complex{T}) where {T}
     z = float(z)
     er = exp10(real(z))
     theta = imag(z) * log(convert(float(T), 10))
@@ -488,8 +508,8 @@ end
 Theorem 
 
 if Re z != k*pi ; k \in Z then 
-    
-    
+
+
     acos(cos(z)) #not existant per se 
     = z - 2*pi*U(i*z)*sign(z-2*pi*U(i*z)))
 Corollary 
@@ -501,13 +521,17 @@ acos(cos(z)) = z iff Re z z∈(0,pi)
 how to compute Accurate Value of 
 log \lambda , λ1,λ2 ∈ C
 =#
-log(λ2) - log(λ1) ; 
+log(λ2) - log(λ1);
 
-z = (λ2-λ1)/(λ2+λ1)
-
-log(λ2) - log(λ1) = log(λ2/λ1)+2*pi*i*u*(log(λ2)-log(λ1))
+z = (λ2 - λ1) / (λ2 + λ1)
+#=
+log(λ2) - log(λ1) =#
+log(λ2 / λ1) + 2 * pi * i * u * (log(λ2) - log(λ1))
+#=
 =log((1+z)/(1-z) + 2*π*i*u(log(λ2)-log(λ1))
+=#
 
 #=
 used in state of the art matrix log codes 
 =#
+

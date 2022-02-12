@@ -29,7 +29,7 @@ end
 
 #----
 
-using Random, StableRNGs
+using Random, StableRNGs,Test
 #LehmerRNG
 
 """
@@ -45,6 +45,12 @@ AbstractRNG not defined
 global rng = StableRNG(seed)
 A = randn(rng, 10, 10) # instead of randn(10, 10)
 @test inv(inv(A)) ≈ A
+
+_error = inv(inv(A))-A 
+
+
+
+
 
 #---
 mutable struct LehmerRNG <: AbstractRNG
