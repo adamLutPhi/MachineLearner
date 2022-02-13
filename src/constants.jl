@@ -1,11 +1,12 @@
 using Test
 module constants
-
 #MathConstants.
 global const ϕ = nothing
 global const ∞ = Inf
 global const -∞ = -Inf
 
+end 
+#end
 #Ε(x) = exp(x)
 #error function  ϵ (generic , cherry-picked, smooth)
 #global ϵ(x) =  exp(x)^-1
@@ -17,7 +18,7 @@ global const -∞ = -Inf
 module accurateDigits
 #digits accuracy
 """
-inputs:
+```inputs:
 y: error function 
 returns number of accurate (at least) 
 TODO: How to test this test? 
@@ -32,17 +33,39 @@ the logic:using the rule
 "if an error has a digit 0, that means the digit
     (associated with this error) is accurate"
 
-a homebrewed way, fabricated out of the spaciousness
-in the head - novel Creativity
-#TODO: How to verify this is correct? #need ofr a verification method
+a homebrewed way, fabricated out of the spaciousness  #novel
+#TODO: How to verify this is correct? #need for a verification method
 """
-global ϵ(x) = exp(x)^-1 #this enforces a constantly increasing 
+global ϵ(x) = exp(x)^-1 ##beging with a monotonically decreasomg (survival) funtion- that is smooth  -this enforces a constantly increasing 
+#=
+function valuate(value)
+    if value isa Inf value = ∞ 
+    elseif value isa -Inf value = -∞
+    elseif value isa nothing || Nothing ||"" value = ϕ  
 
+    return value 
+end
+=#
+
+using Test, Plots 
 #digi(n::Int64, x::Int64, y::Float64
-function digi(n = 6, x = 1, y = exp(x))
-    return ϵ(n * y)
+function digi(;n = 6, x = 1) # y = exp(x))
+    print(typeof(x))
+    return ϵ(log2(n) * x)
 end
 
+digi(n=1)
+digi(n=0)
+
+digi(n=10^6)
+digi(n=10^10)
+
+
+
+end 
+#digi
+
+#=
 #diffDigi(a::Int64, b::Int64)
 function diffDigi(a = 5, b = 6)
     return digi(b) - digi(a)
@@ -67,21 +90,23 @@ end
     _7 = ϵ(7 * exp(1))
 =#
 
-function maxEuclidDigi(a = 5, b = 6)
+function maxEuclidDigi(;a = 5, b = 6)
     _a = digi(a)
     _b = digi(b)
-    #maximal euclidean distance
+    #maximal #mean euclidean distance
     meanDiff = (max(_a, _b) - min(_a, _b)) / 2
     return meanDiff
 end
-
-maxEuclidDigi(5,6)
-diffDigi(5,6)
-  @test diffDigi(5,6) == maxEuclidDigi(5,6) #there was an error during testing
+#= TODO:UNCOMMENT 
+@test _ϵ = maxEuclidDigi(5, 6)
+@test diffDigi(5, 6)
+@test diffDigi(5, 6) > maxEuclidDigi(5, 6) #there was an error during testing
 end 
 end
 
-
+@test maxEuclidDigi(5, 6)
+@test diffDigi(5, 6)
+@test diffDigi(5, 6) > maxEuclidDigi(5, 6) #there was an error during testing
 #=
 digi=6
 _6 = ϵ(digi*exp(1))

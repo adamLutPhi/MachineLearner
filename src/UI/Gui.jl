@@ -54,9 +54,21 @@ global const libgtk_version = VersionNumber(
       ccall((:gtk_get_major_version, libgtk), Cint, ()),
       ccall((:gtk_get_minor_version, libgtk), Cint, ()),
       ccall((:gtk_get_micro_version, libgtk), Cint, ()))
-      
+
+      """
+        __init__
+
+        ```input
+        setting up Gtk required files (icons & schemas)
+        sets a particular Environment variable for each OS(OS-specific):
+        Windows:  ENV["XDG_DATA_DIRS"]
+        
+
+        ```
+      """
 function __init__()
-    # Set XDG_DATA_DIRS so that Gtk can find its icons and schemas
+    #for windows 
+    # Set XDG_DATA_DIRS so that Gtk can find its icons & schemas
     ENV["XDG_DATA_DIRS"] = join(filter(x -> x !== nothing, [
             dirname(adwaita_icons_dir),
             dirname(hicolor_icons_dir),
@@ -132,7 +144,7 @@ function __init__()
             "share", "X11", "xkb")
     end
 
-    GError() do error_check
+    GError() do error_check # GError #not defined
         ccall((:gtk_init_with_args, libgtk), Bool,
             (Ptr{Nothing}, Ptr{Nothing}, Ptr{UInt8}, Ptr{Nothing}, Ptr{UInt8}, Ptr{Ptr{GError}}),
             C_NULL, C_NULL, "Julia Gtk Bindings", C_NULL, C_NULL, error_check)
@@ -156,4 +168,4 @@ end
 const auto_idle = Ref{Bool}(true) # control default via ENV["GTK_AUTO_IDLE"]
 const gtk_main_running = Ref{Bool}(false)
 const quit_task = Ref{Task}()
-const enable_eventloop_lock = Base.ReentrantLock()a
+const enable_eventloop_lock = Base.ReentrantLock() # 

@@ -45,9 +45,8 @@ nsize:100
 function randomizeStable(rng, nSize = 10, seed = 1234) #ERROR:Runtime - out of Memory #unsuitable for this pc- consider a simpler rng
     """
 #pay attention: this one is not a uniform  
-random gotta use uniform distribution 
-or else, you'll be messing things up really bad 
-    changes randn -to-> rand
+    A Random Must Use a Uniform Distribution 
+    
     """
     #pay attention: this one is not a uniform  
     return rand(rng, nSize, seed) # uses default Normal  (not uniform )
@@ -65,14 +64,14 @@ rand([rng = GLOBAL_RNG], [r]) #docs
 Function
 //(num = 3, den = 5)
 """
-Divide two integers or rational numbers, giving a Rational result.
+Divides two integers or rational numbers, giving a Rational result
 """
 #... 
 
 #---range test
 using Test, BenchmarkTools
-a = lobound = 1
-b = upbound = 100
+lobound = 1
+upbound = 100
 
 @time r1 = range1(a = lobound, b = upbound) # lobound:stepSize=1,length(upbound)
 @benchmark r1 = range1(0, 10)

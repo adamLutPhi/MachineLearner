@@ -523,11 +523,11 @@ log \lambda , λ1,λ2 ∈ C
 =#
 # λ1, λ2 = #rand(im,1)# no rand for complex 
 #unwinding number 
-U(z) = (z - log(exp(z))) / 2 * pi * im
+U(z) = (z - log(exp(z))) / 2 * pi * im # takeaway:the use of generic functon promotes lazy processing - easy on memory, fast in response 
 
 λ1 = 0.75;
 λ2 = 0.25;
-lhs = log(λ2) - log(λ1);
+lhs = log(λ2) - log(λ1)
 
 z = (λ2 - λ1) / (λ2 + λ1)
 
@@ -536,12 +536,16 @@ z = log(exp(z)) + 2 * pi * im * U(z)
 log(λ2) - log(λ1) 
 someway, i can rewrite the expression , for more accurate Evaluation 
 by introducing the z:
+#TODO: check error1 = abs(lhs - rhs1) 
 =#
-rhs1 = log(λ2 / λ1) + 2 * pi * im * U(log(λ2) - log(λ1))# my bad: U(z) * (log(λ2) - log(λ1)
 
-rhs1_5 = log((1 + z) / (1 - z)) + 2 * pi * im * U(log(λ2)-log(λ1))
+rhs1 = log(λ2 / λ1) + 2 * pi * im * U(log(λ2) - log(λ1))# my bad: U(z) * (log(λ2) - log(λ1) # now, it's corrrect #checked
+
+rhs1_5 = log((1 + z) / (1 - z)) + 2 * pi * im * U(log(λ2)-log(λ1)) #this value is also sound 
 #result clustering rhs1, rhs1_5 
-error_initial = rhs1 -  rhs1_5 # error is the same  (same values )
+error_initial = rhs1 -  rhs1_5 # error is the same  (same values ) # logical error: comparing 2 RHSs # TODO: compare each RHS with its respective LHS
+
+error1 = abs(rhs1) -abs(lhs) # 2.220446049250313e-16 < \epsilon≈ 0
 
 #= "The Difference of Logs as a log Ratio
 problem: need a correction term 
@@ -563,5 +567,15 @@ emphasize: z still has λ2 - λ1 (in it)
 =#
 
 error  = abs(z - rhs2)
-
-isSignificatant = error< 0.05 ==true ||  error >=0.05=
+#--- the Significance (& the Plateau)
+#= one value isn't & won't be enough for correctly identifying the Significance of values
+    Thus, it is in my pure interest to develop a 'Gray Area' around 0.05 
+    My prine concern is to build a more valuable plateau around the Significant value (rather than relying on an arbitrary line in sand)
+    This would render results as one of three: Significant, insignificant, indeterminant 
+    The hardest thing is failing to admit our indeterminance 
+    Our determenance is defined by the thickness of the indeterminance, the plateau must always be smaller than the Significance itself
+    Let's say we have a line of Significance at 0.05 , then there must be a free-zone revolving around it, that is equal to each other- as above, so below 
+    0.05 ± 0.01 : 0.01 thus, absolute thickness would make up 0.02 
+    
+    =# 
+isSignificatant = error< 0.05 == true ||  error >=0.05 == false
