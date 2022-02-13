@@ -84,6 +84,7 @@ _error = inv(inv(A)) - A
 
 
 #---
+#=
 mutable struct LehmerRNG <: AbstractRNG
     state::UInt128
 
@@ -94,17 +95,19 @@ mutable struct LehmerRNG <: AbstractRNG
         new(state)
     end
 end
-
-using StableRNGs, Random
+=#
+using StableRNGs, Random, Test
 #--- rng: declare
 seed = 3257946
 rng = StableRNG(seed)
-A = randn(rng, 10, 10) # instead of randn(10, 10)
+A = rand(rng, 10, 10) # instead of randn(10, 10)
 @test inv(inv(A)) ≈ A
 
 #--- sampler 
+
 maxcount = 100
-sp = Random.Sampler(rng, 1:20) # define a sampler or Random.Sampler(MersenneTwister, 1:20) 
+range = 1:20
+sp = Random.Sampler(rng, range) # define a sampler or Random.Sampler(MersenneTwister, 1:20) 
 for x in enumerate(maxcount)
     n = rand(rng, sp) # similar to n = rand(rng, 1:20)
     # use n
@@ -117,17 +120,24 @@ struct Die
     nsides::Int # number of sides
 end
 
-Random.rand(rng::AbstractRNG, ::Random.SamplerType{Die}) = Die(rand(rng, 4:20))
+#=
+struct Die
+    #face
+    number = 1:6
+end
 
-# output
+Random.rand(::Random.SamplerType{Die}, number, rng = StableRNG(seed)::StableRNG, range = min(Die.number):max(Die.number)) = Die(rand(StableRNG(seed), range))
+end
+=#
+# out
 
 
-rand(Die)
-rand(rng, Die)
+rand(Die.number)
+rand(rng, Die.number)
 rand(MersenneTwister(0), Die) #potentially 2 different  rvs 
 Die(11)
 
-rand(Die, 3)
+rand(Die.number, 3)
 
 a = Vector{Die}(undef, 3)
 rand!(a)
@@ -138,15 +148,15 @@ rand!(a)
 "Random.SamplerType" & "Random.SamplerTrivial" are Default Fallbacks for types and values, respectively. 
 Random.SamplerSimple can be used to store pre-computed values,
 without defining extra types for only this purpose.
-=#using Random, StableRNGs
-stablerng = Random.rand(rng::StableRNG, d::Random.SamplerTrivial{Int}) = rand(rng, 1:d[].nsides) #tested #worksc#{Die} # used AbstractRNG (not StableRNG) 
+using Random, StableRNGs=#
+stablerng = Random.rand( StableRNG(seed), d::Random.SamplerTrivial{Int}) = rand(rng, 1:d[].nsides) #tested #works #{Die} # used AbstractRNG (not StableRNG) 
 
 function StableSampler(rng = rng) end #create an empty sampler 
 #const StableRNG = LehmerRNG
 
 #--- seed
 
-function seed!(rng::StableRNG, seed::Integer)
+function seed!( StableRNG(seed), seed::Integer)
     seed >= 0 || throw(ArgumentError("seed must be non-negative"))
     seed <= typemax(UInt64) ||
     # this constraint could be loosened a bit if requested
@@ -157,10 +167,10 @@ function seed!(rng::StableRNG, seed::Integer)
     rng
 end
 
-Base.show(io::IO, rng::StableRNG) =
+Base.show(io::IO, rng = StableRNG(seed)::StableRNG) =
     print(io, LehmerRNG, "(state=0x", string(rng.state, base = 16, pad = 32), ")")
 
-function Base.copy!(dst::StableRNG, src::StableRNG)
+function Base.copy!(dst = StableRNG(seed), src=S::StableRNG)
     dst.state = src.state
     dst
 end
@@ -177,14 +187,14 @@ using StableRNGs;
 
 
 global seed = 1234
-global rng = StableRNG(seed) #defaults to LehmerRNG - StableRNG should be specified  
+global rng = StableRNG(seed) #defaults to LehmerRNG - StableRNG should be specified  # new- display error LehmerRNG not defined 
 
 #= module randomness =#
 """
 TODO(1):change non-existing MersenneTwister to anything else...
-TODO(3): If is persistent, do Not Reseed (dedault: otherwise reseed) #later 
+TODO(3): If is persistent, do Not Reseed (dedault: otherwise reseed) #later #how to not reseed???
 """
-function randtemplate(seed = 1234, rng = MersenneTwister(seed), ispersistent = yes)
+function randtemplate(seed = 1234, ispersistent = yes)
     return rng(seed)
 end
 
@@ -201,50 +211,51 @@ Returns a single value
         # 1, 10,  1234, MersenneTwister(seed),  []
     #TODO: fill an array
 """
+function randvalue(rng = StableRNG(seed), m = 5, n = 5, s = rand(m, n), p = 0.4) #working 
 
-function randvalue(min = 1::Int64, max = 10::Int64, s = []::Int64, rng = MersenneTwisters(seed))
 
-
-    return randsubseq(rng, 3, min:max) #ok# change rng 
+    return randsubseq(rng, s, p) #ok# change rng 
     #return rand(min:max) # returns a single value x ∈ [min,max]
 
 end
 
-randvalue()
+res = randvalue() #ERROR: Type Assert 
+"""
+returns a single value
+    returns a single Vector
 
-function randvalue(_min = 1::int64, _max = 10::Int64)
-    """
-    returns a single value
-        returns a single Vector
+```inputs:
 
-    ```inputs:
+_min: minimum   , integer , Int64
+_max: maximum   , integer , Int64
+n:    Number of samples Int64 integer
 
-    _min: minimum   , integer , Int64
-    _max: maximum   , integer , Int64
-    n:    Number of samples Int64 integer
-
-    Note: both maximum & minimum are assumed to be Reachable
-      
-    e.g.
-    1. (There are) no Discontinuities at both bounds , & 
-    2. Anomalies' (_min's & _max's) value is Reachable
+Note: both maximum & minimum are assumed to be Reachable
+  
+e.g.
+1. (There are) no Discontinuities at both bounds , & 
+2. Anomalies' (_min's & _max's) value is Reachable
 
 
-    note: max must be Bounded
-    ```Inputs:
-    min : minimum value  ::Int64 
-    max:  maimum value  ::Int64
+note: max must be Bounded
+```Inputs:
+min : minimum value  ::Int64 
+max:  maimum value  ::Int64
 
-    TODO(2): return a Float  between 2 Integers x ∈ [min,max]
-    """
+TODO(2): return a Float  between 2 Integers x ∈ [min,max]
+"""
+#=
+function randvalue(rng = StableRNG(seed), _min = 1::int64, _max = 10::Int64)
+
     # rand(rng,_min,_max)
-    A = rand(rng, _min, _max)
+    A = rand(rng, _min, _max) #ERROR:sampler is not defimed 
+
     return A # returns a single value  x ∈ [min,max]
 
 end
 
-randvalue(rng, 0, 1) #test
-
+r = randvalue(StableRNG, 1, 2) #test
+=#
 
 """
    Returns a single Vector Uniformly
@@ -254,11 +265,11 @@ randvalue(rng, 0, 1) #test
 
   #TODO: Test the output 
 """
-function randVector(_min = 1::Int64, _max = 10::Int64, n = 10)
+function randVector(rng = StableRNG, _min = 1, _max = 10, n = 10)
 
-    return rand(_min:_max, n) # 1D array - n-element Array{Int64,1}
+    return rand(rng, _min:_max) # 1D array - n-element Array{Int64,1}
 end
-
+randVector()
 
 function randVector(_min = 1::Int64, _max = 10::Int64, n = 10::Int64)
 
@@ -266,10 +277,10 @@ function randVector(_min = 1::Int64, _max = 10::Int64, n = 10::Int64)
 
 end
 
+
 """ 
  Returns a single Vector with n 
 """
-
 
 function randVector(_min = 1::Int64, _max = 10::Int64, n = 10::Int64)
 
@@ -280,15 +291,14 @@ end
 """
  Returns a single Matrix (2D - Array)
 """
-function randMatrix(a = 10, b = 11, min = 1::Int64, max = 10::Int64)
+#=
+function randMatrix(rng = StableRNG(seed), min = 1::Int64, max = 10::Int64, a = 10, b = 11)
 
-    return rand(min:max, a, b)
+    return #=rand(rng, min:max, a, b)=#
 end
+=#
 
-
-
-end
-
+rand(StableRNG(seed), min, max, 10, 10)
 
 """
 Returns a single Matrix (2D - Array)
@@ -325,7 +335,7 @@ function permutate(rng = StableRNG(seed), n = 10) #sanity-check #where's the inp
     return randperm(rng(seed), n)
 end
 
-permutate(rng)
+permutate(StableRNG)
 
 #--- testing 4
 #permutate(MersenneTwisters(1234,n)
@@ -336,7 +346,7 @@ permutate(rng)
 
 #--- 
 
-"""
+#=
     LehmerRNG
     StableRNG
 Simple RNG with stable streams, usually suitable for testing.
@@ -344,14 +354,14 @@ Use only the alias `StableRNG`, as the name `LehmerRNG` is not
 part of the API.
 Construction: `StableRNG(seed::Integer)`.
 Seeding: `Random.seed!(rng::StableRNG, seed::Integer)`.
-"""
-mutable struct randomRNG <: AbstractRNG
+=#
+mutable struct randomRNG <: StableRNGs #  AbstractRNG
     state::UInt64
 
     randomRNG(seed::Integer) = seed!(new(), seed)
 
     #if redundant, please do Delete 
-    function LehmerRNG(; state::UInt128)
+    function StableRNG(; state::UInt128)
         isodd(state) || throw(ArgumentError("state must be odd"))
         new(state)
     end
@@ -361,7 +371,7 @@ state #2 cannot declare a constant, it has already a value
 #const StableRNG = LehmerRNG #invalid redefinition 
 
 
-function seed!(rng::StableRNG, seed::Integer)
+function seed!(seed::Integer,rng=StableRNG(seed) )
     seed >= 0 || throw(ArgumentError("seed must be non-negative"))
     seed <= typemax(UInt64) ||
     # this constraint could be loosened a bit if requested
@@ -371,22 +381,25 @@ function seed!(rng::StableRNG, seed::Integer)
     rng.state = seed
     rng
 end
+using StableRNGs
+print(seed!(StableRNG(seed), seed))# something seems off - 
 
-print(seed!(stableRNG, seed))
+Base.show(io::IO, rng = StableRNG::stableRNG) =
+    print(io, StableRNG, "(state=0x", string(rng.state, base = 16, pad = 32), ")") # how state can be relevant ( to my situation?)
 
-Base.show(io::IO, rng::stableRNG) =
-    print(io, LehmerRNG, "(state=0x", string(rng.state, base = 16, pad = 32), ")")
-
-function Base.copy!(dst::stableRNG, src::stableRNG)
-    dst.state = src.state
+function Base.copy!(dst = StableRNG::stableRNG, src = StableRNG::stableRNG)
+    dst.state = src.state #copy state 
     dst
 end
 
-Base.copy(src::stableRNG) = stableRNG(state = src.state)
+Base.copy(src = StableRNG(seed)::stableRNG) = stableRNG(state = src.state)
 
-Base.:(==)(x::stableRNG, y::stableRNG) = x.state == y.state
+Base.:(==)(x = StableRNG(seed)::stableRNG, y = 
 
-Base.hash(rng::stableRNG, h::UInt) = hash(rng.state, 0x93f376feff2bc48e % UInt ⊻ h)
+StableRNG(seed) = x.state == y.state #y.state is indifferent , honestly 
+
+
+hash = Base.hash( StableRNG(seed)::StableRNG, h::UInt) = hash(rng.state, 0x93f376feff2bc48e % UInt ⊻ h)
 
 
 ## Sampling
@@ -396,7 +409,7 @@ using StableRNGs
 rng = StableRNG(seed = 1234, state = randState()) # cyclic code detected: State not asssignment (state dependent method )# self-referencing detected: randState()requires StableRNG,with StableRNG requires RandomState ! 
 =#
 
-function randState(rng )#::SamplerType{UInt128})
+function randState(rng)#::SamplerType{UInt128})
     rng.state *= 0x45a31efc5a35d971261fd0407a968add
     return (rng.state >> 64) % UInt128 #waiting UInt128 ! (i cannot comfortably work with that - too much on the memory)
 end
@@ -404,18 +417,18 @@ end
 function isEqual(rng, ::SamplerType{T}) #ok #SamplerType #TODO: define 
 
 
-for T = [Bool, Base.BitInteger64_types...]
-    T === UInt128 && continue
-    @eval rand(rng::stableRNG, ::SamplerType{$T}) = rand(rng, UInt128) % $T
-end
+    for T = [Bool, Base.BitInteger64_types...]
+        T === UInt128 && continue
+        @eval rand(rng::stableRNG, ::SamplerType{$T}) = rand(rng, UInt128) % $T
+    end
 
-end 
+end
 rand(rng::stableRNG, ::SamplerType{UInt64}) = #UInt128 is bit too large for my requirements  
     rand(rng, UInt64) | ((rand(rng, UInt64) % UInt128) << 64)
 
 rand(rng::stableRNG, ::SamplerType{UInt64}) = rand(rng, UInt128) #Int128  
 
-Random.rng_native_52(::stableRNG) = UInt64
+Random.rng_native_52(::stableRNG(seed)) = UInt64
 
 
 #--- within a range
@@ -427,7 +440,7 @@ Random.rng_native_52(::stableRNG) = UInt64
 using Base: BitUnsigned, BitInteger
 using Random: LessThan, Masked, uniform
 
-struct SamplerRangeFast{U<:BitUnsigned,T<:BitInteger} <: Sampler{T}
+struct SamplerRangeFast{U<:BitUnsigned,T<:BitInteger} <: Sampler{T} # define  a sampler 
     a::T      # first element of the range
     bw::UInt  # bit width
     m::U      # range length - 1
@@ -446,13 +459,14 @@ function SamplerRangeFast(r::AbstractUnitRange{T}, ::Type{U}) where {T,U}
     SamplerRangeFast{U,T}(first(r), bw, m, mask)
 end
 
-function rand(rng::AbstractRNG, sp::SamplerRangeFast{UInt64,T}) where {T}
+function rand(rng=StableRNG:StableRNG, sp::SamplerRangeFast{UInt64,T}) where {T}
     a, bw, m, mask = sp.a, sp.bw, sp.m, sp.mask
     x = rand(rng, LessThan(m, Masked(mask, uniform(UInt64))))
     (x + a % UInt64) % T
 end
 
-function rand(rng::AbstractRNG, sp::SamplerRangeFast{UInt128,T}) where {T}
+#--- 
+function rand(rng=StableRNG()::StableRNG, sp::SamplerRangeFast{UInt128,T}) where {T}
     a, bw, m, mask = sp.a, sp.bw, sp.m, sp.mask
     x = bw <= 64 ?
         rand(rng,
@@ -469,5 +483,5 @@ function unknownOne()
             SamplerRangeFast(r)
     end
 
+end
 end 
-#--- 
