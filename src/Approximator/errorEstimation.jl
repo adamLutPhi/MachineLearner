@@ -1,4 +1,4 @@
-"""P.1.Tricks & Tips in Numerical Computing  
+#=P.1.Tricks & Tips in Numerical Computing  
 JuliaCon 2018 - M\cr|NA
 Credits: Professor Mr. Nick Higham @nhigham 
 # today the lecturing Professor @nhigham of Numerical Computing 
@@ -10,7 +10,7 @@ nickhigham.wordpress.com
 
 
 
-"""
+=#
 
 """P.2.Introduction 
 
@@ -28,19 +28,125 @@ A trick used threetimes becomes a standard technique  -George Polya -Hungarian m
 
 
 """
-f'(x) = (f(x + h) - f(x)) / h
+x = 10^5
+
+#f(x) =
+#f = f(x)
+
+#to view only (secant method )
+# f'(x) = (f(x + h) - f(x)) / h
 
 
-"""p.3.Differentiation With(out) a Difference 
+#=p.3.Differentiation With(out) a Difference 
 
 ≈ abs(f(x))
 
 Error O(h) (especialy)
 
-My Note:
-this differential function is  #reminder: do a differential repo #TODO
+Note:
+this is a differential function
+=#
+range = 1:10
+size(range)[1]
+
 """
-function h(u, f(x), f_double_prime(x))
+calculates b on different subset of ranges (for each n)
+```inputs:
+
+a: initial position 
+n: steps required (see: nLookup)
+h: stepsize 
+```
+
+Example |---|---|---|
+        a   b1  b2  b3
+say a = 1, b3 =4 , & h 1 , find that  n = 3, let ni be n1, n2,...ni = 1,2,3,... s.t. for i = 1,2,3,.. ∈ Q rational numbers, where i isa size(n), then:
+# for i =1,2,3,..
+b[i] = a*(n[i]*h)
+e.g. 
+
+b[1] = a[i] * (n[1]*h) = 1 * ()  
+b[2] = a[i] * (n[2]*h) = 
+b[3] = a[i] * (n[2]*h) 
+
+"""  
+function bLookup!(a,n,;h=1)
+  b =  a + (n*h)
+  return b
+end
+
+"""
+Returns the number of steps 
+
+    Example: 
+  
+    for range [a= 1 , b=3]
+    size of range = b - a = 3 - 1 = 2  range length 
+    if h is 1 then stepsrequired = size(range) * h = 2 * 1 = 2 steps  
+"""
+function nLookup(a, b, h) 
+
+    _size = nothing  # b -a
+    _size = b - a # range length  
+    stepsrequired = ceil( _size * h )  #steps #whatever h is , it returns ceiled whole number 
+    return stepsrequired
+end 
+    """
+    f_prime 
+
+    ```inputs
+    f: the function operator 
+    x: the single variable
+    a: lower range bound 
+    b: upper range bound 
+    h: the stepsize : initialized to 1
+    ```
+    
+    example: 
+  
+   for range [a= 1 , b=3]
+    size of range = b - a = 3 - 1 = 2  range length 
+    if h is 1 then stepsrequired = size(range) * h = 2 * 1 = 2 steps  
+    a , a+h, a+2h, ...,b
+    a=1 , 1+1, 1+1+1 = b
+    """
+function f_prime!(f,x,a,b,;h=1)
+
+    result =nothing
+    n = nLookup(a,b,h) #returns `number of steps` required to do  n  :: # is it always a whole number #expectation : whole number 
+    sum = 0
+    if i > n  && i < 1 #Upon fallback 
+        #return result 
+
+    else #otherwise # do the work 
+        #which variables are changing 
+        #nth  step: 
+
+        
+        f_prime!()
+
+    end
+
+    if b >= a 
+        result = f(x=b) - f(x=a) / (b - a) 
+        
+
+    elseif b <= a 
+        result = f(x = a) - f(x=b) / (a - b)
+    
+    return result
+
+end 
+
+function f_double_prime(f, x, a = 1, b = 10)
+    
+    for i in enumerate(2)
+
+    f = f_prime!(f, x, a, b) #f(b) - f(a) 
+    δfδx = deepcopy(f)
+end 
+
+function h(u, x, f, f_double_prime) # f(x) is not a valid function Argument #Solution: remove arguments 
     #pythagorean theorem 
     return h ≈ sqrt(u * abs(f(x) / f_double_prime(x)))
 end
@@ -64,7 +170,7 @@ function (model=sqrt(v[m, n]), approx=x_minus_one(v[m, n])
 end
 =#
 
-
+#Example: the square-root sqrt: most irrational rational 
 
 a = sqrt(x);
 b = x_minus_one(x) = x^-1; #  Matrix{Float64} <: DenseMatrix{Float64} <: AbstractMatrix{Float64} <: Any
