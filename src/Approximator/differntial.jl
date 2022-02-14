@@ -3,18 +3,32 @@
 
 g(x)=(f3 *(f2(x)f1(x)) 
 #=
-where fk: R^nk -> R^nk+1
-each o fs maps vecors (of length nk to nk+1)
-  ggg
-
 chain rules give  #TODO: a loop on allJacobians 
 
 @nickhigham:
 suppose you have a function g(of x) - 
     a function of Composition 
   (of other functions: f3, f2, f1)      
+  each f maps Vectors (of length nk -to-> nk+1)
+1.so the  
+(1st) derivative of g = Jacobian Matrix 
+2.if Apply the chain Rule:
+I'll get the expression (Jf):
+the product of 3 Jacobians 
+Evaluated at the appropriate arguments
 
-  
+Question: 
+if I want to get the Jacobian (J)
+  which order should I take 
+  J3 J2 J1 or J1, J2, J3 ?
+
+  comes up in automatic differentiation:
+  the difference between the first mode 
+
+Reverse mode (output) & forward (input )
+
+
+ 
 so if i want to get the derivative of g 
 
 #-- testing Area:
@@ -25,6 +39,7 @@ for i in enumerate(n)
     return jf(i,)
 
 =#
+#Composition
 Jg(x) =  Jf3(f2*(f1(x)))*Jf2(f1(x))*Jf1(x) ;
 
 #---Todo implement Jacobian too     
@@ -88,7 +103,7 @@ Jg(x) = Jf3(f2(f1(x)))*Jf2(f1(x))*Jf1(x);
 
 #=
 Q. does Jg as (Jf3*Jf2)*Jf1 or Jf3*(Jf2*(Jf1)) 
-me: i.e. is it forward or backward 
+me: i.e. is it forward or backward (check also nick-Higham juliacon 2018)
 
 https://github.com/JuliaDiff/SparseDiffTools.jl
 In addition, the following forms allow you to provide a gradient function g(dy,x) or dy=g(x) respectively:
@@ -118,7 +133,7 @@ numback_hesvec!(dy,f,x,v,
 
 numback_hesvec(f,x,v)
 
-# Currently errors! See https://github.com/FluxML/Zygote.jl/issues/241
+# Currently errors! See https://github.com/FluxML/Zygote.jl/issues/241 #says about Zygote 
 autoback_hesvec!(dy,f,x,v,
                      cache2 = ForwardDiff.Dual{DeivVecTag}.(x, v),
                      cache3 = ForwardDiff.Dual{DeivVecTag}.(x, v))
@@ -140,9 +155,13 @@ HesVecGrad(g,x::AbstractArray;autodiff=false)
  2.Forward (mode)
  3.Reverse mode
 
-Provides references  references 
+Provides a  references 
 G.Strang Linear Algebra & Learning from Data 
 Wellesley-Cambridge Press 2018 
 http://math.mit.edu/~gs/Learningfromdata 
+
+#Final inference:
+no body has a clear idea about Automatic differentiation - and is still 
+a ripe  area of Research  
 
 =#
