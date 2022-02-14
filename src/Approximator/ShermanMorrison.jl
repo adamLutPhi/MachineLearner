@@ -1,12 +1,15 @@
+#=
 ∈
-"""Low Rank Updates of A \in R^nxn
+Low Rank Updates of A \in R^nxn
 
 Sherman-Morrison formula 
 
 If x, y ∈ R^n & 1+y^T A^-1 x is nonzero then 
 
 TODO: check for  (A+x*y') != 0 , A != 0 
-"""
+=#
+
+using LinearAlgebra
 # as an expression
 lhs = :((A + x * y')^-1)
 
@@ -131,4 +134,81 @@ everyone here has done A/ B -probably only a few know actually what it did ( wha
      - Professor Stephen Boyd, of the Stanford Electrical Engineering Department
     Lecture 1 | Convex Optimization 1 (Standard)
 
-     =#
+  =#
+
+Lehs - RHS
+""" the Best we can get 
+10×10 Matrix{Float64}:
+ 22.2142     25.6118    -89.3328   -7.21748   -17.99     15.6037   12.0876   77.5545     3.49734  -43.1083
+  0.472091  -35.6289   -125.656    17.9696     82.6787  -81.5007   53.3611  152.23       2.13005  -57.7565
+  ⋮                                                       ⋮
+  2.53801    -9.63932   -31.15      3.34303    18.2504  -20.8493   13.5364   38.1611     4.72605  -15.887
+ 51.7025    133.216     -80.0547  -47.635    -183.818   208.653   -45.3165   -2.99068  -11.0007   -49.3098
+"""
+
+
+function _span(arr = A, ; diagon = LinearAlgebra.diag(A))
+  span = 0
+  for i in enumerate(size(diagons))
+    span += diagons[i]
+  end
+  return span
+end
+
+diagons = LinearAlgebra.diag(A) = LinearAlgebra.Diagonal(A)
+span(A, diagons)
+
+LinearAlgebra.span
+
+#--- identity
+A = rand(10, 10)
+B = rand(10, 10)
+I = ones(10, 10)
+C = rand(10,10 )
+_0 = zeros(10, 10)
+_lhs = (I + A .* B)^-1
+#=
+ 2.51162     1.06328     3.50709   -3.73767   -1.19645   -2.50288  -0.293292   0.961015   2.15519   -2.10134
+ -6.03368    -1.3807     -8.14618    9.10683    4.05341    6.37086  -1.45176   -0.658709  -5.30112    2.65344
+  ⋮                                                        ⋮
+  4.9177      1.4219      6.38853   -7.89654   -1.68593   -5.32977   0.260283   0.159931   4.43551   -2.16398
+ -0.0382185   0.0314968   0.316589  -0.994095  -0.307413   1.4129    0.126316  -0.345001   0.232051  -0.182067
+=#
+#_0 ≈ _lhs
+
+(I + B * A)^-1 * B
+
+#=
+10×10 Matrix{Float64}:
+  1.92712   -1.52044   …   2.88647    0.899755
+  4.59499   -5.75992       6.18216    0.0528266
+  ⋮                    ⋱
+ -5.99075    6.25609      -9.001     -1.07983
+ -0.834267   0.204393     -0.139767  -0.228184
+
+=#
+
+_rhs = I - A * (I + B * A)^-1 * B
+
+_rhs ≈ _lhs  #false(bnot close (enough))
+ 
+#=Key equations 
+
+A*B*A ≈ (B*A) 
+=#
+A*B * A ≈ A * (B * A)  # true #finally 
+#=fundanetbal theory of matrix theory =#
+
+(A*B)*C ≈ A * (B*C) # true
+
+#=Matrix Cain multiplication\
+where to put the par anothers
+A1,A2,..An
+by soliving dynamic programming , in O(k^3)
+paper: O(K Log K  Hu, Shing (1984)
+why importanT ? 
+=# 
+
+#--- Chain Ruler 
+
+g(x)=(f3 *(f2(x))
