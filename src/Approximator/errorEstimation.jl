@@ -58,20 +58,38 @@ n: steps required (see: nLookup)
 h: stepsize 
 ```
 
-Example |---|---|---|
-        a   b1  b2  b3
-say a = 1, b3 =4 , & h 1 , find that  n = 3, let ni be n1, n2,...ni = 1,2,3,... s.t. for i = 1,2,3,.. ∈ Q rational numbers, where i isa size(n), then:
-# for i =1,2,3,..
+Example |--- |...|--- |
+        a1  b1   bn-1  bn
+say a = 1, b3 =4 , & h 1 (pre-defined constant) , let ni be n1, n2,...ni =s.t.= 1,2,3,...  for i = 1,2,3,.. , i∈ Q Rational numbers,
+then: # for i =1,2,3,..
 b[i] = a*(n[i]*h)
 e.g. 
 
-b[1] = a[i] * (n[1]*h) = 1 * ()  
-b[2] = a[i] * (n[2]*h) = 
-b[3] = a[i] * (n[2]*h) 
+b[1] = a[1] + (n[1] * h) = 1 + (1 * 1 )  = 2  #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+b[2] = a[2] + (n[2] * h) = 2 + (2 * 1)  =  4  #infer: sub-rage [2,4]   (b4=4 isa b[2]=4 HALT!)
+b is reached , with 2 steps 
+Recursing back from  b[i]= b = 4 : if a[1] !=1 yet (2 steps )   
+if b 
+b[4]
 
 """  
-function bLookup!(a,n,;h=1)
-  b =  a + (n*h)
+function bLookup!(a=1,b=4;h=1)
+i=4 ;a=[]; _b= []; _n = []
+
+setindex!()
+
+i=1;a=[]; _b=[]; _n
+if _b[i] isa b
+a[1] = a 
+if !(_b[i] isa b)
+    a[i] + (n[1] * h)
+    i += 1
+while !(_b[i] isa b=4)
+    b[i]= a[i] + (n[i] * h)
+    i +=1
+
+i=1: b[1] = a[1] + (n[1] * h) = 1 + (1 * 1 )  = 2  #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+i=2: b[2] = a[2] + (n[2] * h) = 2 + (2 * 1)  =  4
   return b
 end
 
