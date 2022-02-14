@@ -584,4 +584,64 @@ function testvalue(data)
         zero(eltype(data))
     end::eltype(data)
 end
+#--- Juliacon 2016 
+
+#=
+by Professor David Sanders 
+=#
+
+#=
+extending arrays
+how: by using the push (Bang)
+=#
+V = []
+
+
+push!(w, "adamus")
+append!(w, [3, 4.5, "coffee costs"])
+
+push!(V, 1)
+#=
+Exclamation mark: is convention that says:
+1 argument (or more ) is gonna be modified 
+this case, it's V 
+=#
+
+M = hcat(V[1], V[2]) # for all elements( hardcoded here for 2 item)
+#vector to Array: horizontal concat hcat: horizontally contatenated vertical vectors  
+M = hcat(V...) #...:the splat: for all values of container  ; take each element in array ; put it as an argument (concatenate it)
+#splat ...: takes each element, in the Iterable, & make Another Argument (of the function)
+
+#toget it back (as vector of vectors), transpose it 
+
+M = hcat(v...)'
+
+#or we directly can write vecto as 
+
+v = Vector{Int}[[3, 4], [5, 6]] #2-element Vector{Vector{Int64}}:
+v = [[3, 4], [5, 6]] #2-element Vector{Vector{Int64}}:
+#=2-element Vector{Vector{Int64}}:
+ [3, 4]
+ [5, 6]
+ Splat warning: Careful when splatting large objects 
+ (objects with many elements )
+ e.g.
+ 1. concat things into 1 huge vector 
+2. then, do a reshape 
+
+A view: is a reshape (instead of copy, in Julia)
+
+=#
+
+"""higher-dimensional arrays have a fixed size! 
+-Instead of having a fixed size structure  
+we can Dynamically allocate vectors 
+How: by vector of vectors 
+if we want a dynamic array that accets 
+
+"""
+w = [] # enmpty array, 0 element , of type {Any,1}
+v = Vector{Int}[]
+push!(v, [3, 4])
+push!(v, [5, 6])
 
