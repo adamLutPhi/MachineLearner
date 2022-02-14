@@ -164,4 +164,6 @@ http://math.mit.edu/~gs/Learningfromdata
 no body has a clear idea about Automatic differentiation - and is still 
 a ripe  area of Research  
 
+"No body knows anything about anything"
+
 =#
