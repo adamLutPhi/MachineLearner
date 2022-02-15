@@ -49,7 +49,7 @@ this is a differential function
 range = 1:10
 size(range)[1]
 
-"""
+#=
 calculates b on different subset of ranges (for each n)
 ```inputs:
 
@@ -60,7 +60,7 @@ h: stepsize
 
 Example |--- |...|--- |
         a1  b1   bn-1  bn
-say a = 1, b3 =4 , & h 1 (pre-defined constant) , let ni be n1, n2,...ni =s.t.= 1,2,3,...  for i = 1,2,3,.. , i∈ Q Rational numbers,
+say a = 1, b3 =4 , & h 1 (pre-defined constant) , let ni be n1, n2,...ni =s.t.= 1,2,3,...  for i = 1,2,3,.. , i∈ N+ Positive Natural numbers,
 then: # for i =1,2,3,..
 b[i] = a*(n[i]*h)
 e.g. 
@@ -72,11 +72,111 @@ Recursing back from  b[i]= b = 4 : if a[1] !=1 yet (2 steps )
 if b 
 b[4]
 
-"""  
-function bLookup!(a=1,b=4;h=1)
-i=4 ;a=[]; _b= []; _n = []
+=#  
+using Test,  BenchmarkTools, DataStructures
 
-setindex!()
+#=
+```inputs
+
+n: whole positive natural number > 1 -autoincremented 
+
+|---| --- |
+b    b      b
+```
+ #queue - Datastructures.Deque{Int}()
+#=
+   i=4 = b ;a=[]; ; n = 1;
+
+if (i < 2 || i > b) # stop
+    #crunch in numbers 
+    return
+else
+    #modify then call 
+    i = i - (n * h) # 4 -(1*1) = 3 <--- new b /a 
+    pt = (i, b) # (3,4); push!()  
+    bLookup!(a, b; h = 1)
+    #push!()  ∘ ⚇ 
+
+
+    n += 1
+
+    setindex!(a, 1, i)
+
+end
+a=rand(10,1) ; size(a)
+@test 
+bLookup!()
+
+(1,2)
+=#
+=#
+
+function bLookup!(a = 1, b = 4; h = 1)
+
+
+    _a = 1
+    _b = 1 #Whatever _b could be chosen, inside loop it 'll get overwritten 
+
+    q = DataStructures.Deque{Tuple{Int64,Int64}}()
+    n = 1
+    while _a != b && _b <= b
+        #   2 + (2) = 4 = _b 
+        _b = _a + (n * h)  # = 3  #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+        push!(q, (_a, _b)) #1 (1,2)
+        _a = _b # a = 2
+        n += 1 # 2 
+    end
+
+    return q
+end
+heap =bLookup!()
+length(heap)
+ranges = []
+a = 1; b= 4
+
+for i in enumerate(length(heap))
+    a , b = popfirst!(heap) 
+    
+    push!((a,b,i),q)
+end
+
+    #ranges  = [ ranges ,a:b]
+    #range1 = ret1:ret2 
+    #ret3, ret3 = popfirst!(heap)
+
+#range2 =   
+# ret2
+#ret1:ret2
+
+
+function getindex!(Q::Deque{Tuple{Int64, Int64}},idx::Int64)
+    ret = nothing
+    for i in enumerate(size(Q))
+        if i isa idx 
+        ret = pop!(Q)
+        end
+    end 
+    return ret 
+end 
+#=
+getindex!(heap,1)
+i = 4  #... i = 1 ; b[1] =4 
+a[1]= b[1] - (n[1]*h) = 
+
+b[2]
+
+b[1]  # setindex!(b,1,)
+b[1] =  1 + (1 * 1 )  = 2  #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+b[2] = a[2] + (n[2] * h) = 2 + (2 * 1) 
+
+b[2] = a[2] - (n[2] * h) = 2 -  (2 * 1) 
+#=
+Base.setindex!
+=# #Function
+setindex!(collection, value, key...)
+Store the given value at the given key or index within a collection. The syntax a[i,j,...] = x is converted by the compiler to (setindex!(a, x, i, j, ...); x).
+=#
+
 
 i=1;a=[]; _b=[]; _n
 if _b[i] isa b
@@ -141,7 +241,7 @@ function f_prime!(f,x,a,b,;h=1)
         #nth  step: 
 
         
-        f_prime!()
+      #  f_prime!()
 
     end
 
@@ -228,6 +328,11 @@ print(error)
 #print(colErrors)
 #print(rowErrors)
 using BenchmarkTools
+function dispersion()
+colDispersion = _maxCol - _minCol
+
+end 
+
 rowErrors = cumsum(v, dims = 1)
 #=10×10 Matrix{Float64}:
  0.755532  0.590352  0.111428  0.887575  0.0507037  0.903207  0.358227  0.186171  0.761759  0.883808
@@ -240,6 +345,7 @@ rowErrors = cumsum(v, dims = 1)
  error range = [*3.0492*, 6.44228]
 =#
 6.44228 - 3.0492
+size(v)
 colErrors = cumsum(v, dims = 2)
 
 _minCol = minimum(colErrors)
@@ -285,18 +391,20 @@ and(colDispersion < rowDispersion, colDispersion > rowDispersion) # hiccup with 
  only 1 error created  a big problem (of not a Neglegible size)
 =#
 colErrormat = cumsum(error, dims = 2)
+end
+end 
 #=
  0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
  0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
  ⋮                                                 ⋮
  0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
  0.518967  0.518967  0.518967  0.518967  0.518967  0.518967  0.518967  0.518967  0.518967  0.518967
-
+  
  #
 =#
 
 #=
-for f(x) = exp(x) with x = 1 
+for f(x) = exp(x) with x = 1
 Optimal 
 
 h≈ (u*abs(f(x)/f''(x)))^1/2
