@@ -75,192 +75,12 @@ b[4]
 =#  
 using Test,  BenchmarkTools, DataStructures
 
-#=
-```inputs
 
-n: whole positive natural number > 1 -autoincremented 
-
-|---| --- |
-b    b      b
-```
- #queue - Datastructures.Deque{Int}()
-#=
-   i=4 = b ;a=[]; ; n = 1;
-
-if (i < 2 || i > b) # stop
-    #crunch in numbers 
-    return
-else
-    #modify then call 
-    i = i - (n * h) # 4 -(1*1) = 3 <--- new b /a 
-    pt = (i, b) # (3,4); push!()  
-    bLookup!(a, b; h = 1)
-    #push!()  ∘ ⚇ 
-
-
-    n += 1
-
-    setindex!(a, 1, i)
-
-end
-a=rand(10,1) ; size(a)
-@test 
-bLookup!()
-
-(1,2)
-=#
-=#
-
-function bLookup!(a = 1, b = 4; h = 1)
-
-    _a = 1
-    _b = 1 #Whatever _b could be picked-up, inside loop it 'll get overwritten 
-
-    q = DataStructures.Deque{Tuple{Int64,Int64}}()
-    n = 1
-
-    while _a != b && _b <= b
-        #   2 + (2) = 4 = _b 
-        _b = _a + (n * h)  # = 3  
-        push!(q, (_a, _b)) #1 (1,2) #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
-        _a = _b # a = 2
-        n += 1 # 2 
-    end
-
-    return q
-end
-  
-heap =bLookup!()
-typeof(heap)
-length(heap)
-#popfirst!(heap)
-#typeof(pop!(heap))
-N = []
-(collect(pop!(heap))
-#collect(pop!(heap))[1, 1] #collect creates an Array
-size(collect(pop!(heap)))
-
-
-size(A[1:1, 1])
-
-
-#N[[1],:] =typeof(collect(pop!(heap)))# boundsError #UncommentMe
-N[[:],] = typeof(collect(pop!(heap))) #possible :Deque must me non-empty # invalid index Colon #LoadError: ArgumentError: invalid index: [Colon()] of type Vector{Colon}
-N[:] =typeof(collect(pop!(heap))) # returns a 0-element vector 
-resultsize(idxs...) = tuple(Iterators.flatten(size.(idxs))...)
-
-#0element vector{Any} at index [[1]]
-
-# typeof(collect(pop!(heap)))
-
-#typeof( collect(pop!(map(x->x, heap))))
-
-containr = nothing
-arr = nothing
-for i in enumerate(length(heap))
-    containr += [arr collect(pop!(map(x[i]->x, heap)) ) ]
-end 
-#= how you define behavior is how 
-julia will react =#
- 
-    ranges = []
-a = 1; b= 4
-#ret = nothing
-A=[];B=[];I=[];
-#q =(,)::Tuple{UnitRange{Int64}, Tuple{Int64, Int64}}, ::Type{Any} # Any #DataStructures.Deque{UnitRange{Int64}}()
-
-#insert!()
-A = collect( popfirst!(heap))
-    
-@inbounds for (n,i) in enumerate(tmp)
-        b[n] = i+1
-    end 
-
-a,b = popfirst!(heap)
-
-for p in enumerate(length(heap))
-    a, b = popfirst!(heap)
-    #ret = [ret, a:b]
-    #push!(A, a)
-    #push!(B, b)
-    A = insert!(A, a)
-    B= insert!(B, b)
-    insert!(I, p)
-    # A = [a] #1
-    # B = [b]
-    # I = [p]
-    #   (A,B)[i]  = (a,b)
-    #i += 1
-    #(A[i],B[i]) = (a,b)
-    #   (A[i],B[i],I[i]) = a,b,i
-    # B[i] = b ;
-    #  I[i] = i
-    #   a[i],B[i],I[i] = a,b,i            #push!((a:b,i),q)
-end
-
-
-#ret[1]
-#ret[2]
-    #ranges  = [ ranges ,a:b] 
-    #range1 = ret1:ret2 
-    #ret3, ret3 = popfirst!(heap)
-
-#range2 =   
-# ret2
-#ret1:ret2
-
-function getIndex!(Q::Deque{UnitRange{Int64}}, idx::Int64)
-    ret = getQueue(Q, idx)
-end 
-
-function getindex!(Q::Deque{Tuple{Int64, Int64}},idx::Int64)
-    ret = nothing
-    for i in enumerate(size(Q))
-        if i isa idx 
-        ret = pop!(Q)
-        end
-    end 
-    return ret 
-end 
-#=
-getindex!(heap,1)
-i = 4  #... i = 1 ; b[1] =4 
-a[1]= b[1] - (n[1]*h) = 
-
-b[2]
-
-b[1]  # setindex!(b,1,)
-b[1] =  1 + (1 * 1 )  = 2  #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
-b[2] = a[2] + (n[2] * h) = 2 + (2 * 1) 
-
-b[2] = a[2] - (n[2] * h) = 2 -  (2 * 1) 
-#=
-Base.setindex!
-=# #Function
-setindex!(collection, value, key...)
-Store the given value at the given key or index within a collection. The syntax a[i,j,...] = x is converted by the compiler to (setindex!(a, x, i, j, ...); x).
-=#
-
-
-i=1;a=[]; _b=[]; _n
-if _b[i] isa b
-a[1] = a 
-if !(_b[i] isa b)
-    a[i] + (n[1] * h)
-    i += 1
-while !(_b[i] isa b=4)
-    b[i]= a[i] + (n[i] * h)
-    i +=1
-
-i=1: b[1] = a[1] + (n[1] * h) = 1 + (1 * 1 )  = 2  #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
-i=2: b[2] = a[2] + (n[2] * h) = 2 + (2 * 1)  =  4
-  return b
-end
 
 """
 Returns the number of steps 
 
-    Example: 
+    Example:   
   
     for range [a= 1 , b=3]
     size of range = b - a = 3 - 1 = 2  range length 
@@ -268,14 +88,14 @@ Returns the number of steps
 """
 function nLookup(a, b, h) 
 
-    _size = nothing  # b -a
-    _size = b - a # range length  
+    _size = nothing  # b -a    
+    _size = b - a # range length   
     stepsrequired = ceil( _size * h )  #steps #whatever h is , it returns ceiled whole number 
     return stepsrequired
 end 
     """
     f_prime 
-
+  
     ```inputs
     f: the function operator 
     x: the single variable
