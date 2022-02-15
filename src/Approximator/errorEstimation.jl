@@ -119,6 +119,7 @@ function bLookup!(a = 1, b = 4; h = 1)
 
     q = DataStructures.Deque{Tuple{Int64,Int64}}()
     n = 1
+
     while _a != b && _b <= b
         #   2 + (2) = 4 = _b 
         _b = _a + (n * h)  # = 3  #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
@@ -126,21 +127,45 @@ function bLookup!(a = 1, b = 4; h = 1)
         _a = _b # a = 2
         n += 1 # 2 
     end
-
+    
     return q
 end
+
 heap =bLookup!()
 length(heap)
 ranges = []
 a = 1; b= 4
+#ret = nothing
+A=[];B=[];I=[];
+#q =(,)::Tuple{UnitRange{Int64}, Tuple{Int64, Int64}}, ::Type{Any} # Any #DataStructures.Deque{UnitRange{Int64}}()
 
-for i in enumerate(length(heap))
-    a , b = popfirst!(heap) 
-    
-    push!((a,b,i),q)
+#insert!()
+A = collect( popfirst!(heap))
+a,b = popfirst!(heap)
+for p in enumerate(length(heap))
+    a, b = popfirst!(heap)
+    #ret = [ret, a:b]
+    #push!(A, a)
+    #push!(B, b)
+    A = insert!(A, a)
+    B= insert!(B, b)
+    insert!(I, p)
+    # A = [a] #1
+    # B = [b]
+    # I = [p]
+    #   (A,B)[i]  = (a,b)
+    #i += 1
+    #(A[i],B[i]) = (a,b)
+    #   (A[i],B[i],I[i]) = a,b,i
+    # B[i] = b ;
+    #  I[i] = i
+    #   a[i],B[i],I[i] = a,b,i            #push!((a:b,i),q)
 end
 
-    #ranges  = [ ranges ,a:b]
+
+#ret[1]
+#ret[2]
+    #ranges  = [ ranges ,a:b] 
     #range1 = ret1:ret2 
     #ret3, ret3 = popfirst!(heap)
 
@@ -148,6 +173,9 @@ end
 # ret2
 #ret1:ret2
 
+function getIndex!(Q::Deque{UnitRange{Int64}}, idx::Int64)
+    ret = getQueue(Q, idx)
+end 
 
 function getindex!(Q::Deque{Tuple{Int64, Int64}},idx::Int64)
     ret = nothing
