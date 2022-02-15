@@ -113,27 +113,57 @@ bLookup!()
 
 function bLookup!(a = 1, b = 4; h = 1)
 
-
     _a = 1
-    _b = 1 #Whatever _b could be chosen, inside loop it 'll get overwritten 
+    _b = 1 #Whatever _b could be picked-up, inside loop it 'll get overwritten 
 
     q = DataStructures.Deque{Tuple{Int64,Int64}}()
     n = 1
 
     while _a != b && _b <= b
         #   2 + (2) = 4 = _b 
-        _b = _a + (n * h)  # = 3  #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
-        push!(q, (_a, _b)) #1 (1,2)
+        _b = _a + (n * h)  # = 3  
+        push!(q, (_a, _b)) #1 (1,2) #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
         _a = _b # a = 2
         n += 1 # 2 
     end
-    
+
     return q
 end
-
+  
 heap =bLookup!()
+typeof(heap)
 length(heap)
-ranges = []
+#popfirst!(heap)
+#typeof(pop!(heap))
+N = []
+(collect(pop!(heap))
+#collect(pop!(heap))[1, 1] #collect creates an Array
+size(collect(pop!(heap)))
+
+
+size(A[1:1, 1])
+
+
+#N[[1],:] =typeof(collect(pop!(heap)))# boundsError #UncommentMe
+N[[:],] = typeof(collect(pop!(heap))) #possible :Deque must me non-empty # invalid index Colon #LoadError: ArgumentError: invalid index: [Colon()] of type Vector{Colon}
+N[:] =typeof(collect(pop!(heap))) # returns a 0-element vector 
+resultsize(idxs...) = tuple(Iterators.flatten(size.(idxs))...)
+
+#0element vector{Any} at index [[1]]
+
+# typeof(collect(pop!(heap)))
+
+#typeof( collect(pop!(map(x->x, heap))))
+
+containr = nothing
+arr = nothing
+for i in enumerate(length(heap))
+    containr += [arr collect(pop!(map(x[i]->x, heap)) ) ]
+end 
+#= how you define behavior is how 
+julia will react =#
+ 
+    ranges = []
 a = 1; b= 4
 #ret = nothing
 A=[];B=[];I=[];
@@ -141,7 +171,13 @@ A=[];B=[];I=[];
 
 #insert!()
 A = collect( popfirst!(heap))
+    
+@inbounds for (n,i) in enumerate(tmp)
+        b[n] = i+1
+    end 
+
 a,b = popfirst!(heap)
+
 for p in enumerate(length(heap))
     a, b = popfirst!(heap)
     #ret = [ret, a:b]
