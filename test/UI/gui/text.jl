@@ -7,14 +7,14 @@ import Gtk: GtkTextIter, mutable
 
 w = GtkWindow() #1.call a window
 b = GtkTextBuffer() #2.call a textBuffer 
-b.text[String] = "test" #3.create a label 
+b.text[String] = "test" #3.create a label on buffer's argument 'text'
 v = GtkTextView(b) #4.Create a (text) view 
-@test v[:buffer, GtkTextBuffer] == b 
+@test v[:buffer, GtkTextBuffer] == b #
 
-push!(w, v)
-showall(w)
+push!(w, v) #push changes: view v onto a window w  
+showall(w)#diplay function 
 
-its = GtkTextIter(b, 1)
+its = GtkTextIter(b, 1) #q. Iter funcyiosnlity (is Sync functionality?)
 ite = GtkTextIter(b, 2)
 
 @test buffer(its) == b
@@ -120,13 +120,14 @@ select_range(b, its, ite)
 insert!(v, start, "inserted text")
 
 # coords
-wx, wy = Gtk.buffer_to_window_coords(v, 3, 2, 2)
-bx, by = Gtk.window_to_buffer_coords(v, wx, wy)
+wx, wy = Gtk.buffer_to_window_coords(v, 3, 2, 2) #translate(buffer -> window )
+bx, by = Gtk.window_to_buffer_coords(v, wx, wy)  #translate window -> buffer 
 @test bx == 3 && by == 2
 
-iter = Gtk.text_iter_at_position(v, 3, 2)
+iter = Gtk.text_iter_at_position(v, 3, 2) #Iter at position 
 
-destroy(w)
+
+destroy(w) #don't forget to destroy before the end 
 end
 
 end
