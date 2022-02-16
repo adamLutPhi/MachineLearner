@@ -1,5 +1,5 @@
 using Test,  BenchmarkTools, DataStructures
-module heap
+#module Heap end
     
 #=
 ```inputs
@@ -95,26 +95,80 @@ length(heap)
 #orderedArray = extract_all!(heap) #
 
 dims= deepcopy(size(collect(minimum(heap)))) ;    #= (2,) ; =# #heap = update(heap,1,popped) #<-----Tuple Dimensions 
+typeof(dims) #dims isa tuple 
 _length = length(len) #Tamas_Papp Tamas_Papp Oct 2017 (2,) is simply syntax for a tuple of 1 element #needed to avoid confusion with (2) == 2.
 
-typeof(minimum(heap)) #(1,2)#Tuple{{Int64, Int64}} # each inside value is a Tuple  
+minHeap = typeof(minimum(heap)) #(1,2)#Tuple{{Int64, Int64}} # each inside value is a Tuple  minHeap isa Tuple
 
 #for i k in enumerate(length) 
 #accessing tuple :  2 loops f_vp= 
-dt1 = nothing 
-dt2 = nothing
+#dt1 = nothing  #UncommentMe 4 #Debugging
+#dt2 = nothing
 #funtion iterTuple(tuple=heap, m,n)
-typeHeap =typeof(copiedHeap)
 
-#TODO: construct a full loop 
-for k in copiedHeap # Deque[Tuple{Int64, Int64}]  a tuple `Gigantic` one tuple percieved number is 1  [Algorithm allows for an Arbitrary  number of k ]
-    print(typeof(k)) #Tuple{Int64, Int64}Tuple{Int64, Int64}
-    print(k)#Tuple{Int64, Int64}(1, 2)Tuple{Int64, Int64}(2, 4) # the correct Ideal subranges we want #Extravagant! 
-    print(length(k))
-    for κ in length(k) #access desired subranges
-        κ       
-    
+typeHeap =typeof(copiedHeap) # Heap isa Deque
+#ω ={Union{Nothing,Rational}}# nothing  # [1, 2]Vector{Int64}[2, 3, 4]Vector{Int64}
+#this yeilds [1,2,3,4] 
+ω = nothing
+pts=[] ::Vector{Any} #Array{Any,1} 
+#TODO: need for an OrderedSet 
+s = OrderedSet() # <: Base.AbstractSet{T} # no method matching append!(::OrderedSet{Any}, ::Int64) #only-human 
+#= MIT 6-006 LECTURE 3: https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/lecture-videos/MIT6_006F11_lec03.pdf
+=#
+function INSERTION 
+    (A, n)()
+
+end
+
+
+
+#TODO: construct a full loop  =#
+
+for α in copiedHeap # ℵ tuple in Deque[Tuple{Int64, Int64}]  a tuple `Gigantic` one tuple percieved number is 1  [Algorithm allows for an Arbitrary  number of k ]
+    # print(typeof(k)) #Tuple{Int64, Int64}Tuple{Int64, Int64}
+    #print(k)#Tuple{Int64, Int64}(1, 2)Tuple{Int64, Int64}(2, 4) # the correct Ideal subranges we want #Extravagant! 
+    #println(length(k))
+
+    β = α[1]:α[2]
+    append!(pts, α[1])
+    append!(pts, α[2])
+    # ω = append!(w,collect(β))
+    append!(ω, collect(β))
+    #append!(γ, collect(β)) #no method matching append!(::OrderedSet{Any}, ::Vector{Int64})
+    append!(γ, α[1])
+    append!(γ, α[2])
+    print(ω)
+
+    print(typeof(ω))
+    #println()
+    #println(α[1], α[2]) #UncommentMe
+    #=
+    for β in length(ℵ) #access a desired subrange α (me: (1,2) or (2,4))
+        println(β[1]);#println(typeof(β)) 
     end
+    =#
+end
+ω
+function heap2Range()
+
+for α in heap # ℵ tuple in Deque[Tuple{Int64, Int64}]  a tuple `Gigantic` one tuple percieved number is 1  [Algorithm allows for an Arbitrary  number of k ]
+    # print(typeof(k)) #Tuple{Int64, Int64}Tuple{Int64, Int64}
+    #print(k)#Tuple{Int64, Int64}(1, 2)Tuple{Int64, Int64}(2, 4) # the correct Ideal subranges we want #Extravagant! 
+    #println(length(k))
+    β = α[1]:α[2]
+    ω = collect(β)
+    print(ω)
+
+    print(typeof(ω))
+    #println()
+    #println(α[1], α[2]) #UncommentMe
+    #=
+    for β in length(ℵ) #access a desired subrange α (me: (1,2) or (2,4))
+        println(β[1]);#println(typeof(β)) 
+    end
+    =#
+end
+#return w 
 #TODO: Tuple to array operation 
 
 _size = size(collect(minimum(copiedHeap)))  #<-- the tuple 
@@ -175,7 +229,9 @@ a = 1; b= 4
 A=[];B=[];I=[];
 #q =(,)::Tuple{UnitRange{Int64}, Tuple{Int64, Int64}}, ::Type{Any} # Any #DataStructures.Deque{UnitRange{Int64}}()
 
+
 #insert!()
+
 A = collect( popfirst!(heap))
     
 @inbounds for (n,i) in enumerate(tmp)
@@ -220,7 +276,7 @@ end
 #ret1:ret2
 
 #--------------------
-
+module Deque 
 function getIndex!(Q::Deque{UnitRange{Int64}}, idx::Int64)
     ret = getQueue(Q, idx)
 end 
@@ -233,6 +289,7 @@ function getindex!(Q::Deque{Tuple{Int64, Int64}},idx::Int64)
         end
     end 
     return ret 
+end 
 end 
 #=--- testing Area
 getindex!(heap,1)
