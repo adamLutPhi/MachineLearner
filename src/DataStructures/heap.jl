@@ -36,23 +36,32 @@ bLookup!()
 (1,2)
 =#
 =#
+"""
+extractall!''
+a Tuple operation; gets back the
+"""
 function extractall!(tuple::Tuple{Any,Any})
-    count = 1 
-    m = size(collect(minimum(tuple)))
+    dt1=nothing  ; dt2 =nothing
+    count = 1
+    _size =size(collect(minimum(tuple)))
+    typeof(minimum(tuple))
+    m = _size
     n = length(len)
 
     for i = 1:m, j = 1:n
-    arr[j, i] = tuple[j, i][1]
-    tuple[j, i] = tuple[j, i][2]
-    # 
-    dt1[count] = zip(tuple[j, i][1], tuple[j, i][2])
-    dt2[count] = (tuple[j, i][1], tuple[j, i][2])
+        arr[j, i] = tuple[j, i][1]
+        tuple[j, i] = tuple[j, i][2]
+        # 
+        dt1[count] = zip(tuple[j, i][1], tuple[j, i][2])
+        dt2[count] = (tuple[j, i][1], tuple[j, i][2])
 
-    count += 1 #auto-Increment 
+        count += 1 #auto-Increment 
 
-end
+    end
     return dt1, dt2 #debugging, still 
 end 
+
+#--------------------
 
 function bLookup!(a = 1, b = 4; h = 1)
 
@@ -77,25 +86,46 @@ heap =bLookup!()
 copiedHeap = deepcopy(heap)
 typeof(heap) 
 length(heap)
-
+#TODO: Deque -> Heap 
 #popfirst!(heap)
 #typeof(pop!(heap))
 #N = [] #UncommentMe
 #collect(pop!(heap)) #UncommentMe
 #collect(pop!(heap))[1, 1] #collect creates an Array
 #orderedArray = extract_all!(heap) #
+
 dims= deepcopy(size(collect(minimum(heap)))) ;    #= (2,) ; =# #heap = update(heap,1,popped) #<-----Tuple Dimensions 
 _length = length(len) #Tamas_Papp Tamas_Papp Oct 2017 (2,) is simply syntax for a tuple of 1 element #needed to avoid confusion with (2) == 2.
-typeof(popfirst!(heap)) #(1,2)#Tuple{{Int64, Int64}}
+
+typeof(minimum(heap)) #(1,2)#Tuple{{Int64, Int64}} # each inside value is a Tuple  
 
 #for i k in enumerate(length) 
 #accessing tuple :  2 loops f_vp= 
 dt1 = nothing 
 dt2 = nothing
 #funtion iterTuple(tuple=heap, m,n)
-m = size(collect(minimum(copiedHeap))) 
+typeHeap =typeof(copiedHeap)
+
+#TODO: construct a full loop 
+for k in copiedHeap # Deque[Tuple{Int64, Int64}]  a tuple `Gigantic` one tuple percieved number is 1  [Algorithm allows for an Arbitrary  number of k ]
+    print(typeof(k)) #Tuple{Int64, Int64}Tuple{Int64, Int64}
+    print(k)#Tuple{Int64, Int64}(1, 2)Tuple{Int64, Int64}(2, 4) # the correct Ideal subranges we want #Extravagant! 
+    print(length(k))
+    for κ in length(k) #access desired subranges
+        κ       
+    
+    end
+#TODO: Tuple to array operation 
+
+_size = size(collect(minimum(copiedHeap)))  #<-- the tuple 
+m = _size
+
+typeof(m) # m is a tuple
+
 m[1] m[1][1]
-typeof(m) # m is a tuple lol 
+
+    _size =size(collect(minimum(tuple)))
+    typeof(minimum(tuple)) 
 n = length(m)
 count = 1
 for i = 1:m, j = 1:n
@@ -117,7 +147,9 @@ for i in enumerate(len)
  
 size(A[1:1, 1]) 
         
- 
+#--------------------
+
+
 #N[[1],:] =typeof(collect(pop!(heap)))# boundsError #UncommentMe
 N[[:],] = typeof(collect(pop!(heap))) #possible :Deque must me non-empty # invalid index Colon #LoadError: ArgumentError: invalid index: [Colon()] of type Vector{Colon}
 N[:] =typeof(collect(pop!(heap))) # returns a 0-element vector 
@@ -162,18 +194,18 @@ function extractfromHeap(heap)
         @inbounds insert!(B, b, p)
         @inbounds insert!(I, p, p)
     end
-        # A = [a] #1
-        # B = [b]
-        # I = [p]
-        #   (A,B)[i]  = (a,b)
-        #i += 1
-        #(A[i],B[i]) = (a,b)
-        #   (A[i],B[i],I[i]) = a,b,i
-        # B[i] = b ;
-        #  I[i] = i
-        #   a[i],B[i],I[i] = a,b,i            #push!((a:b,i),q)
-    return A, B,I
- 
+    # A = [a] #1
+    # B = [b]
+    # I = [p]
+    #   (A,B)[i]  = (a,b)
+    #i += 1
+    #(A[i],B[i]) = (a,b)
+    #   (A[i],B[i],I[i]) = a,b,i
+    # B[i] = b ;
+    #  I[i] = i
+    #   a[i],B[i],I[i] = a,b,i            #push!((a:b,i),q)
+    return A, B, I
+
 end
 
 
@@ -186,6 +218,8 @@ end
 #range2 =   
 # ret2
 #ret1:ret2
+
+#--------------------
 
 function getIndex!(Q::Deque{UnitRange{Int64}}, idx::Int64)
     ret = getQueue(Q, idx)
@@ -227,20 +261,22 @@ i=n;
 
 if _b isa b #reached the end 
     _a = a  #
-    return 
+    return
 
-if !(_b isa b) #
-    _a + (n[1] * h)
-    i += 1
+    if !(_b isa b) #
+        _a + (n[1] * h)
+        i += 1
 
-    while !(_b isa b)
-        _b = _a + (_n * h)
- #update _a, _b
-        i = 1:_b = _a + (i * h) # = 1 + (1 * 1) = 2  #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
-        i += 1 
-        findSubrange(_a,  _b,n= i)
+        while !(_b isa b)
+            _b = _a + (_n * h)
+            #update _a, _b
+            i = 1:_b = _a + (i * h) # = 1 + (1 * 1) = 2  #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+            i += 1
+            findSubrange(_a, _b, n = i)
+        end
+
     end
 
-end 
-
 end
+
+#--------------------
