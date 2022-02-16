@@ -340,7 +340,7 @@ if argtypes === Tuple{Float32}
     @goto compiled_blob_52383
 
 else #he only other option is Tuple{Float64}
-    @goto compiled_blob_52951
+    @goto compiled_blob_52951 #demo #donotRun
 
 #=
 Note: the absence of the need to call `get_blob_got_argtypes` 

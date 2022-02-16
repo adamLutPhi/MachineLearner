@@ -36,6 +36,23 @@ bLookup!()
 (1,2)
 =#
 =#
+function extractall!(tuple::Tuple{Any,Any})
+    count = 1 
+    m = size(collect(minimum(tuple)))
+    n = length(len)
+
+    for i = 1:m, j = 1:n
+    arr[j, i] = tuple[j, i][1]
+    tuple[j, i] = tuple[j, i][2]
+    # 
+    dt1[count] = zip(tuple[j, i][1], tuple[j, i][2])
+    dt2[count] = (tuple[j, i][1], tuple[j, i][2])
+
+    count += 1 #auto-Increment 
+
+end
+    return dt1, dt2 #debugging, still 
+end 
 
 function bLookup!(a = 1, b = 4; h = 1)
 
@@ -57,8 +74,8 @@ function bLookup!(a = 1, b = 4; h = 1)
 end
   
 heap =bLookup!()
-
-typeof(heap)
+copiedHeap = deepcopy(heap)
+typeof(heap) 
 length(heap)
 
 #popfirst!(heap)
@@ -66,24 +83,41 @@ length(heap)
 #N = [] #UncommentMe
 #collect(pop!(heap)) #UncommentMe
 #collect(pop!(heap))[1, 1] #collect creates an Array
-
-len = deepcopy(size(collect(pop!(heap))))#(2,)  
-length(len) #Tamas_Papp Tamas_Papp Oct 2017 (2,) is simply syntax for a tuple of 1 element #needed to avoid confusion with (2) == 2.
+#orderedArray = extract_all!(heap) #
+dims= deepcopy(size(collect(minimum(heap)))) ;    #= (2,) ; =# #heap = update(heap,1,popped) #<-----Tuple Dimensions 
+_length = length(len) #Tamas_Papp Tamas_Papp Oct 2017 (2,) is simply syntax for a tuple of 1 element #needed to avoid confusion with (2) == 2.
 typeof(popfirst!(heap)) #(1,2)#Tuple{{Int64, Int64}}
 
- 
-#accessing tuple
-for i=1:m, j = 1:n
-....
-end
+#for i k in enumerate(length) 
+#accessing tuple :  2 loops f_vp= 
+dt1 = nothing 
+dt2 = nothing
+#funtion iterTuple(tuple=heap, m,n)
+m = size(collect(minimum(copiedHeap))) 
+m[1] m[1][1]
+typeof(m) # m is a tuple lol 
+n = length(m)
+count = 1
+for i = 1:m, j = 1:n
+   dt1[count] =  zip(copiedHeap[j, i][1], copiedHeap[j, i][2])
+   dt2[count] =  (copiedHeap[j, i][1], copiedHeap[j, i][2]) 
+  #  f_value1[j, i] = copiedHeap[j, i][1]
+   # f_value2[j, i] = copiedHeap[j, i][2]
+ #  arr1 = dt1
+#collect(dt2)
+count += 1 #auto-Increment 
+end  
+
+typeof(dt1)
+typeof(dt2)
 
 for i in enumerate(len)
     res2 =(collect(popfirst!(heap))[1, 1])
 
-
-size(A[1:1, 1])
-
-
+ 
+size(A[1:1, 1]) 
+        
+ 
 #N[[1],:] =typeof(collect(pop!(heap)))# boundsError #UncommentMe
 N[[:],] = typeof(collect(pop!(heap))) #possible :Deque must me non-empty # invalid index Colon #LoadError: ArgumentError: invalid index: [Colon()] of type Vector{Colon}
 N[:] =typeof(collect(pop!(heap))) # returns a 0-element vector 
@@ -118,7 +152,7 @@ A = collect( popfirst!(heap))
 
 a,b = popfirst!(heap)
 
-function extractHeap(heap)
+function extractfromHeap(heap)
     for p in enumerate(length(heap))
         a, b = popfirst!(heap)
         #ret = [ret, a:b]

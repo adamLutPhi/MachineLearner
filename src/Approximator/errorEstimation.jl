@@ -75,8 +75,6 @@ b[4]
 =#  
 using Test,  BenchmarkTools, DataStructures
 
-
-
 """
 Returns the number of steps 
 

@@ -95,7 +95,7 @@ z = g(x, y)
 push!(timebuffer, ProfileInfo("somefile.jl", i = i + 1, time()))
 
 
-"""Sampling profilers 
+#=Sampling profilers 
 
 a sampling profiler ,periodically, 
 1.interrupts your code and 
@@ -112,14 +112,14 @@ waka-time collecting time intervals  of user code activity plus langauge program
  
  aggregates all responses the
  
- """
-
-using GLMakie
+ =#
+using Makie 
+# using GLMakie
 location = [rand(1:9) <= 8 ? "work" : "gym" for i = 1:1000]
 
 bins = rand(5:16)
-hist(values = location, bins = bins, normalization = :none)
-ylabels("Counts")
+#(values = location, bins = bins, normalization = :none) #TODO: hist equivalent (makie)
+#("Counts")
 
 
 using PyPlot

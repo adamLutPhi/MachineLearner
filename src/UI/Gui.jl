@@ -3,10 +3,11 @@ using  Gtk
 if isdefined(Base, :Experimental) && isdefined(Base.Experimental, Symbol("@optlevel"))
     @eval Base.Experimental.@optlevel 1
 end
-
+ 
 # Import binary definitions
 const suffix = :Leaf
 #=include("GLib/GLib.jl") #important =#
+#= Import GLib - this is from staticfloat/GlibcBuilder imports  skippable 
 using .GLib
 using .GLib.MutableTypes
 import .GLib: set_gtk_property!, get_gtk_property, getproperty, FieldRef
@@ -15,14 +16,16 @@ import .GLib:
     signal_handler_block, signal_handler_unblock, signal_handler_is_connected,
     signal_emit, unsafe_convert,
     AbstractStringLike, bytestring
+=#
 
 using GTK3_jll, Glib_jll, Xorg_xkeyboard_config_jll, gdk_pixbuf_jll, adwaita_icon_theme_jll, hicolor_icon_theme_jll
+
 using Librsvg_jll
-using JLLWrappers
-using Pkg.Artifacts
-const libgdk = libgdk3
-const libgtk = libgtk3
-const libgdk_pixbuf = libgdkpixbuf
+using JLLWrappers 
+using Pkg.Artifacts #ok 
+#const libgdk # = libgdk3
+#const libgtk # = libgtk3
+#const libgdk_pixbuf # = libgdkpixbuf
 
 
 
@@ -35,8 +38,11 @@ import Base: convert, show, run, size, resize!, length, getindex, setindex!,
 export showall, select!, start
 
 using Reexport
-@reexport using Graphics
-import .Graphics: width, height, getgc
+
+#Import Graphics: width, height, getgc
+
+@reexport using Graphics # lets you import the following from Graphics package:
+import Graphics: width, height, getgc
 
 using Cairo
 import Cairo: destroy
@@ -45,10 +51,19 @@ using Serialization
 const Index{I<:Integer} = Union{I, AbstractVector{I}}
 
 export GAccessor
-#=
+
+
+#= not found 
 include("basic_exports.jl")
 include("long_exports.jl")
 include("long_leaf_exports.jl")
+
+=#
+
+
+
+#=
+
 =#
 global const libgtk_version = VersionNumber(
       ccall((:gtk_get_major_version, libgtk), Cint, ()),
