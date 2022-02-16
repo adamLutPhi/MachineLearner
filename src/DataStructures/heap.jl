@@ -113,42 +113,156 @@ typeHeap =typeof(copiedHeap) # Heap isa Deque
 pts=[] ::Vector{Any} #Array{Any,1} 
 #TODO: need for an OrderedSet 
 s = OrderedSet() # <: Base.AbstractSet{T} # no method matching append!(::OrderedSet{Any}, ::Int64) #only-human 
+
+push!(s, )
+typeof(s) # OrderedSet{Any}
 #= MIT 6-006 LECTURE 3: https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/lecture-videos/MIT6_006F11_lec03.pdf
 =#
-function INSERTION 
-    (A, n)()
+
+"""OrderedSet
+
+Input: array A[1…n] of numbers. 
+Output: permutation B[1…n] of A s.t.
+    B[1] ≤ B/[2] ≤ … ≤ B[n] .
+    A = [7, 2, 5, 5, 9.6] → B = [2, 5, 5, 7, 9.6]
+Q. How can we do it effeciently ? 
+#set sorting 
+1.Store giant array in my set  # Inefficient (Asymptotic effeciency matters)
+ if onject don't exist we add 
+2. howdo we implement insert(set)
+sortset() # binary searh  ( O(n) = nlogn : n = sortall , logn()  build set , search once )
+need for a needlessly confusing algorithm 
+3.Search :Iterate from begining of orderedSet , & return         [#worstcase n times   ] 
+OrderedSet{Any}
+all (A, n)()
+
+3.1.1. buildSet : Reserve n slts in memory  - order n times 
+3.1.2. copyall into set 
+3.1.3. update (insert/delete : `the Amortized Argument`:if set not allowewd grow Dynamically reserve memory )
+3.1.4.find minimum: only algorithm , list students isn't sorted:iterate over every single student 
+if guy i'm seeking have a smaller Id : replace Histogram (you guys are More than qualified to Implement !)
+(while) set interface is dynamic - keep adding stuff to it ) 
+`the Amortized Argument` : on average:  it will take order n times i.e. Expectation (assuming naive)would be the mean E(x)
+
+Note even if it's not dynamic (wanted to replace an existing key )
+    -2 numbers exist  
+    _"first,there is the existance of a solution, but paying attention to the Details is what matters"_
+takeaway: there is a difference between:  
+1. the existence of a Solution
+2. actually paying attention to the Detail (inside of this thi)
+
+"""
+function insert!( s ::OrderedSet{Any},   :: Any{T})
+   
 
 end
 
 
 
 #TODO: construct a full loop  =#
+function getPoints(copiedHeap)
+    size = length(copiedHeap)
+    pts = []
+    α = []
+    β =  Array{Int64}(Int64, size)
+    ω = []
+    i = 1 # must be defined 
+    for i in enumerate(size) #  # \Al tuple in Deque[Tuple{Int64, Int64}]  a tuple `Gigantic` one tuple percieved number is 1  [Algorithm allows for an Arbitrary  number of k ]
+        # print(typeof(k)) #Tuple{Int64, Int64}Tuple{Int64, Int64}
+        #print(k)#Tuple{Int64, Int64}(1, 2)Tuple{Int64, Int64}(2, 4) # the correct Ideal subranges we want #Extravagant! 
+        #println(length(k))
 
-for α in copiedHeap # ℵ tuple in Deque[Tuple{Int64, Int64}]  a tuple `Gigantic` one tuple percieved number is 1  [Algorithm allows for an Arbitrary  number of k ]
-    # print(typeof(k)) #Tuple{Int64, Int64}Tuple{Int64, Int64}
-    #print(k)#Tuple{Int64, Int64}(1, 2)Tuple{Int64, Int64}(2, 4) # the correct Ideal subranges we want #Extravagant! 
-    #println(length(k))
-
-    β = α[1]:α[2]
-    append!(pts, α[1])
-    append!(pts, α[2])
-    # ω = append!(w,collect(β))
-    append!(ω, collect(β))
-    #append!(γ, collect(β)) #no method matching append!(::OrderedSet{Any}, ::Vector{Int64})
-    append!(γ, α[1])
-    append!(γ, α[2])
-    print(ω)
-
-    print(typeof(ω))
-    #println()
-    #println(α[1], α[2]) #UncommentMe
-    #=
-    for β in length(ℵ) #access a desired subrange α (me: (1,2) or (2,4))
-        println(β[1]);#println(typeof(β)) 
+        β[i] = α[1]:α[2] #β is a rangeInt
+        append!(pts, α[1])
+        append!(pts, α[2])
+        # ω = append!(w,collect(β))
+        append!(ω, collect(β))
+        #append!(γ, collect(β)) #no method matching append!(::OrderedSet{Any}, ::Vector{Int64})
+        print(typeof(α[1]))
+        push!(γ, α[1]) # push!: method no method matching append!(::OrderedSet{Any}, ::Int64)
+        push!(γ, α[2])
+        print(ω)
+        print(γ)
+        print(typeof(ω))
+        print(typeof(γ))
+        #println()
+        #println(α[1], α[2]) #UncommentMe
+        #=
+        for β in length(ℵ) #access a desired subrange α (me: (1,2) or (2,4))
+            println(β[1]);#println(typeof(β)) 
+        end
+        =#
+        return ω, γ, pts, β
     end
-    =#
+end # compiles 
+ω, γ, pts, β = getPoints(copiedHeap)
+
+    pts
+
+
+function append!(s ::OrderedSet{Any}, a::Int64)
+for i in enumerate length(s)
+if i!= length(s)
+    if a > s[i] && a< s[i+1] 
+    #found the right place  
+    return i # value at i 
+    #insert a  
+    break 
+
+elseif  a == s[i] # same as the one in set  
+    break; #skip 
+end 
+
+
+
+
+end 
+"""
+credits to @edubkendo
+https://gist.github.com/edubkendo/528d40034fd7037c55ce
+"""
+
+function merge_sort(lhs::Array, rhs::)
+function merge_sort(lhs::Array, rhs::Array)
+    size = length(lhs) + length(rhs)
+    retvals = Array(typeof(rhs[1]), size)
+
+    for k = 1:size
+        if first(lhs) <= first(rhs)
+            retvals[k] = shift!(lhs)
+        else
+            retvals[k] = shift!(rhs)
+        end
+        if isempty(lhs)
+            return transfer_tail(retvals, rhs, k)
+        elseif isempty(rhs)
+            return transfer_tail(retvals, lhs, k)
+        end
+    end
 end
-ω
+
+#ok
+function transfer_tail(vals::Array, tail::Array, count::Int64)
+  for k = (count + 1):(length(tail) + count)
+    vals[k] = shift!(tail)
+  end
+  vals
+end
+
+#sortmerge
+function sortmerge(to_sort::Array)
+  len = length(to_sort)
+  len <= 1 && return to_sort
+  head = to_sort[1:(ceil(len/2))]
+  tail = to_sort[(length(head)+1):end]
+  merge_sorted(sortmerge(head), sortmerge(tail))
+end
+
+x = sortmerge([1,3,2,4])
+y = sortmerge([1,2,3,4,5, 99, 54, 33, 21, 67, 88, 9, 39, 76, 88, 89, 100001, 45, 3000, 6,867,8,10])
+
+println("x: $x \n y: $y")
+
 function heap2Range()
 
 for α in heap # ℵ tuple in Deque[Tuple{Int64, Int64}]  a tuple `Gigantic` one tuple percieved number is 1  [Algorithm allows for an Arbitrary  number of k ]
@@ -176,10 +290,10 @@ m = _size
 
 typeof(m) # m is a tuple
 
-m[1] m[1][1]
+m[1] m[1][1];
 
-    _size =size(collect(minimum(tuple)))
-    typeof(minimum(tuple)) 
+_size =size(collect(minimum(tuple)))
+typeof(minimum(tuple)) 
 n = length(m)
 count = 1
 for i = 1:m, j = 1:n
@@ -241,14 +355,18 @@ A = collect( popfirst!(heap))
 a,b = popfirst!(heap)
 
 function extractfromHeap(heap)
+    A = [] #1
+    B = []
+    I = []
+    p=1 ;a=1;b=1;
     for p in enumerate(length(heap))
         a, b = popfirst!(heap)
         #ret = [ret, a:b]
         #push!(A, a)                                                                                                                                                                                                                                                                                                                                                        
         #push!(B, b)
-        @inbounds insert!(A, a, p)
-        @inbounds insert!(B, b, p)
-        @inbounds insert!(I, p, p)
+        insert!(A, a, p)        #=@inbounds=#
+        insert!(B, b, p)        #=@inbounds=#
+        insert!(I, p, p)        #=@inbounds=#
     end
     # A = [a] #1
     # B = [b]
