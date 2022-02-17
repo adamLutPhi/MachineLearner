@@ -1,6 +1,6 @@
-using Test,  BenchmarkTools, DataStructures
+using Test, BenchmarkTools, DataStructures
 #module Heap end
-    
+
 #=
 ```inputs
 
@@ -41,14 +41,15 @@ extractall!''
 a Tuple operation; gets back the
 """
 function extractall!(tuple::Tuple{Any,Any}) #compiles 
-    dt1=nothing  ; dt2 =nothing
+    dt1 = nothing
+    dt2 = nothing
     count = 1
-    _size =size(collect(minimum(tuple)))
+    _size = size(collect(minimum(tuple)))
     typeof(minimum(tuple))
     m = _size
     n = length(len)
- typeof(tuple[j, i])
-   @inbounds for i = 1:m, j = 1:n
+    typeof(tuple[j, i])
+    @inbounds for i = 1:m, j = 1:n
         typeof(tuple[j, i])
         arr[j, i] = tuple[j, i][1]
         tuple[j, i] = tuple[j, i][2]
@@ -58,46 +59,46 @@ function extractall!(tuple::Tuple{Any,Any}) #compiles
 
     end
     return dt1, dt2 #debugging, still 
-end 
+end
 
 #--------------------
 #=vector {any} -> tuple 
 Input: Tuple length N must be pre-defined
 Output: 
 =#
-Vector2TupleFloat64(N)=Tuple(Float64(x) for x in N)
+Vector2TupleFloat64(N) = Tuple(Float64(x) for x in N)
 
- @btime Float64.(tuple($N...))
+@btime Float64.(tuple($N...))
 #  840.075 ns (4 allocations: 912 bytes)
 @btime Float64.(Tuple($N))
 #  895.109 ns (5 allocations: 1.22 KiB)
- 
+
 vector2TupleFloat64(N) = @btime Tuple(Float64(x) for x in N); # best loop Optimized for 
 
 Optimizedfunction(x) = (Int64(x) for x in N) #tuple  
-
 #  5.386 μs (65 allocations: 1.98 KiB)
 
- @btime Tuple(1.0N);
+# @btime Tuple(1.0N);   #this line is not optimized 
 #  20.139 μs (159 allocations: 4.16 KiB) and on 1.0
 
- @btime Tuple(Float64(x) for x in N);
+@btime Tuple(Float64(x) for x in N);
 #  6.836 μs (57 allocations: 1.42 KiB)
 
- @btime Tuple(1.0N); 
+@btime Tuple(1.0N);
 #  2.660 μs (90 allocations: 2.31 KiB) # not at all
 #----------
+
 #Tuple2Vector 
-Tuple2Vector(x) = collect(Iterators.flatten(x)) 
+Tuple2Vector(x) = collect(Iterators.flatten(x))
 
 function bLookup!(a = 1, b = 4; h = 1)
 
     α = 1
     β = 1 #Whatever _b could be picked-up, inside loop it 'll get overwritten 
-    q = DataStructures.Deque{Tuple{Int64,Int64}}()
+    q = [] #DataStructures.Deque{Tuple{Int64,Int64}}()
     n = 1
 
-    while α != b && _b <= b
+    while α != b && β <= b
         #   2 + (2) = 4 = _b 
         β = α + (n * h)  # = 3  
         push!(q, (α, β)) #1 (1,2) #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
@@ -107,12 +108,12 @@ function bLookup!(a = 1, b = 4; h = 1)
 
     return q
 end
-  
-heap =bLookup!() # get subranges #Returns Deque -> Dictionary 
 
-copiedHeap = deepcopy(heap) 
+heap = bLookup!() # get subranges #Returns Deque -> Dictionary 
 
-typeof(heap)  
+copiedHeap = deepcopy(heap)
+
+typeof(heap)  # Deque -> Dict -> Tuple
 length(heap)
 #TODO: Deque -> Heap 
 #popfirst!(heap)
@@ -121,15 +122,32 @@ length(heap)
 #collect(pop!(heap)) #UncommentMe
 #collect(pop!(heap))[1, 1] #collect creates an Array
 #orderedArray = extract_all!(heap) #
+t = maximum(heap)
 t = minimum(heap)
-t = popfirst!(heap)
+#t = popfirst!(heap)
+t[1][1]
+unitrange = t[1][1]:t[2][1]
 typeof((t[1][1], t[2][1]))
-#tuple to vector
+_tuple = (t[1][1], t[2][1])
+#tuple -to-> vector
 
-dims= deepcopy(size(collect(minimum(heap)))) ;    #= (2,) ; =# #heap = update(heap,1,popped) #<-----Tuple Dimensions 
+vector = collect(Iterators.flatten(_tuple))
+#=
+collect(Iterators.flatten(x)) #OR
+
+
+ [x[j] for x in x for j in eachindex(x)] 
+=#
+
+#---
+#for i in heap
+
+dims = deepcopy(size(collect(minimum(heap)))); #heap = update(heap,1,popped) #<-----Tuple Dimensions 
 println(dims)
-typeof(dims) #dims isa tuple 
-dims[1]; dims[1][2]
+typeof(dims) #dims isa tuple (if `parent` was a Deque) #Type Int64 (if `it` were ) 
+dims[1];
+dims[1][2] #BoundsError (from [2])
+
 _length = length(dims) #Tamas_Papp Tamas_Papp Oct 2017 (2,) is simply syntax for a tuple of 1 element #needed to avoid confusion with (2) == 2.
 
 minHeap = typeof(minimum(heap)) #(1,2)#Tuple{{Int64, Int64}} # each inside value is a Tuple  minHeap isa Tuple
@@ -140,37 +158,64 @@ minHeap = typeof(minimum(heap)) #(1,2)#Tuple{{Int64, Int64}} # each inside value
 #dt2 = nothing
 #funtion iterTuple(tuple=heap, m,n)
 
-typeHeap =typeof(copiedHeap) # Heap isa Deque
+typeHeap = typeof(copiedHeap) # Heap isa Deque
 #ω ={Union{Nothing,Rational}}# nothing  # [1, 2]Vector{Int64}[2, 3, 4]Vector{Int64}
 #this yeilds [1,2,3,4] 
-ω = nothing
-pts=[] ::Vector{Any} #Array{Any,1} 
+
+pts = []::Vector{Any} #Array{Any,1} 
 #= ---credits to @trakofon
 https://discourse.julialang.org/t/converting-vector-any-to-tuple-of-floats/13714/7 =#
-_first = popfirst!(copiedHeap)
+#_first = popfirst!(copiedHeap)
+copiedHeap = deepcopy(heap)
+typeof(copiedHeap)
+size(copiedHeap)
+#for i in enumerate(size(copiedHeap)) # length(copiedHeap) length for Tuple alone  #UncommentMe
+#copiedHeap = deepcopy(heap) 
+typeof(heap)  # Deque -> Dict -> Tuple
+length(heap)
+#
+dims = deepcopy(size(collect(minimum(heap)))) # == size(copiedHeap)
+ω = []
+copiedHeap = deepcopy(heap)
+try
+    while true
+        tmp = popfirst!(copiedHeap)
+        ω = pushfirst!(ω, tmp)#, 1)
+    end
+catch #ErrorException
+    #continue
+    print(ω) # Any[(2, 4), 1, (1, 2), 1, (2, 4), 1, (1, 2), 1] the weirdest I have ever met yet
+end
+#=======Testing Area Experimental beyond this line 
+#print(ω) #this is tuple 
+#tuple to vector 
+w = collect(Iterators.flatten(ω))
+
 typeof(collect(_first))
- VectorArray = []
-TupleArray = Tuple(Float64(x) for x in VectorArray);
+#------------------------------------------------------------------------
+
+# VectorArray = []
+#TupleArray = Tuple(Float64(x) for x in VectorArray);
 _firstTuple = Tuple(Float64(x) for x in _first); #Float64.(tuple("$_first)) Tuple(Float64(x) for x in N);
 typeof(_firstTuple)
- _firstTuple
- insert!(TupleArray,_firstTuple,size(TupleArray))
+_firstTuple
+insert!(TupleArray, _firstTuple, size(TupleArray))
 typeof(pts)
-push!(collect(( _first)),pts)
+push!(collect((_first)), pts)
 α = size(collect(_first))
 
-#--- 
+#------------------------------------------------------------------------
 m = deepcopy(α)
 length(m)
-m[2][1]        
+m[2][1]
 m[0]
 #m2 = deepcopy()
 β[i] = (m[1]:m[2]) # get rangeInt 
-    
-        push!(pts, m[1])
-        push(pts, m[2]) #ok 
-        ω[i] = push(ω, collect(β))
-        push(ω, collect(β))
+
+push!(pts, m[1])
+push(pts, m[2]) #ok 
+ω[i] = push(ω, collect(β))
+push(ω, collect(β))
 #TODO: need for an OrderedSet 
 #----
 s = OrderedSet() # <: Base.AbstractSet{T} # no method matching append!(::OrderedSet{Any}, ::Int64)
@@ -192,7 +237,7 @@ Q. How can we do it effeciently ?
 #set sorting 
 1.Store giant array in my set  # Inefficient (Asymptotic effeciency matters)
  if onject don't exist we add 
-2. howdo we implement insert(set)
+2. how do we implement insert(set)
 sortset() # binary searh  ( O(n) = nlogn : n = sortall , logn()  build set , search once )
 need for a needlessly confusing algorithm 
 3.Search :Iterate from begining of orderedSet , & return         [#worstcase n times (if found at last element)  ] 
@@ -227,7 +272,7 @@ pop!(s::OrderedSet, x, deflt) = pop!(s.dict, x, deflt) == deflt ? deflt : x
 delete!(s::OrderedSet, x) = (delete!(s.dict, x); s)
 
 note: no push first nor pop first ! 
-""" 
+"""
 #--- tuple -to-> vector 
 
 # Tuple -to -> Vect 
@@ -235,56 +280,57 @@ note: no push first nor pop first !
 #5-element Array{Array{Array{Float64,1},1},1}:
 
 struct Run
-  vector_result::Vector{Float64}
-  matrix_result::Matrix{Float64}
+    vector_result::Vector{Float64}
+    matrix_result::Matrix{Float64}
 end
 
 struct Simulation
-  #name::String
-  parameters
-  runs::Vector{Run}
+    #name::String
+    parameters
+    runs::Vector{Run}
 end
 
 s = Simulation(some_parameters, Vector{Run}())
 #---- end
-_size = sizehint!(s,1); println(_size)
+_size = sizehint!(s, 1);
+println(_size);
 last = pop!(s, 1)
 
+#=
 function insert!(s::OrderedSet{Any}, ::Any{T})
 
 end
+=#
 
-
-function insert!(s::OrderedSet{Any}, ::Any{T}) where T::Any
+function insert!(s::OrderedSet{Any}, ::Any{T}) where {T::Any}
     #1. check size 
     _#size = sizehint!(s)
     #look for safety with try (no matter the size of s ) 
-    canLah = true 
-    while canLah  
-    try
-        last = pop!(s, 1) #reminiscent of the tower of hanoi 
+    canLah = true
+    while canLah
+        try
+            last = pop!(s, 1) #reminiscent of the tower of hanoi 
         #checkva
-    catch #can't pop anymore 
-        canLah  = false 
-        break
+        catch #can't pop anymore 
+            canLah = false
+            break
+        end
     end
-end 
-  
+
 end
 
 #--- 
 _size = size(collect(minimum(copiedHeap)))  #<-- the tuple 
-    #m = _size
-    #typeof(m) # m is a tuple
-    #m[1]m[1][1]
+#m = _size
+#typeof(m) # m is a tuple
+#m[1]m[1][1]
 
-    Size = length(copiedHeap) # the true number looking for
-    
-    isequal = nothing
-    _size == Size ? isequal =  true  : isequal=false
-    println(isequal)
-#TODO: construct a full loop  =#
+Size = length(copiedHeap) # the true number looking for
 
+isequal = nothing
+_size == Size ? isequal = true : isequal = false
+println(isequal)
+#TODO: construct a full loop  & iterate ( ort) =#
 
 function getPoints(copiedHeap)
     _size = size(collect(minimum(copiedHeap)))  #<-- the tuple 
@@ -293,13 +339,15 @@ function getPoints(copiedHeap)
     #m[1]m[1][1]
 
     Size = length(copiedHeap)
-    
+
     pts = []
     α = []
-    β=[]  #  Array{Int64}(Int64, size)
+    β = []  #  Array{Int64}(Int64, size)
     ω = []
     i = 1 # must be defined 
-    γ= nothing #[]
+    γ = nothing #[]
+    α = size(collect(minimum(copiedHeap)))  #<-- the tuple  
+    typeof(α)
     # the Strategy:
     for i in enumerate(Size) #  # \A tuple in Deque[Tuple{Int64, Int64}]'s   thing isa `Humongous` [Algorithm allows for an Arbitrary  number of k ]
         # print(typeof(k)) #Tuple{Int64, Int64}Tuple{Int64, Int64}
@@ -310,13 +358,14 @@ function getPoints(copiedHeap)
         #m = size(collect(minimum(copiedHeap)))
         #2. pop(first),  if possible
         α = size(collect(popfirst!(copiedHeap)))  #<-- the tuple  
+        typeof(α)
         #m = _size 
         #typeof(m) # m i a  
         #m[1]m[1][1] ok
         m = deepcopy(α)
         #m2 = deepcopy()
-        β[i] = (m[1]:m[2]) # get rangeInt 
-    
+        @inbounds β[i] = (m[1]:m[2]) # get rangeInt  #without Deque, errors out 
+
         push!(pts, m[1])
         push(pts, m[2]) #ok 
         ω[i] = push(ω, collect(β))
@@ -341,17 +390,16 @@ function getPoints(copiedHeap)
 end # compiles 
 ω, γ, β, pts = getPoints(copiedHeap)
 
-
-
+#=
 
 function append!(s ::OrderedSet{Any}, a::Int64)
-for i in enumerate length(s)
-if i!= length(s)
-    if a > s[i] && a< s[i+1] 
+@inbounds for i in enumerate length(s)
+    @inbounds if i!= length(s)
+        @inbounds if a > s[i] && a< s[i+1] 
     #found the right place  
-    return i # value at i 
-    #insert a  
-    break 
+                    return i # value at i 
+                    #insert a  
+                    #break  #if it returns, no need to break
 
 elseif  a == s[i] # same as the one in set  
     break; #skip 
@@ -368,11 +416,11 @@ function mergeSort(lhs::Array, rhs::Array)
     size = length(lhs) + length(rhs)
     retvals = [] #Array(Type(lhs), size)
 
-    for k = 1:size
-        if first(lhs) <= first(rhs)
-            retvals[k] = shift!(lhs)
+@inbounds    for k = 1:size
+@inbounds        if first(lhs) <= first(rhs)
+        @inline    retvals[k] = shift!(lhs)
         else
-            retvals[k] = shift!(rhs)
+        @inline    retvals[k] = shift!(rhs)
         end
         if isempty(lhs) #Divide & Conquer Strategy
             return transfer_tail(retvals, rhs, k)
@@ -384,8 +432,8 @@ end
 
 #ok
 function transfer_tail(vals::Array, tail::Array, count::Int64)
-  for k = (count + 1):(length(tail) + count)
-    vals[k] = shift!(tail)
+@inbounds  for k = (count + 1):(length(tail) + count)
+@inbounds    vals[k] = shift!(tail)
   end
   vals
 end
@@ -399,14 +447,14 @@ function sortmerge(to_sort::Array)
   merge_sorted(sortmerge(head), sortmerge(tail))
 end
 
-x = sortmerge([1,3,2,4])
-y = sortmerge([1,2,3,4,5, 99, 54, 33, 21, 67, 88, 9, 39, 76, 88, 89, 100001, 45, 3000, 6,867,8,10])
+@inline x = sortmerge([1,3,2,4]) #tryout 
+@inine y = sortmerge([1,2,3,4,5, 99, 54, 33, 21, 67, 88, 9, 39, 76, 88, 89, 100001, 45, 3000, 6,867,8,10]) #tryout
 
 println("x: $x \n y: $y")
 
 function heap2Range()
 
-for α in heap # ℵ tuple in Deque[Tuple{Int64, Int64}]  a tuple `Gigantic` one tuple percieved number is 1  [Algorithm allows for an Arbitrary  number of k ]
+@inbounds for α in heap # ℵ tuple in Deque[Tuple{Int64, Int64}]  a tuple `Gigantic` one tuple percieved number is 1  [Algorithm allows for an Arbitrary  number of k ]
     # print(typeof(k)) #Tuple{Int64, Int64}Tuple{Int64, Int64}
     #print(k)#Tuple{Int64, Int64}(1, 2)Tuple{Int64, Int64}(2, 4) # the correct Ideal subranges we want #Extravagant! 
     #println(length(k))
@@ -437,14 +485,14 @@ _size =size(collect(minimum(tuple)))
 typeof(minimum(tuple)) 
 n = length(m)
 count = 1
-for i = 1:m, j = 1:n
-   dt1[count] =  collect(zip(copiedHeap[j, i][1], copiedHeap[j, i][2]))
-   dt2[count] =  (copiedHeap[j, i][1], copiedHeap[j, i][2]) 
+@inbounds for i = 1:m, j = 1:n
+    @inline  dt1[count] =  collect(zip(copiedHeap[j, i][1], copiedHeap[j, i][2]))
+    @inline  dt2[count] =  (copiedHeap[j, i][1], copiedHeap[j, i][2]) 
   #  f_value1[j, i] = copiedHeap[j, i][1]
    # f_value2[j, i] = copiedHeap[j, i][2]
  #  arr1 = dt1
 #collect(dt2)
-count += 1 #auto-Increment 
+@inline count += 1 #auto-Increment 
 end  
 
 #typeof(dt1)
@@ -459,39 +507,37 @@ size(A[1:1, 1])
         
 #--------------------
 #arrays indexing rewind
+
 #N[[1],:] =typeof(collect(pop!(heap)))# boundsError #UncommentMe
 N[[:],] = typeof(collect(pop!(heap))) #possible :Deque must me non-empty # invalid index Colon #LoadError: ArgumentError: invalid index: [Colon()] of type Vector{Colon}
 N[:] =typeof(collect(pop!(heap))) # returns a 0-element vector 
 resultsize(idxs...) = tuple(Iterators.flatten(size.(idxs))...)
 
 #0element vector{Any} at index [[1]]
-
 # typeof(collect(pop!(heap)))
-
 #typeof( collect(pop!(map(x->x, heap))))
 
 containr = nothing
 arr = nothing
-for i in enumerate(length(heap))
-    containr += [arr collect(pop!(map(x[i]->x, heap)) ) ]
+@inbounds for i in enumerate(length(heap))
+    @inline  containr += [arr collect(pop!(map(x[i]->x, heap)) ) ]
 end 
-#= how you define behavior is how 
-julia will react =#
+#=" how you define behavior is how 
+    julia will react "=#
  
-    ranges = []
+ranges = []
 a = 1; b= 4
 #ret = nothing
-A=[];B=[];I=[];
+A=[];B=[] #;I=[];
 #q =(,)::Tuple{UnitRange{Int64}, Tuple{Int64, Int64}}, ::Type{Any} # Any #DataStructures.Deque{UnitRange{Int64}}()
-
 
 #insert!()
 
 A = collect( popfirst!(heap))
     
 @inbounds for (n,i) in enumerate(tmp)
-        b[n] = i+1
-    end 
+    @inline   b[n] = i+1
+end 
 
 a,b = popfirst!(heap)
 
@@ -500,12 +546,11 @@ function extractfromHeap(heap)
     B = []
     #I = []
     p=1 ;a=1;b=1;
-    for p in enumerate(length(heap))
+@inbounds  for p in enumerate(length(heap))
         a, b = popfirst!(heap)
         #ret = [ret, a:b]
         #push!(A, a)                                                                                                                                                                                                                                                                                                                                                        
         #push!(B, b)
-
     A = @inline InsertionSort(collect(zip(a,b,p)))
     B = @inline collect(zip(a:b,p))
     # insert!(A, a, p)        #=@inbounds=#
@@ -540,11 +585,11 @@ end
 
 #--------------------
 module Deque 
-function getIndex!(Q::Deque{UnitRange{Int64}}, idx::Int64)
+function getIndex!(Q::Tuple{UnitRange{Int64}}, idx::Int64)
     ret = getQueue(Q, idx)
 end 
 
-function getindex!(Q::Deque{Tuple{Int64, Int64}},idx::Int64)
+function getindex!(Q::Tuple{Tuple{Int64, Int64}},idx::Int64)
     ret = nothing
     for i in enumerate(size(Q))
         if i isa idx 
@@ -573,7 +618,7 @@ setindex!(collection, value, key...)
 Store the given value at the given key or index within a collection. The syntax a[i,j,...] = x is converted by the compiler to (setindex!(a, x, i, j, ...); x).
 =#
 
-function  findSubrange(a,b=4;n= 1)
+function  findSubrange(a,b=4;n= 1) #requires revision
 i=n;
 #a=[]; _b=[]; 
 #_n = 1;

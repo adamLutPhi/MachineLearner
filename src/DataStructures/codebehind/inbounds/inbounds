@@ -1,0 +1,49 @@
+@inbounds usage within string code #35842 #Open @KristofferC opened this issue on May 11, 2020 · 0 comments
+#https://github.com/JuliaLang/julia/issues/35842
+#=
+Comments
+@KristofferC
+ 
+Sponsor Member KristofferC commented on May 11, 2020 • 
+
+The string code is filled with @inbounds, @propagate_inbounds, @checkbounds etc but it isn't (at least to me) completely clear what these really mean and it doesn't really feel documented.
+
+Let's take string indexing, here @inbounds is only used to turn off checking that you are not outside the bounds of the string but you still need to index on a valid index:
+=#
+f(a, i) = @inbounds a[i]
+#f (generic function with 1 method)
+
+f("aα", 2) # if string, it checks it , at a valid index 
+f("aα",3)
+# ERROR: StringIndexError("aα", 3) #erronr annotations been update meaningfully # `valid nearby index` [2]=> `a` 
+#=
+However, you can also add an @inbounds to the SubString constructor (how would you even know that) which then turns off checking for a valid index:
+=#
+SubString("fα", 1, 3)  #same problem index 3 higher than max size of string , if you add 
+
+SubString("fα", 1, 2 ) #successfully returns fa
+
+#=
+ERROR: StringIndexError("fα", 3) =#
+
+g(a, i, j) = @inbounds SubString(a, i, j) #works 
+# g (generic function with 1 method)
+
+g("fα", 1, 2) #valid around max length (string)
+# no error #it doesn't works
+# "fα"
+#=
+So to me, 
+`it feels a bit inconsistent``. 
+Many string functions that take some kind of string index use @checkbounds but 
+what do you actually promise when you use @inbounds and 
+How do you find out which functions 
+`that are useful to pass it to`.
+
+
+I can only comment on changes right 
+I guess there are more things yet to be uncovered 
+#
+
+=#
+
