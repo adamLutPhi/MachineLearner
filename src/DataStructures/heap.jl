@@ -63,7 +63,7 @@ end
 
 #--------------------
 #vector {any} -> tuple 
-
+#N must be pre-defined
 Tuple(Float64(x) for x in N)
 
  @btime Float64.(tuple($N...))
@@ -106,6 +106,7 @@ end
   
 heap =bLookup!()
 copiedHeap = deepcopy(heap)
+
 typeof(heap) 
 length(heap)
 #TODO: Deque -> Heap 
@@ -115,9 +116,15 @@ length(heap)
 #collect(pop!(heap)) #UncommentMe
 #collect(pop!(heap))[1, 1] #collect creates an Array
 #orderedArray = extract_all!(heap) #
+t = minimum(heap)
+t = popfirst!(heap)
+typeof((t[1][1], t[2][1]))
+#tuple to vector
 
 dims= deepcopy(size(collect(minimum(heap)))) ;    #= (2,) ; =# #heap = update(heap,1,popped) #<-----Tuple Dimensions 
+println(dims)
 typeof(dims) #dims isa tuple 
+dims[1]; dims[1][2]
 _length = length(dims) #Tamas_Papp Tamas_Papp Oct 2017 (2,) is simply syntax for a tuple of 1 element #needed to avoid confusion with (2) == 2.
 
 minHeap = typeof(minimum(heap)) #(1,2)#Tuple{{Int64, Int64}} # each inside value is a Tuple  minHeap isa Tuple
@@ -161,7 +168,7 @@ m[0]
         push(ω, collect(β))
 #TODO: need for an OrderedSet 
 #----
-s = OrderedSet() # <: Base.AbstractSet{T} # no method matching append!(::OrderedSet{Any}, ::Int64) #only-human 
+s = OrderedSet() # <: Base.AbstractSet{T} # no method matching append!(::OrderedSet{Any}, ::Int64)
 #Q1. Sort an OrderedSet (Ascending) 
 #Q2.
 
@@ -205,7 +212,7 @@ takeaway: there is a difference between:
 
 situation :
 real world semi-blackbox using only the following 6 functions: 
-
+ 
 sizehint!(s::OrderedSet, sz::Integer) = (sizehint!(s.dict, sz); s) #capacity reservation for improving Optimization
 in(x, s::OrderedSet) = haskey(s.dict, x)
 
@@ -215,7 +222,25 @@ pop!(s::OrderedSet, x, deflt) = pop!(s.dict, x, deflt) == deflt ? deflt : x
 delete!(s::OrderedSet, x) = (delete!(s.dict, x); s)
 
 note: no push first nor pop first ! 
-"""
+""" 
+#--- tuple -to-> vector 
+
+[[Vector{Float64}(undef, 4) for _ = 1:5] for _ = 1:6]
+#5-element Array{Array{Array{Float64,1},1},1}:
+
+struct Run
+  vector_result::Vector{Float64}
+  matrix_result::Matrix{Float64}
+end
+
+struct Simulation
+  #name::String
+  parameters
+  runs::Vector{Run}
+end
+
+s = Simulation(some_parameters, Vector{Run}())
+#---- end
 _size = sizehint!(s,1); println(_size)
 last = pop!(s, 1)
 
@@ -223,7 +248,7 @@ function insert!(s::OrderedSet{Any}, ::Any{T})
 
 end
 
-function insert!(s::OrderedSet{Any}, ::Any{T})
+function insert!(s::OrderedSet{Any}, ::Any{T}) where T::Any
     #1. check size 
     _#size = sizehint!(s)
     #look for safety with try (no matter the size of s ) 
