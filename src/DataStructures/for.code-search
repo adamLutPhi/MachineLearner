@@ -1,0 +1,141 @@
+# Query: for
+# Flags: WordMatch
+# Including: ./DeepLearner,.gitignore:
+# ContextLines: 1
+
+40 results - 2 files
+
+src\DataStructures\heap.jl:
+   50  
+   51: @inbounds for  i = 1:m, j = 1:n
+   52          arr[j, i] = tuple[j, i][1]
+
+   66  =#
+   67: Vector2TupleFloat64(N)=Tuple(Float64(x) for x in N)
+   68  
+
+   73  
+   74: vector2TupleFloat64(N) = @btime Tuple(Float64(x) for x in N); # best loop Optimized for 
+   75: Optimizedfunction(x) = Type(x) for x in N
+   76  #  5.386 μs (65 allocations: 1.98 KiB)
+
+   80  
+   81:  @btime Tuple(Float64(x) for x in N);
+   82  #  6.836 μs (57 allocations: 1.42 KiB)
+
+   99          β = α + (n * h)  # = 3  
+  100:         push!(q, (α, β)) #1 (1,2) #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+  101          α = β # Swap a = 2
+
+  129  dims[1]; dims[1][2]
+  130: _length = length(dims) #Tamas_Papp Tamas_Papp Oct 2017 (2,) is simply syntax for a tuple of 1 element #needed to avoid confusion with (2) == 2.
+  131  
+
+  133  
+  134: #for i k in enumerate(length) 
+  135  #accessing tuple :  2 loops f_vp= 
+
+  149   VectorArray = []
+  150: TupleArray = Tuple(Float64(x) for x in VectorArray);
+  151: _firstTuple = Tuple(Float64(x) for x in _first); #Float64.(tuple("$_first)) Tuple(Float64(x) for x in N);
+  152  typeof(_firstTuple)
+
+  170          push(ω, collect(β))
+  171: #TODO: need for an OrderedSet 
+  172  #----
+
+  193  sortset() # binary searh  ( O(n) = nlogn : n = sortall , logn()  build set , search once )
+  194: need for a needlessly confusing algorithm 
+  195  3.Search :Iterate from begining of orderedSet , & return         [#worstcase n times (if found at last element)  ] 
+
+  217   
+  218: sizehint!(s::OrderedSet, sz::Integer) = (sizehint!(s.dict, sz); s) #capacity reservation for improving Optimization
+  219  in(x, s::OrderedSet) = haskey(s.dict, x)
+
+  230  # Tuple -to -> Vect 
+  231: [[Vector{Float64}(undef, 4) for _ = 1:5] for _ = 1:6]
+  232  #5-element Array{Array{Array{Float64,1},1},1}:
+
+  257      _#size = sizehint!(s)
+  258:     #look for safety with try (no matter the size of s ) 
+  259      canLah = true 
+
+  277  
+  278:     Size = length(copiedHeap) # the true number looking for
+  279      
+
+  300      # the Strategy:
+  301: @inbounds for i in enumerate(Size) #  # \A tuple in Deque[Tuple{Int64, Int64}]'s   thing isa `Humongous` [Algorithm allows for an Arbitrary  number of k ]
+  302          # print(typeof(k)) #Tuple{Int64, Int64}Tuple{Int64, Int64}
+
+  331          #=
+  332:         for β in length() #access a desired subrange α (me: (1,2) or (2,4))
+  333              println(β[1]);#println(typeof(β)) 
+
+  335          =#
+  336:         return ω, γ, β, pts #, α[1]:α[2] # values for debugging ...
+  337      end
+
+  344  function append!(s ::OrderedSet{Any}, a::Int64)
+  345: @inbounds for i in enumerate length(s)
+  346  if i!= length(s)
+  367  
+  368:   @inbounds for k = 1:size
+  369          if first(lhs) <= first(rhs)
+
+  383  function transfer_tail(vals::Array, tail::Array, count::Int64)
+  384:  @inbounds for k = (count + 1):(length(tail) + count)
+  385  @inbounds  vals[k] = shift!(tail)
+
+  405  
+  406: @inbounds for α in heap # #is inbounds necessary? # tuple in Deque[Tuple{Int64, Int64}]  a tuple `Gigantic` one tuple percieved number is 1  [Algorithm allows for an Arbitrary  number of k ]
+  407      # print(typeof(k)) #Tuple{Int64, Int64}Tuple{Int64, Int64}
+
+  417      #=
+  418:     for β in length(ℵ) #access a desired subrange α (me: (1,2) or (2,4))
+  419          println(β[1]);#println(typeof(β)) 
+
+  436  count = 1
+  437:@inbounds for i = 1:m, j = 1:n
+  438     dt1[count] =  collect(zip(copiedHeap[j, i][1], copiedHeap[j, i][2]))
+
+  449  res2 = nothing
+  450: @inbounds for i in enumerate(len)
+  451      res2 =(collect(zip((popfirst!(heap))))[1, 1])
+
+  471  arr = nothing
+  472: @inbounds for i in enumerate(length(heap))
+  473      containr += [arr collect(pop!(map(x[i]->x, heap)) ) ]
+
+  488      
+  489: @inbounds for (n,i) in enumerate(tmp)
+  490          b[n] = i+1
+
+  499      p=1 ;a=1;b=1;
+  500:     for p in enumerate(length(heap))
+  501          a, b = popfirst!(heap)
+
+  521      #   a[i],B[i],I[i] = a,b,i            #push!((a:b,i),q)
+  522:     return A, B #for Debugging
+  523  A,B = extractfromHeap(copiedHeap)
+
+  545      ret = nothing
+  546: @inbounds for i in enumerate(size(Q))
+  547          if i isa idx 
+
+  561  b[1]  # setindex!(b,1,)
+  562: b[1] =  1 + (1 * 1 )  = 2  #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+  563  b[2] = a[2] + (n[2] * h) = 2 + (2 * 1) 
+
+  589              #update _a, _b
+  590:             i = 1:_b = _a + (i * h) # = 1 + (1 * 1) = 2  #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+  591              i += 1
+
+src\DataStructures\codebehind\While\while.jl:
+  19      ret=0
+  20:     @inbounds for n in 1:N
+  21          ret=0
+
+  27          while i <= L
+  28:          #for i = d.idxfloor:L
+  29              @inbounds if slots[i] === 0x1

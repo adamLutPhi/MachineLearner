@@ -40,15 +40,16 @@ bLookup!()
 extractall!''
 a Tuple operation; gets back the
 """
-function extractall!(tuple::Tuple{Any,Any})
+function extractall!(tuple::Tuple{Any,Any}) #compiles 
     dt1=nothing  ; dt2 =nothing
     count = 1
     _size =size(collect(minimum(tuple)))
     typeof(minimum(tuple))
     m = _size
     n = length(len)
-
-    for i = 1:m, j = 1:n
+ typeof(tuple[j, i])
+   @inbounds for i = 1:m, j = 1:n
+        typeof(tuple[j, i])
         arr[j, i] = tuple[j, i][1]
         tuple[j, i] = tuple[j, i][2]
         dt1[count] = zip(tuple[j, i][1], tuple[j, i][2])
@@ -72,7 +73,9 @@ Vector2TupleFloat64(N)=Tuple(Float64(x) for x in N)
 #  895.109 ns (5 allocations: 1.22 KiB)
  
 vector2TupleFloat64(N) = @btime Tuple(Float64(x) for x in N); # best loop Optimized for 
-Optimizedfunction(x) = Type(x) for x in N
+
+Optimizedfunction(x) = (Int64(x) for x in N) #tuple  
+
 #  5.386 μs (65 allocations: 1.98 KiB)
 
  @btime Tuple(1.0N);
