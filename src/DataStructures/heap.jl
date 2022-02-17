@@ -51,10 +51,8 @@ function extractall!(tuple::Tuple{Any,Any})
     for i = 1:m, j = 1:n
         arr[j, i] = tuple[j, i][1]
         tuple[j, i] = tuple[j, i][2]
-        # 
         dt1[count] = zip(tuple[j, i][1], tuple[j, i][2])
         dt2[count] = (tuple[j, i][1], tuple[j, i][2])
-
         count += 1 #auto-Increment 
 
     end
@@ -62,52 +60,56 @@ function extractall!(tuple::Tuple{Any,Any})
 end 
 
 #--------------------
-#vector {any} -> tuple 
-#N must be pre-defined
-Tuple(Float64(x) for x in N)
+#=vector {any} -> tuple 
+Input: Tuple length N must be pre-defined
+Output: 
+=#
+Vector2TupleFloat64(N)=Tuple(Float64(x) for x in N)
 
  @btime Float64.(tuple($N...))
 #  840.075 ns (4 allocations: 912 bytes)
 @btime Float64.(Tuple($N))
 #  895.109 ns (5 allocations: 1.22 KiB)
-
-
-
-julia> @btime Tuple(Float64(x) for x in N);
+ 
+vector2TupleFloat64(N) = @btime Tuple(Float64(x) for x in N); # best loop Optimized for 
+Optimizedfunction(x) = Type(x) for x in N
 #  5.386 μs (65 allocations: 1.98 KiB)
 
-julia> @btime Tuple(1.0N);
+ @btime Tuple(1.0N);
 #  20.139 μs (159 allocations: 4.16 KiB) and on 1.0
 
-julia> @btime Tuple(Float64(x) for x in N);
+ @btime Tuple(Float64(x) for x in N);
 #  6.836 μs (57 allocations: 1.42 KiB)
 
-julia> @btime Tuple(1.0N); 
-#  2.660 μs (90 allocations: 2.31 KiB)
+ @btime Tuple(1.0N); 
+#  2.660 μs (90 allocations: 2.31 KiB) # not at all
+#----------
+#Tuple2Vector 
+Tuple2Vector(x) = collect(Iterators.flatten(x)) 
 
 function bLookup!(a = 1, b = 4; h = 1)
 
-    _a = 1
-    _b = 1 #Whatever _b could be picked-up, inside loop it 'll get overwritten 
-
+    α = 1
+    β = 1 #Whatever _b could be picked-up, inside loop it 'll get overwritten 
     q = DataStructures.Deque{Tuple{Int64,Int64}}()
     n = 1
 
-    while _a != b && _b <= b
+    while α != b && _b <= b
         #   2 + (2) = 4 = _b 
-        _b = _a + (n * h)  # = 3  
-        push!(q, (_a, _b)) #1 (1,2) #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
-        _a = _b # a = 2
+        β = α + (n * h)  # = 3  
+        push!(q, (α, β)) #1 (1,2) #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+        α = β # Swap a = 2
         n += 1 # 2 
     end
 
     return q
 end
   
-heap =bLookup!()
-copiedHeap = deepcopy(heap)
+heap =bLookup!() # get subranges #Returns Deque -> Dictionary 
 
-typeof(heap) 
+copiedHeap = deepcopy(heap) 
+
+typeof(heap)  
 length(heap)
 #TODO: Deque -> Heap 
 #popfirst!(heap)
@@ -225,6 +227,7 @@ note: no push first nor pop first !
 """ 
 #--- tuple -to-> vector 
 
+# Tuple -to -> Vect 
 [[Vector{Float64}(undef, 4) for _ = 1:5] for _ = 1:6]
 #5-element Array{Array{Array{Float64,1},1},1}:
 
@@ -248,6 +251,7 @@ function insert!(s::OrderedSet{Any}, ::Any{T})
 
 end
 
+
 function insert!(s::OrderedSet{Any}, ::Any{T}) where T::Any
     #1. check size 
     _#size = sizehint!(s)
@@ -264,7 +268,9 @@ function insert!(s::OrderedSet{Any}, ::Any{T}) where T::Any
 end 
   
 end
-    _size = size(collect(minimum(copiedHeap)))  #<-- the tuple 
+
+#--- 
+_size = size(collect(minimum(copiedHeap)))  #<-- the tuple 
     #m = _size
     #typeof(m) # m is a tuple
     #m[1]m[1][1]
@@ -275,6 +281,8 @@ end
     _size == Size ? isequal =  true  : isequal=false
     println(isequal)
 #TODO: construct a full loop  =#
+
+
 function getPoints(copiedHeap)
     _size = size(collect(minimum(copiedHeap)))  #<-- the tuple 
     #m = _size
