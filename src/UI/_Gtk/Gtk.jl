@@ -20,7 +20,6 @@ const suffix = :Leaf
 include("\GLib.jl") # GLib/GLib.jl") #TODO: fix 
 #include("..\GLib.jl")
 
-const suffix = :Leaf
 using .GLib
 using .GLib.MutableTypes
 import .GLib: set_gtk_property!, get_gtk_property, getproperty, FieldRef
@@ -60,6 +59,8 @@ global const libgtk_version = VersionNumber(
 
 #= required files (for Building GUI Items )
 
+include("gdk.jl")
+include("cairo.jl")
 include("builder.jl")
 include("buttons.jl")
 
@@ -68,8 +69,6 @@ include("theme.jl")
 include("gio.jl")
 include("application.jl")
 
-
-include("gdk.jl")
 include("interfaces.jl")
 include("boxes.jl")
 include("cairo.jl")
@@ -88,18 +87,17 @@ include("text.jl")
 include("menus.jl")
 include("selectors.jl")
 include("misc.jl")
-
-
 =#
 
 function __init__()
     # Set XDG_DATA_DIRS so that Gtk can find its icons and schemas
     ENV["XDG_DATA_DIRS"] = join(filter(x -> x !== nothing, [
-        dirname(adwaita_icons_dir),
-        dirname(hicolor_icons_dir),
-        joinpath(dirname(GTK3_jll.libgdk3_path::String), "..", "share"),
-        get(ENV, "XDG_DATA_DIRS", nothing)::Union{String,Nothing},
-    ]), Sys.iswindows() ? ";" : ":")
+            dirname(adwaita_icons_dir),
+            dirname(hicolor_icons_dir),
+            joinpath(dirname(GTK3_jll.libgdk3_path::String), "..", "share"),
+            get(ENV, "XDG_DATA_DIRS", nothing)::Union{String,Nothing},
+        ]), Sys.iswindows() ? ";" : ":")
+
 
     # Next, ensure that gdk-pixbuf has its loaders.cache file; we generate a
     # MutableArtifacts.toml file that maps in a loaders.cache we dynamically
@@ -114,7 +112,7 @@ function __init__()
         if Librsvg_jll.is_available()
             # Copy loaders into a directory
             loaders_dir_hash = create_artifact() do art_dir
-                loaders_dir = mkdir(joinpath(art_dir,"loaders_dir"))
+                loaders_dir = mkdir(joinpath(art_dir, "loaders_dir"))
                 pixbuf_loaders = joinpath.(gdk_pixbuf_loaders_dir, readdir(gdk_pixbuf_loaders_dir))
                 push!(pixbuf_loaders, Librsvg_jll.libpixbufloader_svg)
                 cp.(pixbuf_loaders, joinpath.(loaders_dir, basename.(pixbuf_loaders)))
@@ -122,10 +120,10 @@ function __init__()
 
             loaders_dir = joinpath(artifact_path(loaders_dir_hash), "loaders_dir")
             # Pkg removes "execute" permissions on Windows
-            Sys.iswindows() && chmod(artifact_path(loaders_dir_hash), 0o755; recursive=true)
+            Sys.iswindows() && chmod(artifact_path(loaders_dir_hash), 0o755; recursive = true)
             # Run gdk-pixbuf-query-loaders, capture output
             loader_cache_contents = gdk_pixbuf_query_loaders() do gpql
-                withenv("GDK_PIXBUF_MODULEDIR"=>loaders_dir, JLLWrappers.LIBPATH_env=>Librsvg_jll.LIBPATH[]) do
+                withenv("GDK_PIXBUF_MODULEDIR" => loaders_dir, JLLWrappers.LIBPATH_env => Librsvg_jll.LIBPATH[]) do
                     return String(readchomp(`$gpql`))
                 end
             end
@@ -133,7 +131,7 @@ function __init__()
             bind_artifact!(mutable_artifacts_toml,
                 loaders_dir_name,
                 loaders_dir_hash;
-                force=true
+                force = true
             )
         else  # just use the gdk_pixbuf directory
             loader_cache_contents = gdk_pixbuf_query_loaders() do gpql
@@ -151,22 +149,22 @@ function __init__()
         bind_artifact!(mutable_artifacts_toml,
             loaders_cache_name,
             loaders_cache_hash;
-            force=true
+            force = true
         )
     end
 
     # Point gdk to our cached loaders
     ENV["GDK_PIXBUF_MODULE_FILE"] = joinpath(artifact_path(loaders_cache_hash), "loaders.cache")
     ENV["GDK_PIXBUF_MODULEDIR"] = Librsvg_jll.is_available() && loaders_dir_hash !== nothing ?
-                                    joinpath(artifact_path(loaders_dir_hash), "loaders_dir") :
-                                    gdk_pixbuf_loaders_dir
+                                  joinpath(artifact_path(loaders_dir_hash), "loaders_dir") :
+                                  gdk_pixbuf_loaders_dir
 
     if Sys.islinux() || Sys.isfreebsd()
         # Needed by xkbcommon:
         # https://xkbcommon.org/doc/current/group__include-path.html.  Related
         # to issue https://github.com/JuliaGraphics/Gtk.jl/issues/469
         ENV["XKB_CONFIG_ROOT"] = joinpath(Xorg_xkeyboard_config_jll.artifact_dir::String,
-                                          "share", "X11", "xkb")
+            "share", "X11", "xkb")
     end
 
     GError() do error_check
@@ -175,9 +173,9 @@ function __init__()
             C_NULL, C_NULL, "Julia Gtk Bindings", C_NULL, C_NULL, error_check)
     end
 
-    # if g_main_depth > 0, a glib main-loop is already running.
-    # unfortunately this call does not reliably reflect the state after the
-    # loop has been stopped or restarted, so only use it once at the start
+    # if g_main_depth > 0, a glib main-loop is already running
+    # unfortunately, this call does not reliably reflect the state after the
+    # loop has been stopped (or restarted), so only use it once at the start
     gtk_main_running[] = ccall((:g_main_depth, GLib.libglib), Cint, ()) > 0
 
     # Given GLib provides `g_idle_add` to specify what happens during idle, this allows
@@ -186,8 +184,9 @@ function __init__()
 
     auto_idle[] = get(ENV, "GTK_AUTO_IDLE", "true") == "true"
 
-    # by default, defer starting the event loop until either `show`, `showall`, or `g_idle_add` is called
-    enable_eventloop(!auto_idle[])
+    # by default, defer starting the event loop until either `show`, `showall`, or `g_idle_add` is called (during Idle)
+    # this allows that call to also start the eventloop
+    GLib.gtk_eventloop_f[] = enable_eventloop
 end
 
 const auto_idle = Ref{Bool}(true) # control default via ENV["GTK_AUTO_IDLE"]
@@ -195,32 +194,54 @@ const gtk_main_running = Ref{Bool}(false)
 const quit_task = Ref{Task}()
 const enable_eventloop_lock = Base.ReentrantLock()
 """
+   
+1. thread handling: the use of lock:  
     Gtk.enable_eventloop(b::Bool = true)
+shortcomming: on lock, only one thread can passs by; in this function (it's gotta be the event loop)
 
-Set whether Gtk's event loop is running.
+2.Set whether Gtk's event loop is running
 """
 function enable_eventloop(b::Bool = true; wait_stopped::Bool = false)
-    lock(enable_eventloop_lock) do # handle widgets that are being shown/destroyed from different threads
-        isassigned(quit_task) && wait(quit_task[]) # prevents starting while the async is still stopping
-        if b
-            if !is_eventloop_running()
-                global gtk_main_task = schedule(Task(gtk_main))
-                gtk_main_running[] = true
-            end
+    lock(enable_eventloop_lock) do # handle widgets (that are being displayed/destructed by different threads)
+
+        isassigned(quit_task) && wait(quit_task[]) #flag chech - on special event: Prevents starting, while the asynch is still stopping
+                    if b
+                        if !is_eventloop_running()
+                            global  gtk_main_task = schedule(Task(gtk_main_task)) #Warning: changed: gtk_main_task → gtk_main
+                            gtk_main_running[] = true #set `all` true
+                        end
+
         else
             if is_eventloop_running()
-                # @async and short sleep is needer on MacOS at least, otherwise
-                # the window doesn't always finish closing before the eventloop stops.
-                quit_task[] = @async begin
+                # @async & short sleep as needed on MacOS, otherwise
+                # the Window doesn't always finish closing before the eventloop stops
+                quit_task[] = @async begin 
                     sleep(0.2)
                     gtk_quit()
-                    gtk_main_running[] = false
-                end
+                    gtk_main_running[] = false # negate `all` running threads 
+                end 
                 wait_stopped && wait(quit_task[])
             end
         end
     end
 end
+
+
+# Given GLib provides `g_idle_add` to specify what happens during idle, this allows
+# that call to also start the eventloop
+GLib.gtk_eventloop_f[] = enable_eventloop
+
+#const auto_idle = Ref{Bool}(true) # control default via ENV["GTK_AUTO_IDLE"]
+auto_idle[] = get(ENV, "GTK_AUTO_IDLE", "true") == "true"
+
+#const enable_eventloop_lock = Base.ReentrantLock()
+    # by default, defer starting the event loop until either `show`, `showall`, or `g_idle_add` is called
+enable_eventloop(!auto_idle[])
+end
+"""
+
+"""
+
 
 """
     Gtk.pause_eventloop(f; force = false)
@@ -275,15 +296,15 @@ end
 
 # Alternative Interface (`using Gtk.ShortNames`)
 module ShortNames
-    using ..Gtk
-    import ..GLib:
-        signal_connect, signal_handler_disconnect,
-        signal_handler_block, signal_handler_unblock, signal_handler_is_connected,
-        signal_emit
-    import ..GLib.@g_type_delegate
-    import ..Gtk: suffix
-    export Gtk
-#=
+using ..Gtk
+import ..GLib:
+    signal_connect, signal_handler_disconnect,
+    signal_handler_block, signal_handler_unblock, signal_handler_is_connected,
+    signal_emit
+import ..GLib.@g_type_delegate
+import ..Gtk: suffix
+export Gtk
+#= TODO: fix the following files before Uncomenting
     include("basic_exports.jl")
     include("short_exports.jl")
     include("short_leaf_exports.jl")
