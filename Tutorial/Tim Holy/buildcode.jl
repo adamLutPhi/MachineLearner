@@ -219,7 +219,7 @@ particular set of arguments is the slow process
 # if the right blob hasn't been compiled yet, compile it now 
 
 """
-blob = get_blob_forargtypes(f, typesof(args))
+blob = get_blob_forargtypes(f, typesof(args)) #Error types of not defined
 
 # the rest looks the same as a compiletime call: 
 push!(execution_stack, args)
@@ -237,7 +237,7 @@ using BenchmarkTools
 """
  0.001 ns (0 allocations: 0 bytes)
 3.0
-it's solved with a nano-second with the cpu codeblock
+it's solved with a nano-second with the cpu codeblock (me:minimum)
 """
 
 
@@ -245,18 +245,18 @@ it's solved with a nano-second with the cpu codeblock
 
 
 "
-we wanna generate  a random integer between 1& 5 for x 
+we wanna generate  a random integer between 1 & 5 for x 
 
 
- becauser these are not predictable*
+ because these are not predictable*
 
- 2.300 ns (0 allocations: 0 bytes) & a random floating number for y 
+ 2.300 ns (0 allocations: 0 bytes) & a random floating number for y #minimum
 
 
 
 2.0372456559896017
-----------
-predictability depends on: 1. rngType (subsequently seed choice #TODO:check persistence of a seed) 2.
+----------*footnote:
+predictability depends on: 1. rngType (subsequently seed choice #TODO:check persistence of a seed) 2.rngSampler: the 'intended' expected shape 
 
 """
 @btime addTwo((x, y)) setup = (x = rand(1:5); y = rand())

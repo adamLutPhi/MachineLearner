@@ -10,12 +10,22 @@ The string code is filled with @inbounds, @propagate_inbounds, @checkbounds etc 
 
 Let's take string indexing, here @inbounds is only used to turn off checking that you are not outside the bounds of the string but you still need to index on a valid index:
 =#
+
 f(a, i) = @inbounds a[i]
+
 #f (generic function with 1 method)
 
 f("aα", 2) # if string, it checks it , at a valid index 
 f("aα",3)
 # ERROR: StringIndexError("aα", 3) #erronr annotations been update meaningfully # `valid nearby index` [2]=> `a` 
+#useful in 
+s = "aα"
+try
+   @inbounds for i in size(f(s,size(f(s,1))))
+catch(BoundsError && !OutOfMemoryError)
+    println("caught ;)")
+end
+
 #=
 However, you can also add an @inbounds to the SubString constructor (how would you even know that) which then turns off checking for a valid index:
 =#

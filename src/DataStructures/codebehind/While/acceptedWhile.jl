@@ -5,7 +5,7 @@ https://github.com/JuliaLang/julia/issues/31416
 =#
 #=vchuravy commented on Mar 21, 2019 • 
 
-While I do not recommend this, there is always a way.
+While I do not recommend this, "there is always a way."
 =#
 
     function unsafe_inc(i::Int64)
@@ -35,5 +35,7 @@ function slow_entitlement_test_func(f,iter::Union{Base.KeySet{<:Any, <:Dict}, Ba
     end
     return ret
 end
+#=
 Since this is not a bug in Julia, but due to the defined semantics I am going to close this issue.
 Please continue discussion on discourse.julialang.org
+=#

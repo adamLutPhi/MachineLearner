@@ -44,28 +44,33 @@ function extractall!(tuple::Tuple{Any,Any}) #compiles
     dt1 = nothing
     dt2 = nothing
     count = 1
-    _size = size(collect(minimum(tuple)))
+    _size = size(collect((tuple)))
     typeof(minimum(tuple))
+    n = _size    # length(size(collect(minimum((tuple))))) #if DataStructure.Deque was enforced 
     m = _size
-    n = length(len)
-    typeof(tuple[j, i])
+    #println(typeof(tuple[n, m])) # for a Deque test 
     @inbounds for i = 1:m, j = 1:n
-        typeof(tuple[j, i])
+        #typeof(tuple[j, i])
         arr[j, i] = tuple[j, i][1]
         tuple[j, i] = tuple[j, i][2]
-        dt1[count] = zip(tuple[j, i][1], tuple[j, i][2])
-        dt2[count] = (tuple[j, i][1], tuple[j, i][2])
+        dt1[count] = zip(tuple[j, i][1], tuple[j, i][2]) #with zip
+        dt2[count] = (tuple[j, i][1], tuple[j, i][2])    #no zip 
         count += 1 #auto-Increment 
-
     end
+
     return dt1, dt2 #debugging, still 
 end
-
+tup = ((1, 2); (2, 4))
+typeof(tup)
+@btime dt1, dt2 = extractall!(tup) # vector, use []
+@time dt1, dt2 = extractall!(((1, 2); (2, 4))) # vector, use []
+#extractall!()
 #--------------------
 #=vector {any} -> tuple 
 Input: Tuple length N must be pre-defined
 Output: 
 =#
+
 Vector2TupleFloat64(N) = Tuple(Float64(x) for x in N)
 
 @btime Float64.(tuple($N...))
@@ -75,22 +80,23 @@ Vector2TupleFloat64(N) = Tuple(Float64(x) for x in N)
 
 vector2TupleFloat64(N) = @btime Tuple(Float64(x) for x in N); # best loop Optimized for 
 
-Optimizedfunction(x) = (Int64(x) for x in N) #tuple  
-#  5.386 μs (65 allocations: 1.98 KiB)
 
 # @btime Tuple(1.0N);   #this line is not optimized 
 #  20.139 μs (159 allocations: 4.16 KiB) and on 1.0
 
-@btime Tuple(Float64(x) for x in N);
+
+
+
+@btime Tuple(Float64(x) for x in N); # faster, most Optimal for allocation
 #  6.836 μs (57 allocations: 1.42 KiB)
 
-@btime Tuple(1.0N);
+#@btime Tuple(1.0N); #not optimized
 #  2.660 μs (90 allocations: 2.31 KiB) # not at all
 #----------
 
 #Tuple2Vector 
 Tuple2Vector(x) = collect(Iterators.flatten(x))
-
+#code starts here:
 function bLookup!(a = 1, b = 4; h = 1)
 
     α = 1
@@ -101,19 +107,27 @@ function bLookup!(a = 1, b = 4; h = 1)
     while α != b && β <= b
         #   2 + (2) = 4 = _b 
         β = α + (n * h)  # = 3  
-        push!(q, (α, β)) #1 (1,2) #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+        push!(q, (α, β)) #1 (1,2) #infer: sub-range [1,2]  #Deque (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
         α = β # Swap a = 2
         n += 1 # 2 
     end
 
     return q
 end
+#@time
 
-heap = bLookup!() # get subranges #Returns Deque -> Dictionary 
-
+@btime heap = bLookup!() # get subranges #Returns Deque -> Dictionary  @test(E):0.000003 seconds (4 allocations: 192 bytes) @btime =  67.551 ns (4 allocations: 192 bytes) 
 copiedHeap = deepcopy(heap)
+arr = []
 
-typeof(heap)  # Deque -> Dict -> Tuple
+for i in size(copiedHeap) #compiles for a vector 
+  arr = copiedHeap[i]
+
+end
+
+arr
+typeof(heap)   # was a Deque(doublyqueue) -> Dict (not a  Tuple)
+
 length(heap)
 #TODO: Deque -> Heap 
 #popfirst!(heap)
@@ -129,6 +143,7 @@ t[1][1]
 unitrange = t[1][1]:t[2][1]
 typeof((t[1][1], t[2][1]))
 _tuple = (t[1][1], t[2][1])
+
 #tuple -to-> vector
 
 vector = collect(Iterators.flatten(_tuple))
@@ -262,7 +277,7 @@ takeaway: there is a difference between:
 
 situation :
 real world semi-blackbox using only the following 6 functions: 
- 
+
 sizehint!(s::OrderedSet, sz::Integer) = (sizehint!(s.dict, sz); s) #capacity reservation for improving Optimization
 in(x, s::OrderedSet) = haskey(s.dict, x)
 

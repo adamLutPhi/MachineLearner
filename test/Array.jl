@@ -53,7 +53,11 @@ end
     @test replstr(permutedims([undef, undef])) == "1×2 Matrix{UndefInitializer}:\n UndefInitializer()  UndefInitializer()"
     @test replstr([zeros(3, 0), zeros(2, 0)]) == "2-element Vector{Matrix{Float64}}:\n 3×0 Matrix{Float64}\n 2×0 Matrix{Float64}"
 end
+@test replstr(Int32[]) == "Int32[]"
+@test replstr([Int32[]]) == "1-element Vector{Vector{Int32}}:\n []"
+
 # of a subarray
+
 a = rand(5 * 10^2, 5 * 10^2) #5 x 5
 s = view(a, 2:3, 2:3) # view
 p = permutedims(s, [2, 1]) #permutation 
@@ -160,7 +164,7 @@ module AlsoExportsPair
 Pair = 0
 export Pair
 end
-
+ 
 module TestShowType
 export TypeA
 struct TypeA end
@@ -177,7 +181,6 @@ end
 Base.@propagate_inbounds _getindex(i, a, parent...) = (a[i], _getindex(i, b'...)...)
 _getindex(i) = ()
 """
-
 
 m = 1;
 n = 10;
