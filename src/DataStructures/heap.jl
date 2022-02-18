@@ -40,7 +40,7 @@ bLookup!()
 extractall!''
 a Tuple operation; gets back the
 """
-function extractall!(tuple::Tuple{Any,Any}) #compiles 
+Base.@propagate_inbounds function extractall!(tuple::Tuple{Any,Any}) #compiles 
     dt1 = nothing
     dt2 = nothing
     count = 1
@@ -97,7 +97,7 @@ vector2TupleFloat64(N) = @btime Tuple(Float64(x) for x in N); # best loop Optimi
 #Tuple2Vector 
 Tuple2Vector(x) = collect(Iterators.flatten(x))
 #code starts here:
-function bLookup!(a = 1, b = 4; h = 1)
+Base.@propagate_inbounds function bLookup!(a = 1, b = 4; h = 1)
 
     α = 1
     β = 1 #Whatever _b could be picked-up, inside loop it 'll get overwritten 
@@ -121,7 +121,7 @@ copiedHeap = deepcopy(heap)
 arr = []
 
 for i in size(copiedHeap) #compiles for a vector 
-  arr = copiedHeap[i]
+    arr = copiedHeap[i]
 
 end
 
@@ -312,12 +312,12 @@ println(_size);
 last = pop!(s, 1)
 
 #=
-function insert!(s::OrderedSet{Any}, ::Any{T})
+Base.@propagate_inbounds function insert!(s::OrderedSet{Any}, ::Any{T})
 
 end
 =#
 
-function insert!(s::OrderedSet{Any}, ::Any{T}) where {T::Any}
+Base.@propagate_inbounds function insert!(s::OrderedSet{Any}, ::Any{T}) where {T::Any}
     #1. check size 
     _#size = sizehint!(s)
     #look for safety with try (no matter the size of s ) 
@@ -347,7 +347,7 @@ _size == Size ? isequal = true : isequal = false
 println(isequal)
 #TODO: construct a full loop  & iterate ( ort) =#
 
-function getPoints(copiedHeap)
+Base.@propagate_inbounds function getPoints(copiedHeap)
     _size = size(collect(minimum(copiedHeap)))  #<-- the tuple 
     #m = _size
     #typeof(m) # m is a tuple
