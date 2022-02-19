@@ -573,9 +573,7 @@ depth(path::GtkTreePath) = ccall((:gtk_tree_path_get_depth, libgtk), Cint,
 ### GtkTreeSortable
 
 ### GtkCellRenderer
-
-#= #TODO fix problems below
-
+#= #TODO fix problems
 GtkCellRendererAccelLeaf() = GtkCellRendererAccelLeaf(
     ccall((:gtk_cell_renderer_accel_new, libgtk), Ptr{GObject}, ()))
 

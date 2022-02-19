@@ -253,7 +253,7 @@ macro Gtype(iname, lib, symname)
     name = Symbol(string(iname, __module__.suffix))
     get_type_decl(name, iname, gtyp, gtype_decl, __module__)
 end
-
+#=Error: no ref 
 macro Gabstract(iname, lib, symname)
     gtyp = g_type(iname, lib, symname) #Error: no ref 
     if gtyp == 0
@@ -264,6 +264,7 @@ macro Gabstract(iname, lib, symname)
         get_itype_decl(iname, gtyp, __module__),
         get_gtype_decl(iname, lib, symname))
 end
+=#
 
 macro Giface(iname, lib, symname)
     gtyp = g_type(iname, lib, symname, __module__)

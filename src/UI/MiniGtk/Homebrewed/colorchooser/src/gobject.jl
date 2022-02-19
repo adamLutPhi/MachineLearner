@@ -103,7 +103,7 @@ end
 gc_ref_closure{T}(x::T) = (gc_ref(x);cfunction(gc_unref, Void, (T, Ptr{Void})))
 gc_unref(x::Any, ::Ptr{Void}) = gc_unref(x)
 
-const gc_preserve_gtk = WeakKeyDict{GObjectI,Union(Bool,GObjectI)}() # gtk objects
+#= const gc_preserve_gtk = WeakKeyDict{GObjectI,Union(Bool,GObjectI)}() # gtk objects =#
 function gc_ref{T<:GObjectI}(x::T)
     global gc_preserve_gtk
     addref = function()

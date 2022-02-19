@@ -296,14 +296,14 @@ end
 
 # Alternative Interface (`using Gtk.ShortNames`)
 module ShortNames
-using ..Gtk
+using .Gtk
 import ..GLib:
     signal_connect, signal_handler_disconnect,
     signal_handler_block, signal_handler_unblock, signal_handler_is_connected,
     signal_emit
 import ..GLib.@g_type_delegate
 import ..Gtk: suffix
-export Gtk
+#export Gtk
 #= TODO: fix the following files before Uncomenting
     include("basic_exports.jl")
     include("short_exports.jl")
