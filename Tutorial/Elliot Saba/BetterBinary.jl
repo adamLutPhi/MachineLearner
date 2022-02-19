@@ -30,7 +30,22 @@ me: with its own special flavors & Recipies
 """
 #=Strategy:
 we'll `bake` a little Linux image on any linux or mac machine 
+Juliacon2018 - Elliot Saba 
+How: prerequisites: activate current directory and add package BinaryBuilder
 
-How:
-=#
-using BinaryBuilder 
+1. using BinaryBuilder 
+2. BinaryBuilder.runshell() 
+
+q.
+
+windows -> admin prevelages 
+
+either findout chmod and try back on win 
+    or run in mac 
+
+#waiting to be used on mac ... 
+
+=# 
+using BinaryBuilder
+BinaryBuilder.runshell()   
+
