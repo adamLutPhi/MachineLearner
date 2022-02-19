@@ -1,24 +1,23 @@
 # julia Gtk interface
-module Gtk
-
-
+module MiniGtk
+#=it's na 
 if isdefined(Base, :Experimental) && isdefined(Base.Experimental, Symbol("@optlevel"))
     @eval Base.Experimental.@optlevel 1
-end
+end=#
 
 # Import binary definitions
 using GTK3_jll, Glib_jll, Xorg_xkeyboard_config_jll, gdk_pixbuf_jll, adwaita_icon_theme_jll, hicolor_icon_theme_jll
 using Librsvg_jll
 using JLLWrappers
-using Pkg.Artifacts
+using Pkg.Artifacts #ERROR: Unable to parse `Pkg.Artifacts` as a package.
 const libgdk = libgdk3
 const libgtk = libgtk3
 const libgdk_pixbuf = libgdkpixbuf
 
 
-const suffix = :Leaf
-include("\GLib.jl") # GLib/GLib.jl") #TODO: fix 
-#include("..\GLib.jl")
+const suffix = :Leaf #define :leaf # concrete
+#include(safe_path("GLib.jl")) # GLib/GLib.jl") #TODO: fix 
+#include("..\GLib.jl") #need to include Glib 
 
 using .GLib
 using .GLib.MutableTypes
@@ -120,7 +119,7 @@ function __init__()
 
             loaders_dir = joinpath(artifact_path(loaders_dir_hash), "loaders_dir")
             # Pkg removes "execute" permissions on Windows
-            Sys.iswindows() && chmod(artifact_path(loaders_dir_hash), 0o755; recursive = true)
+            Sys.iswindows() && chmod(artifact_path(loaders_dir_hash), 0o755; recursive = true)#grant access to msft
             # Run gdk-pixbuf-query-loaders, capture output
             loader_cache_contents = gdk_pixbuf_query_loaders() do gpql
                 withenv("GDK_PIXBUF_MODULEDIR" => loaders_dir, JLLWrappers.LIBPATH_env => Librsvg_jll.LIBPATH[]) do
@@ -186,13 +185,15 @@ function __init__()
 
     # by default, defer starting the event loop until either `show`, `showall`, or `g_idle_add` is called (during Idle)
     # this allows that call to also start the eventloop
-    GLib.gtk_eventloop_f[] = enable_eventloop
+    #GLib.gtk_eventloop_f[] = enable_eventloop
+    enable_eventloop(!auto_idle[])
 end
 
 const auto_idle = Ref{Bool}(true) # control default via ENV["GTK_AUTO_IDLE"]
 const gtk_main_running = Ref{Bool}(false)
 const quit_task = Ref{Task}()
 const enable_eventloop_lock = Base.ReentrantLock()
+
 """
    
 1. thread handling: the use of lock:  
@@ -204,10 +205,10 @@ shortcomming: on lock, only one thread can passs by; in this function (it's gott
 function enable_eventloop(b::Bool = true; wait_stopped::Bool = false)
     lock(enable_eventloop_lock) do # handle widgets (that are being displayed/destructed by different threads)
 
-        isassigned(quit_task) && wait(quit_task[]) #flag chech - on special event: Prevents starting, while the asynch is still stopping
+        isassigned(quit_task) && wait(quit_task[]) #flag check - on special event: Prevents starting, while the asynch is still stopping
                     if b
                         if !is_eventloop_running()
-                            global  gtk_main_task = schedule(Task(gtk_main_task)) #Warning: changed: gtk_main_task → gtk_main
+                            global gtk_main_task = schedule(Task(gtk_main)) #Warning: changed: gtk_main_task → gtk_main
                             gtk_main_running[] = true #set `all` true
                         end
 
@@ -215,11 +216,13 @@ function enable_eventloop(b::Bool = true; wait_stopped::Bool = false)
             if is_eventloop_running()
                 # @async & short sleep as needed on MacOS, otherwise
                 # the Window doesn't always finish closing before the eventloop stops
-                quit_task[] = @async begin 
+                # @async and short sleep is needer on MacOS at least, otherwise
+                # the window doesn't always finish closing before the eventloop stops.
+                quit_task[] = @async begin
                     sleep(0.2)
                     gtk_quit()
                     gtk_main_running[] = false # negate `all` running threads 
-                end 
+                end
                 wait_stopped && wait(quit_task[])
             end
         end
@@ -234,14 +237,19 @@ GLib.gtk_eventloop_f[] = enable_eventloop
 #const auto_idle = Ref{Bool}(true) # control default via ENV["GTK_AUTO_IDLE"]
 auto_idle[] = get(ENV, "GTK_AUTO_IDLE", "true") == "true"
 
-#const enable_eventloop_lock = Base.ReentrantLock()
+    #const enable_eventloop_lock = Base.ReentrantLock()
     # by default, defer starting the event loop until either `show`, `showall`, or `g_idle_add` is called
-enable_eventloop(!auto_idle[])
+                quit_task[] = @async begin
+
+                    sleep(0.2)
+                    gtk_quit()
+                    gtk_main_running[] = false
+                end
+                wait_stopped && wait(quit_task[])
+            end
+        end
+    end
 end
-"""
-
-"""
-
 
 """
     Gtk.pause_eventloop(f; force = false)
@@ -285,7 +293,7 @@ let cachedir = joinpath(splitdir(@__FILE__)[1], "..", "gen")
 end
 const _ = GAccessor
 using .GConstants
-#=
+#= TODO:UncommentMe
 include("windows.jl")
 include("gl_area.jl")
 =#
@@ -296,15 +304,15 @@ end
 
 # Alternative Interface (`using Gtk.ShortNames`)
 module ShortNames
-using .Gtk
-import ..GLib:
+using .MiniGtk 
+import GLib:
     signal_connect, signal_handler_disconnect,
     signal_handler_block, signal_handler_unblock, signal_handler_is_connected,
     signal_emit
-import ..GLib.@g_type_delegate
-import ..Gtk: suffix
+import GLib.@g_type_delegate
+import Gtk: suffix
 #export Gtk
-#= TODO: fix the following files before Uncomenting
+#= TODO: fix the following files before Uncomenting #UncommentMe
     include("basic_exports.jl")
     include("short_exports.jl")
     include("short_leaf_exports.jl")

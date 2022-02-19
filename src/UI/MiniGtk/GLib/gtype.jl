@@ -1,15 +1,16 @@
 # Import `libgobject` and whatnot
 using Glib_jll
 import Base.eltype
-using Gtk.ShortNames # ShortNames to be fetched
+#using Gtk.ShortNames # ShortNames to be fetched #meaningless #defined in GTK.jl's footer 
 #TODO: add _LList
 abstract type GObject end
 abstract type GInterface <: GObject end
 abstract type GBoxed end
-mutable struct GBoxedUnkown <: GBoxed
+#= Infer: misleading ref 
+mutable struct GBoxedUnkown <: GBoxed #Gboxed 
     handle::Ptr{GBoxed}
 end
-
+=#
 const GEnum = Int32
 const GType = Csize_t
 
@@ -58,8 +59,12 @@ let jtypes = Expr(:block, :(g_type(::Type{Nothing}) = $(g_type_from_name(:void))
             push!(jtypes.args, :(g_type(::Type{T}) where {T<:$juliatype} = convert(GType, $(fundamental_ids[i]))))
         end
     end
-    Core.eval(GLib, jtypes)
+    Core.eval(GLib, jtypes) #GLib.jl requirement (GLib.jl or Glib_jll) #infer: another misleading trace  
 end
+# NOTE: in general do not cache ids, except for these fundamental values
+g_type_from_name(name::Symbol) = ccall((:g_type_from_name, libgobject), GType, (Ptr{UInt8},), name)
+const fundamental_ids = tuple(GType[g_type_from_name(name) for (name, c, j, f) in fundamental_types]...)
+#pre-supposes all fundamentals compile (without errors ) #requires error (file)
 
 G_TYPE_FROM_CLASS(w::Ptr{Nothing}) = unsafe_load(convert(Ptr{GType}, w))
 G_OBJECT_GET_CLASS(w::GObject) = G_OBJECT_GET_CLASS(w.handle)
