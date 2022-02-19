@@ -1,6 +1,7 @@
 """Binary Builders 
 JuliaCon2018
-Credits: Elliot Saba 
+Video: https://www.youtube.com/watch?v=2e0PBGSaQaI&ab_channel=TheJuliaProgrammingLanguage
+Credits: Elliot Saba  (thank you so much!)
 
 Q.How are we gonna do that?
 
@@ -43,9 +44,9 @@ windows -> admin prevelages
 either findout chmod and try back on win 
     or run in mac 
 
-#waiting to be used on mac ... 
+#waiting to be consumed  on mac ... 
 
-=# 
+=#
 using BinaryBuilder
 BinaryBuilder.runshell()   
 
