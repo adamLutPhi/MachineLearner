@@ -224,7 +224,7 @@ end
 
 function push!(treeStore::GtkTreeStore, values::Tuple, parent = nothing)
     iter = mutable(GtkTreeIter)
-    if parent == nothing
+    if parent === nothing #compare against nothing with === 
         ccall((:gtk_tree_store_append, libgtk), Nothing, (Ptr{GObject}, Ptr{GtkTreeIter}, Ptr{Nothing}), treeStore, iter, C_NULL)
     else
         ccall((:gtk_tree_store_append, libgtk), Nothing, (Ptr{GObject}, Ptr{GtkTreeIter}, Ref{GtkTreeIter}), treeStore, iter, parent)
@@ -236,7 +236,7 @@ end
 
 function pushfirst!(treeStore::GtkTreeStore, values::Tuple, parent = nothing)
     iter = mutable(GtkTreeIter)
-    if parent == nothing
+    if parent === nothing #compare against nothing with === 
         ccall((:gtk_tree_store_prepend, libgtk), Nothing, (Ptr{GObject}, Ptr{GtkTreeIter}, Ptr{Nothing}), treeStore, iter, C_NULL)
     else
         ccall((:gtk_tree_store_prepend, libgtk), Nothing, (Ptr{GObject}, Ptr{GtkTreeIter}, Ref{GtkTreeIter}), treeStore, iter, parent)

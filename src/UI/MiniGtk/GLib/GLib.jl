@@ -71,7 +71,7 @@ include("gerror.jl")
 include("glist.jl")
 include("gtype.jl")
 include("gvalues.jl")
-include("signals.jl")
+include("gsignals.jl")
 #include("gwrap.jl") #Excluded
 
 export @g_type_delegate

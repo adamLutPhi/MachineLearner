@@ -63,7 +63,7 @@ lobi@orange4:~/juliarepo$ ../julia04/julia
 =#
 using Gtk
 
-using Gtk.ShortNames
+using Gtk.ShortNames # (non-)Official use of ShortNames
 
 open_dialog("Pick some files", multiple=true)
 #=WARNING: Base.Uint8 is deprecated, use UInt8 instead.

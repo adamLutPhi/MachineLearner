@@ -246,9 +246,9 @@ auto_idle[] = get(ENV, "GTK_AUTO_IDLE", "true") == "true"
                     gtk_main_running[] = false
                 end
                 wait_stopped && wait(quit_task[])
-            end
+            #=end
         end
-    end
+    end=#
 end
 
 """
@@ -278,7 +278,7 @@ is_eventloop_running() = gtk_main_running[]
 const ser_version = Serialization.ser_version
 let cachedir = joinpath(splitdir(@__FILE__)[1], "..", "gen")
     fastgtkcache = joinpath(cachedir, "gtk$(libgtk_version.major)_julia_ser$(ser_version)")
-    if isfile(fastgtkcache) && true
+    if isfile(fastgtkcache) & true #old error && was a boolean Literal
         open(fastgtkcache) do cache
             while !eof(cache)
                 Core.eval(Gtk, deserialize(cache))

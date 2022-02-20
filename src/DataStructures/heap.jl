@@ -1,6 +1,5 @@
-using Test, BenchmarkTools, DataStructures
+using Test, BenchmarkTools# , DataStructures # redundant - for now 
 #module Heap end
-
 #=
 ```inputs
 
@@ -23,11 +22,8 @@ else
     bLookup!(a, b; h = 1)
     #push!()  ∘ ⚇ 
 
-
     n += 1
-
     setindex!(a, 1, i)
-
 end
 a=rand(10,1) ; size(a)
 @test 
@@ -37,7 +33,7 @@ bLookup!()
 =#
 =#
 """
-extractall!''
+extractall!
 a Tuple operation; gets back the
 """
 Base.@propagate_inbounds function extractall!(tuple::Tuple{Any,Any}) #compiles 
@@ -84,30 +80,27 @@ vector2TupleFloat64(N) = @btime Tuple(Float64(x) for x in N); # best loop Optimi
 # @btime Tuple(1.0N);   #this line is not optimized 
 #  20.139 μs (159 allocations: 4.16 KiB) and on 1.0
 
-
-
-
 @btime Tuple(Float64(x) for x in N); # faster, most Optimal for allocation
 #  6.836 μs (57 allocations: 1.42 KiB)
 
 #@btime Tuple(1.0N); #not optimized
 #  2.660 μs (90 allocations: 2.31 KiB) # not at all
 #----------
-
+#working 
 #Tuple2Vector 
 Tuple2Vector(x) = collect(Iterators.flatten(x))
 #code starts here:
-Base.@propagate_inbounds function bLookup!(a = 1, b = 4; h = 1)
+Base.@propagate_inbounds function bLookup!(a = 1, b = 4; h = 1)  #optimal rapid: median 71.5 ns 
 
     α = 1
     β = 1 #Whatever _b could be picked-up, inside loop it 'll get overwritten 
     q = [] #DataStructures.Deque{Tuple{Int64,Int64}}()
     n = 1
 
-    while α != b && β <= b
+    while α != b && β <= b # adding inbounds slightly fastens the total process  
         #   2 + (2) = 4 = _b 
         β = α + (n * h)  # = 3  
-        push!(q, (α, β)) #1 (1,2) #infer: sub-range [1,2]  #Deque (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+     push!(q, (α, β)) #1 (1,2) #infer: sub-range [1,2]  #Deque (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
         α = β # Swap a = 2
         n += 1 # 2 
     end
@@ -115,16 +108,32 @@ Base.@propagate_inbounds function bLookup!(a = 1, b = 4; h = 1)
     return q
 end
 #@time
+#-----
+function linearSort(heap)
+    for i in size(heap) #compiles for a vector 
+        if i > 1
+            if heap[i] < heap[i-1] #check code
+                heap[i], heap[i-1] = heap[i-1], heap[i] #swap 
+            end
 
-@btime heap = bLookup!() # get subranges #Returns Deque -> Dictionary  @test(E):0.000003 seconds (4 allocations: 192 bytes) @btime =  67.551 ns (4 allocations: 192 bytes) 
-copiedHeap = deepcopy(heap)
+        end #arr[i] = copiedHeap[i] copy code
+    end
+    return heap
+end 
+#-----
+@benchmark heap = bLookup!() # get subranges #Returns Deque -> Dictionary  @test(E):0.000003 seconds (4 allocations: 192 bytes) @btime =  67.551 ns (4 allocations: 192 bytes) 
+copiedHeap = deepcopy(heap) # 65.169 ns (4 allocations: 192 bytes)   #65.881 ns (4 allocations: 192 bytes) #0.000003 seconds (4 allocations: 192 bytes)
+#=   memory estimate:  192 bytes
+  allocs estimate:  4
+  --------------
+  minimum time:     65.138 ns (0.00% GC)
+  median time:      72.885 ns (0.00% GC)
+  mean time:        127.858 ns (19.01% GC)
+  maximum time:     8.332 μs (98.91% GC) =#
 arr = []
+#--- 
 
-for i in size(copiedHeap) #compiles for a vector 
-    arr = copiedHeap[i]
-
-end
-
+@benchmark heap = linearSort(heap)
 arr
 typeof(heap)   # was a Deque(doublyqueue) -> Dict (not a  Tuple)
 
