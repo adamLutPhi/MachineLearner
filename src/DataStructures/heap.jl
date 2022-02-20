@@ -199,12 +199,14 @@ _tuple = (t[1][1], t[2][1])
 #tuple -to-> vector
 
 vector = collect(Iterators.flatten(_tuple))
-#=
+
 collect(Iterators.flatten(x)) #OR
 
 
  [x[j] for x in x for j in eachindex(x)] 
-=#
+
+
+
 
 #---
 #for i in heap

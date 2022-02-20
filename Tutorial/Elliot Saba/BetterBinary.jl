@@ -1,7 +1,7 @@
 """Binary Builders 
 JuliaCon2018
 Video: https://www.youtube.com/watch?v=2e0PBGSaQaI&ab_channel=TheJuliaProgrammingLanguage
-Credits: Elliot Saba  (thank you so much!)
+Credits: Elliot Saba @staticfloat (thank you so much!)
 
 Q.How are we gonna do that?
 
