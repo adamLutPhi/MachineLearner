@@ -46,46 +46,48 @@ using Serialization
 const Index{I<:Integer} = Union{I, AbstractVector{I}}
 
 export GAccessor
-#=TODO:
+#=TODO: add files ending with exports 
 include("basic_exports.jl")
 include("long_exports.jl")
 include("long_leaf_exports.jl")
 =#
+
 global const libgtk_version = VersionNumber(
       ccall((:gtk_get_major_version, libgtk), Cint, ()),
       ccall((:gtk_get_minor_version, libgtk), Cint, ()),
       ccall((:gtk_get_micro_version, libgtk), Cint, ()))
 
-#= required files (for Building GUI Items )
+#= Required files (for Building GUI Items )
 
-include("gdk.jl")
-include("cairo.jl")
-include("builder.jl")
-include("buttons.jl")
-
-include("toolbar.jl")
-include("theme.jl")
-include("gio.jl")
 include("application.jl")
+include("builder.jl") #3
 
 include("interfaces.jl")
+include("container.jl")
+include("toolbar.jl") #5
+
 include("boxes.jl")
+include("buttons.jl") #4
+
+include("gdk.jl") #1
+include("gtktypes.jl")
+include("cairo.jl") #2 
+
+include("base.jl")
+include("gio.jl")
 include("cairo.jl")
 
-include("gtktypes.jl")
-include("base.jl")
 include("events.jl")
-
-include("container.jl")
 include("layout.jl")
 include("lists.jl")
 include("displays.jl")
 
-include("input.jl")
 include("text.jl")
 include("menus.jl")
 include("selectors.jl")
+include("theme.jl")
 include("misc.jl")
+
 =#
 
 function __init__()

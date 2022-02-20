@@ -2,12 +2,10 @@ using Test, BenchmarkTools# , DataStructures # redundant - for now
 #module Heap end
 #=
 ```inputs
-
 n: whole positive natural number > 1 -autoincremented 
-
 |---| --- |
-b    b      b
-```
+b    b     b
+``` 
  #queue - Datastructures.Deque{Int}()
 #=
    i=4 = b ;a=[]; ; n = 1;
@@ -20,7 +18,7 @@ else
     i = i - (n * h) # 4 -(1*1) = 3 <--- new b /a 
     pt = (i, b) # (3,4); push!()  
     bLookup!(a, b; h = 1)
-    #push!()  ∘ ⚇ 
+    #push!() # ∘ ⚇ 
 
     n += 1
     setindex!(a, 1, i)
@@ -32,6 +30,7 @@ bLookup!()
 (1,2)
 =#
 =#
+#= this is coded to work with DataStructures.Deque
 """
 extractall!
 a Tuple operation; gets back the
@@ -56,10 +55,11 @@ Base.@propagate_inbounds function extractall!(tuple::Tuple{Any,Any}) #compiles
 
     return dt1, dt2 #debugging, still 
 end
+=#
 tup = ((1, 2); (2, 4))
 typeof(tup)
-@btime dt1, dt2 = extractall!(tup) # vector, use []
-@time dt1, dt2 = extractall!(((1, 2); (2, 4))) # vector, use []
+#@btime dt1, dt2 = extractall!(tup) # vector, use []
+#@time dt1, dt2 = extractall!(((1, 2); (2, 4))) # vector, use []
 #extractall!()
 #--------------------
 #=vector {any} -> tuple 
@@ -75,8 +75,6 @@ Vector2TupleFloat64(N) = Tuple(Float64(x) for x in N)
 #  895.109 ns (5 allocations: 1.22 KiB)
 
 vector2TupleFloat64(N) = @btime Tuple(Float64(x) for x in N); # best loop Optimized for 
-
-
 # @btime Tuple(1.0N);   #this line is not optimized 
 #  20.139 μs (159 allocations: 4.16 KiB) and on 1.0
 
@@ -90,7 +88,7 @@ vector2TupleFloat64(N) = @btime Tuple(Float64(x) for x in N); # best loop Optimi
 #Tuple2Vector 
 Tuple2Vector(x) = collect(Iterators.flatten(x))
 #code starts here:
-Base.@propagate_inbounds function bLookup!(a = 1, b = 4; h = 1)  #optimal rapid: median 71.5 ns 
+Base.@propagate_inbounds function bLookup!(a = 1, b = 4; h = 1)  #optimal #rapid: median 71.5 ns 
 
     α = 1
     β = 1 #Whatever _b could be picked-up, inside loop it 'll get overwritten 
@@ -100,18 +98,19 @@ Base.@propagate_inbounds function bLookup!(a = 1, b = 4; h = 1)  #optimal rapid:
     while α != b && β <= b # adding inbounds slightly fastens the total process  
         #   2 + (2) = 4 = _b 
         β = α + (n * h)  # = 3  
-     push!(q, (α, β)) #1 (1,2) #infer: sub-range [1,2]  #Deque (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+        push!(q, (α, β)) #1 (1,2) #infer: sub-range [1,2]  #Deque (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
         α = β # Swap a = 2
         n += 1 # 2 
     end
 
     return q
 end
+
 #@time
 #-----
 function linearSort(heap)
     for i in size(heap) #compiles for a vector 
-        if i > 1
+        if i > 1 #this is a must 
             if heap[i] < heap[i-1] #check code
                 heap[i], heap[i-1] = heap[i-1], heap[i] #swap 
             end
@@ -119,9 +118,53 @@ function linearSort(heap)
         end #arr[i] = copiedHeap[i] copy code
     end
     return heap
-end 
+end
+function biSectSort(heap)
+  #=
+    try
+       size(heap) = length(heap) % 2 == 0 ?   :   ;
+   catch
+   end
+   =#
+    #try <--- start here 
+
+       # for i in size(heap) #compiles for a vector 
+
+        #=find the middle 
+        -isdivisible by 2 (is there a generalization)
+        -- check middle (why ? )  what 
+        lsize(heap)%2 === 0 
+        #check if size(heap)/2 is even → d =#
+#        si()
+        if size(heap) % 2 == 0  # odd 
+                #do something 
+        
+        elseif size(heap) % 2 !!  
+        end
+            #=catch Exception #
+        print error 
+    
+
+    end
+            catch Exception #
+        print error =#
+
 #-----
 @benchmark heap = bLookup!() # get subranges #Returns Deque -> Dictionary  @test(E):0.000003 seconds (4 allocations: 192 bytes) @btime =  67.551 ns (4 allocations: 192 bytes) 
+
+"""
+
+BenchmarkTools.Trial: 10000 samples with 977 evaluations.
+ Range (min … max):   66.121 ns …  11.737 μs  ┊ GC (min … max):  0.00% … 98.61%
+ Time  (median):      76.254 ns               ┊ GC (median):     0.00%
+ Time  (mean ± σ):   131.199 ns ± 420.001 ns  ┊ GC (mean ± σ):  19.74% ±  6.19%
+
+  ▆█▆▄▄▃▃▃▃▂▁▂▁▂▂▃▄▃▃▂▂▁▁▁ ▁ ▁       ▁ ▁ ▁                      ▂
+  ███████████████████████████████▇▇██████████▆▇▇▇▆▆▇▅▆▅▅▅▅▄▅▄▄▃ █
+  66.1 ns       Histogram: log(frequency) by time        318 ns <
+
+"""
+heap = bLookup!()
 copiedHeap = deepcopy(heap) # 65.169 ns (4 allocations: 192 bytes)   #65.881 ns (4 allocations: 192 bytes) #0.000003 seconds (4 allocations: 192 bytes)
 #=   memory estimate:  192 bytes
   allocs estimate:  4
