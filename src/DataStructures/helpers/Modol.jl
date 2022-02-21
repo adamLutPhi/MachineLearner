@@ -110,8 +110,8 @@ findprev
 
 
 function len(v::Vector)
-    
-    if(isa odd(last(v))#i.e. 3 
+#=    
+if(isa odd(last(v))#i.e. 3 
 
         #assumes a sorted array  # divisible
 lenDiv2(vec::Vector;fl=nothing) = last(vec)/2   #assumes divisible
