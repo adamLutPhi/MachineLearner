@@ -1,4 +1,5 @@
-#= 
+#= Requires enough llvm 
+
 while i <= L makes function >5x slower the while i < (L+1) #31416
 ndinsmore opened this issue on Mar 20, 2019 · 27 comments
 https://github.com/JuliaLang/julia/issues/31416
@@ -38,4 +39,4 @@ end
 #=
 Since this is not a bug in Julia, but due to the defined semantics I am going to close this issue.
 Please continue discussion on discourse.julialang.org
-=#
+=# 

@@ -23,15 +23,24 @@ Base.@propagate_inbounds function bLookup!(a = 1, b = 4; h = 1)  #optimal #rapid
 end
 vec = bLookup!()
 typeof(vec)
-length(vec)  # lenght ; size
+length(vec)  # length ; size
 l = length(vec)
 flag = nothing
 
 isMod(vec) = length(vec) % 2 == 0 ? flag = true : flag = false; #use of global 
 
 #benchmark isMod(vec)
-#=using globals freely : flag = true global , l = 
+#=using globals freely : flag = true global , l =
+
+v =r = [1, 2, 3, 4]
+
 =#
+v = [1, 2, 3, 4]
+typeof(v)
+s(v) = last(v)
+last(v) # last equal size (length)
+isMod(last(v)/2) 
+first(v)
 @time begin
     flag = isMod(vec)
     if flag == true
@@ -41,6 +50,7 @@ isMod(vec) = length(vec) % 2 == 0 ? flag = true : flag = false; #use of global
     else
         print("something's wrong")
     end
+
 end
 
 
@@ -52,8 +62,13 @@ what is the max of list ?
 #---
 
 r = [1, 2, 3, 4]
-maxr = r[4]
-number = r[2]
+last(r)
+maxr = last(r)
+number = Int(last(r)/2)
+
+isMod(r)#we can divide 
+
+
 for i in r
     print(i)
 end
@@ -67,17 +82,44 @@ for i in r
 end
 
 #is divisible 
+#= if it has a multiple f that factor! - easier said than done i.e. m = ak (m divisible by a & k )  =#
 
+
+
+#=
+1. isMod() [true, false]
+2.
+=#
 
 
 
 #---
-fl = nothing
-isMod(vec) = length(vec) % 2 == 0 ? fl = true : fl = false; #use of global 
+#fl = nothing
+isMod(vec;fl=nothing) = length(vec) % 2 == 0 ? fl = true : fl = false; #use of global 
+isMod(vec::Vector;fl=nothing) = last(vec) %2 ==0 ? fl=true : fl = false # 
+len(vec::Vector;fl=nothing) = last(vec)+1
 
+
+"""elementat() mind procrastinates by asking anohter interesting question (don't answer it )
+odd  = odd +1 = last() + findfirst() #easier than last()+first()can also (to prevent misconseptions)-what if one made 0-vector? (wrecks whole thing) so do this correct 
+
+possibilities 
+findprev
+"""
+findprev
+
+
+function len(v::Vector)
+    
+    if(isa odd(last(v))#i.e. 3 
+
+        #assumes a sorted array  # divisible
+lenDiv2(vec::Vector;fl=nothing) = last(vec)/2   #assumes divisible
 #benchmark isMod(vec)
-#using globals freely 
-succeed(v, i) = v[i+1];
+#using globals freely
+isExits(v,i) = try  v[i], true catch println("Does not exist") ;nothing, false;
+prev(v,i) = if isExits(v,i) v[i-1]
+succeed(v, i) = isExits(v,i) v[i+1];
 transfer(v, m, n) = v[m], v[n] = v[n], v[m]
 #v[m] -> v[n]
 insertat!(v, m, i) = v[i] = m;
@@ -104,6 +146,7 @@ c = (a, b)
 if fl == true
     l = length(vec) / 2
 elseif flag == false
-    l = (length(vec) + 1) / 2
+    l = (length(vec) + 1) / 2 # not correct # skipping 1   
 end 
 =#
+ 
