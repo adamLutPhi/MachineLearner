@@ -91,14 +91,27 @@ end
 2.
 =#
 
-
-
 #---
 #fl = nothing
-isMod(vec;fl=nothing) = length(vec) % 2 == 0 ? fl = true : fl = false; #use of global 
-isMod(vec::Vector;fl=nothing) = last(vec) %2 ==0 ? fl=true : fl = false # 
+isMod(a, b; fl = nothing) = (max(a,b) - abs(min(a,b))) % 2 == 0 ? fl = true : fl = false;
+
+isMod(vec;fl=nothing) = length(vec) % 2 == 0 ? fl = true : fl = false; 
+isMod(vec::Vector;fl=nothing) = last(vec) %2 ==0 ? fl=true : fl = false; # 
 len(vec::Vector;fl=nothing) = last(vec)+1
 
+function isMod(a::Int64, b::Int64) #any two numbers
+    dif = (max(a, b) - abs(min(a, b))) #% 2 == 0 #? fl = true : fl = false;
+
+    if rem(dif, 2) == 0
+        return true
+    elseif rem(dif, 2) != 0
+        return false
+    else
+        return nothing
+    end
+end
+
+isMod(1, 3)
 
 """elementat() mind procrastinates by asking anohter interesting question (don't answer it )
 odd  = odd +1 = last() + findfirst() #easier than last()+first()can also (to prevent misconseptions)-what if one made 0-vector? (wrecks whole thing) so do this correct 

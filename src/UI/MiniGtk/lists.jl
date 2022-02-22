@@ -67,7 +67,7 @@ zero(::Type{GtkTreeIter}) = GtkTreeIter()
 copy(ti::GtkTreeIter) = ti
 copy(ti::Mutable{GtkTreeIter}) = mutable(ti[])
 show(io::IO, iter::GtkTreeIter) = print("GtkTreeIter(...)")
-
+ 
 Base.cconvert(::Type{Ref{GtkTreeIter}},x::GtkTreeIter) = Ref(x)
 Base.cconvert(::Type{Ref{GtkTreeIter}},x::Gtk.Mutable{GtkTreeIter}) = Ref(x[])
 

@@ -1,3 +1,4 @@
+#GObject not defined
 #Error while running choosing color reason: module could not be found.
 #=
 https://github.com/JuliaGraphics/Gtk.jl/issues/530

@@ -40,7 +40,7 @@ function gtkwindowleafcall(GObject, GValue)
     first = true
     for i = 1:unsafe_load(n)
         param = unsafe_load(unsafe_load(props, i))
-        if !first
+        if !first 
             print(io, ", ")
         else
             first = false

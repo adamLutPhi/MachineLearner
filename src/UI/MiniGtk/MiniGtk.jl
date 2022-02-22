@@ -5,7 +5,7 @@ if isdefined(Base, :Experimental) && isdefined(Base.Experimental, Symbol("@optle
     @eval Base.Experimental.@optlevel 1
 end=#
 
-# Import binary definitions
+# Import Binary Definitions (for building by a binary builder)
 using GTK3_jll, Glib_jll, Xorg_xkeyboard_config_jll, gdk_pixbuf_jll, adwaita_icon_theme_jll, hicolor_icon_theme_jll
 using Librsvg_jll
 using JLLWrappers
@@ -108,7 +108,7 @@ function __init__()
     loaders_cache_hash = artifact_hash(loaders_cache_name, mutable_artifacts_toml)
     loaders_dir_name = "gdk-pixbuf-loaders-dir"
     loaders_dir_hash = artifact_hash(loaders_dir_name, mutable_artifacts_toml)
-
+ 
     if loaders_cache_hash === nothing
         if Librsvg_jll.is_available()
             # Copy loaders into a directory
@@ -118,7 +118,7 @@ function __init__()
                 push!(pixbuf_loaders, Librsvg_jll.libpixbufloader_svg)
                 cp.(pixbuf_loaders, joinpath.(loaders_dir, basename.(pixbuf_loaders)))
             end
-
+ 
             loaders_dir = joinpath(artifact_path(loaders_dir_hash), "loaders_dir")
             # Pkg removes "execute" permissions on Windows
             Sys.iswindows() && chmod(artifact_path(loaders_dir_hash), 0o755; recursive = true)#grant access to msft
@@ -168,7 +168,7 @@ function __init__()
             "share", "X11", "xkb")
     end
 
-    GError() do error_check
+    GError() do error_check #Gerror not Defined 
         ccall((:gtk_init_with_args, libgtk), Bool,
             (Ptr{Nothing}, Ptr{Nothing}, Ptr{UInt8}, Ptr{Nothing}, Ptr{UInt8}, Ptr{Ptr{GError}}),
             C_NULL, C_NULL, "Julia Gtk Bindings", C_NULL, C_NULL, error_check)
@@ -191,7 +191,7 @@ function __init__()
     enable_eventloop(!auto_idle[])
 end
 
-const auto_idle = Ref{Bool}(true) # control default via ENV["GTK_AUTO_IDLE"]
+const auto_idle = Ref{Bool}(true) # control default via ENV["GTK_AUTO_IDLE"] #TODO:check if changed in latest version 
 const gtk_main_running = Ref{Bool}(false)
 const quit_task = Ref{Task}()
 const enable_eventloop_lock = Base.ReentrantLock()
@@ -202,7 +202,7 @@ const enable_eventloop_lock = Base.ReentrantLock()
     Gtk.enable_eventloop(b::Bool = true)
 shortcomming: on lock, only one thread can passs by; in this function (it's gotta be the event loop)
 
-2.Set whether Gtk's event loop is running
+2.Set whether Gtk's event loop is running 
 """
 function enable_eventloop(b::Bool = true; wait_stopped::Bool = false)
     lock(enable_eventloop_lock) do # handle widgets (that are being displayed/destructed by different threads)
@@ -230,7 +230,7 @@ function enable_eventloop(b::Bool = true; wait_stopped::Bool = false)
         end
     end
 end
-
+ 
 
 # Given GLib provides `g_idle_add` to specify what happens during idle, this allows
 # that call to also start the eventloop
@@ -251,7 +251,7 @@ auto_idle[] = get(ENV, "GTK_AUTO_IDLE", "true") == "true"
             #=end
         end
     end=#
-end
+end 
 
 """
     Gtk.pause_eventloop(f; force = false)
@@ -293,7 +293,7 @@ let cachedir = joinpath(splitdir(@__FILE__)[1], "..", "gen")
         map(eval, include(constcache).args)
     end
 end
-const _ = GAccessor
+const _ = GAccessor #TODO: No Definition for GAcessor 
 using .GConstants
 #= TODO:UncommentMe
 include("windows.jl")
