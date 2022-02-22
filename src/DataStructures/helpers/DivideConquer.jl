@@ -99,19 +99,23 @@ checkBool value or nothing
 ```
 """
 function iseven(m) # \nerleg #͍
-     ƞ = 0; ƞ = m
-    check=nothing; condition = ƞ % 2; 
-    if condition == 0 
+    ƞ = 0
+    ƞ = m
+    check = nothing
+    condition = ƞ % 2
+    if condition == 0
         check = true
-    elseif Condition != 0 
-        check = false 
+    elseif Condition != 0
+        check = false
     else# faulty input, or Unexpected error happened 
         return check
-    end 
-    return check 
-end 
+    end
+    return check
+end
 
-iseven(2);iseven(0);iseven(6)
+iseven(2);
+iseven(0);
+iseven(6);
 iseven(3)
 """Testing Area here 
         |   ----    |   ----    |
@@ -145,10 +149,10 @@ end
 """
 gets the Eucldian distance between 2 numbers
 """
-euclideanDist(a::Int64,b::Int64) =  (abs(max(a, b)) - abs(min(a, b))) # was (max(a, b) - abs(min(a, b))) #Unsymmetric 
+euclideanDist(a::Int64, b::Int64) = (abs(max(a, b)) - abs(min(a, b))) # was (max(a, b) - abs(min(a, b))) #Unsymmetric 
 function isMod(a::Int64, b::Int64)
     dif = dist(a, b)  #% 2 == 0 #? fl = true : fl = false;
-    res = nothing 
+    res = nothing
     if dif % 2 == 0  #rem(dif, 2) == 0
         res = true
     elseif dif % 2 != 0
@@ -156,51 +160,34 @@ function isMod(a::Int64, b::Int64)
     else # sth else happened during evaluation of rem
         return res
     end
-    return res 
+    return res
 end
 isMod(1, 3)
 
 
 function dist(a::Int64, b::Int64)
-    return euclideanDist(a,b)
+    return euclideanDist(a, b)
 end
 #solve problem in the Abstract Domain 
-function ϟ(a,b) #\upkoppa
+function ϟ(a, b) #\upkoppa
     return a + b
 end
-#=
-function iseven(a,b)
-    res = nothing   
-    dis = ϟ(a,b) #is a+b or a-b (Euclids distance)  correct? 
-    if dis % 2 == 0  #rem(dif, 2) == 0
-        res = true
-    elseif dif % 2 !=0 
-        res = false
-    else 
-        return res 
-    end
-    return res   
-end
+
+@benchmark ϟ(1, 3) # maximum time:     0.100 ns (0.00% GC)
+@benchmark ϟ(1, 10^6) # maximum time:     44.800 ns (0.00% GC)
+#= there exits a huge dichotomy 
+#infer: UnOptimized 
+an increase of a 10^6 yeilds an increase in time maximum by  447.99999999999994 times 
 =#
+@time ϟ(1, 3) #  0.000000 seconds # in @time,  we care about allocation  
+@time ϟ(1, 10^6)
+
+#using Base.Threads
+
+#nthreads() # 1 
+
 using BenchmarkTools
-@benchmark euclideanDist(10^2,10^3)
-#=
-function middle(a,b)
-    mid = nothing
-    #check divisible i.e iseven s  
-    isIteven = iseven(a,b) # 3 Logic possibilities{nothing, true, false}
-    if isIteven == true # has a middle 
-         #Bah, Oui 
-        euclideanDist(a,b)
-        elseif isIteven == false #don't have a 'proper' middle  
-        # Mais, Non 
-    
-    else #errorneous input to deal with (c koi ca?) 
-        return mid  #pas du tout -> gently break
-    end #end if 
-    return mid  #whether True or false, return 
-end
-=#
+@benchmark euclideanDist(10^2, 10^3)
 
 #Relationship between 2 consecutive Rationals is 1 99% a.s. 
 """BisectSort
@@ -211,10 +198,10 @@ end
 ```output:
 ```
 """
-function BisectSort(a::Int64, b::Int64)
-
-end 
-    #=
+function BisectSort(arr, a::Int64, b::Int64)
+    #TODO: 
+end
+#=
 
 #special case 
 if arr[m]  == idx return m; # isa try 
@@ -225,55 +212,38 @@ else
 #go left
 return Dichotomy ( array , l eft ,m-1 ) ;
 
-  
+
 look at middle n/2 
 
 =#
 
 #--- testing Area 
-"""returns a boolean
+
+"""
 ```input:
+    _m a Calculated  Eucledian Distance (between 2 points)
 
 ```
 
 ```output:
-
 ```
 """
-function checkCriterion(ch,:operator=[%,+,-,*],operand)
-    check = nothing; check = ch
-    condition = nothing; condition = :check :operator :operand  
+function midCriterion(_m)
+    m = 0
+    m = _m #euclideanDist(a, b) # | b - a | 
+    condition = nothing
+    condition = iseven(m)
+    check = nothing
     if condition == true
-    return true #a.s. 
+        check = condition
     elseif condition == false
-        return false #a.s. 
-    else # faulty Input or Unexpected Error Occured
-        return check
+        check = condition
+    else #if faulty input or Unexpected ERROR Occured 
+        check
     end
-    return check
+    return check #whether check is true, false, nothing
 end
-checkCriterion(3,%,2)
-#=
-function iseven(m)
-    check = nothing;
-    check = m
-    if m %2 == 0
-        check = true
-    else if m % 2 != 0
-        check == false
-    else #faulty input, or Unexpected ERROR Occured 
-        return check 
-    end
-    return check  #check has a valid value: either true or false 
-end
-=#
-#=
-function middleCriterion(a,b)
-    #check#1
-    m = 0 
-    check = nothing; check = nothing ;check = euclideanDist(a,b)  # |b - a| # positive a.s.
-    if iseven check 
-=#
+
 #check #2:middle
 """middleCriterion
 ```input
@@ -297,47 +267,30 @@ function middleCriterion(a,b)
   
   ```
 """
-
-function midCriterion(a,b)
+function midCriterion(a, b)
     m = 0
-    m = euclideanDist(a,b) # | b - a | 
-    condition = nothing; condition = iseven(m)
-    check = nothing;
+    m = euclideanDist(a, b) # | b - a | 
+    condition = nothing
+    condition = iseven(m)
+    check = nothing
     if condition == true
-        check = true  
+        check = condition
     elseif condition == false
-        check = false
+        check = condition
     else #if faulty input or Unexpected ERROR Occured 
         check
     end
     return check #whether check is true, false, nothing
-end 
+end
 #done!
-
+using BenchmarkTools
+@benchmark midCriterion(1, 3) # |3 - 1| = 2 is isEven -true-> retrun isMidCriterion ->true  #  maximum time:     13.900 ns (0.00% GC)
+@benchmark midCriterion(1, 10^6) # maximum time:     maximum time:     36.800 ns (0.00% GC)
+#=increasing problem by 10^6 yeilds a relative increase in Computation time by  2.6474820143884887 times 
+=#
 #2.2. middle Computation 
-function middle(a,b)
-    criterion = midCriterion(a,b) 
-   # check = nothing;check = midCriterion(m) #b-a
-    check,above,below = nothing ; check ; condition = criterion; #   b-a 
-    if condition == true
-        #return true #a.s. 
-        check = euclideanDist(a, b) // 2 * 1.0 # | b - a | 
-    elseif condition == false
-        #return false #a.s. 
-        # check = euclideanDist(a,b)//2*1.0
-        #GET CIEL & FLOOD 
-        check = euclideanDist(a, b) // 2 * 1.0
-        above = ceil(check) #nearest index abouve
-        below = floor(check)
-    else # faulty Input or Unexpected Error Occured
-        return check  # nothing
-    end
-     return check, condition, above, below
-end 
-#
-
 """
-
+middle = 4-1 /2= 3/2 = 1.5 [false] (do ceil & floor) -> ceil = 2 , floor = 1  
 returns mid Criterion 
 
 ```input
@@ -348,17 +301,72 @@ returns mid Criterion
 ```output check:: Bool
   returns a Bool check given by `check= midCriterion(m)`
 ```
+
 """
-function middle(m)
+function middle(a, b)
     criterion = nothing
-    check = nothing;check = midCriterion(m) #b-a
-    check = nothing ; check = midCriterion(m)
-    if check == true
+    criterion = midCriterion(a, b)
+    # check = nothing;check = midCriterion(m) #b-a
+    check = nothing
+    above = nothing
+    below = nothing
+    condition = criterion #   b-a 
+    if condition == true
+        #return true #a.s. #eucledian Distance divided by 2 returing a whole integer
+        check = ϟ(a, b) // 2 # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ
+
+    elseif condition == false
+        #return false #a.s.# check = euclideanDist(a,b)//2*1.0
+        #GET CEIL & FLOOD 
+        check = ϟ(a, b) / 2 # euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
+        above = Int(ceil(check)) #nearest index abouve
+        below = Int(floor(check))
+    else # faulty Input or Unexpected Error Occured
+        return check  # nothing
+    end
+    return condition, check, above, below
+end
+#
+middle(1, 4) #false 
+middle(1, 3) #true 
+
+#---testing area 2 
+
+"""returns a boolean
+```input:
+
+```
+
+```output:
+
+```
+"""#testing purposes only 
+function checkCriterion(ch, :operator = [%, +, -, *], operand)
+    check = nothing
+    check = ch
+    condition = nothing
+    condition = :check:operator:operand
+    if condition == true
         return true #a.s. 
-    else if check == false
+    elseif condition == false
         return false #a.s. 
     else # faulty Input or Unexpected Error Occured
-      return check
+        return check
     end
-    return check 
-end 
+    return check
+end
+checkCriterion(3, %, 2)
+#=
+function iseven(m)
+    check = nothing;
+    check = m
+    if m %2 == 0
+        check = true
+    else if m % 2 != 0
+        check == false
+    else #faulty input, or Unexpected ERROR Occured 
+        return check 
+    end
+    return check  #check has a valid value: either true or false 
+end
+=#
