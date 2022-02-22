@@ -1,4 +1,4 @@
-using  Gtk
+using  MiniGtk
 
 if isdefined(Base, :Experimental) && isdefined(Base.Experimental, Symbol("@optlevel"))
     @eval Base.Experimental.@optlevel 1
@@ -17,12 +17,19 @@ import .GLib:
     signal_emit, unsafe_convert,
     AbstractStringLike, bytestring
 =#
+"""Guide by Ahmad Lutfi 
 
-using GTK3_jll, Glib_jll, Xorg_xkeyboard_config_jll, gdk_pixbuf_jll, adwaita_icon_theme_jll, hicolor_icon_theme_jll
+GTK3_jll: standard Gtk package Imports 
+
+#icon packages (2):
+##1.
+"""
+
+using GTK3_jll, Glib_jll, Xorg_xkeyboard_config_jll, gdk_pixbuf_jll, adwaita_icon_theme_jll, hicolor_icon_theme_jll #done 
 
 using Librsvg_jll
 using JLLWrappers 
-using Pkg.Artifacts #ok 
+using Pkg.Artifacts #ok # ] add Artifacts
 #const libgdk # = libgdk3
 #const libgtk # = libgtk3
 #const libgdk_pixbuf # = libgdkpixbuf
@@ -33,7 +40,7 @@ using Pkg.Artifacts #ok
 import Base: convert, show, run, size, resize!, length, getindex, setindex!,
              insert!, push!, append!, pushfirst!, pop!, splice!, delete!, deleteat!,
              parent, isempty, empty!, first, last, in, popfirst!,
-             eltype, copy, isvalid, string, sigatomic_begin, sigatomic_end, (:), iterate
+             eltype, copy, isvalid, string, sigatomic_begin, sigatomic_end, (:), iterate #fix: adds c.jl fixes sigatomic_begin,  sigatomic_end ccalls #crucil 
 
 export showall, select!, start
 

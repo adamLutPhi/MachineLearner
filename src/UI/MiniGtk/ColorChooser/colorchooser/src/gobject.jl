@@ -1,7 +1,7 @@
 #= TODO: fix conventions (abstract, type)
 
 abstract GObjectI 
-#typealias
+#const
 const GObject GObjectI
 
 # Alternative object construction style. This would let us share constructors
@@ -70,7 +70,7 @@ show(io::IO, w::GObjectI) = print(io,typeof(w))
 
 
 ### Miscellaneous types
-#typealias
+#const
 #const  Enum  Int32
 baremodule GConnectFlags
     const AFTER = 1

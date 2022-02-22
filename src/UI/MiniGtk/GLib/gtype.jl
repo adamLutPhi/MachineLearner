@@ -63,8 +63,9 @@ let jtypes = Expr(:block, :(g_type(::Type{Nothing}) = $(g_type_from_name(:void))
 end
 # NOTE: in general do not cache ids, except for these fundamental values
 g_type_from_name(name::Symbol) = ccall((:g_type_from_name, libgobject), GType, (Ptr{UInt8},), name)
-const fundamental_ids = tuple(GType[g_type_from_name(name) for (name, c, j, f) in fundamental_types]...)
-#pre-supposes all fundamentals compile (without errors ) #requires error (file)
+#=const=# fundamental_ids = tuple(GType[g_type_from_name(name) for (name, c, j, f) in fundamental_types]...)# TODO:define GType Info:Invalid redefinition of Constant
+#either remove constant, or remove redefinition() function ; redefinition proves to be costly, thus, action taken is to remove constant #TODO 
+#pre-supposes all fundamentals compile (without errors ) #requires error (file) 
 
 G_TYPE_FROM_CLASS(w::Ptr{Nothing}) = unsafe_load(convert(Ptr{GType}, w))
 G_OBJECT_GET_CLASS(w::GObject) = G_OBJECT_GET_CLASS(w.handle)
@@ -288,7 +289,8 @@ end
 
 unsafe_convert(::Type{Ptr{T}}, box::T) where {T<:GBoxed} = convert(Ptr{T}, box.handle)
 convert(::Type{GBoxed}, boxed::GBoxed) = boxed
-convert(::Type{GBoxedUnkown}, boxed::GBoxedUnkown) = boxed
+convert(::Type{GBoxedUnkown}, boxed::GBoxedUnkown) = boxed #an imported function has been exended without using module defined typed arguments
+
 convert(::Type{T}, boxed::T) where {T<:GBoxed} = boxed
 convert(::Type{T}, boxed::GBoxed) where {T<:GBoxed} = convert(T, boxed.handle)
 convert(::Type{GBoxed}, unbox::Ptr{GBoxed}) = GBoxedUnkown(unbox)

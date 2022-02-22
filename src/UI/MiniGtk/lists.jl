@@ -601,7 +601,7 @@ GtkCellRendererSpinnerLeaf() = GtkCellRendererSpinnerLeaf(
 
 ### GtkTreeViewColumn
 
-GtkTreeViewColumnLeaf() = GtkTreeViewColumnLeaf(ccall((:gtk_tree_view_column_new, libgtk), Ptr{GObject}, ()))
+GtkTreeViewColumnLeaf() = GtkTreeViewColumnLeaf(ccall((:gtk_tree_view_column_new, libgtk), Ptr{GObject}, ()))#possible method call error 
 function GtkTreeViewColumnLeaf(renderer::GtkCellRenderer, mapping)
     treeColumn = GtkTreeViewColumnLeaf()
     pushfirst!(treeColumn, renderer)

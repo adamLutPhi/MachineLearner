@@ -115,8 +115,12 @@ isa((1, 2, 3), Tuple{Vararg{Int}}) #ok
 #Really all we want is FixedArray{T::Int...}
 FixedArray{T::Int...}; #=ERROR: LoadError: UndefVarError: FixedArray not defined #solved (below): 
 # JeffBezanson commented on Apr 24, 2015) #That's right; we've never had isa restrictions. This doesn't work in 0.3 either:
-#solution: =#
-struct FixedArray{T<:(Int...)} end; #OPEN! # ERROR: LoadError: MethodError: no method matching iterate(::Type{Int64})
+#solution: =# #omment (for not ) #UncommentMe
+
+#struct FixedArray{T<:(Int...)} end; #OPEN! # ERROR: LoadError: MethodError: no method matching iterate(::Type{Int64})#Reason:cannot declare constant (#reason redefinition, if not try removing constant ) #potential_ERROR
+
+#iterate( ::T) where T <:Union{(Int..)) end; #Union 
+iterate(::Type{Int64}) # ::Type 
 #= Closest candidates are: [Julia provides solutions ]
  ``` 
  iterate(::Union{LinRange, StepRangeLen}) #at range.jl:664  

@@ -39,9 +39,9 @@ function elementat(v::Vector, i)
     return findnext(v, i)
 end
 
-function indexof(v::Vector, i)
-    #
-    return findIndex(v::vector, i)
+function indexof(v::Vector) #, i)
+    #findIndex(v::Vector) #Note Takes 1 argument(parameter)- v::Vector -only
+    return findIndex(v); #, i) 
 end
 
 """
