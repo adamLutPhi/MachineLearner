@@ -1,8 +1,12 @@
 # Gtk
 
-[![GtkMap](MiniGtk\Assets\GtkMap.jpg)]
+[![GtkMap]](https://github.com/adamwillisXanax/DeepLearner/blob/main/GtkMap.png)
+[![GtkMap]](GtkMap.png)
 
-[download xmind file](MiniGtk\Assets\GTK.xmind)
+[![GtkMap](GtkMap.png)](GtkMap.png)
+
+
+[download xmind file](GTK.xmind)
 
 ## Credits 
 
@@ -10,33 +14,33 @@ I would like to **generously Thank** the Julia development Team, for their aweso
 
 ## GObjects (et al.)
 
-`GObject` _(3111)_
-`Gtk` _(2953)_
-`libgtk` _(2642)_ **(a.k.a _libgtk3_)**
+`GObject` _(3111)_<br />
+`Gtk` _(2953)_<br />
+`libgtk` _(2642)_ **(a.k.a _libgtk3_)**<br />
 
-`Gtk.GtkWidget` (317)
-`Gtk.GtkWindow` (151)
+`Gtk.GtkWidget` (317)<br />
+`Gtk.GtkWindow` (151)<br />
 
-# Gtk tree
- `Gtk.GtkTreeView` (138)
- `Gtk.GtkTreeModel`(43)
-# Button
- `Gtk.GtkToolButton` (25)
- `Gtk.GtkToggleToolButton` (4)
+### Gtk tree
+ `Gtk.GtkTreeView` (138)<br />
+ `Gtk.GtkTreeModel`(43)<br />
+### Button
+ `Gtk.GtkToolButton` (25) <br />
+ `Gtk.GtkToggleToolButton` (4)<br />
 
-`Gtk.GtkToolShell` (45)
-`Gtk.GtkEntryCompletion` (42)
+`Gtk.GtkToolShell` (45)<br />
+`Gtk.GtkEntryCompletion` (42)<br />
 
-`Gtk.GtkWidgetPath` (37)
-`Gtk.GdkPixbuf` (34)
+`Gtk.GtkWidgetPath` (37)<br />
+`Gtk.GdkPixbuf` (34)<br />
 
 # Glib 
- `Gtk.GLib` (22)
- `Gtk.GLib.libgobject` (20)
- `Gtk.libgdk` (28)
+ `Gtk.GLib` (22)<br />
+ `Gtk.GLib.libgobject` (20)<br />
+ `Gtk.libgdk` (28)<br />
 
-Gtk.GClosure (9)
-Gtk.libgdk (8)
-Gtk.GList (3)
+Gtk.GClosure (9)<br />
+Gtk.libgdk (8)<br />
+Gtk.GList (3)<br />
 
 
