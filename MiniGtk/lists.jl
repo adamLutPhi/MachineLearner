@@ -25,7 +25,7 @@
 
 #GtkComboBox — A widget used to choose from a list of items
 #GtkComboBoxText — A simple, text-only combo box
-#needs GObject
+#needs GObject #not defined 
 
 GtkComboBoxTextLeaf(with_entry::Bool = false) = GtkComboBoxTextLeaf(
         if with_entry
