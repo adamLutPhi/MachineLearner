@@ -1,5 +1,5 @@
 # julia Gtk interface
-module MiniGtk
+module Gtk
 #=it's na 
 if isdefined(Base, :Experimental) && isdefined(Base.Experimental, Symbol("@optlevel"))
     @eval Base.Experimental.@optlevel 1
@@ -196,11 +196,10 @@ const gtk_main_running = Ref{Bool}(false)
 const quit_task = Ref{Task}()
 const enable_eventloop_lock = Base.ReentrantLock()
 
-"""
-   
+"""  
 1. thread handling: the use of lock:  
     Gtk.enable_eventloop(b::Bool = true)
-shortcomming: on lock, only one thread can passs by; in this function (it's gotta be the event loop)
+Shortcomming: on lock, only one thread can passs by; in this function (it's gotta be the event loop)
 
 2.Set whether Gtk's event loop is running 
 """
@@ -306,7 +305,7 @@ end
 
 # Alternative Interface (`using Gtk.ShortNames`)
 module ShortNames
-using .MiniGtk 
+using .Gtk 
 import GLib:
     signal_connect, signal_handler_disconnect,
     signal_handler_block, signal_handler_unblock, signal_handler_is_connected,
@@ -318,7 +317,7 @@ import Gtk: suffix
     include("basic_exports.jl")
     include("short_exports.jl")
     include("short_leaf_exports.jl")
-=#
+=##enforce Using the .ShortNames 
 end
 using .ShortNames
 end

@@ -183,4 +183,4 @@ f(::Tuple{Type{Int}}) = 1 #f (generic function with 1 method) #works
 f((Int,)) #ERROR: MethodError: `f` has no method matching f(::Tuple{DataType}) # Closest candidates are: f(::Tuple{Type{Int64}}) #me : so the ....
 #ERROR: MethodError: `f` has no method matching f(::Tuple{DataType}) Closest candidates are: f(::Tuple{Type{Int64}})
 
-#= Warning f(::Tuple{Type{Int64}}) #f(::Tuple{DataType}) #OPEN! #BUGGY ERROR Detected (for more review: src\UI\MiniGtk\issues\open\isa_issue.jl for more examples of buggy code)
+#= Warning f(::Tuple{Type{Int64}}) #f(::Tuple{DataType}) #OPEN! #BUGGY ERROR Detected (for more review: src\UI\Gtk\issues\open\isa_issue.jl for more examples of buggy code)

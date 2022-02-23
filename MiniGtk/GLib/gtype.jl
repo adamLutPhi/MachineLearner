@@ -289,7 +289,7 @@ end
 
 unsafe_convert(::Type{Ptr{T}}, box::T) where {T<:GBoxed} = convert(Ptr{T}, box.handle)
 convert(::Type{GBoxed}, boxed::GBoxed) = boxed
-convert(::Type{GBoxedUnkown}, boxed::GBoxedUnkown) = boxed #an imported function has been exended without using module defined typed arguments
+convert(::Type{GBoxedUnkown}, boxed::GBoxedUnkown) = boxed #TODO:Info an imported function has been exended without using module defined typed arguments
 
 convert(::Type{T}, boxed::T) where {T<:GBoxed} = boxed
 convert(::Type{T}, boxed::GBoxed) where {T<:GBoxed} = convert(T, boxed.handle)

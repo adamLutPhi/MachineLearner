@@ -1,8 +1,42 @@
+#= Objects et al.
+
+ GObject (3111)
+ Gtk (2953)
+ libgtk (2642) = libgtk3
+
+ Gtk.GtkWidget (317)
+ Gtk.GtkWindow (151)
+
+# Gtk tree
+ Gtk.GtkTreeView (138)
+ Gtk.GtkTreeModel (43)
+
+# Button
+ Gtk.GtkToolButton (25)
+ Gtk.GtkToggleToolButton (4)
+# ----
+Gtk.GtkToolShell (45)
+Gtk.GtkEntryCompletion  (42)
+
+Gtk.GtkWidgetPath (37)
+Gtk.GdkPixbuf (34)
+
+# Glib 
+ Gtk.GLib (22)
+ Gtk.GLib.libgobject (20)
+ Gtk.libgdk (28)
+# -------
+Gtk.GClosure (9)
+Gtk.libgdk (8)
+Gtk.GList (3)
+
+=#
 quote
-$(Expr(:toplevel, :(module GAccessor
+    $(Expr(:toplevel, :(module GAccessor
     import ..Gtk
     import ..Gtk.GObject
-    export group, icon_pixbuf, iter_at_position, from_icon_name, path_at_pos, style_property, use_stock, scale_factor, minimum_key_length, pulse_step, buildable_property, mark, show_preview_entry, start_position, pango_context, object_name, child_visible, preferred_size, max_content_width, level_indentation, transient_for, pixels_with_length, cursor_on_cell, line_count, request_mode, monospace, language, from_pixbuf, current_item, section_type, has_origin, active, cell_at_position, orientation, tab_label_text, sort_indicator, documenters, sort_func, display_name, activatable, child_secondary, tab_vborder, options, inline_completion, activate_on_single_click, background, ellipsize, has_resize_grip, digits, junction_sides, icon_gicon, create_folders, size_of_row, tab_pos, attributes, show_arrow, path, qdata_full, shadow_type, event_window, font_family, realized, row_separator_func, default_left_margin, has_tooltip, sort_order, nth_page, tooltip_row, complete, accept_label, program_name, kinetic_scrolling, device_enabled, description, hover_expand, max_content_height, invisible_char, drop_index, width_chars, startup_id, upper_stepper_sensitivity, item_column, tooltip_window, preferred_width, image_position, action_widget, capture_button_press, menu_label, default_bottom_margin, track_motion, property, data_full, justify, inner_border, progress_pulse_step, focus_on_map, iter_at_line_offset, halign, background_rgba, destroy_count_func, icon_tooltip_markup, window_type, serialize_formats, use_alpha, inconsistent, tab_hborder, file, homogeneous, max_width_chars, modal, extra_widget, baseline_position, ellipsize_mode, default_icon, targets, font_name, item_at_pos, byte_length, iter_at_mark, vadjustment, value_as_int, focus_visible, font_features, deletable, parent, direction, width, tooltip_context, predicted_presentation_time, from_animation, inline_selection, indices, application_info, sensitive, margin_top, flags, data_with_length, text_orientation, attached_to, tearoff_state, current_folder_file, license, size_request, left_margin, hscroll_policy, draw_value, for_attach_widget, opacity, ancestor, single_line_mode, toplevel, selection, modified, preferred_height, column, numeric, bits_per_sample, title, submenu, progress_fraction, fixed_size, fixed_width, label_widget, deserialize_formats, render_icon_surface, label_fill, current_icon_drag_source, search_position_func, meta_marshal, cursor_visible, focus_siblings, do_overwrite_confirmation, step_increment, focus_hadjustment, is_important, top_margin, placeholder_text, toolbar_style, show_tips, line_wrap, flippable, child_non_homogeneous, border_color, font_face, stock_id, website, end_line, preferred_width_for_height, preferred_height_for_width, default_widget, receives_default, font_size, resize_toplevel, visible_rect, uri, pixels_below_lines, urgency_hint, icon_name, yalign, mnemonic_widget, cursor_locations, keep_below, justification, focus_from_sibling, attach_widget, alignment, uri_display, pixels_above_lines, current_page, valign, destroy_with_parent, margin_right, text_column, child_packing, text_alignment, popup_single_match, presentation_time, items, uris, button, search_equal_func, char_count, completion, bin_window, end_position, aligned_area, expanded, row_spacing, select_function, siblings, style_context, range_rect, placement, icon_tooltip_text, resizable, slider_size_fixed, min_content_height, image, n_pages, stock, margin_bottom, vscroll_policy, default, type_hint, gravity, alternative_button_order, default_response, iter_at_line, background_area, model, accel_group, added, cursor, parent_window, default_right_margin, is_locked, font, adjustment, option, max_length, center_widget, layout, menu, can_default, right_margin, area, translator_credits, filename, visual, current_uri, state, storage_type, short_name, from_resource, header_bar, selected_rows, iter_location, show_not_found, accept_focus, target, expander_column, depth, preview_text, child1, slice, clipboard, action_area, default_sort_func, cell_data_func, show_border, website_label, cell_area, lines, bounds, can_create_tags, from_stock, response_sensitive, user_data, pixbuf, lower_stepper_sensitivity, allocation, headers_clickable, sizing, logo_icon_name, n_items, handle_window, from_file, slider_range, min_slider_size, hscrollbar, accel_path, action_target, sort_type, icon_from_gicon, copy_target_list, rules_hint, application, line_wrap_mode, window, icon_size, double_buffered, priority, hide_titlebar_when_maximized, icon_activatable, iter_at_child_anchor, bottom_margin, icon_from_file, visible_func, show_hidden, internal_child, deleted, reserve_toggle_size, no_show_all, vscrollbar, markup_column, visibility, input_purpose, hexpand_set, upper, preview_file, monitor, use_underline, rowstride, accessible, choice, tooltip_item, text_area, wide_handle, markup_with_mnemonic, valuesv, tooltip_cell, groups, icon_from_icon_name, frame_clock, label, objects, action, from_surface, reorderable, proxy, sibling_index, xalign, row_drag_data, sort_column_id, hexpand, data, indices_with_depth, arrow_tooltip_markup, level, default_icon_list, vexpand, nth_item, string_from_iter, drag_dest_row, interactive_debugging, use_size, propagate_natural_width, default_size, has_user_ref_count, update_policy, hover_selection, support_multidevice, proxy_menu_item, length, overwrite_mode, format, resize_mode, action_name, type_from_name, use_preview_label, tooltip_markup, events, wrap_mode, start_iter, text_size_group, page_increment, wrap, item_width, iter_at_line_index, margin_left, settings, filenames, copyright, version, height, text, filter, detailed_action_name, mode, wmclass, child, object_type, icon_drag_source, columns, layout_offsets, start_line, fill_level, allocated_width, focus_vadjustment, iter_first, relief, snap_to_ticks, fraction, mapped, radio, preview_widget, resize_grip_area, editable, show_expanders, item_orientation, enable_search, debug_updates, font_options, composite_name, gicon, match_func, select_multiple, show_style, input_hints, chars, inverted, icon_from_pixbuf, pixbuf_column, context_id, role, reserve_indicator, child_requisition, clickable, tab_reorderable, qdata, icon_at_pos, alternative_button_order_from_array, restrict_to_fill_level, tabs, keep_above, icon, children, current_name, hadjustment, action_target_value, has_alpha, authors, filter_func, icon_set, pixels, device_events, expand, wrap_license, decorated, requisition, policy, cell_allocation, widget, max_width, selectable, visible_vertical, n_channels, current_path_string, drag_dest_item, increments, overwrite, skip_taskbar_hint, item_row, rgba, frame_counter, limit, cursor_hadjustment, relief_style, current_folder, preview_uri, value, headers_visible, show_private, edit_widget, icon_widget, use_markup, pointer, show_size, marshal, has_selection, position, visible, scale, accepts_tab, buffer, text_length, drop_highlight_item, private_hint, response_for_widget, cell_rect, column_drag_function, applications, min_content_width, style, visible_column, popup_completion, use_font, refresh_interval, margin_end, label_align, column_spacing, allocated_baseline, has_window, left_gravity, x_offset, icon_from_stock, titlebar, value_pos, vexpand_set, fit_model, dest_row_at_pos, app_paintable, cancel_label, search_column, background_color, range, menu_label_text, focus_cell, completion_prefix, border_width, allocated_size, draw_sensitive, default_geometry, valign_with_baseline, column_types, insert, data_type, option_group, selected_items, color, scrollable, path_for_child, iter_from_string, logo, indent, round_digits, action_group, border_window_size, state_flags, visible_range, selection_mode, text_with_mnemonic, overlay_scrolling, spacing, edited_cell, cells, local_only, grid_lines, files, active_text, mnemonic_keyval, object, icon_list, default_attributes, auto_startup_notification, use_drag_window, line_yrange, iter_at_offset, section, modifier_mask, modify_func, rubber_banding, always_show_image, artists, item_index, margin, fixed_height_from_font, activates_default, column_type, lower, clip, message_area, item_padding, from_gicon, selected, has_frame, geometry_hints, screen, animation, comments, show_tabs, child2, minimum_increment, tag_table, search_entry, mime_type, disabled, cell_data, focus_chain, icon_factory, tooltip_column, preview_widget_active, dest_item_at_pos, colorspace, frame_time, from_icon_set, end_iter, name, icon_stock, focus_on_click, widget_for_response, extensions, license_type, show_events, line_at_y, ppd_name, icon_storage_type, track_visited_links, target_list, can_focus, iter, visible_horizontal, tab_label, font_map, page_size, min_width, reallocate_redraws, font_desc, mime_types, group_name, display, padding, content_area, size, propagate_natural_height, paste_target_list, template_child, skip_pager_hint, n_columns, margin_start, allocated_height, default_top_margin, preview_filename, icon_area, enable_tree_lines, app_info, translation_domain, selection_bound, render_icon_pixbuf, mnemonic_modifier, iter_at_location, age, mnemonics_visible, pixels_inside_wrap, redraw_on_allocate, show_icons, displayed_row, icon_sensitive, tooltip_text, angle, fixed_height_mode, focus, paper_sizes, preferred_height_and_baseline_for_width, pixel_size, root_window, pattern, content_type, current_folder_uri, show_fill_level, draw, show_text, selection_bounds, tree_view, entry, visited, arrow_tooltip_text, tab_detachable, right_justified, focus_child, markup, border
+
+    export label_align, qdata, icon_activatable, width, buffer, pixbuf, preview_widget_active, iter_at_mark, arrow_tooltip, inner_border, markup_with_mnemonic, popup_single_match, has_selection, hover_expand, double_buffered, tooltips, extension_events, has_frame, tree_view, right_margin, artists, mime_type, child_requisition, use_preview_label, option_group, style, filenames, show_tips, background_area, mode, option, max_length, show_not_found, requisition, for_attach_widget, data_full, children, use_stock, sort_order, private_hint, tag_table, draw, use_markup, pixels_inside_wrap, can_focus, iter_location, upper, from_drawable, info_from_tip_window, logo_icon_name, max_width, icon_at_pos, select_function, website, add_source, markup_column, default_bottom_margin, response_sensitive, show_events, cursor_on_cell, popup_completion, limit, height, visible_horizontal, match_func, activatable, cell_area, screen, tooltip_markup, destroy_with_parent, resizable, icon_from_file, byte_length, icon_tooltip_text, level_indentation, flippable, upper_stepper_sensitivity, left_gravity, iter, resize_mode, round_digits, keep_below, from_pixmap, layout_offsets, left_margin, size_request, cells, row_separator_func, select_multiple, iter_at_line_index, tab_hborder, bounds, from_gicon, max_width_chars, editable, default_attributes, iter_at_child_anchor, single_line_mode, column_drag_function, range_rect, active, from_icon_set, message_area, has_alpha, action_area, depth, verbose, is_locked, current_icon_drag_source, is_important, tab_border, minimum_key_length, fixed_height_mode, sort_func, has_resize_grip, child, search_column, discrete_blocks, pixels_below_lines, ancestor, show_arrow, decorated, chars, mnemonic_widget, selection_bound, track_motion, default_sort_func, show_hidden, slider_size_fixed, accessible, show_numbers, inline_selection, show_icons, show_size, blinking, pulse_step, lower_stepper_sensitivity, width_chars, tooltip_item, arrow_tooltip_text, cell_data, enable_tree_lines, modal, tabs, proxy, attach_widget, receives_default, activates_default, preview_file, paper_sizes, background_color, icon_name, policy, toolbar_style, icon_from_gicon, icon_gicon, colorspace, image_position, visited, preview_widget, activity_blocks, icon_size, meta_marshal, from_animation, target_list, focus_vadjustment, size_wildcarded, icon_drag_source, range, text, display, version, pixel_size, clipboard, icon, alternative_button_order_from_array, focus_on_click, visible_range, search_entry, content_area, sizing, visible_column, hadjustment, create_folders, ellipsize_mode, menu, tab_detachable, animation, menu_label, copy_target_list, modify_func, widget, paste_target_list, no_show_all, selection_bounds, focus_hadjustment, unref, n_items, char_count, keep_above, step_increment, pattern, pixels_with_length, mime_types, urgency_hint, text_window, digits, local_only, accel_group, translation_domain, indices_with_depth, pixels, tooltip_row, uri, markup, events, property, documenters, type_from_name, stock_id, default_top_margin, bits_per_sample, render_icon, drag_dest_row, nth_page, fraction, focus, show_style, iter_at_offset, show_fill_level, icon_set, image, response_for_widget, visibility, line_wrap, cursor, fixed_size, icon_window, display_name, targets, dest_row_at_pos, visible_vertical, file, group_name, text_with_mnemonic, row_drag_data, from_stock, string_from_iter, pointer, data_type, track_visited_links, use_xshm, description, from_icon_name, tab_label_text, headers_clickable, numeric, use_font, expanded, allocation, label_widget, fixed_width, alternative_button_order, item_index, has_grab, position, headers_visible, child_packing, has_window, text_length, geometry, default_response, icon_list, expand, tooltip_column, action, mapped, realized, extensions, entry, inverted, text_size_group, column_type, line_count, border_window_size, accepts_tab, reallocate_redraws, column, program_name, alignment, scroll_adjustments, pango_context, label, text_alignment, path, current_folder_file, use_size, nth_item, iter_first, state, snap_to_ticks, min_width, page_increment, current_uri, columns, fill_level, default_icon_list, parent, submenu, gravity, mnemonic_keyval, frame_dimensions, ellipsize, selection, completion, target, visible_func, activity_step, preview_uri, sort_type, selected, opacity, shadow_type, visual, expander_column, child2, modified, default_size, vscrollbar, data, stock, cursor_hadjustment, mark, label_fill, type_hint, line_yrange, age, modifier_style, child_size, uposition, grid_lines, col_spacing, icon_storage_type, mnemonics_visible, show_border, copyright, increments, angle, fixed_height_from_font, group, deletable, website_label, page_size, current_page, x11_window_id, icon_stock, bin_window, marshal, hover_selection, wmclass, menu_label_text, homogeneous, icon_from_stock, search_equal_func, group_id, can_default, toplevel, reorderable, rules_hint, tab_vborder, iter_at_position, direction_wildcarded, draw_value, arrow_tooltip_markup, wrap_license, deserialize_formats, valuesv, deleted, icon_sensitive, user_data, monitor, model, title, focus_chain, size_of_row, update_policy, gicon, window, default_widget, right_justified, progress_pulse_step, filter, role, column_types, handle_window, slider_range, text_orientation, dest_item_at_pos, child_ipadding, path_at_pos, inconsistent, drop_highlight_item, item_row, border_width, value_as_int, files, preview_filename, slice, default_right_margin, icon_tooltip_markup, radio, sizes, n_channels, license, startup_id, relief_style, selection_mode, layout, qdata_full, from_image, tooltip_window, cell_data_func, text_column, state_wildcarded, item_at_pos, action_widget, debug_updates, geometry_hints, hscrollbar, length, value, use_underline, rubber_banding, child_secondary, indent, composite_name, internal_child, direction, iter_at_location, default_icon, settings, placement, has_tooltip, colormap, accept_focus, destroy_count_func, spacing, start_iter, justification, reserve_toggle_size, item_width, icon_widget, insert, adjustment, value_pos, usize, show_private, sort_indicator, cursor_visible, padding, bar_style, modifier_mask, visible_rect, item_column, ref, accel_path, column_spacing, attributes, from_pixbuf, current_folder, show_tabs, child_visible, priority, row_spacing, tooltip_cell, orientation, authors, show_expanders, homogeneous_tabs, uris, invisible_char, short_name, end_iter, root_window, font_name, sort_column_id, search_position_func, tab_label, line_at_y, app_paintable, proxy_menu_item, object, skip_pager_hint, justify, event_window, snapshot, widget_for_response, focus_child, size, rowstride, tearoff_state, margin, row_spacings, default_col_spacing, storage_type, do_overwrite_confirmation, default_left_margin, default, cell_renderers, visible, disabled, translator_credits, tab_label_packing, application_info, flags, mnemonic_modifier, format, tooltip, current_name, added, active_text, wrap_mode, redraw_on_allocate, completion_prefix, parent_window, enable_search, min_slider_size, item_orientation, ppd_name, inline_completion, auto_startup_notification, vadjustment, lower, n_columns, selectable, child1, pixels_above_lines, item_padding, selected_items, wrap, from_file, name, can_create_tags, filename, items, clickable, groups, skip_taskbar_hint, drop_index, extra_widget, current_item, relief, iter_at_line, tooltip_context, scrollable, progress_fraction, restrict_to_fill_level, tab_pos, copy, logo, context_id, objects, tooltip_text, sensitive, pixmap, iter_from_string, overwrite_mode, use_drag_window, default_row_spacing, serialize_formats, icon_from_icon_name, uri_display, transient_for, line_wrap_mode, comments, selected_rows, icon_pixbuf, tab_reorderable, icon_from_pixbuf, col_spacings, displayed_row, has_separator, buildable_property, install, focus_on_map, indices, current_folder_uri, new_from_pixbuf, n_pages, applications, pixbuf_column, iter_at_line_offset, overwrite, window_type, drag_dest_item
     function marshal(closure::Gtk.GClosure, marshal_)
         ccall((:g_closure_set_marshal, Gtk.GLib.libgobject), Nothing, (Ptr{Gtk.GClosure}, Ptr{Nothing}), closure, marshal_)
         return closure
@@ -14,6 +48,9 @@ $(Expr(:toplevel, :(module GAccessor
     function property(object::Gtk.GObject, property_name, value)
         ccall((:g_object_set_property, Gtk.GLib.libgobject), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}, Ptr{Nothing}), object, property_name, value)
         return object
+    end
+    function property(object::Gtk.GObject, property_name, value)
+        return ccall((:g_object_get_property, Gtk.GLib.libgobject), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}, Ptr{Nothing}), object, property_name, value)
     end
     function qdata(object::Gtk.GObject, quark)
         return ccall((:g_object_get_qdata, Gtk.GLib.libgobject), Ptr{Nothing}, (Ptr{Gtk.GObject}, UInt32), object, quark)
@@ -41,27 +78,13 @@ $(Expr(:toplevel, :(module GAccessor
         ccall((:gdk_set_show_events, Gtk.libgdk), Nothing, (Cint,), show_events_)
         return show_events_
     end
-    function frame_counter(timings::Gtk.GdkFrameTimings)
-        return ccall((:gdk_frame_timings_get_frame_counter, Gtk.libgdk), Clonglong, (Ptr{Gtk.GdkFrameTimings},), timings)
+    function verbose(verbose_::Bool)
+        ccall((:gdk_rgb_set_verbose, Gtk.libgdk), Nothing, (Cint,), verbose_)
+        return verbose_
     end
-    function complete(timings::Gtk.GdkFrameTimings)
-        return convert(Bool, ccall((:gdk_frame_timings_get_complete, Gtk.libgdk), Cint, (Ptr{Gtk.GdkFrameTimings},), timings))
-    end
-    function frame_time(timings::Gtk.GdkFrameTimings)
-        return ccall((:gdk_frame_timings_get_frame_time, Gtk.libgdk), Clonglong, (Ptr{Gtk.GdkFrameTimings},), timings)
-    end
-    function presentation_time(timings::Gtk.GdkFrameTimings)
-        return ccall((:gdk_frame_timings_get_presentation_time, Gtk.libgdk), Clonglong, (Ptr{Gtk.GdkFrameTimings},), timings)
-    end
-    function refresh_interval(timings::Gtk.GdkFrameTimings)
-        return ccall((:gdk_frame_timings_get_refresh_interval, Gtk.libgdk), Clonglong, (Ptr{Gtk.GdkFrameTimings},), timings)
-    end
-    function predicted_presentation_time(timings::Gtk.GdkFrameTimings)
-        return ccall((:gdk_frame_timings_get_predicted_presentation_time, Gtk.libgdk), Clonglong, (Ptr{Gtk.GdkFrameTimings},), timings)
-    end
-    function debug_updates(setting::Bool)
-        ccall((:gdk_window_set_debug_updates, Gtk.libgdk), Nothing, (Cint,), setting)
-        return setting
+    function install(install_::Bool)
+        ccall((:gdk_rgb_set_install, Gtk.libgdk), Nothing, (Cint,), install_)
+        return install_
     end
     function colorspace(pixbuf::Gtk.GdkPixbuf)
         return ccall((:gdk_pixbuf_get_colorspace, Gtk.libgdk_pixbuf), Cint, (Ptr{Gtk.GObject},), pixbuf)
@@ -88,21 +111,14 @@ $(Expr(:toplevel, :(module GAccessor
         return ccall((:gdk_pixbuf_get_rowstride, Gtk.libgdk_pixbuf), Cint, (Ptr{Gtk.GObject},), pixbuf)
     end
     function byte_length(pixbuf::Gtk.GdkPixbuf)
-        return ccall((:gdk_pixbuf_get_byte_length, Gtk.libgdk_pixbuf), Culonglong, (Ptr{Gtk.GObject},), pixbuf)
+        return ccall((:gdk_pixbuf_get_byte_length, Gtk.libgdk_pixbuf), Culong, (Ptr{Gtk.GObject},), pixbuf)
     end
     function pixels_with_length(pixbuf::Gtk.GdkPixbuf)
         length = Gtk.mutable(UInt32)
         return (ccall((:gdk_pixbuf_get_pixels_with_length, Gtk.libgdk_pixbuf), Ptr{Cuchar}, (Ptr{Gtk.GObject}, Ptr{UInt32}), pixbuf, length), length[])
     end
-    function option(pixbuf::Gtk.GdkPixbuf, key, value)
-        ccall((:gdk_pixbuf_set_option, Gtk.libgdk_pixbuf), Cint, (Ptr{Gtk.GObject}, Ptr{UInt8}, Ptr{UInt8}), pixbuf, key, value)
-        return pixbuf
-    end
     function option(pixbuf::Gtk.GdkPixbuf, key)
         return ccall((:gdk_pixbuf_get_option, Gtk.libgdk_pixbuf), Ptr{UInt8}, (Ptr{Gtk.GObject}, Ptr{UInt8}), pixbuf, key)
-    end
-    function options(pixbuf::Gtk.GdkPixbuf)
-        return ccall((:gdk_pixbuf_get_options, Gtk.libgdk_pixbuf), Ptr{Nothing}, (Ptr{Gtk.GObject},), pixbuf)
     end
     function name(format::Gtk.GdkPixbufFormat)
         return ccall((:gdk_pixbuf_format_get_name, Gtk.libgdk_pixbuf), Ptr{UInt8}, (Ptr{Gtk.GdkPixbufFormat},), format)
@@ -123,11 +139,70 @@ $(Expr(:toplevel, :(module GAccessor
     function license(format::Gtk.GdkPixbufFormat)
         return ccall((:gdk_pixbuf_format_get_license, Gtk.libgdk_pixbuf), Ptr{UInt8}, (Ptr{Gtk.GdkPixbufFormat},), format)
     end
+    function from_drawable(dest::Gtk.GdkPixbuf, src, cmap, src_x, src_y, dest_x, dest_y, width, height)
+        return convert(Gtk.GdkPixbuf, ccall((:gdk_pixbuf_get_from_drawable, Gtk.libgdk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject}, Ptr{Nothing}, Ptr{Nothing}, Cint, Cint, Cint, Cint, Cint, Cint), dest, src, cmap, src_x, src_y, dest_x, dest_y, width, height))
+    end
+    function from_image(dest::Gtk.GdkPixbuf, src, cmap, src_x, src_y, dest_x, dest_y, width, height)
+        return convert(Gtk.GdkPixbuf, ccall((:gdk_pixbuf_get_from_image, Gtk.libgdk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject}, Ptr{Nothing}, Ptr{Nothing}, Cint, Cint, Cint, Cint, Cint, Cint), dest, src, cmap, src_x, src_y, dest_x, dest_y, width, height))
+    end
+    function debug_updates(setting::Bool)
+        ccall((:gdk_window_set_debug_updates, Gtk.libgdk), Nothing, (Cint,), setting)
+        return setting
+    end
+    function use_xshm(use_xshm_::Bool)
+        ccall((:gdk_set_use_xshm, Gtk.libgdk), Nothing, (Cint,), use_xshm_)
+        return use_xshm_
+    end
     function is_locked(accel_group::Gtk.GtkAccelGroup)
         return convert(Bool, ccall((:gtk_accel_group_get_is_locked, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), accel_group))
     end
     function modifier_mask(accel_group::Gtk.GtkAccelGroup)
         return ccall((:gtk_accel_group_get_modifier_mask, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), accel_group)
+    end
+    function value(adjustment::Gtk.GtkAdjustment)
+        return ccall((:gtk_adjustment_get_value, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), adjustment)
+    end
+    function value(adjustment::Gtk.GtkAdjustment, value_)
+        ccall((:gtk_adjustment_set_value, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), adjustment, value_)
+        return adjustment
+    end
+    function lower(adjustment::Gtk.GtkAdjustment)
+        return ccall((:gtk_adjustment_get_lower, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), adjustment)
+    end
+    function lower(adjustment::Gtk.GtkAdjustment, lower_)
+        ccall((:gtk_adjustment_set_lower, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), adjustment, lower_)
+        return adjustment
+    end
+    function upper(adjustment::Gtk.GtkAdjustment)
+        return ccall((:gtk_adjustment_get_upper, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), adjustment)
+    end
+    function upper(adjustment::Gtk.GtkAdjustment, upper_)
+        ccall((:gtk_adjustment_set_upper, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), adjustment, upper_)
+        return adjustment
+    end
+    function step_increment(adjustment::Gtk.GtkAdjustment)
+        return ccall((:gtk_adjustment_get_step_increment, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), adjustment)
+    end
+    function step_increment(adjustment::Gtk.GtkAdjustment, step_increment_)
+        ccall((:gtk_adjustment_set_step_increment, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), adjustment, step_increment_)
+        return adjustment
+    end
+    function page_increment(adjustment::Gtk.GtkAdjustment)
+        return ccall((:gtk_adjustment_get_page_increment, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), adjustment)
+    end
+    function page_increment(adjustment::Gtk.GtkAdjustment, page_increment_)
+        ccall((:gtk_adjustment_set_page_increment, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), adjustment, page_increment_)
+        return adjustment
+    end
+    function page_size(adjustment::Gtk.GtkAdjustment)
+        return ccall((:gtk_adjustment_get_page_size, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), adjustment)
+    end
+    function page_size(adjustment::Gtk.GtkAdjustment, page_size_)
+        ccall((:gtk_adjustment_set_page_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), adjustment, page_size_)
+        return adjustment
+    end
+    function style(widget::Gtk.GtkWidget)
+        return ccall((:gtk_rc_get_style, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
     end
     function no_show_all(widget::Gtk.GtkWidget, no_show_all_)
         ccall((:gtk_widget_set_no_show_all, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, no_show_all_)
@@ -136,57 +211,15 @@ $(Expr(:toplevel, :(module GAccessor
     function no_show_all(widget::Gtk.GtkWidget)
         return convert(Bool, ccall((:gtk_widget_get_no_show_all, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget))
     end
-    function frame_clock(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_frame_clock, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
-    end
-    function request_mode(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_request_mode, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function preferred_width(widget::Gtk.GtkWidget)
-        natural_width = Gtk.mutable(Cint)
-        minimum_width = Gtk.mutable(Cint)
-        ccall((:gtk_widget_get_preferred_width, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), widget, minimum_width, natural_width)
-        return (minimum_width[], natural_width[])
-    end
-    function preferred_height_for_width(widget::Gtk.GtkWidget, width)
-        natural_height = Gtk.mutable(Cint)
-        minimum_height = Gtk.mutable(Cint)
-        ccall((:gtk_widget_get_preferred_height_for_width, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Cint}, Ptr{Cint}), widget, width, minimum_height, natural_height)
-        return (minimum_height[], natural_height[])
-    end
-    function preferred_height(widget::Gtk.GtkWidget)
-        natural_height = Gtk.mutable(Cint)
-        minimum_height = Gtk.mutable(Cint)
-        ccall((:gtk_widget_get_preferred_height, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), widget, minimum_height, natural_height)
-        return (minimum_height[], natural_height[])
-    end
-    function preferred_width_for_height(widget::Gtk.GtkWidget, height)
-        natural_width = Gtk.mutable(Cint)
-        minimum_width = Gtk.mutable(Cint)
-        ccall((:gtk_widget_get_preferred_width_for_height, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Cint}, Ptr{Cint}), widget, height, minimum_width, natural_width)
-        return (minimum_width[], natural_width[])
-    end
-    function preferred_height_and_baseline_for_width(widget::Gtk.GtkWidget, width)
-        natural_baseline = Gtk.mutable(Cint)
-        minimum_baseline = Gtk.mutable(Cint)
-        natural_height = Gtk.mutable(Cint)
-        minimum_height = Gtk.mutable(Cint)
-        ccall((:gtk_widget_get_preferred_height_and_baseline_for_width, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Cint}, Ptr{Cint}, Ptr{Cint}, Ptr{Cint}), widget, width, minimum_height, natural_height, minimum_baseline, natural_baseline)
-        return (minimum_height[], natural_height[], minimum_baseline[], natural_baseline[])
-    end
-    function preferred_size(widget::Gtk.GtkWidget)
-        natural_size = Gtk.mutable(Gtk.GtkRequisition)
-        minimum_size = Gtk.mutable(Gtk.GtkRequisition)
-        ccall((:gtk_widget_get_preferred_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkRequisition}, Ptr{Gtk.GtkRequisition}), widget, minimum_size, natural_size)
-        return (minimum_size[], natural_size[])
-    end
-    function child_requisition(widget::Gtk.GtkWidget)
-        requisition = Gtk.mutable(Gtk.GtkRequisition)
-        ccall((:gtk_widget_get_child_requisition, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkRequisition}), widget, requisition)
-        return requisition[]
+    function child_requisition(widget::Gtk.GtkWidget, requisition)
+        return ccall((:gtk_widget_get_child_requisition, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), widget, requisition)
     end
     function accel_path(widget::Gtk.GtkWidget, accel_path_, accel_group)
         ccall((:gtk_widget_set_accel_path, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}, Ptr{Gtk.GObject}), widget, accel_path_, accel_group)
+        return widget
+    end
+    function scroll_adjustments(widget::Gtk.GtkWidget, hadjustment, vadjustment)
+        ccall((:gtk_widget_set_scroll_adjustments, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), widget, hadjustment, vadjustment)
         return widget
     end
     function can_focus(widget::Gtk.GtkWidget, can_focus_)
@@ -195,13 +228,6 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function can_focus(widget::Gtk.GtkWidget)
         return convert(Bool, ccall((:gtk_widget_get_can_focus, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget))
-    end
-    function focus_on_click(widget::Gtk.GtkWidget, focus_on_click_)
-        ccall((:gtk_widget_set_focus_on_click, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, focus_on_click_)
-        return widget
-    end
-    function focus_on_click(widget::Gtk.GtkWidget)
-        return convert(Bool, ccall((:gtk_widget_get_focus_on_click, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget))
     end
     function can_default(widget::Gtk.GtkWidget, can_default_)
         ccall((:gtk_widget_set_can_default, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, can_default_)
@@ -230,13 +256,6 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function state(widget::Gtk.GtkWidget)
         return ccall((:gtk_widget_get_state, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function state_flags(widget::Gtk.GtkWidget, flags, clear)
-        ccall((:gtk_widget_set_state_flags, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Cint), widget, flags, clear)
-        return widget
-    end
-    function state_flags(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_state_flags, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
     end
     function sensitive(widget::Gtk.GtkWidget, sensitive_)
         ccall((:gtk_widget_set_sensitive, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, sensitive_)
@@ -319,21 +338,6 @@ $(Expr(:toplevel, :(module GAccessor
     function window(widget::Gtk.GtkWidget)
         return ccall((:gtk_widget_get_window, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
     end
-    function allocated_width(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_allocated_width, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function allocated_height(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_allocated_height, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function allocated_baseline(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_allocated_baseline, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function allocated_size(widget::Gtk.GtkWidget)
-        baseline = Gtk.mutable(Cint)
-        allocation = Gtk.mutable(Gtk.GdkRectangle)
-        ccall((:gtk_widget_get_allocated_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GdkRectangle}, Ptr{Cint}), widget, allocation, baseline)
-        return (allocation[], baseline[])
-    end
     function allocation(widget::Gtk.GtkWidget)
         allocation_ = Gtk.mutable(Gtk.GdkRectangle)
         ccall((:gtk_widget_get_allocation, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GdkRectangle}), widget, allocation_)
@@ -343,19 +347,8 @@ $(Expr(:toplevel, :(module GAccessor
         ccall((:gtk_widget_set_allocation, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GdkRectangle}), widget, allocation_)
         return widget
     end
-    function clip(widget::Gtk.GtkWidget, clip_)
-        ccall((:gtk_widget_set_clip, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GdkRectangle}), widget, clip_)
-        return widget
-    end
-    function clip(widget::Gtk.GtkWidget)
-        clip_ = Gtk.mutable(Gtk.GdkRectangle)
-        ccall((:gtk_widget_get_clip, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GdkRectangle}), widget, clip_)
-        return clip_[]
-    end
-    function requisition(widget::Gtk.GtkWidget)
-        requisition_ = Gtk.mutable(Gtk.GtkRequisition)
-        ccall((:gtk_widget_get_requisition, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkRequisition}), widget, requisition_)
-        return requisition_[]
+    function requisition(widget::Gtk.GtkWidget, requisition_)
+        return ccall((:gtk_widget_get_requisition, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), widget, requisition_)
     end
     function size_request(widget::Gtk.GtkWidget, width, height)
         ccall((:gtk_widget_set_size_request, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Cint), widget, width, height)
@@ -367,46 +360,39 @@ $(Expr(:toplevel, :(module GAccessor
         ccall((:gtk_widget_get_size_request, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), widget, width, height)
         return (width[], height[])
     end
+    function uposition(widget::Gtk.GtkWidget, x, y)
+        ccall((:gtk_widget_set_uposition, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Cint), widget, x, y)
+        return widget
+    end
+    function usize(widget::Gtk.GtkWidget, width, height)
+        ccall((:gtk_widget_set_usize, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Cint), widget, width, height)
+        return widget
+    end
     function events(widget::Gtk.GtkWidget, events_)
         ccall((:gtk_widget_set_events, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, events_)
         return widget
     end
-    function device_events(widget::Gtk.GtkWidget, device, events)
-        ccall((:gtk_widget_set_device_events, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Cint), widget, device, events)
+    function extension_events(widget::Gtk.GtkWidget, mode)
+        ccall((:gtk_widget_set_extension_events, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, mode)
         return widget
     end
-    function opacity(widget::Gtk.GtkWidget, opacity_)
-        ccall((:gtk_widget_set_opacity, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), widget, opacity_)
-        return widget
-    end
-    function opacity(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_opacity, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), widget)
-    end
-    function device_enabled(widget::Gtk.GtkWidget, device, enabled)
-        ccall((:gtk_widget_set_device_enabled, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Cint), widget, device, enabled)
-        return widget
-    end
-    function device_enabled(widget::Gtk.GtkWidget, device)
-        return convert(Bool, ccall((:gtk_widget_get_device_enabled, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Nothing}), widget, device))
+    function extension_events(widget::Gtk.GtkWidget)
+        return ccall((:gtk_widget_get_extension_events, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
     end
     function toplevel(widget::Gtk.GtkWidget)
         return convert(Gtk.GtkWidget, ccall((:gtk_widget_get_toplevel, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), widget))
     end
     function ancestor(widget::Gtk.GtkWidget, widget_type)
-        return convert(Gtk.GtkWidget, ccall((:gtk_widget_get_ancestor, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject}, Culonglong), widget, widget_type))
+        return convert(Gtk.GtkWidget, ccall((:gtk_widget_get_ancestor, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject}, Culong), widget, widget_type))
+    end
+    function colormap(widget::Gtk.GtkWidget)
+        return ccall((:gtk_widget_get_colormap, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
     end
     function visual(widget::Gtk.GtkWidget)
         return ccall((:gtk_widget_get_visual, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
     end
-    function visual(widget::Gtk.GtkWidget, visual_)
-        ccall((:gtk_widget_set_visual, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), widget, visual_)
-        return widget
-    end
     function screen(widget::Gtk.GtkWidget)
         return ccall((:gtk_widget_get_screen, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
-    end
-    function scale_factor(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_scale_factor, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
     end
     function display(widget::Gtk.GtkWidget)
         return ccall((:gtk_widget_get_display, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
@@ -420,108 +406,19 @@ $(Expr(:toplevel, :(module GAccessor
     function clipboard(widget::Gtk.GtkWidget, selection)
         return ccall((:gtk_widget_get_clipboard, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject}, Ptr{Nothing}), widget, selection)
     end
-    function hexpand(widget::Gtk.GtkWidget)
-        return convert(Bool, ccall((:gtk_widget_get_hexpand, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget))
-    end
-    function hexpand(widget::Gtk.GtkWidget, expand)
-        ccall((:gtk_widget_set_hexpand, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, expand)
-        return widget
-    end
-    function hexpand_set(widget::Gtk.GtkWidget)
-        return convert(Bool, ccall((:gtk_widget_get_hexpand_set, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget))
-    end
-    function hexpand_set(widget::Gtk.GtkWidget, set)
-        ccall((:gtk_widget_set_hexpand_set, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, set)
-        return widget
-    end
-    function vexpand(widget::Gtk.GtkWidget)
-        return convert(Bool, ccall((:gtk_widget_get_vexpand, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget))
-    end
-    function vexpand(widget::Gtk.GtkWidget, expand)
-        ccall((:gtk_widget_set_vexpand, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, expand)
-        return widget
-    end
-    function vexpand_set(widget::Gtk.GtkWidget)
-        return convert(Bool, ccall((:gtk_widget_get_vexpand_set, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget))
-    end
-    function vexpand_set(widget::Gtk.GtkWidget, set)
-        ccall((:gtk_widget_set_vexpand_set, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, set)
-        return widget
-    end
-    function support_multidevice(widget::Gtk.GtkWidget)
-        return convert(Bool, ccall((:gtk_widget_get_support_multidevice, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget))
-    end
-    function support_multidevice(widget::Gtk.GtkWidget, support_multidevice_)
-        ccall((:gtk_widget_set_support_multidevice, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, support_multidevice_)
-        return widget
+    function snapshot(widget::Gtk.GtkWidget)
+        clip_rect = Gtk.mutable(Gtk.GdkRectangle)
+        return (ccall((:gtk_widget_get_snapshot, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject}, Ptr{Gtk.GdkRectangle}), widget, clip_rect), clip_rect[])
     end
     function accessible(widget::Gtk.GtkWidget)
         return ccall((:gtk_widget_get_accessible, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
     end
-    function halign(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_halign, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function halign(widget::Gtk.GtkWidget, align)
-        ccall((:gtk_widget_set_halign, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, align)
-        return widget
-    end
-    function valign(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_valign, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function valign_with_baseline(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_valign_with_baseline, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function valign(widget::Gtk.GtkWidget, align)
-        ccall((:gtk_widget_set_valign, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, align)
-        return widget
-    end
-    function margin_left(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_margin_left, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function margin_left(widget::Gtk.GtkWidget, margin)
-        ccall((:gtk_widget_set_margin_left, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, margin)
-        return widget
-    end
-    function margin_right(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_margin_right, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function margin_right(widget::Gtk.GtkWidget, margin)
-        ccall((:gtk_widget_set_margin_right, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, margin)
-        return widget
-    end
-    function margin_start(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_margin_start, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function margin_start(widget::Gtk.GtkWidget, margin)
-        ccall((:gtk_widget_set_margin_start, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, margin)
-        return widget
-    end
-    function margin_end(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_margin_end, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function margin_end(widget::Gtk.GtkWidget, margin)
-        ccall((:gtk_widget_set_margin_end, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, margin)
-        return widget
-    end
-    function margin_top(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_margin_top, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function margin_top(widget::Gtk.GtkWidget, margin)
-        ccall((:gtk_widget_set_margin_top, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, margin)
-        return widget
-    end
-    function margin_bottom(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_margin_bottom, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function margin_bottom(widget::Gtk.GtkWidget, margin)
-        ccall((:gtk_widget_set_margin_bottom, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, margin)
+    function colormap(widget::Gtk.GtkWidget, colormap_)
+        ccall((:gtk_widget_set_colormap, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), widget, colormap_)
         return widget
     end
     function events(widget::Gtk.GtkWidget)
         return ccall((:gtk_widget_get_events, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function device_events(widget::Gtk.GtkWidget, device)
-        return ccall((:gtk_widget_get_device_events, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Nothing}), widget, device)
     end
     function pointer(widget::Gtk.GtkWidget)
         y = Gtk.mutable(Cint)
@@ -529,15 +426,18 @@ $(Expr(:toplevel, :(module GAccessor
         ccall((:gtk_widget_get_pointer, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), widget, x, y)
         return (x[], y[])
     end
-    function pango_context(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_pango_context, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
-    end
-    function font_options(widget::Gtk.GtkWidget, options)
-        ccall((:gtk_widget_set_font_options, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), widget, options)
+    function style(widget::Gtk.GtkWidget, style_)
+        ccall((:gtk_widget_set_style, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), widget, style_)
         return widget
     end
-    function font_options(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_font_options, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
+    function style(widget::Gtk.GtkWidget)
+        return ccall((:gtk_widget_get_style, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
+    end
+    function modifier_style(widget::Gtk.GtkWidget)
+        return ccall((:gtk_widget_get_modifier_style, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
+    end
+    function pango_context(widget::Gtk.GtkWidget)
+        return ccall((:gtk_widget_get_pango_context, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
     end
     function composite_name(widget::Gtk.GtkWidget, name)
         ccall((:gtk_widget_set_composite_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), widget, name)
@@ -584,27 +484,9 @@ $(Expr(:toplevel, :(module GAccessor
     function has_tooltip(widget::Gtk.GtkWidget)
         return convert(Bool, ccall((:gtk_widget_get_has_tooltip, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget))
     end
-    function style_context(widget::Gtk.GtkWidget)
-        return convert(Gtk.GtkStyleContext, ccall((:gtk_widget_get_style_context, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), widget))
-    end
-    function path(widget::Gtk.GtkWidget)
-        return convert(Gtk.GtkWidgetPath, ccall((:gtk_widget_get_path, Gtk.libgtk), Ptr{Gtk.GtkWidgetPath}, (Ptr{Gtk.GObject},), widget))
-    end
-    function modifier_mask(widget::Gtk.GtkWidget, intent)
-        return ccall((:gtk_widget_get_modifier_mask, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Cint), widget, intent)
-    end
-    function template_child(widget::Gtk.GtkWidget, widget_type, name)
-        return convert(Gtk.GObject, ccall((:gtk_widget_get_template_child, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject}, Culonglong, Ptr{UInt8}), widget, widget_type, name))
-    end
-    function action_group(widget::Gtk.GtkWidget, prefix)
-        return ccall((:gtk_widget_get_action_group, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject}, Ptr{UInt8}), widget, prefix)
-    end
-    function font_map(widget::Gtk.GtkWidget, font_map_)
-        ccall((:gtk_widget_set_font_map, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), widget, font_map_)
+    function has_grab(widget::Gtk.GtkWidget, has_grab_)
+        ccall((:ubuntu_gtk_widget_set_has_grab, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, has_grab_)
         return widget
-    end
-    function font_map(widget::Gtk.GtkWidget)
-        return ccall((:gtk_widget_get_font_map, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
     end
     function border_width(container::Gtk.GtkContainer, border_width_)
         ccall((:gtk_container_set_border_width, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32), container, border_width_)
@@ -660,8 +542,8 @@ $(Expr(:toplevel, :(module GAccessor
         ccall((:gtk_container_child_set_property, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{UInt8}, Ptr{Nothing}), container, child, property_name, value)
         return container
     end
-    function path_for_child(container::Gtk.GtkContainer, child)
-        return convert(Gtk.GtkWidgetPath, ccall((:gtk_container_get_path_for_child, Gtk.libgtk), Ptr{Gtk.GtkWidgetPath}, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), container, child))
+    function property(container::Gtk.GtkContainer, child, property_name, value)
+        return ccall((:gtk_container_child_get_property, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{UInt8}, Ptr{Nothing}), container, child, property_name, value)
     end
     function child(bin::Gtk.GtkBin)
         return convert(Gtk.GtkWidget, ccall((:gtk_bin_get_child, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), bin))
@@ -712,13 +594,6 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function transient_for(window::Gtk.GtkWindow)
         return convert(Gtk.GtkWindow, ccall((:gtk_window_get_transient_for, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), window))
-    end
-    function attached_to(window::Gtk.GtkWindow, attach_widget)
-        ccall((:gtk_window_set_attached_to, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), window, attach_widget)
-        return window
-    end
-    function attached_to(window::Gtk.GtkWindow)
-        return convert(Gtk.GtkWidget, ccall((:gtk_window_get_attached_to, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), window))
     end
     function opacity(window::Gtk.GtkWindow, opacity_)
         ccall((:gtk_window_set_opacity, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), window, opacity_)
@@ -776,26 +651,12 @@ $(Expr(:toplevel, :(module GAccessor
     function destroy_with_parent(window::Gtk.GtkWindow)
         return convert(Bool, ccall((:gtk_window_get_destroy_with_parent, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), window))
     end
-    function hide_titlebar_when_maximized(window::Gtk.GtkWindow, setting)
-        ccall((:gtk_window_set_hide_titlebar_when_maximized, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), window, setting)
-        return window
-    end
-    function hide_titlebar_when_maximized(window::Gtk.GtkWindow)
-        return convert(Bool, ccall((:gtk_window_get_hide_titlebar_when_maximized, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), window))
-    end
     function mnemonics_visible(window::Gtk.GtkWindow, setting)
         ccall((:gtk_window_set_mnemonics_visible, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), window, setting)
         return window
     end
     function mnemonics_visible(window::Gtk.GtkWindow)
         return convert(Bool, ccall((:gtk_window_get_mnemonics_visible, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), window))
-    end
-    function focus_visible(window::Gtk.GtkWindow, setting)
-        ccall((:gtk_window_set_focus_visible, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), window, setting)
-        return window
-    end
-    function focus_visible(window::Gtk.GtkWindow)
-        return convert(Bool, ccall((:gtk_window_get_focus_visible, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), window))
     end
     function resizable(window::Gtk.GtkWindow, resizable_)
         ccall((:gtk_window_set_resizable, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), window, resizable_)
@@ -821,6 +682,25 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function screen(window::Gtk.GtkWindow)
         return ccall((:gtk_window_get_screen, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), window)
+    end
+    function has_frame(window::Gtk.GtkWindow, setting)
+        ccall((:gtk_window_set_has_frame, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), window, setting)
+        return window
+    end
+    function has_frame(window::Gtk.GtkWindow)
+        return convert(Bool, ccall((:gtk_window_get_has_frame, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), window))
+    end
+    function frame_dimensions(window::Gtk.GtkWindow, left, top_, right, bottom)
+        ccall((:gtk_window_set_frame_dimensions, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Cint, Cint, Cint), window, left, top_, right, bottom)
+        return window
+    end
+    function frame_dimensions(window::Gtk.GtkWindow)
+        bottom = Gtk.mutable(Cint)
+        right = Gtk.mutable(Cint)
+        top_ = Gtk.mutable(Cint)
+        left = Gtk.mutable(Cint)
+        ccall((:gtk_window_get_frame_dimensions, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}, Ptr{Cint}, Ptr{Cint}), window, left, top_, right, bottom)
+        return (left[], top_[], right[], bottom[])
     end
     function decorated(window::Gtk.GtkWindow, setting)
         ccall((:gtk_window_set_decorated, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), window, setting)
@@ -876,10 +756,6 @@ $(Expr(:toplevel, :(module GAccessor
     function modal(window::Gtk.GtkWindow)
         return convert(Bool, ccall((:gtk_window_get_modal, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), window))
     end
-    function has_user_ref_count(window::Gtk.GtkWindow, setting)
-        ccall((:gtk_window_set_has_user_ref_count, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), window, setting)
-        return window
-    end
     function mnemonic_modifier(window::Gtk.GtkWindow, modifier)
         ccall((:gtk_window_set_mnemonic_modifier, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), window, modifier)
         return window
@@ -893,6 +769,10 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function keep_below(window::Gtk.GtkWindow, setting)
         ccall((:gtk_window_set_keep_below, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), window, setting)
+        return window
+    end
+    function policy(window::Gtk.GtkWindow, allow_shrink, allow_grow, auto_shrink)
+        ccall((:gtk_window_set_policy, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Cint, Cint), window, allow_shrink, allow_grow, auto_shrink)
         return window
     end
     function default_size(window::Gtk.GtkWindow, width, height)
@@ -917,44 +797,11 @@ $(Expr(:toplevel, :(module GAccessor
         ccall((:gtk_window_get_position, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), window, root_x, root_y)
         return (root_x[], root_y[])
     end
-    function default_geometry(window::Gtk.GtkWindow, width, height)
-        ccall((:gtk_window_set_default_geometry, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Cint), window, width, height)
-        return window
-    end
     function group(window::Gtk.GtkWindow)
         return ccall((:gtk_window_get_group, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), window)
     end
     function window_type(window::Gtk.GtkWindow)
         return ccall((:gtk_window_get_window_type, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), window)
-    end
-    function application(window::Gtk.GtkWindow)
-        return ccall((:gtk_window_get_application, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), window)
-    end
-    function application(window::Gtk.GtkWindow, application_)
-        ccall((:gtk_window_set_application, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), window, application_)
-        return window
-    end
-    function has_resize_grip(window::Gtk.GtkWindow, value)
-        ccall((:gtk_window_set_has_resize_grip, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), window, value)
-        return window
-    end
-    function has_resize_grip(window::Gtk.GtkWindow)
-        return convert(Bool, ccall((:gtk_window_get_has_resize_grip, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), window))
-    end
-    function resize_grip_area(window::Gtk.GtkWindow)
-        rect = Gtk.mutable(Gtk.GdkRectangle)
-        return (convert(Bool, ccall((:gtk_window_get_resize_grip_area, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GdkRectangle}), window, rect)), rect[])
-    end
-    function titlebar(window::Gtk.GtkWindow, titlebar_)
-        ccall((:gtk_window_set_titlebar, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), window, titlebar_)
-        return window
-    end
-    function titlebar(window::Gtk.GtkWindow)
-        return convert(Gtk.GtkWidget, ccall((:gtk_window_get_titlebar, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), window))
-    end
-    function interactive_debugging(enable::Bool)
-        ccall((:gtk_window_set_interactive_debugging, Gtk.libgtk), Nothing, (Cint,), enable)
-        return enable
     end
     function response_sensitive(dialog::Gtk.GtkDialog, response_id, setting)
         ccall((:gtk_dialog_set_response_sensitive, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Cint), dialog, response_id, setting)
@@ -970,6 +817,13 @@ $(Expr(:toplevel, :(module GAccessor
     function response_for_widget(dialog::Gtk.GtkDialog, widget)
         return ccall((:gtk_dialog_get_response_for_widget, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), dialog, widget)
     end
+    function has_separator(dialog::Gtk.GtkDialog, setting)
+        ccall((:gtk_dialog_set_has_separator, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), dialog, setting)
+        return dialog
+    end
+    function has_separator(dialog::Gtk.GtkDialog)
+        return convert(Bool, ccall((:gtk_dialog_get_has_separator, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), dialog))
+    end
     function alternative_button_order(dialog::Gtk.GtkDialog, first_response_id)
         ccall((:gtk_dialog_set_alternative_button_order, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), dialog, first_response_id)
         return dialog
@@ -984,8 +838,12 @@ $(Expr(:toplevel, :(module GAccessor
     function content_area(dialog::Gtk.GtkDialog)
         return convert(Gtk.GtkWidget, ccall((:gtk_dialog_get_content_area, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), dialog))
     end
-    function header_bar(dialog::Gtk.GtkDialog)
-        return convert(Gtk.GtkWidget, ccall((:gtk_dialog_get_header_bar, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), dialog))
+    function name(about::Gtk.GtkAboutDialog)
+        return ccall((:gtk_about_dialog_get_name, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), about)
+    end
+    function name(about::Gtk.GtkAboutDialog, name_)
+        ccall((:gtk_about_dialog_set_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), about, name_)
+        return about
     end
     function program_name(about::Gtk.GtkAboutDialog)
         return ccall((:gtk_about_dialog_get_program_name, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), about)
@@ -1021,13 +879,6 @@ $(Expr(:toplevel, :(module GAccessor
     function license(about::Gtk.GtkAboutDialog, license_)
         ccall((:gtk_about_dialog_set_license, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), about, license_)
         return about
-    end
-    function license_type(about::Gtk.GtkAboutDialog, license_type_)
-        ccall((:gtk_about_dialog_set_license_type, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), about, license_type_)
-        return about
-    end
-    function license_type(about::Gtk.GtkAboutDialog)
-        return ccall((:gtk_about_dialog_get_license_type, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), about)
     end
     function wrap_license(about::Gtk.GtkAboutDialog)
         return convert(Bool, ccall((:gtk_about_dialog_get_wrap_license, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), about))
@@ -1095,8 +946,8 @@ $(Expr(:toplevel, :(module GAccessor
     function active(menu::Gtk.GtkMenu)
         return convert(Gtk.GtkWidget, ccall((:gtk_menu_get_active, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), menu))
     end
-    function active(menu::Gtk.GtkMenu, index)
-        ccall((:gtk_menu_set_active, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32), menu, index)
+    function active(menu::Gtk.GtkMenu, index_)
+        ccall((:gtk_menu_set_active, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32), menu, index_)
         return menu
     end
     function accel_group(menu::Gtk.GtkMenu, accel_group_)
@@ -1236,13 +1087,6 @@ $(Expr(:toplevel, :(module GAccessor
     function max_width_chars(label::Gtk.GtkLabel)
         return ccall((:gtk_label_get_max_width_chars, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), label)
     end
-    function lines(label::Gtk.GtkLabel, lines_)
-        ccall((:gtk_label_set_lines, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), label, lines_)
-        return label
-    end
-    function lines(label::Gtk.GtkLabel)
-        return ccall((:gtk_label_get_lines, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), label)
-    end
     function pattern(label::Gtk.GtkLabel, pattern_)
         ccall((:gtk_label_set_pattern, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), label, pattern_)
         return label
@@ -1306,92 +1150,51 @@ $(Expr(:toplevel, :(module GAccessor
     function track_visited_links(label::Gtk.GtkLabel)
         return convert(Bool, ccall((:gtk_label_get_track_visited_links, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), label))
     end
-    function xalign(label::Gtk.GtkLabel, xalign_)
-        ccall((:gtk_label_set_xalign, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cfloat), label, xalign_)
-        return label
+    function action(widget::Gtk.GtkWidget)
+        return ccall((:gtk_widget_get_action, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), widget)
     end
-    function xalign(label::Gtk.GtkLabel)
-        return ccall((:gtk_label_get_xalign, Gtk.libgtk), Cfloat, (Ptr{Gtk.GObject},), label)
+    function padding(alignment::Gtk.GtkAlignment, padding_top, padding_bottom, padding_left, padding_right)
+        ccall((:gtk_alignment_set_padding, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32, UInt32, UInt32, UInt32), alignment, padding_top, padding_bottom, padding_left, padding_right)
+        return alignment
     end
-    function yalign(label::Gtk.GtkLabel, yalign_)
-        ccall((:gtk_label_set_yalign, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cfloat), label, yalign_)
-        return label
+    function padding(alignment::Gtk.GtkAlignment)
+        padding_right = Gtk.mutable(UInt32)
+        padding_left = Gtk.mutable(UInt32)
+        padding_bottom = Gtk.mutable(UInt32)
+        padding_top = Gtk.mutable(UInt32)
+        ccall((:gtk_alignment_get_padding, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt32}, Ptr{UInt32}, Ptr{UInt32}, Ptr{UInt32}), alignment, padding_top, padding_bottom, padding_left, padding_right)
+        return (padding_top[], padding_bottom[], padding_left[], padding_right[])
     end
-    function yalign(label::Gtk.GtkLabel)
-        return ccall((:gtk_label_get_yalign, Gtk.libgtk), Cfloat, (Ptr{Gtk.GObject},), label)
+    function label(frame::Gtk.GtkFrame, label_)
+        ccall((:gtk_frame_set_label, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), frame, label_)
+        return frame
     end
-    function action_name(actionable::Gtk.GtkActionable)
-        return ccall((:gtk_actionable_get_action_name, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), actionable)
+    function label(frame::Gtk.GtkFrame)
+        return ccall((:gtk_frame_get_label, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), frame)
     end
-    function action_name(actionable::Gtk.GtkActionable, action_name_)
-        ccall((:gtk_actionable_set_action_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), actionable, action_name_)
-        return actionable
+    function label_widget(frame::Gtk.GtkFrame, label_widget_)
+        ccall((:gtk_frame_set_label_widget, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), frame, label_widget_)
+        return frame
     end
-    function action_target_value(actionable::Gtk.GtkActionable)
-        return ccall((:gtk_actionable_get_action_target_value, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), actionable)
+    function label_widget(frame::Gtk.GtkFrame)
+        return convert(Gtk.GtkWidget, ccall((:gtk_frame_get_label_widget, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), frame))
     end
-    function action_target_value(actionable::Gtk.GtkActionable, target_value)
-        ccall((:gtk_actionable_set_action_target_value, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), actionable, target_value)
-        return actionable
+    function label_align(frame::Gtk.GtkFrame, xalign, yalign)
+        ccall((:gtk_frame_set_label_align, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cfloat, Cfloat), frame, xalign, yalign)
+        return frame
     end
-    function action_target(actionable::Gtk.GtkActionable, format_string)
-        ccall((:gtk_actionable_set_action_target, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), actionable, format_string)
-        return actionable
+    function label_align(frame::Gtk.GtkFrame)
+        yalign = Gtk.mutable(Cfloat)
+        xalign = Gtk.mutable(Cfloat)
+        ccall((:gtk_frame_get_label_align, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cfloat}, Ptr{Cfloat}), frame, xalign, yalign)
+        return (xalign[], yalign[])
     end
-    function detailed_action_name(actionable::Gtk.GtkActionable, detailed_action_name_)
-        ccall((:gtk_actionable_set_detailed_action_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), actionable, detailed_action_name_)
-        return actionable
+    function shadow_type(frame::Gtk.GtkFrame, type_)
+        ccall((:gtk_frame_set_shadow_type, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), frame, type_)
+        return frame
     end
-    function value(adjustment::Gtk.GtkAdjustment)
-        return ccall((:gtk_adjustment_get_value, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), adjustment)
-    end
-    function value(adjustment::Gtk.GtkAdjustment, value_)
-        ccall((:gtk_adjustment_set_value, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), adjustment, value_)
-        return adjustment
-    end
-    function lower(adjustment::Gtk.GtkAdjustment)
-        return ccall((:gtk_adjustment_get_lower, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), adjustment)
-    end
-    function lower(adjustment::Gtk.GtkAdjustment, lower_)
-        ccall((:gtk_adjustment_set_lower, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), adjustment, lower_)
-        return adjustment
-    end
-    function upper(adjustment::Gtk.GtkAdjustment)
-        return ccall((:gtk_adjustment_get_upper, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), adjustment)
-    end
-    function upper(adjustment::Gtk.GtkAdjustment, upper_)
-        ccall((:gtk_adjustment_set_upper, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), adjustment, upper_)
-        return adjustment
-    end
-    function step_increment(adjustment::Gtk.GtkAdjustment)
-        return ccall((:gtk_adjustment_get_step_increment, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), adjustment)
-    end
-    function step_increment(adjustment::Gtk.GtkAdjustment, step_increment_)
-        ccall((:gtk_adjustment_set_step_increment, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), adjustment, step_increment_)
-        return adjustment
-    end
-    function page_increment(adjustment::Gtk.GtkAdjustment)
-        return ccall((:gtk_adjustment_get_page_increment, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), adjustment)
-    end
-    function page_increment(adjustment::Gtk.GtkAdjustment, page_increment_)
-        ccall((:gtk_adjustment_set_page_increment, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), adjustment, page_increment_)
-        return adjustment
-    end
-    function page_size(adjustment::Gtk.GtkAdjustment)
-        return ccall((:gtk_adjustment_get_page_size, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), adjustment)
-    end
-    function page_size(adjustment::Gtk.GtkAdjustment, page_size_)
-        ccall((:gtk_adjustment_set_page_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), adjustment, page_size_)
-        return adjustment
-    end
-    function minimum_increment(adjustment::Gtk.GtkAdjustment)
-        return ccall((:gtk_adjustment_get_minimum_increment, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), adjustment)
-    end
-    function app_info(self::Gtk.GtkAppChooser)
-        return ccall((:gtk_app_chooser_get_app_info, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), self)
-    end
-    function content_type(self::Gtk.GtkAppChooser)
-        return ccall((:gtk_app_chooser_get_content_type, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), self)
+    function shadow_type(frame::Gtk.GtkFrame)
+        return ccall((:gtk_frame_get_shadow_type, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), frame)
     end
     function homogeneous(box::Gtk.GtkBox, homogeneous_)
         ccall((:gtk_box_set_homogeneous, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), box, homogeneous_)
@@ -1407,110 +1210,224 @@ $(Expr(:toplevel, :(module GAccessor
     function spacing(box::Gtk.GtkBox)
         return ccall((:gtk_box_get_spacing, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), box)
     end
-    function baseline_position(box::Gtk.GtkBox, position)
-        ccall((:gtk_box_set_baseline_position, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), box, position)
-        return box
-    end
-    function baseline_position(box::Gtk.GtkBox)
-        return ccall((:gtk_box_get_baseline_position, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), box)
-    end
     function child_packing(box::Gtk.GtkBox, child, expand, fill, padding, pack_type)
         ccall((:gtk_box_set_child_packing, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Cint, Cint, UInt32, Cint), box, child, expand, fill, padding, pack_type)
         return box
     end
-    function center_widget(box::Gtk.GtkBox, widget)
-        ccall((:gtk_box_set_center_widget, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), box, widget)
-        return box
+    function layout(widget::Gtk.GtkButtonBox)
+        return ccall((:gtk_button_box_get_layout, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
     end
-    function center_widget(box::Gtk.GtkBox)
-        return convert(Gtk.GtkWidget, ccall((:gtk_box_get_center_widget, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), box))
+    function layout(widget::Gtk.GtkButtonBox, layout_style)
+        ccall((:gtk_button_box_set_layout, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, layout_style)
+        return widget
     end
-    function depth(path::Gtk.GtkTreePath)
-        return ccall((:gtk_tree_path_get_depth, Gtk.libgtk), Cint, (Ptr{Gtk.GtkTreePath},), path)
+    function child_secondary(widget::Gtk.GtkButtonBox, child)
+        return convert(Bool, ccall((:gtk_button_box_get_child_secondary, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), widget, child))
     end
-    function indices(path::Gtk.GtkTreePath)
-        return ccall((:gtk_tree_path_get_indices, Gtk.libgtk), Ptr{Cint}, (Ptr{Gtk.GtkTreePath},), path)
+    function child_secondary(widget::Gtk.GtkButtonBox, child, is_secondary)
+        ccall((:gtk_button_box_set_child_secondary, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Cint), widget, child, is_secondary)
+        return widget
     end
-    function indices_with_depth(path::Gtk.GtkTreePath)
-        depth = Gtk.mutable(Cint)
-        return (ccall((:gtk_tree_path_get_indices_with_depth, Gtk.libgtk), Ptr{Cint}, (Ptr{Gtk.GtkTreePath}, Ptr{Cint}), path, depth), depth[])
+    function child_size(widget::Gtk.GtkButtonBox, min_width, min_height)
+        ccall((:gtk_button_box_set_child_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Cint), widget, min_width, min_height)
+        return widget
     end
-    function path(reference::Gtk.GtkTreeRowReference)
-        return convert(Gtk.GtkTreePath, ccall((:gtk_tree_row_reference_get_path, Gtk.libgtk), Ptr{Gtk.GtkTreePath}, (Ptr{Gtk.GtkTreeRowReference},), reference))
+    function child_ipadding(widget::Gtk.GtkButtonBox, ipad_x, ipad_y)
+        ccall((:gtk_button_box_set_child_ipadding, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Cint), widget, ipad_x, ipad_y)
+        return widget
     end
-    function model(reference::Gtk.GtkTreeRowReference)
-        return convert(Gtk.GtkTreeModel, ccall((:gtk_tree_row_reference_get_model, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GtkTreeRowReference},), reference))
+    function child_size(widget::Gtk.GtkButtonBox)
+        min_height = Gtk.mutable(Cint)
+        min_width = Gtk.mutable(Cint)
+        ccall((:gtk_button_box_get_child_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), widget, min_width, min_height)
+        return (min_width[], min_height[])
     end
-    function flags(tree_model::Gtk.GtkTreeModel)
-        return ccall((:gtk_tree_model_get_flags, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), tree_model)
+    function child_ipadding(widget::Gtk.GtkButtonBox)
+        ipad_y = Gtk.mutable(Cint)
+        ipad_x = Gtk.mutable(Cint)
+        ccall((:gtk_button_box_get_child_ipadding, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), widget, ipad_x, ipad_y)
+        return (ipad_x[], ipad_y[])
     end
-    function n_columns(tree_model::Gtk.GtkTreeModel)
-        return ccall((:gtk_tree_model_get_n_columns, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), tree_model)
+    function object(builder::Gtk.GtkBuilder, name)
+        return convert(Gtk.GObject, ccall((:gtk_builder_get_object, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject}, Ptr{UInt8}), builder, name))
     end
-    function column_type(tree_model::Gtk.GtkTreeModel, index_)
-        return ccall((:gtk_tree_model_get_column_type, Gtk.libgtk), Culonglong, (Ptr{Gtk.GObject}, Cint), tree_model, index_)
+    function objects(builder::Gtk.GtkBuilder)
+        return ccall((:gtk_builder_get_objects, Gtk.libgtk), Ptr{Gtk._GSList{Nothing}}, (Ptr{Gtk.GObject},), builder)
     end
-    function iter(tree_model::Gtk.GtkTreeModel)
-        path = Gtk.mutable(Gtk.GtkTreePath)
-        iter_ = Gtk.mutable(Gtk.GtkTreeIter)
-        return (convert(Bool, ccall((:gtk_tree_model_get_iter, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreeIter}, Ptr{Gtk.GtkTreePath}), tree_model, iter_, path)), iter_[], path[])
+    function translation_domain(builder::Gtk.GtkBuilder, domain)
+        ccall((:gtk_builder_set_translation_domain, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), builder, domain)
+        return builder
     end
-    function iter_from_string(tree_model::Gtk.GtkTreeModel, iter, path_string)
-        return convert(Bool, ccall((:gtk_tree_model_get_iter_from_string, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreeIter}, Ptr{UInt8}), tree_model, iter, path_string))
+    function translation_domain(builder::Gtk.GtkBuilder)
+        return ccall((:gtk_builder_get_translation_domain, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), builder)
     end
-    function string_from_iter(tree_model::Gtk.GtkTreeModel)
-        iter = Gtk.mutable(Gtk.GtkTreeIter)
-        return (ccall((:gtk_tree_model_get_string_from_iter, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreeIter}), tree_model, iter), iter[])
+    function type_from_name(builder::Gtk.GtkBuilder)
+        type_name = Gtk.mutable(UInt8)
+        return (ccall((:gtk_builder_get_type_from_name, Gtk.libgtk), Culong, (Ptr{Gtk.GObject}, Ptr{UInt8}), builder, type_name), type_name[])
     end
-    function iter_first(tree_model::Gtk.GtkTreeModel)
-        iter = Gtk.mutable(Gtk.GtkTreeIter)
-        return (convert(Bool, ccall((:gtk_tree_model_get_iter_first, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreeIter}), tree_model, iter)), iter[])
+    function name(buildable::Gtk.GtkBuildable, name_)
+        ccall((:gtk_buildable_set_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), buildable, name_)
+        return buildable
     end
-    function path(tree_model::Gtk.GtkTreeModel)
-        iter = Gtk.mutable(Gtk.GtkTreeIter)
-        return (convert(Gtk.GtkTreePath, ccall((:gtk_tree_model_get_path, Gtk.libgtk), Ptr{Gtk.GtkTreePath}, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreeIter}), tree_model, iter)), iter[])
+    function name(buildable::Gtk.GtkBuildable)
+        return ccall((:gtk_buildable_get_name, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), buildable)
     end
-    function value(tree_model::Gtk.GtkTreeModel, iter, column, value_)
-        return ccall((:gtk_tree_model_get_value, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreeIter}, Cint, Ptr{Nothing}), tree_model, iter, column, value_)
+    function buildable_property(buildable::Gtk.GtkBuildable, builder, name, value)
+        ccall((:gtk_buildable_set_buildable_property, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{UInt8}, Ptr{Nothing}), buildable, builder, name, value)
+        return buildable
     end
-    function request_mode(cell::Gtk.GtkCellRenderer)
-        return ccall((:gtk_cell_renderer_get_request_mode, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), cell)
+    function internal_child(buildable::Gtk.GtkBuildable, builder, childname)
+        return convert(Gtk.GObject, ccall((:gtk_buildable_get_internal_child, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{UInt8}), buildable, builder, childname))
     end
-    function preferred_width(cell::Gtk.GtkCellRenderer, widget)
-        natural_size = Gtk.mutable(Cint)
-        minimum_size = Gtk.mutable(Cint)
-        ccall((:gtk_cell_renderer_get_preferred_width, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), cell, widget, minimum_size, natural_size)
-        return (minimum_size[], natural_size[])
+    function from_pixmap(image::Gtk.GtkImage, pixmap, mask)
+        ccall((:gtk_image_set_from_pixmap, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Ptr{Nothing}), image, pixmap, mask)
+        return image
     end
-    function preferred_height_for_width(cell::Gtk.GtkCellRenderer, widget, width)
-        natural_height = Gtk.mutable(Cint)
-        minimum_height = Gtk.mutable(Cint)
-        ccall((:gtk_cell_renderer_get_preferred_height_for_width, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Cint, Ptr{Cint}, Ptr{Cint}), cell, widget, width, minimum_height, natural_height)
-        return (minimum_height[], natural_height[])
+    function from_image(image::Gtk.GtkImage, gdk_image, mask)
+        ccall((:gtk_image_set_from_image, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Ptr{Nothing}), image, gdk_image, mask)
+        return image
     end
-    function preferred_height(cell::Gtk.GtkCellRenderer, widget)
-        natural_size = Gtk.mutable(Cint)
-        minimum_size = Gtk.mutable(Cint)
-        ccall((:gtk_cell_renderer_get_preferred_height, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), cell, widget, minimum_size, natural_size)
-        return (minimum_size[], natural_size[])
+    function from_file(image::Gtk.GtkImage, filename)
+        ccall((:gtk_image_set_from_file, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), image, filename)
+        return image
     end
-    function preferred_width_for_height(cell::Gtk.GtkCellRenderer, widget, height)
-        natural_width = Gtk.mutable(Cint)
-        minimum_width = Gtk.mutable(Cint)
-        ccall((:gtk_cell_renderer_get_preferred_width_for_height, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Cint, Ptr{Cint}, Ptr{Cint}), cell, widget, height, minimum_width, natural_width)
-        return (minimum_width[], natural_width[])
+    function from_pixbuf(image::Gtk.GtkImage, pixbuf)
+        ccall((:gtk_image_set_from_pixbuf, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), image, pixbuf)
+        return image
     end
-    function preferred_size(cell::Gtk.GtkCellRenderer, widget)
-        natural_size = Gtk.mutable(Gtk.GtkRequisition)
-        minimum_size = Gtk.mutable(Gtk.GtkRequisition)
-        ccall((:gtk_cell_renderer_get_preferred_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Gtk.GtkRequisition}, Ptr{Gtk.GtkRequisition}), cell, widget, minimum_size, natural_size)
-        return (minimum_size[], natural_size[])
+    function from_stock(image::Gtk.GtkImage, stock_id, size)
+        ccall((:gtk_image_set_from_stock, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}, Cint), image, stock_id, size)
+        return image
     end
-    function aligned_area(cell::Gtk.GtkCellRenderer, widget, flags)
-        aligned_area_ = Gtk.mutable(Gtk.GdkRectangle)
-        cell_area = Gtk.mutable(Gtk.GdkRectangle)
-        ccall((:gtk_cell_renderer_get_aligned_area, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Cint, Ptr{Gtk.GdkRectangle}, Ptr{Gtk.GdkRectangle}), cell, widget, flags, cell_area, aligned_area_)
-        return (cell_area[], aligned_area_[])
+    function from_icon_set(image::Gtk.GtkImage, icon_set, size)
+        ccall((:gtk_image_set_from_icon_set, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkIconSet}, Cint), image, icon_set, size)
+        return image
+    end
+    function from_animation(image::Gtk.GtkImage, animation)
+        ccall((:gtk_image_set_from_animation, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), image, animation)
+        return image
+    end
+    function from_icon_name(image::Gtk.GtkImage, icon_name, size)
+        ccall((:gtk_image_set_from_icon_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}, Cint), image, icon_name, size)
+        return image
+    end
+    function from_gicon(image::Gtk.GtkImage, icon, size)
+        ccall((:gtk_image_set_from_gicon, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Cint), image, icon, size)
+        return image
+    end
+    function pixel_size(image::Gtk.GtkImage, pixel_size_)
+        ccall((:gtk_image_set_pixel_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), image, pixel_size_)
+        return image
+    end
+    function storage_type(image::Gtk.GtkImage)
+        return ccall((:gtk_image_get_storage_type, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), image)
+    end
+    function pixmap(image::Gtk.GtkImage)
+        mask = Gtk.mutable(Ptr{Nothing})
+        pixmap_ = Gtk.mutable(Ptr{Nothing})
+        ccall((:gtk_image_get_pixmap, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Ptr{Nothing}}, Ptr{Ptr{Nothing}}), image, pixmap_, mask)
+        return (pixmap_[], mask[])
+    end
+    function image(image_::Gtk.GtkImage)
+        mask = Gtk.mutable(Ptr{Nothing})
+        gdk_image = Gtk.mutable(Ptr{Nothing})
+        ccall((:gtk_image_get_image, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Ptr{Nothing}}, Ptr{Ptr{Nothing}}), image_, gdk_image, mask)
+        return (gdk_image[], mask[])
+    end
+    function pixbuf(image::Gtk.GtkImage)
+        return convert(Gtk.GdkPixbuf, ccall((:gtk_image_get_pixbuf, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), image))
+    end
+    function stock(image::Gtk.GtkImage)
+        size = Gtk.mutable(Cint)
+        stock_id = Gtk.mutable(Ptr{UInt8})
+        ccall((:gtk_image_get_stock, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Ptr{UInt8}}, Ptr{Cint}), image, stock_id, size)
+        return (stock_id[], size[])
+    end
+    function icon_set(image::Gtk.GtkImage)
+        size = Gtk.mutable(Cint)
+        icon_set_ = Gtk.mutable(Ptr{Gtk.GtkIconSet})
+        ccall((:gtk_image_get_icon_set, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Ptr{Gtk.GtkIconSet}}, Ptr{Cint}), image, icon_set_, size)
+        return (convert(Gtk.GtkIconSet, icon_set_[]), size[])
+    end
+    function animation(image::Gtk.GtkImage)
+        return ccall((:gtk_image_get_animation, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), image)
+    end
+    function icon_name(image::Gtk.GtkImage)
+        size = Gtk.mutable(Cint)
+        icon_name_ = Gtk.mutable(Ptr{UInt8})
+        ccall((:gtk_image_get_icon_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Ptr{UInt8}}, Ptr{Cint}), image, icon_name_, size)
+        return (icon_name_[], size[])
+    end
+    function gicon(image::Gtk.GtkImage)
+        size = Gtk.mutable(Cint)
+        gicon_ = Gtk.mutable(Ptr{Nothing})
+        ccall((:gtk_image_get_gicon, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Ptr{Nothing}}, Ptr{Cint}), image, gicon_, size)
+        return (gicon_[], size[])
+    end
+    function pixel_size(image::Gtk.GtkImage)
+        return ccall((:gtk_image_get_pixel_size, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), image)
+    end
+    function relief(button::Gtk.GtkButton, newstyle)
+        ccall((:gtk_button_set_relief, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), button, newstyle)
+        return button
+    end
+    function relief(button::Gtk.GtkButton)
+        return ccall((:gtk_button_get_relief, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), button)
+    end
+    function label(button::Gtk.GtkButton, label_)
+        ccall((:gtk_button_set_label, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), button, label_)
+        return button
+    end
+    function label(button::Gtk.GtkButton)
+        return ccall((:gtk_button_get_label, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), button)
+    end
+    function use_underline(button::Gtk.GtkButton, use_underline_)
+        ccall((:gtk_button_set_use_underline, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), button, use_underline_)
+        return button
+    end
+    function use_underline(button::Gtk.GtkButton)
+        return convert(Bool, ccall((:gtk_button_get_use_underline, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), button))
+    end
+    function use_stock(button::Gtk.GtkButton, use_stock_)
+        ccall((:gtk_button_set_use_stock, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), button, use_stock_)
+        return button
+    end
+    function use_stock(button::Gtk.GtkButton)
+        return convert(Bool, ccall((:gtk_button_get_use_stock, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), button))
+    end
+    function focus_on_click(button::Gtk.GtkButton, focus_on_click_)
+        ccall((:gtk_button_set_focus_on_click, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), button, focus_on_click_)
+        return button
+    end
+    function focus_on_click(button::Gtk.GtkButton)
+        return convert(Bool, ccall((:gtk_button_get_focus_on_click, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), button))
+    end
+    function alignment(button::Gtk.GtkButton, xalign, yalign)
+        ccall((:gtk_button_set_alignment, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cfloat, Cfloat), button, xalign, yalign)
+        return button
+    end
+    function alignment(button::Gtk.GtkButton)
+        yalign = Gtk.mutable(Cfloat)
+        xalign = Gtk.mutable(Cfloat)
+        ccall((:gtk_button_get_alignment, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cfloat}, Ptr{Cfloat}), button, xalign, yalign)
+        return (xalign[], yalign[])
+    end
+    function image(button::Gtk.GtkButton, image_)
+        ccall((:gtk_button_set_image, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), button, image_)
+        return button
+    end
+    function image(button::Gtk.GtkButton)
+        return convert(Gtk.GtkWidget, ccall((:gtk_button_get_image, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), button))
+    end
+    function image_position(button::Gtk.GtkButton, position)
+        ccall((:gtk_button_set_image_position, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), button, position)
+        return button
+    end
+    function image_position(button::Gtk.GtkButton)
+        return ccall((:gtk_button_get_image_position, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), button)
+    end
+    function event_window(button::Gtk.GtkButton)
+        return ccall((:gtk_button_get_event_window, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), button)
     end
     function size(cell::Gtk.GtkCellRenderer, widget)
         height = Gtk.mutable(Cint)
@@ -1565,8 +1482,53 @@ $(Expr(:toplevel, :(module GAccessor
     function sensitive(cell::Gtk.GtkCellRenderer)
         return convert(Bool, ccall((:gtk_cell_renderer_get_sensitive, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), cell))
     end
-    function state(cell::Gtk.GtkCellRenderer, widget, cell_state)
-        return ccall((:gtk_cell_renderer_get_state, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Cint), cell, widget, cell_state)
+    function depth(path::Gtk.GtkTreePath)
+        return ccall((:gtk_tree_path_get_depth, Gtk.libgtk), Cint, (Ptr{Gtk.GtkTreePath},), path)
+    end
+    function indices(path::Gtk.GtkTreePath)
+        return ccall((:gtk_tree_path_get_indices, Gtk.libgtk), Ptr{Cint}, (Ptr{Gtk.GtkTreePath},), path)
+    end
+    function indices_with_depth(path::Gtk.GtkTreePath)
+        depth = Gtk.mutable(Cint)
+        return (ccall((:gtk_tree_path_get_indices_with_depth, Gtk.libgtk), Ptr{Cint}, (Ptr{Gtk.GtkTreePath}, Ptr{Cint}), path, depth), depth[])
+    end
+    function path(reference::Gtk.GtkTreeRowReference)
+        return convert(Gtk.GtkTreePath, ccall((:gtk_tree_row_reference_get_path, Gtk.libgtk), Ptr{Gtk.GtkTreePath}, (Ptr{Gtk.GtkTreeRowReference},), reference))
+    end
+    function model(reference::Gtk.GtkTreeRowReference)
+        return convert(Gtk.GtkTreeModel, ccall((:gtk_tree_row_reference_get_model, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GtkTreeRowReference},), reference))
+    end
+    function flags(tree_model::Gtk.GtkTreeModel)
+        return ccall((:gtk_tree_model_get_flags, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), tree_model)
+    end
+    function n_columns(tree_model::Gtk.GtkTreeModel)
+        return ccall((:gtk_tree_model_get_n_columns, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), tree_model)
+    end
+    function column_type(tree_model::Gtk.GtkTreeModel, index_)
+        return ccall((:gtk_tree_model_get_column_type, Gtk.libgtk), Culong, (Ptr{Gtk.GObject}, Cint), tree_model, index_)
+    end
+    function iter(tree_model::Gtk.GtkTreeModel)
+        path = Gtk.mutable(Gtk.GtkTreePath)
+        iter_ = Gtk.mutable(Gtk.GtkTreeIter)
+        return (convert(Bool, ccall((:gtk_tree_model_get_iter, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreeIter}, Ptr{Gtk.GtkTreePath}), tree_model, iter_, path)), iter_[], path[])
+    end
+    function iter_from_string(tree_model::Gtk.GtkTreeModel, iter, path_string)
+        return convert(Bool, ccall((:gtk_tree_model_get_iter_from_string, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreeIter}, Ptr{UInt8}), tree_model, iter, path_string))
+    end
+    function string_from_iter(tree_model::Gtk.GtkTreeModel)
+        iter = Gtk.mutable(Gtk.GtkTreeIter)
+        return (ccall((:gtk_tree_model_get_string_from_iter, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreeIter}), tree_model, iter), iter[])
+    end
+    function iter_first(tree_model::Gtk.GtkTreeModel)
+        iter = Gtk.mutable(Gtk.GtkTreeIter)
+        return (convert(Bool, ccall((:gtk_tree_model_get_iter_first, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreeIter}), tree_model, iter)), iter[])
+    end
+    function path(tree_model::Gtk.GtkTreeModel)
+        iter = Gtk.mutable(Gtk.GtkTreeIter)
+        return (convert(Gtk.GtkTreePath, ccall((:gtk_tree_model_get_path, Gtk.libgtk), Ptr{Gtk.GtkTreePath}, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreeIter}), tree_model, iter)), iter[])
+    end
+    function value(tree_model::Gtk.GtkTreeModel, iter, column, value_)
+        return ccall((:gtk_tree_model_get_value, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreeIter}, Cint, Ptr{Nothing}), tree_model, iter, column, value_)
     end
     function sort_column_id(sortable::Gtk.GtkTreeSortable)
         order = Gtk.mutable(Cint)
@@ -1585,71 +1547,8 @@ $(Expr(:toplevel, :(module GAccessor
         ccall((:gtk_tree_sortable_set_default_sort_func, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Nothing}), sortable, sort_func, user_data, destroy)
         return sortable
     end
-    function cell_allocation(area::Gtk.GtkCellArea, context, widget, renderer)
-        allocation = Gtk.mutable(Gtk.GdkRectangle)
-        cell_area = Gtk.mutable(Gtk.GdkRectangle)
-        ccall((:gtk_cell_area_get_cell_allocation, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Gtk.GdkRectangle}, Ptr{Gtk.GdkRectangle}), area, context, widget, renderer, cell_area, allocation)
-        return (cell_area[], allocation[])
-    end
-    function cell_at_position(area::Gtk.GtkCellArea, context, widget, cell_area, x, y)
-        alloc_area = Gtk.mutable(Gtk.GdkRectangle)
-        return (convert(Gtk.GtkCellRenderer, ccall((:gtk_cell_area_get_cell_at_position, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Gtk.GdkRectangle}, Cint, Cint, Ptr{Gtk.GdkRectangle}), area, context, widget, cell_area, x, y, alloc_area)), alloc_area[])
-    end
-    function request_mode(area::Gtk.GtkCellArea)
-        return ccall((:gtk_cell_area_get_request_mode, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), area)
-    end
-    function preferred_width(area::Gtk.GtkCellArea, context, widget)
-        natural_width = Gtk.mutable(Cint)
-        minimum_width = Gtk.mutable(Cint)
-        ccall((:gtk_cell_area_get_preferred_width, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), area, context, widget, minimum_width, natural_width)
-        return (minimum_width[], natural_width[])
-    end
-    function preferred_height_for_width(area::Gtk.GtkCellArea, context, widget, width)
-        natural_height = Gtk.mutable(Cint)
-        minimum_height = Gtk.mutable(Cint)
-        ccall((:gtk_cell_area_get_preferred_height_for_width, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Cint, Ptr{Cint}, Ptr{Cint}), area, context, widget, width, minimum_height, natural_height)
-        return (minimum_height[], natural_height[])
-    end
-    function preferred_height(area::Gtk.GtkCellArea, context, widget)
-        natural_height = Gtk.mutable(Cint)
-        minimum_height = Gtk.mutable(Cint)
-        ccall((:gtk_cell_area_get_preferred_height, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), area, context, widget, minimum_height, natural_height)
-        return (minimum_height[], natural_height[])
-    end
-    function preferred_width_for_height(area::Gtk.GtkCellArea, context, widget, height)
-        natural_width = Gtk.mutable(Cint)
-        minimum_width = Gtk.mutable(Cint)
-        ccall((:gtk_cell_area_get_preferred_width_for_height, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Cint, Ptr{Cint}, Ptr{Cint}), area, context, widget, height, minimum_width, natural_width)
-        return (minimum_width[], natural_width[])
-    end
-    function current_path_string(area::Gtk.GtkCellArea)
-        return ccall((:gtk_cell_area_get_current_path_string, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), area)
-    end
-    function column(area::Gtk.GtkCellArea, renderer, attribute)
-        return ccall((:gtk_cell_area_attribute_get_column, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{UInt8}), area, renderer, attribute)
-    end
-    function property(area::Gtk.GtkCellArea, renderer, property_name, value)
-        ccall((:gtk_cell_area_cell_set_property, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{UInt8}, Ptr{Nothing}), area, renderer, property_name, value)
-        return area
-    end
-    function focus_cell(area::Gtk.GtkCellArea, renderer)
-        ccall((:gtk_cell_area_set_focus_cell, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), area, renderer)
-        return area
-    end
-    function focus_cell(area::Gtk.GtkCellArea)
-        return convert(Gtk.GtkCellRenderer, ccall((:gtk_cell_area_get_focus_cell, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), area))
-    end
-    function focus_siblings(area::Gtk.GtkCellArea, renderer)
-        return ccall((:gtk_cell_area_get_focus_siblings, Gtk.libgtk), Ptr{Gtk._GList{Nothing}}, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), area, renderer)
-    end
-    function focus_from_sibling(area::Gtk.GtkCellArea, renderer)
-        return convert(Gtk.GtkCellRenderer, ccall((:gtk_cell_area_get_focus_from_sibling, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), area, renderer))
-    end
-    function edited_cell(area::Gtk.GtkCellArea)
-        return convert(Gtk.GtkCellRenderer, ccall((:gtk_cell_area_get_edited_cell, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), area))
-    end
-    function edit_widget(area::Gtk.GtkCellArea)
-        return convert(Gtk.GtkCellEditable, ccall((:gtk_cell_area_get_edit_widget, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), area))
+    function cell_renderers(tree_column::Gtk.GtkTreeViewColumn)
+        return ccall((:gtk_tree_view_column_get_cell_renderers, Gtk.libgtk), Ptr{Gtk._GList{Nothing}}, (Ptr{Gtk.GObject},), tree_column)
     end
     function attributes(tree_column::Gtk.GtkTreeViewColumn, cell_renderer)
         ccall((:gtk_tree_view_column_set_attributes, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), tree_column, cell_renderer)
@@ -1686,9 +1585,6 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function sizing(tree_column::Gtk.GtkTreeViewColumn)
         return ccall((:gtk_tree_view_column_get_sizing, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), tree_column)
-    end
-    function x_offset(tree_column::Gtk.GtkTreeViewColumn)
-        return ccall((:gtk_tree_view_column_get_x_offset, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), tree_column)
     end
     function width(tree_column::Gtk.GtkTreeViewColumn)
         return ccall((:gtk_tree_view_column_get_width, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), tree_column)
@@ -1792,14 +1688,128 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function position(tree_column::Gtk.GtkTreeViewColumn, cell_renderer)
         width = Gtk.mutable(Cint)
-        x_offset = Gtk.mutable(Cint)
-        return (convert(Bool, ccall((:gtk_tree_view_column_cell_get_position, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), tree_column, cell_renderer, x_offset, width)), x_offset[], width[])
+        start_pos = Gtk.mutable(Cint)
+        return (convert(Bool, ccall((:gtk_tree_view_column_cell_get_position, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), tree_column, cell_renderer, start_pos, width)), start_pos[], width[])
     end
     function tree_view(tree_column::Gtk.GtkTreeViewColumn)
         return convert(Gtk.GtkWidget, ccall((:gtk_tree_view_column_get_tree_view, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), tree_column))
     end
-    function button(tree_column::Gtk.GtkTreeViewColumn)
-        return convert(Gtk.GtkWidget, ccall((:gtk_tree_view_column_get_button, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), tree_column))
+    function cells(cell_layout::Gtk.GtkCellLayout)
+        return ccall((:gtk_cell_layout_get_cells, Gtk.libgtk), Ptr{Gtk._GList{Nothing}}, (Ptr{Gtk.GObject},), cell_layout)
+    end
+    function attributes(cell_layout::Gtk.GtkCellLayout, cell)
+        ccall((:gtk_cell_layout_set_attributes, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), cell_layout, cell)
+        return cell_layout
+    end
+    function cell_data_func(cell_layout::Gtk.GtkCellLayout, cell, func, func_data, destroy)
+        ccall((:gtk_cell_layout_set_cell_data_func, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Nothing}), cell_layout, cell, func, func_data, destroy)
+        return cell_layout
+    end
+    function fixed_height_from_font(renderer::Gtk.GtkCellRendererText, number_of_rows)
+        ccall((:gtk_cell_renderer_text_set_fixed_height_from_font, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), renderer, number_of_rows)
+        return renderer
+    end
+    function radio(toggle::Gtk.GtkCellRendererToggle)
+        return convert(Bool, ccall((:gtk_cell_renderer_toggle_get_radio, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toggle))
+    end
+    function radio(toggle::Gtk.GtkCellRendererToggle, radio_)
+        ccall((:gtk_cell_renderer_toggle_set_radio, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toggle, radio_)
+        return toggle
+    end
+    function active(toggle::Gtk.GtkCellRendererToggle)
+        return convert(Bool, ccall((:gtk_cell_renderer_toggle_get_active, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toggle))
+    end
+    function active(toggle::Gtk.GtkCellRendererToggle, setting)
+        ccall((:gtk_cell_renderer_toggle_set_active, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toggle, setting)
+        return toggle
+    end
+    function activatable(toggle::Gtk.GtkCellRendererToggle)
+        return convert(Bool, ccall((:gtk_cell_renderer_toggle_get_activatable, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toggle))
+    end
+    function activatable(toggle::Gtk.GtkCellRendererToggle, setting)
+        ccall((:gtk_cell_renderer_toggle_set_activatable, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toggle, setting)
+        return toggle
+    end
+    function model(cell_view::Gtk.GtkCellView, model_)
+        ccall((:gtk_cell_view_set_model, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), cell_view, model_)
+        return cell_view
+    end
+    function model(cell_view::Gtk.GtkCellView)
+        return convert(Gtk.GtkTreeModel, ccall((:gtk_cell_view_get_model, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), cell_view))
+    end
+    function displayed_row(cell_view::Gtk.GtkCellView, path)
+        ccall((:gtk_cell_view_set_displayed_row, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreePath}), cell_view, path)
+        return cell_view
+    end
+    function displayed_row(cell_view::Gtk.GtkCellView)
+        return convert(Gtk.GtkTreePath, ccall((:gtk_cell_view_get_displayed_row, Gtk.libgtk), Ptr{Gtk.GtkTreePath}, (Ptr{Gtk.GObject},), cell_view))
+    end
+    function size_of_row(cell_view::Gtk.GtkCellView, requisition)
+        path = Gtk.mutable(Gtk.GtkTreePath)
+        return (convert(Bool, ccall((:gtk_cell_view_get_size_of_row, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreePath}, Ptr{Nothing}), cell_view, path, requisition)), path[])
+    end
+    function background_color(cell_view::Gtk.GtkCellView, color)
+        ccall((:gtk_cell_view_set_background_color, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), cell_view, color)
+        return cell_view
+    end
+    function cell_renderers(cell_view::Gtk.GtkCellView)
+        return ccall((:gtk_cell_view_get_cell_renderers, Gtk.libgtk), Ptr{Gtk._GList{Nothing}}, (Ptr{Gtk.GObject},), cell_view)
+    end
+    function mode(toggle_button::Gtk.GtkToggleButton, draw_indicator)
+        ccall((:gtk_toggle_button_set_mode, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toggle_button, draw_indicator)
+        return toggle_button
+    end
+    function mode(toggle_button::Gtk.GtkToggleButton)
+        return convert(Bool, ccall((:gtk_toggle_button_get_mode, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toggle_button))
+    end
+    function active(toggle_button::Gtk.GtkToggleButton, is_active)
+        ccall((:gtk_toggle_button_set_active, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toggle_button, is_active)
+        return toggle_button
+    end
+    function active(toggle_button::Gtk.GtkToggleButton)
+        return convert(Bool, ccall((:gtk_toggle_button_get_active, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toggle_button))
+    end
+    function inconsistent(toggle_button::Gtk.GtkToggleButton, setting)
+        ccall((:gtk_toggle_button_set_inconsistent, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toggle_button, setting)
+        return toggle_button
+    end
+    function inconsistent(toggle_button::Gtk.GtkToggleButton)
+        return convert(Bool, ccall((:gtk_toggle_button_get_inconsistent, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toggle_button))
+    end
+    function submenu(menu_item::Gtk.GtkMenuItem, submenu_)
+        ccall((:gtk_menu_item_set_submenu, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), menu_item, submenu_)
+        return menu_item
+    end
+    function submenu(menu_item::Gtk.GtkMenuItem)
+        return convert(Gtk.GtkWidget, ccall((:gtk_menu_item_get_submenu, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), menu_item))
+    end
+    function right_justified(menu_item::Gtk.GtkMenuItem, right_justified_)
+        ccall((:gtk_menu_item_set_right_justified, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), menu_item, right_justified_)
+        return menu_item
+    end
+    function right_justified(menu_item::Gtk.GtkMenuItem)
+        return convert(Bool, ccall((:gtk_menu_item_get_right_justified, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), menu_item))
+    end
+    function accel_path(menu_item::Gtk.GtkMenuItem, accel_path_)
+        ccall((:gtk_menu_item_set_accel_path, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), menu_item, accel_path_)
+        return menu_item
+    end
+    function accel_path(menu_item::Gtk.GtkMenuItem)
+        return ccall((:gtk_menu_item_get_accel_path, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), menu_item)
+    end
+    function label(menu_item::Gtk.GtkMenuItem, label_)
+        ccall((:gtk_menu_item_set_label, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), menu_item, label_)
+        return menu_item
+    end
+    function label(menu_item::Gtk.GtkMenuItem)
+        return ccall((:gtk_menu_item_get_label, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), menu_item)
+    end
+    function use_underline(menu_item::Gtk.GtkMenuItem, setting)
+        ccall((:gtk_menu_item_set_use_underline, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), menu_item, setting)
+        return menu_item
+    end
+    function use_underline(menu_item::Gtk.GtkMenuItem)
+        return convert(Bool, ccall((:gtk_menu_item_get_use_underline, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), menu_item))
     end
     function priority(tag::Gtk.GtkTextTag)
         return ccall((:gtk_text_tag_get_priority, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), tag)
@@ -1825,10 +1835,6 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function length(selection_data::Gtk.GtkSelectionData)
         return ccall((:gtk_selection_data_get_length, Gtk.libgtk), Cint, (Ptr{Gtk.GtkSelectionData},), selection_data)
-    end
-    function data_with_length(selection_data::Gtk.GtkSelectionData)
-        length = Gtk.mutable(Cint)
-        return (ccall((:gtk_selection_data_get_data_with_length, Gtk.libgtk), Ptr{Cuchar}, (Ptr{Gtk.GtkSelectionData}, Ptr{Cint}), selection_data, length), length[])
     end
     function display(selection_data::Gtk.GtkSelectionData)
         return ccall((:gtk_selection_data_get_display, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GtkSelectionData},), selection_data)
@@ -1862,6 +1868,47 @@ $(Expr(:toplevel, :(module GAccessor
     function data(widget::Gtk.GtkWidget, context, target, time_)
         return ccall((:gtk_drag_get_data, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Ptr{Nothing}, UInt32), widget, context, target, time_)
     end
+    function proxy(widget::Gtk.GtkWidget, proxy_window, protocol, use_coordinates)
+        ccall((:gtk_drag_dest_set_proxy, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Cint, Cint), widget, proxy_window, protocol, use_coordinates)
+        return widget
+    end
+    function target_list(widget::Gtk.GtkWidget)
+        return convert(Gtk.GtkTargetList, ccall((:gtk_drag_dest_get_target_list, Gtk.libgtk), Ptr{Gtk.GtkTargetList}, (Ptr{Gtk.GObject},), widget))
+    end
+    function target_list(widget::Gtk.GtkWidget, target_list_)
+        ccall((:gtk_drag_dest_set_target_list, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTargetList}), widget, target_list_)
+        return widget
+    end
+    function track_motion(widget::Gtk.GtkWidget, track_motion_)
+        ccall((:gtk_drag_dest_set_track_motion, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, track_motion_)
+        return widget
+    end
+    function track_motion(widget::Gtk.GtkWidget)
+        return convert(Bool, ccall((:gtk_drag_dest_get_track_motion, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget))
+    end
+    function target_list(widget::Gtk.GtkWidget)
+        return convert(Gtk.GtkTargetList, ccall((:gtk_drag_source_get_target_list, Gtk.libgtk), Ptr{Gtk.GtkTargetList}, (Ptr{Gtk.GObject},), widget))
+    end
+    function target_list(widget::Gtk.GtkWidget, target_list_)
+        ccall((:gtk_drag_source_set_target_list, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTargetList}), widget, target_list_)
+        return widget
+    end
+    function icon(widget::Gtk.GtkWidget, colormap, pixmap, mask)
+        ccall((:gtk_drag_source_set_icon, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Nothing}), widget, colormap, pixmap, mask)
+        return widget
+    end
+    function icon_pixbuf(widget::Gtk.GtkWidget, pixbuf)
+        ccall((:gtk_drag_source_set_icon_pixbuf, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), widget, pixbuf)
+        return widget
+    end
+    function icon_stock(widget::Gtk.GtkWidget, stock_id)
+        ccall((:gtk_drag_source_set_icon_stock, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), widget, stock_id)
+        return widget
+    end
+    function icon_name(widget::Gtk.GtkWidget, icon_name_)
+        ccall((:gtk_drag_source_set_icon_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), widget, icon_name_)
+        return widget
+    end
     function selection_bounds(editable::Gtk.GtkEditable)
         end_pos = Gtk.mutable(Cint)
         start_pos = Gtk.mutable(Cint)
@@ -1885,7 +1932,7 @@ $(Expr(:toplevel, :(module GAccessor
         return convert(Bool, ccall((:gtk_editable_get_editable, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), editable_))
     end
     function column_types(list_store::Gtk.GtkListStore, n_columns, types)
-        ccall((:gtk_list_store_set_column_types, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Culonglong}), list_store, n_columns, types)
+        ccall((:gtk_list_store_set_column_types, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Culong}), list_store, n_columns, types)
         return list_store
     end
     function value(list_store::Gtk.GtkListStore, iter, column, value_)
@@ -1901,7 +1948,7 @@ $(Expr(:toplevel, :(module GAccessor
         return filter
     end
     function modify_func(filter::Gtk.GtkTreeModelFilter, n_columns, types, func, data, destroy)
-        ccall((:gtk_tree_model_filter_set_modify_func, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Culonglong}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Nothing}), filter, n_columns, types, func, data, destroy)
+        ccall((:gtk_tree_model_filter_set_modify_func, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Culong}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Nothing}), filter, n_columns, types, func, data, destroy)
         return filter
     end
     function visible_column(filter::Gtk.GtkTreeModelFilter, column)
@@ -1978,82 +2025,6 @@ $(Expr(:toplevel, :(module GAccessor
     function text_column(completion::Gtk.GtkEntryCompletion)
         return ccall((:gtk_entry_completion_get_text_column, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), completion)
     end
-    function from_file(image::Gtk.GtkImage, filename)
-        ccall((:gtk_image_set_from_file, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), image, filename)
-        return image
-    end
-    function from_resource(image::Gtk.GtkImage, resource_path)
-        ccall((:gtk_image_set_from_resource, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), image, resource_path)
-        return image
-    end
-    function from_pixbuf(image::Gtk.GtkImage, pixbuf)
-        ccall((:gtk_image_set_from_pixbuf, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), image, pixbuf)
-        return image
-    end
-    function from_stock(image::Gtk.GtkImage, stock_id, size)
-        ccall((:gtk_image_set_from_stock, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}, Cint), image, stock_id, size)
-        return image
-    end
-    function from_icon_set(image::Gtk.GtkImage, icon_set, size)
-        ccall((:gtk_image_set_from_icon_set, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkIconSet}, Cint), image, icon_set, size)
-        return image
-    end
-    function from_animation(image::Gtk.GtkImage, animation)
-        ccall((:gtk_image_set_from_animation, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), image, animation)
-        return image
-    end
-    function from_icon_name(image::Gtk.GtkImage, icon_name, size)
-        ccall((:gtk_image_set_from_icon_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}, Cint), image, icon_name, size)
-        return image
-    end
-    function from_gicon(image::Gtk.GtkImage, icon, size)
-        ccall((:gtk_image_set_from_gicon, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Cint), image, icon, size)
-        return image
-    end
-    function from_surface(image::Gtk.GtkImage, surface)
-        ccall((:gtk_image_set_from_surface, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), image, surface)
-        return image
-    end
-    function pixel_size(image::Gtk.GtkImage, pixel_size_)
-        ccall((:gtk_image_set_pixel_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), image, pixel_size_)
-        return image
-    end
-    function storage_type(image::Gtk.GtkImage)
-        return ccall((:gtk_image_get_storage_type, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), image)
-    end
-    function pixbuf(image::Gtk.GtkImage)
-        return convert(Gtk.GdkPixbuf, ccall((:gtk_image_get_pixbuf, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), image))
-    end
-    function stock(image::Gtk.GtkImage)
-        size = Gtk.mutable(Cint)
-        stock_id = Gtk.mutable(Ptr{UInt8})
-        ccall((:gtk_image_get_stock, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Ptr{UInt8}}, Ptr{Cint}), image, stock_id, size)
-        return (stock_id[], size[])
-    end
-    function icon_set(image::Gtk.GtkImage)
-        size = Gtk.mutable(Cint)
-        icon_set_ = Gtk.mutable(Ptr{Gtk.GtkIconSet})
-        ccall((:gtk_image_get_icon_set, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Ptr{Gtk.GtkIconSet}}, Ptr{Cint}), image, icon_set_, size)
-        return (convert(Gtk.GtkIconSet, icon_set_[]), size[])
-    end
-    function animation(image::Gtk.GtkImage)
-        return ccall((:gtk_image_get_animation, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), image)
-    end
-    function icon_name(image::Gtk.GtkImage)
-        size = Gtk.mutable(Cint)
-        icon_name_ = Gtk.mutable(Ptr{UInt8})
-        ccall((:gtk_image_get_icon_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Ptr{UInt8}}, Ptr{Cint}), image, icon_name_, size)
-        return (icon_name_[], size[])
-    end
-    function gicon(image::Gtk.GtkImage)
-        size = Gtk.mutable(Cint)
-        gicon_ = Gtk.mutable(Ptr{Nothing})
-        ccall((:gtk_image_get_gicon, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Ptr{Nothing}}, Ptr{Cint}), image, gicon_, size)
-        return (gicon_[], size[])
-    end
-    function pixel_size(image::Gtk.GtkImage)
-        return ccall((:gtk_image_get_pixel_size, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), image)
-    end
     function buffer(entry::Gtk.GtkEntry)
         return ccall((:gtk_entry_get_buffer, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), entry)
     end
@@ -2061,10 +2032,8 @@ $(Expr(:toplevel, :(module GAccessor
         ccall((:gtk_entry_set_buffer, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), entry, buffer_)
         return entry
     end
-    function text_area(entry::Gtk.GtkEntry)
-        text_area_ = Gtk.mutable(Gtk.GdkRectangle)
-        ccall((:gtk_entry_get_text_area, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GdkRectangle}), entry, text_area_)
-        return text_area_[]
+    function text_window(entry::Gtk.GtkEntry)
+        return ccall((:gtk_entry_get_text_window, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), entry)
     end
     function visibility(entry::Gtk.GtkEntry, visible)
         ccall((:gtk_entry_set_visibility, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), entry, visible)
@@ -2125,13 +2094,6 @@ $(Expr(:toplevel, :(module GAccessor
     function width_chars(entry::Gtk.GtkEntry)
         return ccall((:gtk_entry_get_width_chars, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), entry)
     end
-    function max_width_chars(entry::Gtk.GtkEntry, n_chars)
-        ccall((:gtk_entry_set_max_width_chars, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), entry, n_chars)
-        return entry
-    end
-    function max_width_chars(entry::Gtk.GtkEntry)
-        return ccall((:gtk_entry_get_max_width_chars, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), entry)
-    end
     function text(entry::Gtk.GtkEntry, text_)
         ccall((:gtk_entry_set_text, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), entry, text_)
         return entry
@@ -2182,13 +2144,6 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function progress_pulse_step(entry::Gtk.GtkEntry)
         return ccall((:gtk_entry_get_progress_pulse_step, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), entry)
-    end
-    function placeholder_text(entry::Gtk.GtkEntry)
-        return ccall((:gtk_entry_get_placeholder_text, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), entry)
-    end
-    function placeholder_text(entry::Gtk.GtkEntry, text)
-        ccall((:gtk_entry_set_placeholder_text, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), entry, text)
-        return entry
     end
     function icon_from_pixbuf(entry::Gtk.GtkEntry, icon_pos, pixbuf)
         ccall((:gtk_entry_set_icon_from_pixbuf, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Gtk.GObject}), entry, icon_pos, pixbuf)
@@ -2259,38 +2214,16 @@ $(Expr(:toplevel, :(module GAccessor
     function current_icon_drag_source(entry::Gtk.GtkEntry)
         return ccall((:gtk_entry_get_current_icon_drag_source, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), entry)
     end
-    function icon_area(entry::Gtk.GtkEntry, icon_pos)
-        icon_area_ = Gtk.mutable(Gtk.GdkRectangle)
-        ccall((:gtk_entry_get_icon_area, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Gtk.GdkRectangle}), entry, icon_pos, icon_area_)
-        return icon_area_[]
+    function icon_window(entry::Gtk.GtkEntry, icon_pos)
+        return ccall((:gtk_entry_get_icon_window, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject}, Cint), entry, icon_pos)
     end
-    function input_purpose(entry::Gtk.GtkEntry, purpose)
-        ccall((:gtk_entry_set_input_purpose, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), entry, purpose)
+    function position(entry::Gtk.GtkEntry, position_)
+        ccall((:gtk_entry_set_position, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), entry, position_)
         return entry
     end
-    function input_purpose(entry::Gtk.GtkEntry)
-        return ccall((:gtk_entry_get_input_purpose, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), entry)
-    end
-    function input_hints(entry::Gtk.GtkEntry, hints)
-        ccall((:gtk_entry_set_input_hints, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), entry, hints)
+    function editable(entry::Gtk.GtkEntry, editable_)
+        ccall((:gtk_entry_set_editable, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), entry, editable_)
         return entry
-    end
-    function input_hints(entry::Gtk.GtkEntry)
-        return ccall((:gtk_entry_get_input_hints, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), entry)
-    end
-    function attributes(entry::Gtk.GtkEntry, attrs)
-        ccall((:gtk_entry_set_attributes, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), entry, attrs)
-        return entry
-    end
-    function attributes(entry::Gtk.GtkEntry)
-        return ccall((:gtk_entry_get_attributes, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), entry)
-    end
-    function tabs(entry::Gtk.GtkEntry, tabs_)
-        ccall((:gtk_entry_set_tabs, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), entry, tabs_)
-        return entry
-    end
-    function tabs(entry::Gtk.GtkEntry)
-        return ccall((:gtk_entry_get_tabs, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), entry)
     end
     function model(tree_view::Gtk.GtkTreeView)
         return convert(Gtk.GtkTreeModel, ccall((:gtk_tree_view_get_model, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), tree_view))
@@ -2336,16 +2269,6 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function rules_hint(tree_view::Gtk.GtkTreeView)
         return convert(Bool, ccall((:gtk_tree_view_get_rules_hint, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), tree_view))
-    end
-    function activate_on_single_click(tree_view::Gtk.GtkTreeView)
-        return convert(Bool, ccall((:gtk_tree_view_get_activate_on_single_click, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), tree_view))
-    end
-    function activate_on_single_click(tree_view::Gtk.GtkTreeView, single)
-        ccall((:gtk_tree_view_set_activate_on_single_click, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), tree_view, single)
-        return tree_view
-    end
-    function n_columns(tree_view::Gtk.GtkTreeView)
-        return ccall((:gtk_tree_view_get_n_columns, Gtk.libgtk), UInt32, (Ptr{Gtk.GObject},), tree_view)
     end
     function column(tree_view::Gtk.GtkTreeView, n)
         return convert(Gtk.GtkTreeViewColumn, ccall((:gtk_tree_view_get_column, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject}, Cint), tree_view, n))
@@ -2555,421 +2478,8 @@ $(Expr(:toplevel, :(module GAccessor
     function tooltip_column(tree_view::Gtk.GtkTreeView)
         return ccall((:gtk_tree_view_get_tooltip_column, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), tree_view)
     end
-    function label(frame::Gtk.GtkFrame, label_)
-        ccall((:gtk_frame_set_label, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), frame, label_)
-        return frame
-    end
-    function label(frame::Gtk.GtkFrame)
-        return ccall((:gtk_frame_get_label, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), frame)
-    end
-    function label_widget(frame::Gtk.GtkFrame, label_widget_)
-        ccall((:gtk_frame_set_label_widget, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), frame, label_widget_)
-        return frame
-    end
-    function label_widget(frame::Gtk.GtkFrame)
-        return convert(Gtk.GtkWidget, ccall((:gtk_frame_get_label_widget, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), frame))
-    end
-    function label_align(frame::Gtk.GtkFrame, xalign, yalign)
-        ccall((:gtk_frame_set_label_align, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cfloat, Cfloat), frame, xalign, yalign)
-        return frame
-    end
-    function label_align(frame::Gtk.GtkFrame)
-        yalign = Gtk.mutable(Cfloat)
-        xalign = Gtk.mutable(Cfloat)
-        ccall((:gtk_frame_get_label_align, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cfloat}, Ptr{Cfloat}), frame, xalign, yalign)
-        return (xalign[], yalign[])
-    end
-    function shadow_type(frame::Gtk.GtkFrame, type_)
-        ccall((:gtk_frame_set_shadow_type, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), frame, type_)
-        return frame
-    end
-    function shadow_type(frame::Gtk.GtkFrame)
-        return ccall((:gtk_frame_get_shadow_type, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), frame)
-    end
-    function layout(widget::Gtk.GtkButtonBox)
-        return ccall((:gtk_button_box_get_layout, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget)
-    end
-    function layout(widget::Gtk.GtkButtonBox, layout_style)
-        ccall((:gtk_button_box_set_layout, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, layout_style)
-        return widget
-    end
-    function child_secondary(widget::Gtk.GtkButtonBox, child)
-        return convert(Bool, ccall((:gtk_button_box_get_child_secondary, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), widget, child))
-    end
-    function child_secondary(widget::Gtk.GtkButtonBox, child, is_secondary)
-        ccall((:gtk_button_box_set_child_secondary, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Cint), widget, child, is_secondary)
-        return widget
-    end
-    function child_non_homogeneous(widget::Gtk.GtkButtonBox, child)
-        return convert(Bool, ccall((:gtk_button_box_get_child_non_homogeneous, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), widget, child))
-    end
-    function child_non_homogeneous(widget::Gtk.GtkButtonBox, child, non_homogeneous)
-        ccall((:gtk_button_box_set_child_non_homogeneous, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Cint), widget, child, non_homogeneous)
-        return widget
-    end
-    function object(builder::Gtk.GtkBuilder, name)
-        return convert(Gtk.GObject, ccall((:gtk_builder_get_object, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject}, Ptr{UInt8}), builder, name))
-    end
-    function objects(builder::Gtk.GtkBuilder)
-        return ccall((:gtk_builder_get_objects, Gtk.libgtk), Ptr{Gtk._GSList{Nothing}}, (Ptr{Gtk.GObject},), builder)
-    end
-    function translation_domain(builder::Gtk.GtkBuilder, domain)
-        ccall((:gtk_builder_set_translation_domain, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), builder, domain)
-        return builder
-    end
-    function translation_domain(builder::Gtk.GtkBuilder)
-        return ccall((:gtk_builder_get_translation_domain, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), builder)
-    end
-    function type_from_name(builder::Gtk.GtkBuilder)
-        type_name = Gtk.mutable(UInt8)
-        return (ccall((:gtk_builder_get_type_from_name, Gtk.libgtk), Culonglong, (Ptr{Gtk.GObject}, Ptr{UInt8}), builder, type_name), type_name[])
-    end
-    function application(builder::Gtk.GtkBuilder, application_)
-        ccall((:gtk_builder_set_application, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), builder, application_)
-        return builder
-    end
-    function application(builder::Gtk.GtkBuilder)
-        return ccall((:gtk_builder_get_application, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), builder)
-    end
-    function name(buildable::Gtk.GtkBuildable, name_)
-        ccall((:gtk_buildable_set_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), buildable, name_)
-        return buildable
-    end
-    function name(buildable::Gtk.GtkBuildable)
-        return ccall((:gtk_buildable_get_name, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), buildable)
-    end
-    function buildable_property(buildable::Gtk.GtkBuildable, builder, name, value)
-        ccall((:gtk_buildable_set_buildable_property, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{UInt8}, Ptr{Nothing}), buildable, builder, name, value)
-        return buildable
-    end
-    function internal_child(buildable::Gtk.GtkBuildable, builder, childname)
-        return convert(Gtk.GObject, ccall((:gtk_buildable_get_internal_child, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{UInt8}), buildable, builder, childname))
-    end
-    function relief(button::Gtk.GtkButton, relief_)
-        ccall((:gtk_button_set_relief, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), button, relief_)
-        return button
-    end
-    function relief(button::Gtk.GtkButton)
-        return ccall((:gtk_button_get_relief, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), button)
-    end
-    function label(button::Gtk.GtkButton, label_)
-        ccall((:gtk_button_set_label, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), button, label_)
-        return button
-    end
-    function label(button::Gtk.GtkButton)
-        return ccall((:gtk_button_get_label, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), button)
-    end
-    function use_underline(button::Gtk.GtkButton, use_underline_)
-        ccall((:gtk_button_set_use_underline, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), button, use_underline_)
-        return button
-    end
-    function use_underline(button::Gtk.GtkButton)
-        return convert(Bool, ccall((:gtk_button_get_use_underline, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), button))
-    end
-    function use_stock(button::Gtk.GtkButton, use_stock_)
-        ccall((:gtk_button_set_use_stock, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), button, use_stock_)
-        return button
-    end
-    function use_stock(button::Gtk.GtkButton)
-        return convert(Bool, ccall((:gtk_button_get_use_stock, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), button))
-    end
-    function focus_on_click(button::Gtk.GtkButton, focus_on_click_)
-        ccall((:gtk_button_set_focus_on_click, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), button, focus_on_click_)
-        return button
-    end
-    function focus_on_click(button::Gtk.GtkButton)
-        return convert(Bool, ccall((:gtk_button_get_focus_on_click, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), button))
-    end
-    function alignment(button::Gtk.GtkButton, xalign, yalign)
-        ccall((:gtk_button_set_alignment, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cfloat, Cfloat), button, xalign, yalign)
-        return button
-    end
-    function alignment(button::Gtk.GtkButton)
-        yalign = Gtk.mutable(Cfloat)
-        xalign = Gtk.mutable(Cfloat)
-        ccall((:gtk_button_get_alignment, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cfloat}, Ptr{Cfloat}), button, xalign, yalign)
-        return (xalign[], yalign[])
-    end
-    function image(button::Gtk.GtkButton, image_)
-        ccall((:gtk_button_set_image, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), button, image_)
-        return button
-    end
-    function image(button::Gtk.GtkButton)
-        return convert(Gtk.GtkWidget, ccall((:gtk_button_get_image, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), button))
-    end
-    function image_position(button::Gtk.GtkButton, position)
-        ccall((:gtk_button_set_image_position, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), button, position)
-        return button
-    end
-    function image_position(button::Gtk.GtkButton)
-        return ccall((:gtk_button_get_image_position, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), button)
-    end
-    function always_show_image(button::Gtk.GtkButton, always_show)
-        ccall((:gtk_button_set_always_show_image, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), button, always_show)
-        return button
-    end
-    function always_show_image(button::Gtk.GtkButton)
-        return convert(Bool, ccall((:gtk_button_get_always_show_image, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), button))
-    end
-    function event_window(button::Gtk.GtkButton)
-        return ccall((:gtk_button_get_event_window, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), button)
-    end
-    function spacing(box::Gtk.GtkCellAreaBox)
-        return ccall((:gtk_cell_area_box_get_spacing, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), box)
-    end
-    function spacing(box::Gtk.GtkCellAreaBox, spacing_)
-        ccall((:gtk_cell_area_box_set_spacing, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), box, spacing_)
-        return box
-    end
-    function area(context::Gtk.GtkCellAreaContext)
-        return convert(Gtk.GtkCellArea, ccall((:gtk_cell_area_context_get_area, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), context))
-    end
-    function preferred_width(context::Gtk.GtkCellAreaContext)
-        natural_width = Gtk.mutable(Cint)
-        minimum_width = Gtk.mutable(Cint)
-        ccall((:gtk_cell_area_context_get_preferred_width, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), context, minimum_width, natural_width)
-        return (minimum_width[], natural_width[])
-    end
-    function preferred_height(context::Gtk.GtkCellAreaContext)
-        natural_height = Gtk.mutable(Cint)
-        minimum_height = Gtk.mutable(Cint)
-        ccall((:gtk_cell_area_context_get_preferred_height, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), context, minimum_height, natural_height)
-        return (minimum_height[], natural_height[])
-    end
-    function preferred_height_for_width(context::Gtk.GtkCellAreaContext, width)
-        natural_height = Gtk.mutable(Cint)
-        minimum_height = Gtk.mutable(Cint)
-        ccall((:gtk_cell_area_context_get_preferred_height_for_width, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Cint}, Ptr{Cint}), context, width, minimum_height, natural_height)
-        return (minimum_height[], natural_height[])
-    end
-    function preferred_width_for_height(context::Gtk.GtkCellAreaContext, height)
-        natural_width = Gtk.mutable(Cint)
-        minimum_width = Gtk.mutable(Cint)
-        ccall((:gtk_cell_area_context_get_preferred_width_for_height, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Cint}, Ptr{Cint}), context, height, minimum_width, natural_width)
-        return (minimum_width[], natural_width[])
-    end
-    function allocation(context::Gtk.GtkCellAreaContext)
-        height = Gtk.mutable(Cint)
-        width = Gtk.mutable(Cint)
-        ccall((:gtk_cell_area_context_get_allocation, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), context, width, height)
-        return (width[], height[])
-    end
-    function cells(cell_layout::Gtk.GtkCellLayout)
-        return ccall((:gtk_cell_layout_get_cells, Gtk.libgtk), Ptr{Gtk._GList{Nothing}}, (Ptr{Gtk.GObject},), cell_layout)
-    end
-    function attributes(cell_layout::Gtk.GtkCellLayout, cell)
-        ccall((:gtk_cell_layout_set_attributes, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), cell_layout, cell)
-        return cell_layout
-    end
-    function cell_data_func(cell_layout::Gtk.GtkCellLayout, cell, func, func_data, destroy)
-        ccall((:gtk_cell_layout_set_cell_data_func, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Nothing}), cell_layout, cell, func, func_data, destroy)
-        return cell_layout
-    end
-    function area(cell_layout::Gtk.GtkCellLayout)
-        return convert(Gtk.GtkCellArea, ccall((:gtk_cell_layout_get_area, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), cell_layout))
-    end
-    function fixed_height_from_font(renderer::Gtk.GtkCellRendererText, number_of_rows)
-        ccall((:gtk_cell_renderer_text_set_fixed_height_from_font, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), renderer, number_of_rows)
-        return renderer
-    end
-    function radio(toggle::Gtk.GtkCellRendererToggle)
-        return convert(Bool, ccall((:gtk_cell_renderer_toggle_get_radio, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toggle))
-    end
-    function radio(toggle::Gtk.GtkCellRendererToggle, radio_)
-        ccall((:gtk_cell_renderer_toggle_set_radio, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toggle, radio_)
-        return toggle
-    end
-    function active(toggle::Gtk.GtkCellRendererToggle)
-        return convert(Bool, ccall((:gtk_cell_renderer_toggle_get_active, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toggle))
-    end
-    function active(toggle::Gtk.GtkCellRendererToggle, setting)
-        ccall((:gtk_cell_renderer_toggle_set_active, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toggle, setting)
-        return toggle
-    end
-    function activatable(toggle::Gtk.GtkCellRendererToggle)
-        return convert(Bool, ccall((:gtk_cell_renderer_toggle_get_activatable, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toggle))
-    end
-    function activatable(toggle::Gtk.GtkCellRendererToggle, setting)
-        ccall((:gtk_cell_renderer_toggle_set_activatable, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toggle, setting)
-        return toggle
-    end
-    function model(cell_view::Gtk.GtkCellView, model_)
-        ccall((:gtk_cell_view_set_model, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), cell_view, model_)
-        return cell_view
-    end
-    function model(cell_view::Gtk.GtkCellView)
-        return convert(Gtk.GtkTreeModel, ccall((:gtk_cell_view_get_model, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), cell_view))
-    end
-    function displayed_row(cell_view::Gtk.GtkCellView, path)
-        ccall((:gtk_cell_view_set_displayed_row, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreePath}), cell_view, path)
-        return cell_view
-    end
-    function displayed_row(cell_view::Gtk.GtkCellView)
-        return convert(Gtk.GtkTreePath, ccall((:gtk_cell_view_get_displayed_row, Gtk.libgtk), Ptr{Gtk.GtkTreePath}, (Ptr{Gtk.GObject},), cell_view))
-    end
-    function background_rgba(cell_view::Gtk.GtkCellView, rgba)
-        ccall((:gtk_cell_view_set_background_rgba, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GdkRGBA}), cell_view, rgba)
-        return cell_view
-    end
-    function draw_sensitive(cell_view::Gtk.GtkCellView)
-        return convert(Bool, ccall((:gtk_cell_view_get_draw_sensitive, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), cell_view))
-    end
-    function draw_sensitive(cell_view::Gtk.GtkCellView, draw_sensitive_)
-        ccall((:gtk_cell_view_set_draw_sensitive, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), cell_view, draw_sensitive_)
-        return cell_view
-    end
-    function fit_model(cell_view::Gtk.GtkCellView)
-        return convert(Bool, ccall((:gtk_cell_view_get_fit_model, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), cell_view))
-    end
-    function fit_model(cell_view::Gtk.GtkCellView, fit_model_)
-        ccall((:gtk_cell_view_set_fit_model, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), cell_view, fit_model_)
-        return cell_view
-    end
-    function size_of_row(cell_view::Gtk.GtkCellView)
-        requisition = Gtk.mutable(Gtk.GtkRequisition)
-        path = Gtk.mutable(Gtk.GtkTreePath)
-        return (convert(Bool, ccall((:gtk_cell_view_get_size_of_row, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreePath}, Ptr{Gtk.GtkRequisition}), cell_view, path, requisition)), path[], requisition[])
-    end
-    function background_color(cell_view::Gtk.GtkCellView, color)
-        ccall((:gtk_cell_view_set_background_color, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), cell_view, color)
-        return cell_view
-    end
-    function mode(toggle_button::Gtk.GtkToggleButton, draw_indicator)
-        ccall((:gtk_toggle_button_set_mode, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toggle_button, draw_indicator)
-        return toggle_button
-    end
-    function mode(toggle_button::Gtk.GtkToggleButton)
-        return convert(Bool, ccall((:gtk_toggle_button_get_mode, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toggle_button))
-    end
-    function active(toggle_button::Gtk.GtkToggleButton, is_active)
-        ccall((:gtk_toggle_button_set_active, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toggle_button, is_active)
-        return toggle_button
-    end
-    function active(toggle_button::Gtk.GtkToggleButton)
-        return convert(Bool, ccall((:gtk_toggle_button_get_active, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toggle_button))
-    end
-    function inconsistent(toggle_button::Gtk.GtkToggleButton, setting)
-        ccall((:gtk_toggle_button_set_inconsistent, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toggle_button, setting)
-        return toggle_button
-    end
-    function inconsistent(toggle_button::Gtk.GtkToggleButton)
-        return convert(Bool, ccall((:gtk_toggle_button_get_inconsistent, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toggle_button))
-    end
-    function submenu(menu_item::Gtk.GtkMenuItem, submenu_)
-        ccall((:gtk_menu_item_set_submenu, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), menu_item, submenu_)
-        return menu_item
-    end
-    function submenu(menu_item::Gtk.GtkMenuItem)
-        return convert(Gtk.GtkWidget, ccall((:gtk_menu_item_get_submenu, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), menu_item))
-    end
-    function right_justified(menu_item::Gtk.GtkMenuItem, right_justified_)
-        ccall((:gtk_menu_item_set_right_justified, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), menu_item, right_justified_)
-        return menu_item
-    end
-    function right_justified(menu_item::Gtk.GtkMenuItem)
-        return convert(Bool, ccall((:gtk_menu_item_get_right_justified, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), menu_item))
-    end
-    function accel_path(menu_item::Gtk.GtkMenuItem, accel_path_)
-        ccall((:gtk_menu_item_set_accel_path, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), menu_item, accel_path_)
-        return menu_item
-    end
-    function accel_path(menu_item::Gtk.GtkMenuItem)
-        return ccall((:gtk_menu_item_get_accel_path, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), menu_item)
-    end
-    function label(menu_item::Gtk.GtkMenuItem, label_)
-        ccall((:gtk_menu_item_set_label, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), menu_item, label_)
-        return menu_item
-    end
-    function label(menu_item::Gtk.GtkMenuItem)
-        return ccall((:gtk_menu_item_get_label, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), menu_item)
-    end
-    function use_underline(menu_item::Gtk.GtkMenuItem, setting)
-        ccall((:gtk_menu_item_set_use_underline, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), menu_item, setting)
-        return menu_item
-    end
-    function use_underline(menu_item::Gtk.GtkMenuItem)
-        return convert(Bool, ccall((:gtk_menu_item_get_use_underline, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), menu_item))
-    end
-    function reserve_indicator(menu_item::Gtk.GtkMenuItem, reserve)
-        ccall((:gtk_menu_item_set_reserve_indicator, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), menu_item, reserve)
-        return menu_item
-    end
-    function reserve_indicator(menu_item::Gtk.GtkMenuItem)
-        return convert(Bool, ccall((:gtk_menu_item_get_reserve_indicator, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), menu_item))
-    end
-    function rgba(chooser::Gtk.GtkColorChooser)
-        color = Gtk.mutable(Gtk.GdkRGBA)
-        ccall((:gtk_color_chooser_get_rgba, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GdkRGBA}), chooser, color)
-        return color[]
-    end
-    function rgba(chooser::Gtk.GtkColorChooser, color)
-        ccall((:gtk_color_chooser_set_rgba, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GdkRGBA}), chooser, color)
-        return chooser
-    end
-    function use_alpha(chooser::Gtk.GtkColorChooser)
-        return convert(Bool, ccall((:gtk_color_chooser_get_use_alpha, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), chooser))
-    end
-    function use_alpha(chooser::Gtk.GtkColorChooser, use_alpha_)
-        ccall((:gtk_color_chooser_set_use_alpha, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), chooser, use_alpha_)
-        return chooser
-    end
     function active_text(combo_box::Gtk.GtkComboBoxText)
         return ccall((:gtk_combo_box_text_get_active_text, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), combo_box)
-    end
-    function section_type(section::Gtk.GtkCssSection)
-        return ccall((:gtk_css_section_get_section_type, Gtk.libgtk), Cint, (Ptr{Gtk.GtkCssSection},), section)
-    end
-    function parent(section::Gtk.GtkCssSection)
-        return convert(Gtk.GtkCssSection, ccall((:gtk_css_section_get_parent, Gtk.libgtk), Ptr{Gtk.GtkCssSection}, (Ptr{Gtk.GtkCssSection},), section))
-    end
-    function file(section::Gtk.GtkCssSection)
-        return ccall((:gtk_css_section_get_file, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GtkCssSection},), section)
-    end
-    function start_line(section::Gtk.GtkCssSection)
-        return ccall((:gtk_css_section_get_start_line, Gtk.libgtk), UInt32, (Ptr{Gtk.GtkCssSection},), section)
-    end
-    function start_position(section::Gtk.GtkCssSection)
-        return ccall((:gtk_css_section_get_start_position, Gtk.libgtk), UInt32, (Ptr{Gtk.GtkCssSection},), section)
-    end
-    function end_line(section::Gtk.GtkCssSection)
-        return ccall((:gtk_css_section_get_end_line, Gtk.libgtk), UInt32, (Ptr{Gtk.GtkCssSection},), section)
-    end
-    function end_position(section::Gtk.GtkCssSection)
-        return ccall((:gtk_css_section_get_end_position, Gtk.libgtk), UInt32, (Ptr{Gtk.GtkCssSection},), section)
-    end
-    function proxy(widget::Gtk.GtkWidget, proxy_window, protocol, use_coordinates)
-        ccall((:gtk_drag_dest_set_proxy, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Cint, Cint), widget, proxy_window, protocol, use_coordinates)
-        return widget
-    end
-    function target_list(widget::Gtk.GtkWidget)
-        return convert(Gtk.GtkTargetList, ccall((:gtk_drag_dest_get_target_list, Gtk.libgtk), Ptr{Gtk.GtkTargetList}, (Ptr{Gtk.GObject},), widget))
-    end
-    function target_list(widget::Gtk.GtkWidget, target_list_)
-        ccall((:gtk_drag_dest_set_target_list, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTargetList}), widget, target_list_)
-        return widget
-    end
-    function track_motion(widget::Gtk.GtkWidget, track_motion_)
-        ccall((:gtk_drag_dest_set_track_motion, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), widget, track_motion_)
-        return widget
-    end
-    function track_motion(widget::Gtk.GtkWidget)
-        return convert(Bool, ccall((:gtk_drag_dest_get_track_motion, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), widget))
-    end
-    function icon_pixbuf(widget::Gtk.GtkWidget, pixbuf)
-        ccall((:gtk_drag_source_set_icon_pixbuf, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), widget, pixbuf)
-        return widget
-    end
-    function icon_stock(widget::Gtk.GtkWidget, stock_id)
-        ccall((:gtk_drag_source_set_icon_stock, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), widget, stock_id)
-        return widget
-    end
-    function icon_name(widget::Gtk.GtkWidget, icon_name_)
-        ccall((:gtk_drag_source_set_icon_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), widget, icon_name_)
-        return widget
-    end
-    function icon_gicon(widget::Gtk.GtkWidget, icon)
-        ccall((:gtk_drag_source_set_icon_gicon, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), widget, icon)
-        return widget
     end
     function expanded(expander::Gtk.GtkExpander, expanded_)
         ccall((:gtk_expander_set_expanded, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), expander, expanded_)
@@ -3020,13 +2530,6 @@ $(Expr(:toplevel, :(module GAccessor
     function label_fill(expander::Gtk.GtkExpander)
         return convert(Bool, ccall((:gtk_expander_get_label_fill, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), expander))
     end
-    function resize_toplevel(expander::Gtk.GtkExpander, resize_toplevel_)
-        ccall((:gtk_expander_set_resize_toplevel, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), expander, resize_toplevel_)
-        return expander
-    end
-    function resize_toplevel(expander::Gtk.GtkExpander)
-        return convert(Bool, ccall((:gtk_expander_get_resize_toplevel, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), expander))
-    end
     function action(chooser::Gtk.GtkFileChooser, action_)
         ccall((:gtk_file_chooser_set_action, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), chooser, action_)
         return chooser
@@ -3072,9 +2575,6 @@ $(Expr(:toplevel, :(module GAccessor
     function current_name(chooser::Gtk.GtkFileChooser, name)
         ccall((:gtk_file_chooser_set_current_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), chooser, name)
         return chooser
-    end
-    function current_name(chooser::Gtk.GtkFileChooser)
-        return ccall((:gtk_file_chooser_get_current_name, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), chooser)
     end
     function filename(chooser::Gtk.GtkFileChooser)
         return ccall((:gtk_file_chooser_get_filename, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), chooser)
@@ -3171,52 +2671,6 @@ $(Expr(:toplevel, :(module GAccessor
     function filter(chooser::Gtk.GtkFileChooser)
         return ccall((:gtk_file_chooser_get_filter, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), chooser)
     end
-    function choice(chooser::Gtk.GtkFileChooser, id, option)
-        ccall((:gtk_file_chooser_set_choice, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}, Ptr{UInt8}), chooser, id, option)
-        return chooser
-    end
-    function choice(chooser::Gtk.GtkFileChooser)
-        id = Gtk.mutable(UInt8)
-        return (ccall((:gtk_file_chooser_get_choice, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject}, Ptr{UInt8}), chooser, id), id[])
-    end
-    function visible(self::Gtk.GtkNativeDialog)
-        return convert(Bool, ccall((:gtk_native_dialog_get_visible, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), self))
-    end
-    function modal(self::Gtk.GtkNativeDialog, modal_)
-        ccall((:gtk_native_dialog_set_modal, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), self, modal_)
-        return self
-    end
-    function modal(self::Gtk.GtkNativeDialog)
-        return convert(Bool, ccall((:gtk_native_dialog_get_modal, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), self))
-    end
-    function title(self::Gtk.GtkNativeDialog, title_)
-        ccall((:gtk_native_dialog_set_title, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), self, title_)
-        return self
-    end
-    function title(self::Gtk.GtkNativeDialog)
-        return ccall((:gtk_native_dialog_get_title, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), self)
-    end
-    function transient_for(self::Gtk.GtkNativeDialog, parent)
-        ccall((:gtk_native_dialog_set_transient_for, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), self, parent)
-        return self
-    end
-    function transient_for(self::Gtk.GtkNativeDialog)
-        return convert(Gtk.GtkWindow, ccall((:gtk_native_dialog_get_transient_for, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), self))
-    end
-    function accept_label(self::Gtk.GtkFileChooserNative)
-        return ccall((:gtk_file_chooser_native_get_accept_label, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), self)
-    end
-    function accept_label(self::Gtk.GtkFileChooserNative, accept_label_)
-        ccall((:gtk_file_chooser_native_set_accept_label, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), self, accept_label_)
-        return self
-    end
-    function cancel_label(self::Gtk.GtkFileChooserNative)
-        return ccall((:gtk_file_chooser_native_get_cancel_label, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), self)
-    end
-    function cancel_label(self::Gtk.GtkFileChooserNative, cancel_label_)
-        ccall((:gtk_file_chooser_native_set_cancel_label, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), self, cancel_label_)
-        return self
-    end
     function title(font_button::Gtk.GtkFontButton)
         return ccall((:gtk_font_button_get_title, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), font_button)
     end
@@ -3259,188 +2713,254 @@ $(Expr(:toplevel, :(module GAccessor
         ccall((:gtk_font_button_set_show_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), font_button, show_size_)
         return font_button
     end
-    function font_family(fontchooser::Gtk.GtkFontChooser)
-        return ccall((:gtk_font_chooser_get_font_family, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), fontchooser)
+    function position(paned::Gtk.GtkPaned)
+        return ccall((:gtk_paned_get_position, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), paned)
     end
-    function font_face(fontchooser::Gtk.GtkFontChooser)
-        return ccall((:gtk_font_chooser_get_font_face, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), fontchooser)
+    function position(paned::Gtk.GtkPaned, position_)
+        ccall((:gtk_paned_set_position, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), paned, position_)
+        return paned
     end
-    function font_size(fontchooser::Gtk.GtkFontChooser)
-        return ccall((:gtk_font_chooser_get_font_size, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), fontchooser)
+    function child1(paned::Gtk.GtkPaned)
+        return convert(Gtk.GtkWidget, ccall((:gtk_paned_get_child1, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), paned))
     end
-    function font_desc(fontchooser::Gtk.GtkFontChooser)
-        return ccall((:gtk_font_chooser_get_font_desc, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), fontchooser)
+    function child2(paned::Gtk.GtkPaned)
+        return convert(Gtk.GtkWidget, ccall((:gtk_paned_get_child2, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), paned))
     end
-    function font_desc(fontchooser::Gtk.GtkFontChooser, font_desc_)
-        ccall((:gtk_font_chooser_set_font_desc, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), fontchooser, font_desc_)
-        return fontchooser
+    function handle_window(paned::Gtk.GtkPaned)
+        return ccall((:gtk_paned_get_handle_window, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), paned)
     end
-    function font(fontchooser::Gtk.GtkFontChooser)
-        return ccall((:gtk_font_chooser_get_font, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), fontchooser)
+    function update_policy(range::Gtk.GtkRange, policy)
+        ccall((:gtk_range_set_update_policy, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, policy)
+        return range
     end
-    function font(fontchooser::Gtk.GtkFontChooser, fontname)
-        ccall((:gtk_font_chooser_set_font, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), fontchooser, fontname)
-        return fontchooser
+    function update_policy(range::Gtk.GtkRange)
+        return ccall((:gtk_range_get_update_policy, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range)
     end
-    function preview_text(fontchooser::Gtk.GtkFontChooser)
-        return ccall((:gtk_font_chooser_get_preview_text, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), fontchooser)
+    function adjustment(range::Gtk.GtkRange, adjustment_)
+        ccall((:gtk_range_set_adjustment, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), range, adjustment_)
+        return range
     end
-    function preview_text(fontchooser::Gtk.GtkFontChooser, text)
-        ccall((:gtk_font_chooser_set_preview_text, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), fontchooser, text)
-        return fontchooser
+    function adjustment(range::Gtk.GtkRange)
+        return convert(Gtk.GtkAdjustment, ccall((:gtk_range_get_adjustment, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), range))
     end
-    function show_preview_entry(fontchooser::Gtk.GtkFontChooser)
-        return convert(Bool, ccall((:gtk_font_chooser_get_show_preview_entry, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), fontchooser))
+    function inverted(range::Gtk.GtkRange, setting)
+        ccall((:gtk_range_set_inverted, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, setting)
+        return range
     end
-    function show_preview_entry(fontchooser::Gtk.GtkFontChooser, show_preview_entry_)
-        ccall((:gtk_font_chooser_set_show_preview_entry, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), fontchooser, show_preview_entry_)
-        return fontchooser
+    function inverted(range::Gtk.GtkRange)
+        return convert(Bool, ccall((:gtk_range_get_inverted, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range))
     end
-    function filter_func(fontchooser::Gtk.GtkFontChooser, filter, user_data, destroy)
-        ccall((:gtk_font_chooser_set_filter_func, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Nothing}), fontchooser, filter, user_data, destroy)
-        return fontchooser
+    function flippable(range::Gtk.GtkRange, flippable_)
+        ccall((:gtk_range_set_flippable, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, flippable_)
+        return range
     end
-    function font_map(fontchooser::Gtk.GtkFontChooser, fontmap)
-        ccall((:gtk_font_chooser_set_font_map, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), fontchooser, fontmap)
-        return fontchooser
+    function flippable(range::Gtk.GtkRange)
+        return convert(Bool, ccall((:gtk_range_get_flippable, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range))
     end
-    function font_map(fontchooser::Gtk.GtkFontChooser)
-        return ccall((:gtk_font_chooser_get_font_map, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), fontchooser)
+    function slider_size_fixed(range::Gtk.GtkRange, size_fixed)
+        ccall((:gtk_range_set_slider_size_fixed, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, size_fixed)
+        return range
     end
-    function level(fontchooser::Gtk.GtkFontChooser, level_)
-        ccall((:gtk_font_chooser_set_level, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), fontchooser, level_)
-        return fontchooser
+    function slider_size_fixed(range::Gtk.GtkRange)
+        return convert(Bool, ccall((:gtk_range_get_slider_size_fixed, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range))
     end
-    function level(fontchooser::Gtk.GtkFontChooser)
-        return ccall((:gtk_font_chooser_get_level, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), fontchooser)
+    function min_slider_size(range::Gtk.GtkRange, min_size)
+        ccall((:gtk_range_set_min_slider_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, min_size)
+        return range
     end
-    function font_features(fontchooser::Gtk.GtkFontChooser)
-        return ccall((:gtk_font_chooser_get_font_features, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), fontchooser)
+    function min_slider_size(range::Gtk.GtkRange)
+        return ccall((:gtk_range_get_min_slider_size, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range)
     end
-    function language(fontchooser::Gtk.GtkFontChooser)
-        return ccall((:gtk_font_chooser_get_language, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), fontchooser)
+    function range_rect(range::Gtk.GtkRange)
+        range_rect_ = Gtk.mutable(Gtk.GdkRectangle)
+        ccall((:gtk_range_get_range_rect, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GdkRectangle}), range, range_rect_)
+        return range_rect_[]
     end
-    function language(fontchooser::Gtk.GtkFontChooser, language_)
-        ccall((:gtk_font_chooser_set_language, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), fontchooser, language_)
-        return fontchooser
+    function slider_range(range::Gtk.GtkRange)
+        slider_end = Gtk.mutable(Cint)
+        slider_start = Gtk.mutable(Cint)
+        ccall((:gtk_range_get_slider_range, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), range, slider_start, slider_end)
+        return (slider_start[], slider_end[])
     end
-    function style(provider::Gtk.GtkStyleProvider)
-        path = Gtk.mutable(Gtk.GtkWidgetPath)
-        return (ccall((:gtk_style_provider_get_style, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkWidgetPath}), provider, path), path[])
+    function lower_stepper_sensitivity(range::Gtk.GtkRange, sensitivity)
+        ccall((:gtk_range_set_lower_stepper_sensitivity, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, sensitivity)
+        return range
     end
-    function style_property(provider::Gtk.GtkStyleProvider, path, state, pspec, value)
-        return convert(Bool, ccall((:gtk_style_provider_get_style_property, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkWidgetPath}, Cint, Ptr{Nothing}, Ptr{Nothing}), provider, path, state, pspec, value))
+    function lower_stepper_sensitivity(range::Gtk.GtkRange)
+        return ccall((:gtk_range_get_lower_stepper_sensitivity, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range)
     end
-    function icon_factory(provider::Gtk.GtkStyleProvider)
-        path = Gtk.mutable(Gtk.GtkWidgetPath)
-        return (ccall((:gtk_style_provider_get_icon_factory, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkWidgetPath}), provider, path), path[])
+    function upper_stepper_sensitivity(range::Gtk.GtkRange, sensitivity)
+        ccall((:gtk_range_set_upper_stepper_sensitivity, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, sensitivity)
+        return range
     end
-    function section(context::Gtk.GtkStyleContext, property)
-        return convert(Gtk.GtkCssSection, ccall((:gtk_style_context_get_section, Gtk.libgtk), Ptr{Gtk.GtkCssSection}, (Ptr{Gtk.GObject}, Ptr{UInt8}), context, property))
+    function upper_stepper_sensitivity(range::Gtk.GtkRange)
+        return ccall((:gtk_range_get_upper_stepper_sensitivity, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range)
     end
-    function property(context::Gtk.GtkStyleContext, property_, state, value)
-        return ccall((:gtk_style_context_get_property, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}, Cint, Ptr{Nothing}), context, property_, state, value)
+    function increments(range::Gtk.GtkRange, step, page)
+        ccall((:gtk_range_set_increments, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble, Cdouble), range, step, page)
+        return range
     end
-    function state(context::Gtk.GtkStyleContext, flags)
-        ccall((:gtk_style_context_set_state, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), context, flags)
-        return context
+    function range(range_::Gtk.GtkRange, min, max)
+        ccall((:gtk_range_set_range, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble, Cdouble), range_, min, max)
+        return range_
     end
-    function state(context::Gtk.GtkStyleContext)
-        return ccall((:gtk_style_context_get_state, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), context)
+    function value(range::Gtk.GtkRange, value_)
+        ccall((:gtk_range_set_value, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), range, value_)
+        return range
     end
-    function scale(context::Gtk.GtkStyleContext, scale_)
-        ccall((:gtk_style_context_set_scale, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), context, scale_)
-        return context
+    function value(range::Gtk.GtkRange)
+        return ccall((:gtk_range_get_value, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), range)
     end
-    function scale(context::Gtk.GtkStyleContext)
-        return ccall((:gtk_style_context_get_scale, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), context)
+    function show_fill_level(range::Gtk.GtkRange, show_fill_level_)
+        ccall((:gtk_range_set_show_fill_level, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, show_fill_level_)
+        return range
     end
-    function path(context::Gtk.GtkStyleContext, path_)
-        ccall((:gtk_style_context_set_path, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkWidgetPath}), context, path_)
-        return context
+    function show_fill_level(range::Gtk.GtkRange)
+        return convert(Bool, ccall((:gtk_range_get_show_fill_level, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range))
     end
-    function path(context::Gtk.GtkStyleContext)
-        return convert(Gtk.GtkWidgetPath, ccall((:gtk_style_context_get_path, Gtk.libgtk), Ptr{Gtk.GtkWidgetPath}, (Ptr{Gtk.GObject},), context))
+    function restrict_to_fill_level(range::Gtk.GtkRange, restrict_to_fill_level_)
+        ccall((:gtk_range_set_restrict_to_fill_level, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, restrict_to_fill_level_)
+        return range
     end
-    function parent(context::Gtk.GtkStyleContext, parent_)
-        ccall((:gtk_style_context_set_parent, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), context, parent_)
-        return context
+    function restrict_to_fill_level(range::Gtk.GtkRange)
+        return convert(Bool, ccall((:gtk_range_get_restrict_to_fill_level, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range))
     end
-    function parent(context::Gtk.GtkStyleContext)
-        return convert(Gtk.GtkStyleContext, ccall((:gtk_style_context_get_parent, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), context))
+    function fill_level(range::Gtk.GtkRange, fill_level_)
+        ccall((:gtk_range_set_fill_level, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), range, fill_level_)
+        return range
     end
-    function style_property(context::Gtk.GtkStyleContext, property_name, value)
-        return ccall((:gtk_style_context_get_style_property, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}, Ptr{Nothing}), context, property_name, value)
+    function fill_level(range::Gtk.GtkRange)
+        return ccall((:gtk_range_get_fill_level, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), range)
     end
-    function style(context::Gtk.GtkStyleContext)
-        return ccall((:gtk_style_context_get_style, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject},), context)
+    function round_digits(range::Gtk.GtkRange, round_digits_)
+        ccall((:gtk_range_set_round_digits, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, round_digits_)
+        return range
     end
-    function render_icon_pixbuf(icon_set::Gtk.GtkIconSet, context, size)
-        ccall((:gtk_icon_set_render_icon_pixbuf, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GtkIconSet}, Ptr{Gtk.GObject}, Cint), icon_set, context, size)
+    function round_digits(range::Gtk.GtkRange)
+        return ccall((:gtk_range_get_round_digits, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range)
+    end
+    function digits(scale::Gtk.GtkScale, digits_)
+        ccall((:gtk_scale_set_digits, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scale, digits_)
+        return scale
+    end
+    function digits(scale::Gtk.GtkScale)
+        return ccall((:gtk_scale_get_digits, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scale)
+    end
+    function draw_value(scale::Gtk.GtkScale, draw_value_)
+        ccall((:gtk_scale_set_draw_value, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scale, draw_value_)
+        return scale
+    end
+    function draw_value(scale::Gtk.GtkScale)
+        return convert(Bool, ccall((:gtk_scale_get_draw_value, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scale))
+    end
+    function value_pos(scale::Gtk.GtkScale, pos)
+        ccall((:gtk_scale_set_value_pos, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scale, pos)
+        return scale
+    end
+    function value_pos(scale::Gtk.GtkScale)
+        return ccall((:gtk_scale_get_value_pos, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scale)
+    end
+    function layout(scale::Gtk.GtkScale)
+        return ccall((:gtk_scale_get_layout, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), scale)
+    end
+    function layout_offsets(scale::Gtk.GtkScale)
+        y = Gtk.mutable(Cint)
+        x = Gtk.mutable(Cint)
+        ccall((:gtk_scale_get_layout_offsets, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), scale, x, y)
+        return (x[], y[])
+    end
+    function new_from_pixbuf(pixbuf::Gtk.GdkPixbuf)
+        ccall((:gtk_icon_set_new_from_pixbuf, Gtk.libgtk), Ptr{Gtk.GtkIconSet}, (Ptr{Gtk.GObject},), pixbuf)
+        return pixbuf
+    end
+    function ref(icon_set::Gtk.GtkIconSet)
+        ccall((:gtk_icon_set_ref, Gtk.libgtk), Ptr{Gtk.GtkIconSet}, (Ptr{Gtk.GtkIconSet},), icon_set)
         return icon_set
     end
-    function render_icon_surface(icon_set::Gtk.GtkIconSet, context, size, scale, for_window)
-        ccall((:gtk_icon_set_render_icon_surface, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GtkIconSet}, Ptr{Gtk.GObject}, Cint, Cint, Ptr{Nothing}), icon_set, context, size, scale, for_window)
+    function unref(icon_set::Gtk.GtkIconSet)
+        ccall((:gtk_icon_set_unref, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkIconSet},), icon_set)
         return icon_set
     end
-    function screen(context::Gtk.GtkStyleContext, screen_)
-        ccall((:gtk_style_context_set_screen, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), context, screen_)
-        return context
+    function copy(icon_set::Gtk.GtkIconSet)
+        ccall((:gtk_icon_set_copy, Gtk.libgtk), Ptr{Gtk.GtkIconSet}, (Ptr{Gtk.GtkIconSet},), icon_set)
+        return icon_set
     end
-    function screen(context::Gtk.GtkStyleContext)
-        return ccall((:gtk_style_context_get_screen, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), context)
+    function render_icon(icon_set::Gtk.GtkIconSet, style, direction, state, size, widget, detail)
+        ccall((:gtk_icon_set_render_icon, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GtkIconSet}, Ptr{Nothing}, Cint, Cint, Cint, Ptr{Gtk.GObject}, Ptr{UInt8}), icon_set, style, direction, state, size, widget, detail)
+        return icon_set
     end
-    function frame_clock(context::Gtk.GtkStyleContext, frame_clock_)
-        ccall((:gtk_style_context_set_frame_clock, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), context, frame_clock_)
-        return context
+    function add_source(icon_set::Gtk.GtkIconSet, source)
+        ccall((:gtk_icon_set_add_source, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkIconSet}, Ptr{Gtk.GtkIconSource}), icon_set, source)
+        return icon_set
     end
-    function frame_clock(context::Gtk.GtkStyleContext)
-        return ccall((:gtk_style_context_get_frame_clock, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), context)
+    function sizes(icon_set::Gtk.GtkIconSet)
+        n_sizes = Gtk.mutable(Cint)
+        sizes_ = Gtk.mutable(Ptr{Cint})
+        ccall((:gtk_icon_set_get_sizes, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkIconSet}, Ptr{Ptr{Cint}}, Ptr{Cint}), icon_set, sizes_, n_sizes)
+        return (sizes_[], n_sizes[])
     end
-    function direction(context::Gtk.GtkStyleContext, direction_)
-        ccall((:gtk_style_context_set_direction, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), context, direction_)
-        return context
+    function filename(source::Gtk.GtkIconSource, filename_)
+        ccall((:gtk_icon_source_set_filename, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkIconSource}, Ptr{UInt8}), source, filename_)
+        return source
     end
-    function direction(context::Gtk.GtkStyleContext)
-        return ccall((:gtk_style_context_get_direction, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), context)
+    function icon_name(source::Gtk.GtkIconSource, icon_name_)
+        ccall((:gtk_icon_source_set_icon_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkIconSource}, Ptr{UInt8}), source, icon_name_)
+        return source
     end
-    function junction_sides(context::Gtk.GtkStyleContext, sides)
-        ccall((:gtk_style_context_set_junction_sides, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), context, sides)
-        return context
+    function pixbuf(source::Gtk.GtkIconSource, pixbuf_)
+        ccall((:gtk_icon_source_set_pixbuf, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkIconSource}, Ptr{Gtk.GObject}), source, pixbuf_)
+        return source
     end
-    function junction_sides(context::Gtk.GtkStyleContext)
-        return ccall((:gtk_style_context_get_junction_sides, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), context)
+    function filename(source::Gtk.GtkIconSource)
+        return ccall((:gtk_icon_source_get_filename, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GtkIconSource},), source)
     end
-    function color(context::Gtk.GtkStyleContext, state)
-        color_ = Gtk.mutable(Gtk.GdkRGBA)
-        ccall((:gtk_style_context_get_color, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Gtk.GdkRGBA}), context, state, color_)
-        return color_[]
+    function icon_name(source::Gtk.GtkIconSource)
+        return ccall((:gtk_icon_source_get_icon_name, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GtkIconSource},), source)
     end
-    function background_color(context::Gtk.GtkStyleContext, state)
-        color = Gtk.mutable(Gtk.GdkRGBA)
-        ccall((:gtk_style_context_get_background_color, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Gtk.GdkRGBA}), context, state, color)
-        return color[]
+    function pixbuf(source::Gtk.GtkIconSource)
+        return convert(Gtk.GdkPixbuf, ccall((:gtk_icon_source_get_pixbuf, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GtkIconSource},), source))
     end
-    function border_color(context::Gtk.GtkStyleContext, state)
-        color = Gtk.mutable(Gtk.GdkRGBA)
-        ccall((:gtk_style_context_get_border_color, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Gtk.GdkRGBA}), context, state, color)
-        return color[]
+    function direction_wildcarded(source::Gtk.GtkIconSource, setting)
+        ccall((:gtk_icon_source_set_direction_wildcarded, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkIconSource}, Cint), source, setting)
+        return source
     end
-    function font(context::Gtk.GtkStyleContext, state)
-        return ccall((:gtk_style_context_get_font, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject}, Cint), context, state)
+    function state_wildcarded(source::Gtk.GtkIconSource, setting)
+        ccall((:gtk_icon_source_set_state_wildcarded, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkIconSource}, Cint), source, setting)
+        return source
     end
-    function border(context::Gtk.GtkStyleContext, state, border_)
-        return ccall((:gtk_style_context_get_border, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Nothing}), context, state, border_)
+    function size_wildcarded(source::Gtk.GtkIconSource, setting)
+        ccall((:gtk_icon_source_set_size_wildcarded, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkIconSource}, Cint), source, setting)
+        return source
     end
-    function padding(context::Gtk.GtkStyleContext, state, padding_)
-        return ccall((:gtk_style_context_get_padding, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Nothing}), context, state, padding_)
+    function size_wildcarded(source::Gtk.GtkIconSource)
+        return convert(Bool, ccall((:gtk_icon_source_get_size_wildcarded, Gtk.libgtk), Cint, (Ptr{Gtk.GtkIconSource},), source))
     end
-    function margin(context::Gtk.GtkStyleContext, state, margin_)
-        return ccall((:gtk_style_context_get_margin, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Nothing}), context, state, margin_)
+    function state_wildcarded(source::Gtk.GtkIconSource)
+        return convert(Bool, ccall((:gtk_icon_source_get_state_wildcarded, Gtk.libgtk), Cint, (Ptr{Gtk.GtkIconSource},), source))
     end
-    function background(context::Gtk.GtkStyleContext, window)
-        ccall((:gtk_style_context_set_background, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), context, window)
-        return context
+    function direction_wildcarded(source::Gtk.GtkIconSource)
+        return convert(Bool, ccall((:gtk_icon_source_get_direction_wildcarded, Gtk.libgtk), Cint, (Ptr{Gtk.GtkIconSource},), source))
+    end
+    function direction(source::Gtk.GtkIconSource, direction_)
+        ccall((:gtk_icon_source_set_direction, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkIconSource}, Cint), source, direction_)
+        return source
+    end
+    function state(source::Gtk.GtkIconSource, state_)
+        ccall((:gtk_icon_source_set_state, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkIconSource}, Cint), source, state_)
+        return source
+    end
+    function size(source::Gtk.GtkIconSource, size_)
+        ccall((:gtk_icon_source_set_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkIconSource}, Cint), source, size_)
+        return source
+    end
+    function direction(source::Gtk.GtkIconSource)
+        return ccall((:gtk_icon_source_get_direction, Gtk.libgtk), Cint, (Ptr{Gtk.GtkIconSource},), source)
+    end
+    function state(source::Gtk.GtkIconSource)
+        return ccall((:gtk_icon_source_get_state, Gtk.libgtk), Cint, (Ptr{Gtk.GtkIconSource},), source)
+    end
+    function size(source::Gtk.GtkIconSource)
+        return ccall((:gtk_icon_source_get_size, Gtk.libgtk), Cint, (Ptr{Gtk.GtkIconSource},), source)
     end
     function model(icon_view::Gtk.GtkIconView, model_)
         ccall((:gtk_icon_view_set_model, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), icon_view, model_)
@@ -3469,6 +2989,13 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function pixbuf_column(icon_view::Gtk.GtkIconView)
         return ccall((:gtk_icon_view_get_pixbuf_column, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), icon_view)
+    end
+    function orientation(icon_view::Gtk.GtkIconView, orientation_)
+        ccall((:gtk_icon_view_set_orientation, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), icon_view, orientation_)
+        return icon_view
+    end
+    function orientation(icon_view::Gtk.GtkIconView)
+        return ccall((:gtk_icon_view_get_orientation, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), icon_view)
     end
     function item_orientation(icon_view::Gtk.GtkIconView, orientation)
         ccall((:gtk_icon_view_set_item_orientation, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), icon_view, orientation)
@@ -3539,13 +3066,6 @@ $(Expr(:toplevel, :(module GAccessor
         start_path = Gtk.mutable(Ptr{Gtk.GtkTreePath})
         return (convert(Bool, ccall((:gtk_icon_view_get_visible_range, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Ptr{Gtk.GtkTreePath}}, Ptr{Ptr{Gtk.GtkTreePath}}), icon_view, start_path, end_path)), convert(Gtk.GtkTreePath, start_path[]), convert(Gtk.GtkTreePath, end_path[]))
     end
-    function activate_on_single_click(icon_view::Gtk.GtkIconView, single)
-        ccall((:gtk_icon_view_set_activate_on_single_click, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), icon_view, single)
-        return icon_view
-    end
-    function activate_on_single_click(icon_view::Gtk.GtkIconView)
-        return convert(Bool, ccall((:gtk_icon_view_get_activate_on_single_click, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), icon_view))
-    end
     function selection_mode(icon_view::Gtk.GtkIconView, mode)
         ccall((:gtk_icon_view_set_selection_mode, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), icon_view, mode)
         return icon_view
@@ -3594,11 +3114,6 @@ $(Expr(:toplevel, :(module GAccessor
         pos = Gtk.mutable(Cint)
         path = Gtk.mutable(Ptr{Gtk.GtkTreePath})
         return (convert(Bool, ccall((:gtk_icon_view_get_dest_item_at_pos, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Cint, Cint, Ptr{Ptr{Gtk.GtkTreePath}}, Ptr{Cint}), icon_view, drag_x, drag_y, path, pos)), convert(Gtk.GtkTreePath, path[]), pos[])
-    end
-    function cell_rect(icon_view::Gtk.GtkIconView, cell)
-        rect = Gtk.mutable(Gtk.GdkRectangle)
-        path = Gtk.mutable(Gtk.GtkTreePath)
-        return (convert(Bool, ccall((:gtk_icon_view_get_cell_rect, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreePath}, Ptr{Gtk.GObject}, Ptr{Gtk.GdkRectangle}), icon_view, path, cell, rect)), path[], rect[])
     end
     function tooltip_item(icon_view::Gtk.GtkIconView, tooltip, path)
         ccall((:gtk_icon_view_set_tooltip_item, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Ptr{Gtk.GtkTreePath}), icon_view, tooltip, path)
@@ -3665,6 +3180,11 @@ $(Expr(:toplevel, :(module GAccessor
     function option_group(open_default_display::Bool)
         return ccall((:gtk_get_option_group, Gtk.libgtk), Ptr{Nothing}, (Cint,), open_default_display)
     end
+    function info_from_tip_window(tip_window::Gtk.GtkWindow)
+        current_widget = Gtk.mutable(Ptr{Gtk.GObject})
+        tooltips = Gtk.mutable(Ptr{Nothing})
+        return (convert(Bool, ccall((:gtk_tooltips_get_info_from_tip_window, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Ptr{Nothing}}, Ptr{Ptr{Gtk.GObject}}), tip_window, tooltips, current_widget)), tooltips[], convert(Gtk.GtkWidget, current_widget[]))
+    end
     function homogeneous(tool_item::Gtk.GtkToolItem, homogeneous_)
         ccall((:gtk_tool_item_set_homogeneous, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), tool_item, homogeneous_)
         return tool_item
@@ -3678,6 +3198,10 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function expand(tool_item::Gtk.GtkToolItem)
         return convert(Bool, ccall((:gtk_tool_item_get_expand, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), tool_item))
+    end
+    function tooltip(tool_item::Gtk.GtkToolItem, tooltips, tip_text, tip_private)
+        ccall((:gtk_tool_item_set_tooltip, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Ptr{UInt8}, Ptr{UInt8}), tool_item, tooltips, tip_text, tip_private)
+        return tool_item
     end
     function tooltip_text(tool_item::Gtk.GtkToolItem, text)
         ccall((:gtk_tool_item_set_tooltip_text, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), tool_item, text)
@@ -3795,6 +3319,10 @@ $(Expr(:toplevel, :(module GAccessor
     function menu(button::Gtk.GtkMenuToolButton)
         return convert(Gtk.GtkWidget, ccall((:gtk_menu_tool_button_get_menu, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), button))
     end
+    function arrow_tooltip(button::Gtk.GtkMenuToolButton, tooltips, tip_text, tip_private)
+        ccall((:gtk_menu_tool_button_set_arrow_tooltip, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}, Ptr{UInt8}, Ptr{UInt8}), button, tooltips, tip_text, tip_private)
+        return button
+    end
     function arrow_tooltip_text(button::Gtk.GtkMenuToolButton, text)
         ccall((:gtk_menu_tool_button_set_arrow_tooltip_text, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), button, text)
         return button
@@ -3816,6 +3344,20 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function message_area(message_dialog::Gtk.GtkMessageDialog)
         return convert(Gtk.GtkWidget, ccall((:gtk_message_dialog_get_message_area, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), message_dialog))
+    end
+    function group_id(notebook::Gtk.GtkNotebook, group_id_)
+        ccall((:gtk_notebook_set_group_id, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), notebook, group_id_)
+        return notebook
+    end
+    function group_id(notebook::Gtk.GtkNotebook)
+        return ccall((:gtk_notebook_get_group_id, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), notebook)
+    end
+    function group(notebook::Gtk.GtkNotebook, group_)
+        ccall((:gtk_notebook_set_group, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), notebook, group_)
+        return notebook
+    end
+    function group(notebook::Gtk.GtkNotebook)
+        return ccall((:gtk_notebook_get_group, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), notebook)
     end
     function group_name(notebook::Gtk.GtkNotebook, group_name_)
         ccall((:gtk_notebook_set_group_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), notebook, group_name_)
@@ -3858,6 +3400,22 @@ $(Expr(:toplevel, :(module GAccessor
     function tab_pos(notebook::Gtk.GtkNotebook)
         return ccall((:gtk_notebook_get_tab_pos, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), notebook)
     end
+    function homogeneous_tabs(notebook::Gtk.GtkNotebook, homogeneous)
+        ccall((:gtk_notebook_set_homogeneous_tabs, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), notebook, homogeneous)
+        return notebook
+    end
+    function tab_border(notebook::Gtk.GtkNotebook, border_width)
+        ccall((:gtk_notebook_set_tab_border, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32), notebook, border_width)
+        return notebook
+    end
+    function tab_hborder(notebook::Gtk.GtkNotebook, tab_hborder_)
+        ccall((:gtk_notebook_set_tab_hborder, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32), notebook, tab_hborder_)
+        return notebook
+    end
+    function tab_vborder(notebook::Gtk.GtkNotebook, tab_vborder_)
+        ccall((:gtk_notebook_set_tab_vborder, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32), notebook, tab_vborder_)
+        return notebook
+    end
     function scrollable(notebook::Gtk.GtkNotebook, scrollable_)
         ccall((:gtk_notebook_set_scrollable, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), notebook, scrollable_)
         return notebook
@@ -3898,6 +3456,10 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function menu_label_text(notebook::Gtk.GtkNotebook, child)
         return ccall((:gtk_notebook_get_menu_label_text, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), notebook, child)
+    end
+    function tab_label_packing(notebook::Gtk.GtkNotebook, child, expand, fill, pack_type)
+        ccall((:gtk_notebook_set_tab_label_packing, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Cint, Cint, Cint), notebook, child, expand, fill, pack_type)
+        return notebook
     end
     function tab_reorderable(notebook::Gtk.GtkNotebook, child)
         return convert(Bool, ccall((:gtk_notebook_get_tab_reorderable, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), notebook, child))
@@ -3961,29 +3523,6 @@ $(Expr(:toplevel, :(module GAccessor
     function default_right_margin(size::Gtk.GtkPaperSize, unit)
         return ccall((:gtk_paper_size_get_default_right_margin, Gtk.libgtk), Cdouble, (Ptr{Gtk.GtkPaperSize}, Cint), size, unit)
     end
-    function position(paned::Gtk.GtkPaned)
-        return ccall((:gtk_paned_get_position, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), paned)
-    end
-    function position(paned::Gtk.GtkPaned, position_)
-        ccall((:gtk_paned_set_position, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), paned, position_)
-        return paned
-    end
-    function child1(paned::Gtk.GtkPaned)
-        return convert(Gtk.GtkWidget, ccall((:gtk_paned_get_child1, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), paned))
-    end
-    function child2(paned::Gtk.GtkPaned)
-        return convert(Gtk.GtkWidget, ccall((:gtk_paned_get_child2, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), paned))
-    end
-    function handle_window(paned::Gtk.GtkPaned)
-        return ccall((:gtk_paned_get_handle_window, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), paned)
-    end
-    function wide_handle(paned::Gtk.GtkPaned, wide)
-        ccall((:gtk_paned_set_wide_handle, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), paned, wide)
-        return paned
-    end
-    function wide_handle(paned::Gtk.GtkPaned)
-        return convert(Bool, ccall((:gtk_paned_get_wide_handle, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), paned))
-    end
     function text(pbar::Gtk.GtkProgressBar, text_)
         ccall((:gtk_progress_bar_set_text, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), pbar, text_)
         return pbar
@@ -3996,8 +3535,8 @@ $(Expr(:toplevel, :(module GAccessor
         ccall((:gtk_progress_bar_set_pulse_step, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), pbar, fraction)
         return pbar
     end
-    function inverted(pbar::Gtk.GtkProgressBar, inverted_)
-        ccall((:gtk_progress_bar_set_inverted, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), pbar, inverted_)
+    function orientation(pbar::Gtk.GtkProgressBar, orientation_)
+        ccall((:gtk_progress_bar_set_orientation, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), pbar, orientation_)
         return pbar
     end
     function text(pbar::Gtk.GtkProgressBar)
@@ -4009,8 +3548,8 @@ $(Expr(:toplevel, :(module GAccessor
     function pulse_step(pbar::Gtk.GtkProgressBar)
         return ccall((:gtk_progress_bar_get_pulse_step, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), pbar)
     end
-    function inverted(pbar::Gtk.GtkProgressBar)
-        return convert(Bool, ccall((:gtk_progress_bar_get_inverted, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), pbar))
+    function orientation(pbar::Gtk.GtkProgressBar)
+        return ccall((:gtk_progress_bar_get_orientation, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), pbar)
     end
     function ellipsize(pbar::Gtk.GtkProgressBar, mode)
         ccall((:gtk_progress_bar_set_ellipsize, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), pbar, mode)
@@ -4019,12 +3558,21 @@ $(Expr(:toplevel, :(module GAccessor
     function ellipsize(pbar::Gtk.GtkProgressBar)
         return ccall((:gtk_progress_bar_get_ellipsize, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), pbar)
     end
-    function show_text(pbar::Gtk.GtkProgressBar, show_text_)
-        ccall((:gtk_progress_bar_set_show_text, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), pbar, show_text_)
+    function bar_style(pbar::Gtk.GtkProgressBar, style)
+        ccall((:gtk_progress_bar_set_bar_style, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), pbar, style)
         return pbar
     end
-    function show_text(pbar::Gtk.GtkProgressBar)
-        return convert(Bool, ccall((:gtk_progress_bar_get_show_text, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), pbar))
+    function discrete_blocks(pbar::Gtk.GtkProgressBar, blocks)
+        ccall((:gtk_progress_bar_set_discrete_blocks, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32), pbar, blocks)
+        return pbar
+    end
+    function activity_step(pbar::Gtk.GtkProgressBar, step)
+        ccall((:gtk_progress_bar_set_activity_step, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32), pbar, step)
+        return pbar
+    end
+    function activity_blocks(pbar::Gtk.GtkProgressBar, blocks)
+        ccall((:gtk_progress_bar_set_activity_blocks, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32), pbar, blocks)
+        return pbar
     end
     function group(radio_button::Gtk.GtkRadioButton)
         return ccall((:gtk_radio_button_get_group, Gtk.libgtk), Ptr{Gtk._GSList{Nothing}}, (Ptr{Gtk.GObject},), radio_button)
@@ -4040,109 +3588,6 @@ $(Expr(:toplevel, :(module GAccessor
     function active(button::Gtk.GtkToggleToolButton)
         return convert(Bool, ccall((:gtk_toggle_tool_button_get_active, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), button))
     end
-    function adjustment(range::Gtk.GtkRange, adjustment_)
-        ccall((:gtk_range_set_adjustment, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), range, adjustment_)
-        return range
-    end
-    function adjustment(range::Gtk.GtkRange)
-        return convert(Gtk.GtkAdjustment, ccall((:gtk_range_get_adjustment, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), range))
-    end
-    function inverted(range::Gtk.GtkRange, setting)
-        ccall((:gtk_range_set_inverted, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, setting)
-        return range
-    end
-    function inverted(range::Gtk.GtkRange)
-        return convert(Bool, ccall((:gtk_range_get_inverted, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range))
-    end
-    function flippable(range::Gtk.GtkRange, flippable_)
-        ccall((:gtk_range_set_flippable, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, flippable_)
-        return range
-    end
-    function flippable(range::Gtk.GtkRange)
-        return convert(Bool, ccall((:gtk_range_get_flippable, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range))
-    end
-    function slider_size_fixed(range::Gtk.GtkRange, size_fixed)
-        ccall((:gtk_range_set_slider_size_fixed, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, size_fixed)
-        return range
-    end
-    function slider_size_fixed(range::Gtk.GtkRange)
-        return convert(Bool, ccall((:gtk_range_get_slider_size_fixed, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range))
-    end
-    function min_slider_size(range::Gtk.GtkRange, min_size)
-        ccall((:gtk_range_set_min_slider_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, min_size)
-        return range
-    end
-    function min_slider_size(range::Gtk.GtkRange)
-        return ccall((:gtk_range_get_min_slider_size, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range)
-    end
-    function range_rect(range::Gtk.GtkRange)
-        range_rect_ = Gtk.mutable(Gtk.GdkRectangle)
-        ccall((:gtk_range_get_range_rect, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GdkRectangle}), range, range_rect_)
-        return range_rect_[]
-    end
-    function slider_range(range::Gtk.GtkRange)
-        slider_end = Gtk.mutable(Cint)
-        slider_start = Gtk.mutable(Cint)
-        ccall((:gtk_range_get_slider_range, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), range, slider_start, slider_end)
-        return (slider_start[], slider_end[])
-    end
-    function lower_stepper_sensitivity(range::Gtk.GtkRange, sensitivity)
-        ccall((:gtk_range_set_lower_stepper_sensitivity, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, sensitivity)
-        return range
-    end
-    function lower_stepper_sensitivity(range::Gtk.GtkRange)
-        return ccall((:gtk_range_get_lower_stepper_sensitivity, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range)
-    end
-    function upper_stepper_sensitivity(range::Gtk.GtkRange, sensitivity)
-        ccall((:gtk_range_set_upper_stepper_sensitivity, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, sensitivity)
-        return range
-    end
-    function upper_stepper_sensitivity(range::Gtk.GtkRange)
-        return ccall((:gtk_range_get_upper_stepper_sensitivity, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range)
-    end
-    function increments(range::Gtk.GtkRange, step, page)
-        ccall((:gtk_range_set_increments, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble, Cdouble), range, step, page)
-        return range
-    end
-    function range(range_::Gtk.GtkRange, min, max)
-        ccall((:gtk_range_set_range, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble, Cdouble), range_, min, max)
-        return range_
-    end
-    function value(range::Gtk.GtkRange, value_)
-        ccall((:gtk_range_set_value, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), range, value_)
-        return range
-    end
-    function value(range::Gtk.GtkRange)
-        return ccall((:gtk_range_get_value, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), range)
-    end
-    function show_fill_level(range::Gtk.GtkRange, show_fill_level_)
-        ccall((:gtk_range_set_show_fill_level, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, show_fill_level_)
-        return range
-    end
-    function show_fill_level(range::Gtk.GtkRange)
-        return convert(Bool, ccall((:gtk_range_get_show_fill_level, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range))
-    end
-    function restrict_to_fill_level(range::Gtk.GtkRange, restrict_to_fill_level_)
-        ccall((:gtk_range_set_restrict_to_fill_level, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, restrict_to_fill_level_)
-        return range
-    end
-    function restrict_to_fill_level(range::Gtk.GtkRange)
-        return convert(Bool, ccall((:gtk_range_get_restrict_to_fill_level, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range))
-    end
-    function fill_level(range::Gtk.GtkRange, fill_level_)
-        ccall((:gtk_range_set_fill_level, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble), range, fill_level_)
-        return range
-    end
-    function fill_level(range::Gtk.GtkRange)
-        return ccall((:gtk_range_get_fill_level, Gtk.libgtk), Cdouble, (Ptr{Gtk.GObject},), range)
-    end
-    function round_digits(range::Gtk.GtkRange, round_digits_)
-        ccall((:gtk_range_set_round_digits, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), range, round_digits_)
-        return range
-    end
-    function round_digits(range::Gtk.GtkRange)
-        return ccall((:gtk_range_get_round_digits, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), range)
-    end
     function uri(info::Gtk.GtkRecentInfo)
         return ccall((:gtk_recent_info_get_uri, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GtkRecentInfo},), info)
     end
@@ -4156,36 +3601,33 @@ $(Expr(:toplevel, :(module GAccessor
         return ccall((:gtk_recent_info_get_mime_type, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GtkRecentInfo},), info)
     end
     function added(info::Gtk.GtkRecentInfo)
-        return ccall((:gtk_recent_info_get_added, Gtk.libgtk), Clonglong, (Ptr{Gtk.GtkRecentInfo},), info)
+        return ccall((:gtk_recent_info_get_added, Gtk.libgtk), Clong, (Ptr{Gtk.GtkRecentInfo},), info)
     end
     function modified(info::Gtk.GtkRecentInfo)
-        return ccall((:gtk_recent_info_get_modified, Gtk.libgtk), Clonglong, (Ptr{Gtk.GtkRecentInfo},), info)
+        return ccall((:gtk_recent_info_get_modified, Gtk.libgtk), Clong, (Ptr{Gtk.GtkRecentInfo},), info)
     end
     function visited(info::Gtk.GtkRecentInfo)
-        return ccall((:gtk_recent_info_get_visited, Gtk.libgtk), Clonglong, (Ptr{Gtk.GtkRecentInfo},), info)
+        return ccall((:gtk_recent_info_get_visited, Gtk.libgtk), Clong, (Ptr{Gtk.GtkRecentInfo},), info)
     end
     function private_hint(info::Gtk.GtkRecentInfo)
         return convert(Bool, ccall((:gtk_recent_info_get_private_hint, Gtk.libgtk), Cint, (Ptr{Gtk.GtkRecentInfo},), info))
     end
     function application_info(info::Gtk.GtkRecentInfo, app_name)
-        time_ = Gtk.mutable(Clonglong)
+        time_ = Gtk.mutable(Clong)
         count = Gtk.mutable(UInt32)
         app_exec = Gtk.mutable(Ptr{UInt8})
-        return (convert(Bool, ccall((:gtk_recent_info_get_application_info, Gtk.libgtk), Cint, (Ptr{Gtk.GtkRecentInfo}, Ptr{UInt8}, Ptr{Ptr{UInt8}}, Ptr{UInt32}, Ptr{Clonglong}), info, app_name, app_exec, count, time_)), app_exec[], count[], time_[])
+        return (convert(Bool, ccall((:gtk_recent_info_get_application_info, Gtk.libgtk), Cint, (Ptr{Gtk.GtkRecentInfo}, Ptr{UInt8}, Ptr{Ptr{UInt8}}, Ptr{UInt32}, Ptr{Clong}), info, app_name, app_exec, count, time_)), app_exec[], count[], time_[])
     end
     function applications(info::Gtk.GtkRecentInfo)
-        length = Gtk.mutable(Culonglong)
-        return (ccall((:gtk_recent_info_get_applications, Gtk.libgtk), Ptr{Ptr{UInt8}}, (Ptr{Gtk.GtkRecentInfo}, Ptr{Culonglong}), info, length), length[])
+        length = Gtk.mutable(Culong)
+        return (ccall((:gtk_recent_info_get_applications, Gtk.libgtk), Ptr{Ptr{UInt8}}, (Ptr{Gtk.GtkRecentInfo}, Ptr{Culong}), info, length), length[])
     end
     function groups(info::Gtk.GtkRecentInfo)
-        length = Gtk.mutable(Culonglong)
-        return (ccall((:gtk_recent_info_get_groups, Gtk.libgtk), Ptr{Ptr{UInt8}}, (Ptr{Gtk.GtkRecentInfo}, Ptr{Culonglong}), info, length), length[])
+        length = Gtk.mutable(Culong)
+        return (ccall((:gtk_recent_info_get_groups, Gtk.libgtk), Ptr{Ptr{UInt8}}, (Ptr{Gtk.GtkRecentInfo}, Ptr{Culong}), info, length), length[])
     end
     function icon(info::Gtk.GtkRecentInfo, size)
         return convert(Gtk.GdkPixbuf, ccall((:gtk_recent_info_get_icon, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GtkRecentInfo}, Cint), info, size))
-    end
-    function gicon(info::Gtk.GtkRecentInfo)
-        return ccall((:gtk_recent_info_get_gicon, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GtkRecentInfo},), info)
     end
     function short_name(info::Gtk.GtkRecentInfo)
         return ccall((:gtk_recent_info_get_short_name, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GtkRecentInfo},), info)
@@ -4238,6 +3680,13 @@ $(Expr(:toplevel, :(module GAccessor
     function show_tips(chooser::Gtk.GtkRecentChooser)
         return convert(Bool, ccall((:gtk_recent_chooser_get_show_tips, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), chooser))
     end
+    function show_numbers(chooser::Gtk.GtkRecentChooser, show_numbers_)
+        ccall((:gtk_recent_chooser_set_show_numbers, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), chooser, show_numbers_)
+        return chooser
+    end
+    function show_numbers(chooser::Gtk.GtkRecentChooser)
+        return convert(Bool, ccall((:gtk_recent_chooser_get_show_numbers, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), chooser))
+    end
     function show_icons(chooser::Gtk.GtkRecentChooser, show_icons_)
         ccall((:gtk_recent_chooser_set_show_icons, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), chooser, show_icons_)
         return chooser
@@ -4270,8 +3719,8 @@ $(Expr(:toplevel, :(module GAccessor
         return ccall((:gtk_recent_chooser_get_items, Gtk.libgtk), Ptr{Gtk._GList{Nothing}}, (Ptr{Gtk.GObject},), chooser)
     end
     function uris(chooser::Gtk.GtkRecentChooser)
-        length = Gtk.mutable(Culonglong)
-        return (ccall((:gtk_recent_chooser_get_uris, Gtk.libgtk), Ptr{Ptr{UInt8}}, (Ptr{Gtk.GObject}, Ptr{Culonglong}), chooser, length), length[])
+        length = Gtk.mutable(Culong)
+        return (ccall((:gtk_recent_chooser_get_uris, Gtk.libgtk), Ptr{Ptr{UInt8}}, (Ptr{Gtk.GObject}, Ptr{Culong}), chooser, length), length[])
     end
     function filter(chooser::Gtk.GtkRecentChooser, filter_)
         ccall((:gtk_recent_chooser_set_filter, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), chooser, filter_)
@@ -4279,79 +3728,6 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function filter(chooser::Gtk.GtkRecentChooser)
         return ccall((:gtk_recent_chooser_get_filter, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), chooser)
-    end
-    function clip(context::Gtk.GtkStyleContext, x, y, width, height)
-        out_clip = Gtk.mutable(Gtk.GdkRectangle)
-        ccall((:gtk_render_background_get_clip, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cdouble, Cdouble, Cdouble, Cdouble, Ptr{Gtk.GdkRectangle}), context, x, y, width, height, out_clip)
-        return out_clip[]
-    end
-    function digits(scale::Gtk.GtkScale, digits_)
-        ccall((:gtk_scale_set_digits, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scale, digits_)
-        return scale
-    end
-    function digits(scale::Gtk.GtkScale)
-        return ccall((:gtk_scale_get_digits, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scale)
-    end
-    function draw_value(scale::Gtk.GtkScale, draw_value_)
-        ccall((:gtk_scale_set_draw_value, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scale, draw_value_)
-        return scale
-    end
-    function draw_value(scale::Gtk.GtkScale)
-        return convert(Bool, ccall((:gtk_scale_get_draw_value, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scale))
-    end
-    function has_origin(scale::Gtk.GtkScale, has_origin_)
-        ccall((:gtk_scale_set_has_origin, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scale, has_origin_)
-        return scale
-    end
-    function has_origin(scale::Gtk.GtkScale)
-        return convert(Bool, ccall((:gtk_scale_get_has_origin, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scale))
-    end
-    function value_pos(scale::Gtk.GtkScale, pos)
-        ccall((:gtk_scale_set_value_pos, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scale, pos)
-        return scale
-    end
-    function value_pos(scale::Gtk.GtkScale)
-        return ccall((:gtk_scale_get_value_pos, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scale)
-    end
-    function layout(scale::Gtk.GtkScale)
-        return ccall((:gtk_scale_get_layout, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), scale)
-    end
-    function layout_offsets(scale::Gtk.GtkScale)
-        y = Gtk.mutable(Cint)
-        x = Gtk.mutable(Cint)
-        ccall((:gtk_scale_get_layout_offsets, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Cint}, Ptr{Cint}), scale, x, y)
-        return (x[], y[])
-    end
-    function hadjustment(scrollable::Gtk.GtkScrollable)
-        return convert(Gtk.GtkAdjustment, ccall((:gtk_scrollable_get_hadjustment, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), scrollable))
-    end
-    function hadjustment(scrollable::Gtk.GtkScrollable, hadjustment_)
-        ccall((:gtk_scrollable_set_hadjustment, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), scrollable, hadjustment_)
-        return scrollable
-    end
-    function vadjustment(scrollable::Gtk.GtkScrollable)
-        return convert(Gtk.GtkAdjustment, ccall((:gtk_scrollable_get_vadjustment, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), scrollable))
-    end
-    function vadjustment(scrollable::Gtk.GtkScrollable, vadjustment_)
-        ccall((:gtk_scrollable_set_vadjustment, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), scrollable, vadjustment_)
-        return scrollable
-    end
-    function hscroll_policy(scrollable::Gtk.GtkScrollable)
-        return ccall((:gtk_scrollable_get_hscroll_policy, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scrollable)
-    end
-    function hscroll_policy(scrollable::Gtk.GtkScrollable, policy)
-        ccall((:gtk_scrollable_set_hscroll_policy, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scrollable, policy)
-        return scrollable
-    end
-    function vscroll_policy(scrollable::Gtk.GtkScrollable)
-        return ccall((:gtk_scrollable_get_vscroll_policy, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scrollable)
-    end
-    function vscroll_policy(scrollable::Gtk.GtkScrollable, policy)
-        ccall((:gtk_scrollable_set_vscroll_policy, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scrollable, policy)
-        return scrollable
-    end
-    function border(scrollable::Gtk.GtkScrollable, border_)
-        return convert(Bool, ccall((:gtk_scrollable_get_border, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Nothing}), scrollable, border_))
     end
     function hadjustment(scrolled_window::Gtk.GtkScrolledWindow, hadjustment_)
         ccall((:gtk_scrolled_window_set_hadjustment, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), scrolled_window, hadjustment_)
@@ -4396,69 +3772,6 @@ $(Expr(:toplevel, :(module GAccessor
     end
     function shadow_type(scrolled_window::Gtk.GtkScrolledWindow)
         return ccall((:gtk_scrolled_window_get_shadow_type, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scrolled_window)
-    end
-    function min_content_width(scrolled_window::Gtk.GtkScrolledWindow)
-        return ccall((:gtk_scrolled_window_get_min_content_width, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scrolled_window)
-    end
-    function min_content_width(scrolled_window::Gtk.GtkScrolledWindow, width)
-        ccall((:gtk_scrolled_window_set_min_content_width, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scrolled_window, width)
-        return scrolled_window
-    end
-    function min_content_height(scrolled_window::Gtk.GtkScrolledWindow)
-        return ccall((:gtk_scrolled_window_get_min_content_height, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scrolled_window)
-    end
-    function min_content_height(scrolled_window::Gtk.GtkScrolledWindow, height)
-        ccall((:gtk_scrolled_window_set_min_content_height, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scrolled_window, height)
-        return scrolled_window
-    end
-    function kinetic_scrolling(scrolled_window::Gtk.GtkScrolledWindow, kinetic_scrolling_)
-        ccall((:gtk_scrolled_window_set_kinetic_scrolling, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scrolled_window, kinetic_scrolling_)
-        return scrolled_window
-    end
-    function kinetic_scrolling(scrolled_window::Gtk.GtkScrolledWindow)
-        return convert(Bool, ccall((:gtk_scrolled_window_get_kinetic_scrolling, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scrolled_window))
-    end
-    function capture_button_press(scrolled_window::Gtk.GtkScrolledWindow, capture_button_press_)
-        ccall((:gtk_scrolled_window_set_capture_button_press, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scrolled_window, capture_button_press_)
-        return scrolled_window
-    end
-    function capture_button_press(scrolled_window::Gtk.GtkScrolledWindow)
-        return convert(Bool, ccall((:gtk_scrolled_window_get_capture_button_press, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scrolled_window))
-    end
-    function overlay_scrolling(scrolled_window::Gtk.GtkScrolledWindow, overlay_scrolling_)
-        ccall((:gtk_scrolled_window_set_overlay_scrolling, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scrolled_window, overlay_scrolling_)
-        return scrolled_window
-    end
-    function overlay_scrolling(scrolled_window::Gtk.GtkScrolledWindow)
-        return convert(Bool, ccall((:gtk_scrolled_window_get_overlay_scrolling, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scrolled_window))
-    end
-    function max_content_width(scrolled_window::Gtk.GtkScrolledWindow, width)
-        ccall((:gtk_scrolled_window_set_max_content_width, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scrolled_window, width)
-        return scrolled_window
-    end
-    function max_content_width(scrolled_window::Gtk.GtkScrolledWindow)
-        return ccall((:gtk_scrolled_window_get_max_content_width, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scrolled_window)
-    end
-    function max_content_height(scrolled_window::Gtk.GtkScrolledWindow, height)
-        ccall((:gtk_scrolled_window_set_max_content_height, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scrolled_window, height)
-        return scrolled_window
-    end
-    function max_content_height(scrolled_window::Gtk.GtkScrolledWindow)
-        return ccall((:gtk_scrolled_window_get_max_content_height, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scrolled_window)
-    end
-    function propagate_natural_width(scrolled_window::Gtk.GtkScrolledWindow, propagate)
-        ccall((:gtk_scrolled_window_set_propagate_natural_width, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scrolled_window, propagate)
-        return scrolled_window
-    end
-    function propagate_natural_width(scrolled_window::Gtk.GtkScrolledWindow)
-        return convert(Bool, ccall((:gtk_scrolled_window_get_propagate_natural_width, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scrolled_window))
-    end
-    function propagate_natural_height(scrolled_window::Gtk.GtkScrolledWindow, propagate)
-        ccall((:gtk_scrolled_window_set_propagate_natural_height, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), scrolled_window, propagate)
-        return scrolled_window
-    end
-    function propagate_natural_height(scrolled_window::Gtk.GtkScrolledWindow)
-        return convert(Bool, ccall((:gtk_scrolled_window_get_propagate_natural_height, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), scrolled_window))
     end
     function draw(item::Gtk.GtkSeparatorToolItem)
         return convert(Bool, ccall((:gtk_separator_tool_item_get_draw, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), item))
@@ -4542,8 +3855,160 @@ $(Expr(:toplevel, :(module GAccessor
     function context_id(statusbar::Gtk.GtkStatusbar, context_description)
         return ccall((:gtk_statusbar_get_context_id, Gtk.libgtk), UInt32, (Ptr{Gtk.GObject}, Ptr{UInt8}), statusbar, context_description)
     end
+    function has_resize_grip(statusbar::Gtk.GtkStatusbar, setting)
+        ccall((:gtk_statusbar_set_has_resize_grip, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), statusbar, setting)
+        return statusbar
+    end
+    function has_resize_grip(statusbar::Gtk.GtkStatusbar)
+        return convert(Bool, ccall((:gtk_statusbar_get_has_resize_grip, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), statusbar))
+    end
     function message_area(statusbar::Gtk.GtkStatusbar)
         return convert(Gtk.GtkWidget, ccall((:gtk_statusbar_get_message_area, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), statusbar))
+    end
+    function from_pixbuf(status_icon::Gtk.GtkStatusIcon, pixbuf)
+        ccall((:gtk_status_icon_set_from_pixbuf, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), status_icon, pixbuf)
+        return status_icon
+    end
+    function from_file(status_icon::Gtk.GtkStatusIcon, filename)
+        ccall((:gtk_status_icon_set_from_file, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), status_icon, filename)
+        return status_icon
+    end
+    function from_stock(status_icon::Gtk.GtkStatusIcon, stock_id)
+        ccall((:gtk_status_icon_set_from_stock, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), status_icon, stock_id)
+        return status_icon
+    end
+    function from_icon_name(status_icon::Gtk.GtkStatusIcon, icon_name)
+        ccall((:gtk_status_icon_set_from_icon_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), status_icon, icon_name)
+        return status_icon
+    end
+    function from_gicon(status_icon::Gtk.GtkStatusIcon, icon)
+        ccall((:gtk_status_icon_set_from_gicon, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), status_icon, icon)
+        return status_icon
+    end
+    function storage_type(status_icon::Gtk.GtkStatusIcon)
+        return ccall((:gtk_status_icon_get_storage_type, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), status_icon)
+    end
+    function pixbuf(status_icon::Gtk.GtkStatusIcon)
+        return convert(Gtk.GdkPixbuf, ccall((:gtk_status_icon_get_pixbuf, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject},), status_icon))
+    end
+    function stock(status_icon::Gtk.GtkStatusIcon)
+        return ccall((:gtk_status_icon_get_stock, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), status_icon)
+    end
+    function icon_name(status_icon::Gtk.GtkStatusIcon)
+        return ccall((:gtk_status_icon_get_icon_name, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), status_icon)
+    end
+    function gicon(status_icon::Gtk.GtkStatusIcon)
+        return ccall((:gtk_status_icon_get_gicon, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), status_icon)
+    end
+    function size(status_icon::Gtk.GtkStatusIcon)
+        return ccall((:gtk_status_icon_get_size, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), status_icon)
+    end
+    function screen(status_icon::Gtk.GtkStatusIcon, screen_)
+        ccall((:gtk_status_icon_set_screen, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Nothing}), status_icon, screen_)
+        return status_icon
+    end
+    function screen(status_icon::Gtk.GtkStatusIcon)
+        return ccall((:gtk_status_icon_get_screen, Gtk.libgtk), Ptr{Nothing}, (Ptr{Gtk.GObject},), status_icon)
+    end
+    function tooltip(status_icon::Gtk.GtkStatusIcon, tooltip_text)
+        ccall((:gtk_status_icon_set_tooltip, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), status_icon, tooltip_text)
+        return status_icon
+    end
+    function has_tooltip(status_icon::Gtk.GtkStatusIcon, has_tooltip_)
+        ccall((:gtk_status_icon_set_has_tooltip, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), status_icon, has_tooltip_)
+        return status_icon
+    end
+    function tooltip_text(status_icon::Gtk.GtkStatusIcon, text)
+        ccall((:gtk_status_icon_set_tooltip_text, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), status_icon, text)
+        return status_icon
+    end
+    function tooltip_markup(status_icon::Gtk.GtkStatusIcon, markup)
+        ccall((:gtk_status_icon_set_tooltip_markup, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), status_icon, markup)
+        return status_icon
+    end
+    function title(status_icon::Gtk.GtkStatusIcon, title_)
+        ccall((:gtk_status_icon_set_title, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), status_icon, title_)
+        return status_icon
+    end
+    function title(status_icon::Gtk.GtkStatusIcon)
+        return ccall((:gtk_status_icon_get_title, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), status_icon)
+    end
+    function name(status_icon::Gtk.GtkStatusIcon, name_)
+        ccall((:gtk_status_icon_set_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt8}), status_icon, name_)
+        return status_icon
+    end
+    function visible(status_icon::Gtk.GtkStatusIcon, visible_)
+        ccall((:gtk_status_icon_set_visible, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), status_icon, visible_)
+        return status_icon
+    end
+    function visible(status_icon::Gtk.GtkStatusIcon)
+        return convert(Bool, ccall((:gtk_status_icon_get_visible, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), status_icon))
+    end
+    function blinking(status_icon::Gtk.GtkStatusIcon, blinking_)
+        ccall((:gtk_status_icon_set_blinking, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), status_icon, blinking_)
+        return status_icon
+    end
+    function blinking(status_icon::Gtk.GtkStatusIcon)
+        return convert(Bool, ccall((:gtk_status_icon_get_blinking, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), status_icon))
+    end
+    function geometry(status_icon::Gtk.GtkStatusIcon)
+        orientation = Gtk.mutable(Cint)
+        area = Gtk.mutable(Gtk.GdkRectangle)
+        screen = Gtk.mutable(Ptr{Nothing})
+        return (convert(Bool, ccall((:gtk_status_icon_get_geometry, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Ptr{Nothing}}, Ptr{Gtk.GdkRectangle}, Ptr{Cint}), status_icon, screen, area, orientation)), screen[], area[], orientation[])
+    end
+    function has_tooltip(status_icon::Gtk.GtkStatusIcon)
+        return convert(Bool, ccall((:gtk_status_icon_get_has_tooltip, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), status_icon))
+    end
+    function tooltip_text(status_icon::Gtk.GtkStatusIcon)
+        return ccall((:gtk_status_icon_get_tooltip_text, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), status_icon)
+    end
+    function tooltip_markup(status_icon::Gtk.GtkStatusIcon)
+        return ccall((:gtk_status_icon_get_tooltip_markup, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GObject},), status_icon)
+    end
+    function x11_window_id(status_icon::Gtk.GtkStatusIcon)
+        return ccall((:gtk_status_icon_get_x11_window_id, Gtk.libgtk), UInt32, (Ptr{Gtk.GObject},), status_icon)
+    end
+    function row_spacing(table::Gtk.GtkTable, row, spacing)
+        ccall((:gtk_table_set_row_spacing, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32, UInt32), table, row, spacing)
+        return table
+    end
+    function row_spacing(table::Gtk.GtkTable, row)
+        return ccall((:gtk_table_get_row_spacing, Gtk.libgtk), UInt32, (Ptr{Gtk.GObject}, UInt32), table, row)
+    end
+    function col_spacing(table::Gtk.GtkTable, column, spacing)
+        ccall((:gtk_table_set_col_spacing, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32, UInt32), table, column, spacing)
+        return table
+    end
+    function col_spacing(table::Gtk.GtkTable, column)
+        return ccall((:gtk_table_get_col_spacing, Gtk.libgtk), UInt32, (Ptr{Gtk.GObject}, UInt32), table, column)
+    end
+    function row_spacings(table::Gtk.GtkTable, spacing)
+        ccall((:gtk_table_set_row_spacings, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32), table, spacing)
+        return table
+    end
+    function default_row_spacing(table::Gtk.GtkTable)
+        return ccall((:gtk_table_get_default_row_spacing, Gtk.libgtk), UInt32, (Ptr{Gtk.GObject},), table)
+    end
+    function col_spacings(table::Gtk.GtkTable, spacing)
+        ccall((:gtk_table_set_col_spacings, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, UInt32), table, spacing)
+        return table
+    end
+    function default_col_spacing(table::Gtk.GtkTable)
+        return ccall((:gtk_table_get_default_col_spacing, Gtk.libgtk), UInt32, (Ptr{Gtk.GObject},), table)
+    end
+    function homogeneous(table::Gtk.GtkTable, homogeneous_)
+        ccall((:gtk_table_set_homogeneous, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), table, homogeneous_)
+        return table
+    end
+    function homogeneous(table::Gtk.GtkTable)
+        return convert(Bool, ccall((:gtk_table_get_homogeneous, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), table))
+    end
+    function size(table::Gtk.GtkTable)
+        columns = Gtk.mutable(UInt32)
+        rows = Gtk.mutable(UInt32)
+        ccall((:gtk_table_get_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{UInt32}, Ptr{UInt32}), table, rows, columns)
+        return (rows[], columns[])
     end
     function visible(mark::Gtk.GtkTextMark, setting)
         ccall((:gtk_text_mark_set_visible, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), mark, setting)
@@ -4685,13 +4150,6 @@ $(Expr(:toplevel, :(module GAccessor
     function cursor_visible(text_view::Gtk.GtkTextView)
         return convert(Bool, ccall((:gtk_text_view_get_cursor_visible, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), text_view))
     end
-    function cursor_locations(text_view::Gtk.GtkTextView)
-        weak = Gtk.mutable(Gtk.GdkRectangle)
-        strong = Gtk.mutable(Gtk.GdkRectangle)
-        iter = Gtk.mutable(Gtk.GtkTextIter)
-        ccall((:gtk_text_view_get_cursor_locations, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTextIter}, Ptr{Gtk.GdkRectangle}, Ptr{Gtk.GdkRectangle}), text_view, iter, strong, weak)
-        return (iter[], strong[], weak[])
-    end
     function iter_location(text_view::Gtk.GtkTextView)
         location = Gtk.mutable(Gtk.GdkRectangle)
         iter = Gtk.mutable(Gtk.GtkTextIter)
@@ -4699,10 +4157,10 @@ $(Expr(:toplevel, :(module GAccessor
         return (iter[], location[])
     end
     function iter_at_location(text_view::Gtk.GtkTextView, iter, x, y)
-        return convert(Bool, ccall((:gtk_text_view_get_iter_at_location, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTextIter}, Cint, Cint), text_view, iter, x, y))
+        return ccall((:gtk_text_view_get_iter_at_location, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTextIter}, Cint, Cint), text_view, iter, x, y)
     end
     function iter_at_position(text_view::Gtk.GtkTextView, iter, trailing, x, y)
-        return convert(Bool, ccall((:gtk_text_view_get_iter_at_position, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTextIter}, Ptr{Cint}, Cint, Cint), text_view, iter, trailing, x, y))
+        return ccall((:gtk_text_view_get_iter_at_position, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTextIter}, Ptr{Cint}, Cint, Cint), text_view, iter, trailing, x, y)
     end
     function line_yrange(text_view::Gtk.GtkTextView)
         height = Gtk.mutable(Cint)
@@ -4805,20 +4263,6 @@ $(Expr(:toplevel, :(module GAccessor
     function right_margin(text_view::Gtk.GtkTextView)
         return ccall((:gtk_text_view_get_right_margin, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), text_view)
     end
-    function top_margin(text_view::Gtk.GtkTextView, top_margin_)
-        ccall((:gtk_text_view_set_top_margin, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), text_view, top_margin_)
-        return text_view
-    end
-    function top_margin(text_view::Gtk.GtkTextView)
-        return ccall((:gtk_text_view_get_top_margin, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), text_view)
-    end
-    function bottom_margin(text_view::Gtk.GtkTextView, bottom_margin_)
-        ccall((:gtk_text_view_set_bottom_margin, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), text_view, bottom_margin_)
-        return text_view
-    end
-    function bottom_margin(text_view::Gtk.GtkTextView)
-        return ccall((:gtk_text_view_get_bottom_margin, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), text_view)
-    end
     function indent(text_view::Gtk.GtkTextView, indent_)
         ccall((:gtk_text_view_set_indent, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), text_view, indent_)
         return text_view
@@ -4836,65 +4280,58 @@ $(Expr(:toplevel, :(module GAccessor
     function default_attributes(text_view::Gtk.GtkTextView)
         return convert(Gtk.GtkTextAttributes, ccall((:gtk_text_view_get_default_attributes, Gtk.libgtk), Ptr{Gtk.GtkTextAttributes}, (Ptr{Gtk.GObject},), text_view))
     end
-    function input_purpose(text_view::Gtk.GtkTextView, purpose)
-        ccall((:gtk_text_view_set_input_purpose, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), text_view, purpose)
-        return text_view
-    end
-    function input_purpose(text_view::Gtk.GtkTextView)
-        return ccall((:gtk_text_view_get_input_purpose, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), text_view)
-    end
-    function input_hints(text_view::Gtk.GtkTextView, hints)
-        ccall((:gtk_text_view_set_input_hints, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), text_view, hints)
-        return text_view
-    end
-    function input_hints(text_view::Gtk.GtkTextView)
-        return ccall((:gtk_text_view_get_input_hints, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), text_view)
-    end
-    function monospace(text_view::Gtk.GtkTextView, monospace_)
-        ccall((:gtk_text_view_set_monospace, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), text_view, monospace_)
-        return text_view
-    end
-    function monospace(text_view::Gtk.GtkTextView)
-        return convert(Bool, ccall((:gtk_text_view_get_monospace, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), text_view))
-    end
-    function item_index(toolbar::Gtk.GtkToolbar, item)
+    function item_index(toolbar::Gtk.GtkToolShell, item)
         return ccall((:gtk_toolbar_get_item_index, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}), toolbar, item)
     end
-    function n_items(toolbar::Gtk.GtkToolbar)
+    function n_items(toolbar::Gtk.GtkToolShell)
         return ccall((:gtk_toolbar_get_n_items, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toolbar)
     end
-    function nth_item(toolbar::Gtk.GtkToolbar, n)
+    function nth_item(toolbar::Gtk.GtkToolShell, n)
         return convert(Gtk.GtkToolItem, ccall((:gtk_toolbar_get_nth_item, Gtk.libgtk), Ptr{Gtk.GObject}, (Ptr{Gtk.GObject}, Cint), toolbar, n))
     end
-    function show_arrow(toolbar::Gtk.GtkToolbar)
+    function show_arrow(toolbar::Gtk.GtkToolShell)
         return convert(Bool, ccall((:gtk_toolbar_get_show_arrow, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toolbar))
     end
-    function show_arrow(toolbar::Gtk.GtkToolbar, show_arrow_)
+    function show_arrow(toolbar::Gtk.GtkToolShell, show_arrow_)
         ccall((:gtk_toolbar_set_show_arrow, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toolbar, show_arrow_)
         return toolbar
     end
-    function style(toolbar::Gtk.GtkToolbar)
+    function style(toolbar::Gtk.GtkToolShell)
         return ccall((:gtk_toolbar_get_style, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toolbar)
     end
-    function style(toolbar::Gtk.GtkToolbar, style_)
+    function style(toolbar::Gtk.GtkToolShell, style_)
         ccall((:gtk_toolbar_set_style, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toolbar, style_)
         return toolbar
     end
-    function icon_size(toolbar::Gtk.GtkToolbar)
+    function icon_size(toolbar::Gtk.GtkToolShell)
         return ccall((:gtk_toolbar_get_icon_size, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toolbar)
     end
-    function icon_size(toolbar::Gtk.GtkToolbar, icon_size_)
+    function icon_size(toolbar::Gtk.GtkToolShell, icon_size_)
         ccall((:gtk_toolbar_set_icon_size, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toolbar, icon_size_)
         return toolbar
     end
-    function relief_style(toolbar::Gtk.GtkToolbar)
+    function relief_style(toolbar::Gtk.GtkToolShell)
         return ccall((:gtk_toolbar_get_relief_style, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toolbar)
     end
-    function drop_index(toolbar::Gtk.GtkToolbar, x, y)
+    function drop_index(toolbar::Gtk.GtkToolShell, x, y)
         return ccall((:gtk_toolbar_get_drop_index, Gtk.libgtk), Cint, (Ptr{Gtk.GObject}, Cint, Cint), toolbar, x, y)
     end
-    function drop_highlight_item(toolbar::Gtk.GtkToolbar, tool_item, index_)
+    function drop_highlight_item(toolbar::Gtk.GtkToolShell, tool_item, index_)
         ccall((:gtk_toolbar_set_drop_highlight_item, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GObject}, Cint), toolbar, tool_item, index_)
+        return toolbar
+    end
+    function orientation(toolbar::Gtk.GtkToolShell)
+        return ccall((:gtk_toolbar_get_orientation, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toolbar)
+    end
+    function orientation(toolbar::Gtk.GtkToolShell, orientation_)
+        ccall((:gtk_toolbar_set_orientation, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toolbar, orientation_)
+        return toolbar
+    end
+    function tooltips(toolbar::Gtk.GtkToolShell)
+        return convert(Bool, ccall((:gtk_toolbar_get_tooltips, Gtk.libgtk), Cint, (Ptr{Gtk.GObject},), toolbar))
+    end
+    function tooltips(toolbar::Gtk.GtkToolShell, enable)
+        ccall((:gtk_toolbar_set_tooltips, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint), toolbar, enable)
         return toolbar
     end
     function icon_size(shell::Gtk.GtkToolShell)
@@ -4963,7 +4400,7 @@ $(Expr(:toplevel, :(module GAccessor
         return (ccall((:gtk_tree_selection_get_selected_rows, Gtk.libgtk), Ptr{Gtk._GList{Nothing}}, (Ptr{Gtk.GObject}, Ptr{Ptr{Gtk.GObject}}), selection, model), convert(Gtk.GtkTreeModel, model[]))
     end
     function column_types(tree_store::Gtk.GtkTreeStore, n_columns, types)
-        ccall((:gtk_tree_store_set_column_types, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Culonglong}), tree_store, n_columns, types)
+        ccall((:gtk_tree_store_set_column_types, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Cint, Ptr{Culong}), tree_store, n_columns, types)
         return tree_store
     end
     function value(tree_store::Gtk.GtkTreeStore, iter, column, value_)
@@ -4973,43 +4410,6 @@ $(Expr(:toplevel, :(module GAccessor
     function valuesv(tree_store::Gtk.GtkTreeStore, iter, columns, values, n_values)
         ccall((:gtk_tree_store_set_valuesv, Gtk.libgtk), Nothing, (Ptr{Gtk.GObject}, Ptr{Gtk.GtkTreeIter}, Ptr{Cint}, Ptr{Nothing}, Cint), tree_store, iter, columns, values, n_values)
         return tree_store
-    end
-    function object_type(path::Gtk.GtkWidgetPath, pos)
-        return ccall((:gtk_widget_path_iter_get_object_type, Gtk.libgtk), Culonglong, (Ptr{Gtk.GtkWidgetPath}, Cint), path, pos)
-    end
-    function object_type(path::Gtk.GtkWidgetPath, pos, type_)
-        ccall((:gtk_widget_path_iter_set_object_type, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkWidgetPath}, Cint, Culonglong), path, pos, type_)
-        return path
-    end
-    function object_name(path::Gtk.GtkWidgetPath, pos)
-        return ccall((:gtk_widget_path_iter_get_object_name, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GtkWidgetPath}, Cint), path, pos)
-    end
-    function object_name(path::Gtk.GtkWidgetPath, pos, name)
-        ccall((:gtk_widget_path_iter_set_object_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkWidgetPath}, Cint, Ptr{UInt8}), path, pos, name)
-        return path
-    end
-    function siblings(path::Gtk.GtkWidgetPath, pos)
-        return convert(Gtk.GtkWidgetPath, ccall((:gtk_widget_path_iter_get_siblings, Gtk.libgtk), Ptr{Gtk.GtkWidgetPath}, (Ptr{Gtk.GtkWidgetPath}, Cint), path, pos))
-    end
-    function sibling_index(path::Gtk.GtkWidgetPath, pos)
-        return ccall((:gtk_widget_path_iter_get_sibling_index, Gtk.libgtk), UInt32, (Ptr{Gtk.GtkWidgetPath}, Cint), path, pos)
-    end
-    function name(path::Gtk.GtkWidgetPath, pos)
-        return ccall((:gtk_widget_path_iter_get_name, Gtk.libgtk), Ptr{UInt8}, (Ptr{Gtk.GtkWidgetPath}, Cint), path, pos)
-    end
-    function name(path::Gtk.GtkWidgetPath, pos, name_)
-        ccall((:gtk_widget_path_iter_set_name, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkWidgetPath}, Cint, Ptr{UInt8}), path, pos, name_)
-        return path
-    end
-    function state(path::Gtk.GtkWidgetPath, pos)
-        return ccall((:gtk_widget_path_iter_get_state, Gtk.libgtk), Cint, (Ptr{Gtk.GtkWidgetPath}, Cint), path, pos)
-    end
-    function state(path::Gtk.GtkWidgetPath, pos, state_)
-        ccall((:gtk_widget_path_iter_set_state, Gtk.libgtk), Nothing, (Ptr{Gtk.GtkWidgetPath}, Cint, Cint), path, pos, state_)
-        return path
-    end
-    function object_type(path::Gtk.GtkWidgetPath)
-        return ccall((:gtk_widget_path_get_object_type, Gtk.libgtk), Culonglong, (Ptr{Gtk.GtkWidgetPath},), path)
     end
     begin
         function default_icon_list()
