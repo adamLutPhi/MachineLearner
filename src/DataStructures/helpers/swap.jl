@@ -1,5 +1,4 @@
-
-function swap!(x::{Float64, 1}, y::{Float64, 1}) where {T,N}
+function swap!(x::Float64, y::Float64)
     x, y = y, x
 end
 
@@ -20,19 +19,38 @@ mutable struct WrapArray{T,N} <: AbstractArray{T,N}
     a::Array{T,N}
 end
 
+function swap!(x::Array{T,N}, y::Array{T,N}) where {T,N}
+    x.a, y.a = y.a, x.a # a is for any arbitrary item 
+    return x, y
+end
+#=
 function swap!(x::WrapArray{T,N}, y::WrapArray{T,N}) where {T,N}
     x.a, y.a = y.a, x.a # a is for any arbitrary item 
     return x, y
 end
+=#
+""" A type-Matching function chooses the right function based on given type
 
-function swapping(x,y)
-    if typeof x==Float64 && y ==Float64
-        return swap!(x::{Float64, 1}, y::{Float64, 1})
-    elseif typeof x==Array{T,N} && y = Array{T,N}
-        return swap!(x::WrapArray{T,N}, y::WrapArray{T,N})
-    else 
-       println("ERROR: faulty input argiments, or unidentified ERROR")    
+```input:
+x:  x generic , could be of type Float64 or Array{T,N}
+y: 
+```
+
+```output:
+swap!(x,y) function 
+```
+
+Returns `swap!(x::Float64, y::Float64)` or  swap!(x::Array{T,N}, y::Array{T,N})
+"""
+function swapping(x, y)
+    if typeof(x) == typeof(y) == Float64 # && typeof(y) == Float64
+        return swap!(x::Float64, y::Float64) #
+    elseif typeof(x) == Array{T,N} == typeof(y) # && typeof(y) = Array{T,N}
+        return swap!(x::Array{T,N}, y::Array{T,N})
+    else
+        println("ERROR: faulty input argiments, or unidentified ERROR")
     end
+end
 
 #= Redundant: reason: function definiton above includes the definition below 
  

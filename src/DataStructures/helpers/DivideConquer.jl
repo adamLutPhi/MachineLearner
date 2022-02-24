@@ -38,8 +38,6 @@ function search(arr, i = 1, val) #1
             # else if arr[i] > val && arr[i+1] >val 
         end
         #end #close if 
-
-
     end #close for 
 
     #else 
@@ -134,7 +132,7 @@ Infer: generalize: Mid stays the same - whether left or right
 3) if value[i] == value[mid] # return  
 ------
 only way is recursion for floats: 
-beats mit 6.001 (freshmen can't do recursion) & 6.006 lecture 
+beats mit 6.001 (freshmen can't do recursion) & 6.006 lecture @ (searching for time...) 
 |  -------       |        ------          |
 l                m                        r 
 if (first(arr) - last(arr) )
@@ -168,7 +166,7 @@ isMod(1, 3)
 function dist(a::Int64, b::Int64)
     return euclideanDist(a, b)
 end
-#solve problem in the Abstract Domain 
+#Solve problem: A. in the Abstract Domain 
 function ϟ(a, b) #\upkoppa
     return a + b
 end
@@ -187,6 +185,7 @@ an increase of a 10^6 yeilds an increase in time maximum by  447.99999999999994 
 #nthreads() # 1 
 
 using BenchmarkTools
+global strError = "ERROR: Unexpected argument(s), faulty input"
 @benchmark euclideanDist(10^2, 10^3)
 
 
@@ -302,7 +301,7 @@ function middle(a, b) # working
     condition = criterion #   b-a 
     if condition == true
         #return true #a.s. #eucledian Distance divided by 2 returing a whole integer
-        check = Int( ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ
+        check = Int(ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ
 
     elseif condition == false
         #return false #a.s.# check = euclideanDist(a,b)//2*1.0
@@ -322,23 +321,23 @@ euclideanDist(1, 3) # (true, 2//1, nothing, nothing)
 #need functional notation so that output of middle(a,b) | middleExtraction argiments 
 
 
-function middleExtraction(condition,checkedValue;above=nothing,below=nothing)
+function middleExtraction(condition, checkedValue; above = nothing, below = nothing)
     ⫙ = []
     criterion = nothing
-    criterion = condition 
+    criterion = condition
     if criterion == true # there is only 1 value  
         # only get the checkedValue 
         push!(⫙, checkedValue)
     elseif criterion == false
         #then we have above & below to get (know for sure that below is under above) 
-    
+
         push!(⫙, above)
         push!(⫙, below)
     else # faulty input or Unexpected error Occured
         return
     end
 
-    return q 
+    return q
 end
 #=
 ⫙ = middleExtraction(true,2) #\forkv
@@ -408,19 +407,23 @@ a:
 ```output:
 ```
 """
-strError = "ERROR: Unexpected argument(s), faulty input"
-function BisectSort(v::Vector, a::Int64, b::Int64)
-    #TODO: 
+#Solve problem: B. in the Applied Domain
+
+#TODO: Check this function 
+function BisectSort(v, a::Int64, b::Int64)
+    #TODO:  check sanity 
     #1. get the ranges  & indicies of current vector 
-    aVal = _first = first(v)
-    bVal = _last = last(v)
+    firstindex(v, a)
+    firstindex(v, b)
+    aVal = a #_first = first(v) # Warning   #   <---   
+    bVal = b #_last = last(v) # Warning     #   <---
     bIdx = lastindex(b)
     aIdx = firstindex(a)
     #set terminal condition: in
-    euclidDist = euclideanDist(aIdx, bIdx) 
+    euclidDist = euclideanDist(aIdx, bIdx)
     if euclidDist == 1
         # compare a, b  last compare 
-        a,b =  compare(a,b)
+        a, b = compare(a, b)
         # 
         return
         #end  
@@ -431,42 +434,48 @@ function BisectSort(v::Vector, a::Int64, b::Int64)
         return middle(a, b)#1.5 false , 1.5 
     else
         println(strError)
-    end 
-end 
-v = collect(1:3)
-euclideanDist(3, 1) 
+    end
+end
+
+
+function BisectSort(v::Vector)
+
+    #1. get the ranges  & indicies of current vector 
+    aVal = first(v)
+    bVal = last(v)
+    bIdx = lastindex(v)
+    aIdx = firstindex(v)
+    #set terminal condition: in
+    euclidDist = euclideanDist(aIdx, bIdx) #checks distance of an array
+    if euclidDist == 1 #fallback condition 
+        # compare a, b  last compare 
+        a, b = compare(a, bIdx)
+        # 
+        return
+        #end  
+    elseif euclidDist > 1  # a-b> 1#there are still indicies to explore 
+        #calculate next mini-subrange (blookup? -> not recursive, middle ->Yes )
+        #blookupRecursive()
+        # BisectSort(a,b)  #TODO:
+        return BisectSort(v, aVal, bVal) # reality 
+        return middle(a, b)#1.5 false , 1.5  #ideal expectation 
+    else
+        println(strError)
+    end
+end
+
 
 """
 right hand argument is assumed to have a lower side
 """
-function compare(a::Int64,b::Int64)
-    min = 0;max=0;
-    min = a; max =b; 
-    if a < b
-    elseif   b>a 
-        #swap       
-        min,max = max,min  
-        
-    else #faulty input , Unexpected code  
-        println(strError)
-        return 
-    end
-    return min, max
-end 
-
-function compare(arr, aIdx, bIdx)
+function compare(a::Int64, b::Int64)
     min = 0
     max = 0
-    min = aIdx
-    max = bIdx
-    aVal = arr[aIdx]
-    bVal = arr[bIdx]
-    #if aVal < bVal
-
-    if bVal > aVal 
+    min = a
+    max = b
+    if a > b # only if  
         #swap       
-        #min, max = max, min #TODO
-        
+        min, max = max, min
     else #faulty input , Unexpected code  
         println(strError)
         return
@@ -474,6 +483,48 @@ function compare(arr, aIdx, bIdx)
     return min, max
 end
 
-function swap(a,b)
 
-    if typeof(a) ==f
+swp = include("swap.jl")
+
+
+function compare(arr, aIdx, bIdx)
+    a = 0
+    b = 0
+    aVal = arr[aIdx]
+    bVal = arr[bIdx]
+    #if aVal < bVal
+    if aVal > bVal   # a > b #should be a <b 
+        #swap       
+        a, b = swapping(x, y) # (bVal, aVal)
+    #min, max = max, min #TODO
+
+    else #faulty input , Unexpected code  
+        println(strError)
+        return
+    end
+    return min, max
+end
+
+function swap(a, b)
+    a, b = nothing
+    if typeof(a) == typeof(b) == Float64 || typeof(a) == typeof(b) == Array{T,N}
+        # swap floats  (or arrays)
+        a, b = swp.swap!(a, b)
+
+    else
+        #faulty input 
+        println(strError)
+    end
+    return a, b
+end
+
+#testRun 
+# v = collect(1:3) #given intRange, collect it as a vector v=1,2,3 #that is vector of index 
+v = [10, 7, 3] #that's a typical scenario! 
+euclideanDist(3, 1)
+
+
+
+BisectSort(v)
+
+
