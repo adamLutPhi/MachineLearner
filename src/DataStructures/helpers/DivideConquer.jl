@@ -408,6 +408,7 @@ a:
 ```output:
 ```
 """
+strError = "ERROR: Unexpected argument(s), faulty input"
 function BisectSort(v::Vector, a::Int64, b::Int64)
     #TODO: 
     #1. get the ranges  & indicies of current vector 
@@ -416,15 +417,63 @@ function BisectSort(v::Vector, a::Int64, b::Int64)
     bIdx = lastindex(b)
     aIdx = firstindex(a)
     #set terminal condition: in
-    if euclideanDist(aIdx, bIdx) == 1
-        # compare a, b 
+    euclidDist = euclideanDist(aIdx, bIdx) 
+    if euclidDist == 1
+        # compare a, b  last compare 
+        a,b =  compare(a,b)
         # 
-        return 
-    #end
-    elseif  # a-b> 1#there are still indicies to explore 
+        return
+        #end  
+    elseif euclidDist > 1  # a-b> 1#there are still indicies to explore 
         #calculate next mini-subrange (blookup? -> not recursive, middle ->Yes )
-        middle(a,b)#1.5 false , 1.5
+        #blookupRecursive()
         #BisectSort()  
-end
+        return middle(a, b)#1.5 false , 1.5 
+    else
+        println(strError)
+    end 
+end 
 v = collect(1:3)
-euclideanDist(3, 1)
+euclideanDist(3, 1) 
+
+"""
+right hand argument is assumed to have a lower side
+"""
+function compare(a::Int64,b::Int64)
+    min = 0;max=0;
+    min = a; max =b; 
+    if a < b
+    elseif   b>a 
+        #swap       
+        min,max = max,min  
+        
+    else #faulty input , Unexpected code  
+        println(strError)
+        return 
+    end
+    return min, max
+end 
+
+function compare(arr, aIdx, bIdx)
+    min = 0
+    max = 0
+    min = aIdx
+    max = bIdx
+    aVal = arr[aIdx]
+    bVal = arr[bIdx]
+    #if aVal < bVal
+
+    if bVal > aVal 
+        #swap       
+        #min, max = max, min #TODO
+        
+    else #faulty input , Unexpected code  
+        println(strError)
+        return
+    end
+    return min, max
+end
+
+function swap(a,b)
+
+    if typeof(a) ==f
