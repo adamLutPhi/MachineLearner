@@ -189,18 +189,7 @@ an increase of a 10^6 yeilds an increase in time maximum by  447.99999999999994 
 using BenchmarkTools
 @benchmark euclideanDist(10^2, 10^3)
 
-#Relationship between 2 consecutive Rationals is 1 99% a.s. 
-"""BisectSort
-```input:
 
-```
-
-```output:
-```
-"""
-function BisectSort(arr, a::Int64, b::Int64)
-    #TODO: 
-end
 #=
 
 #special case 
@@ -221,16 +210,16 @@ look at middle n/2
 
 """
 ```input:
-    _m a Calculated  Eucledian Distance (between 2 points)
+    euclidDistance: a Calculated  Eucledian Distance (between 2 points)
 
 ```
 
 ```output:
 ```
 """
-function midCriterion(_m)
+function midCriterion(euclidDistance)
     m = 0
-    m = _m #euclideanDist(a, b) # | b - a | 
+    m = euclidDistance #euclideanDist(a, b) # | b - a | 
     condition = nothing
     condition = iseven(m)
     check = nothing
@@ -303,7 +292,7 @@ returns mid Criterion
 ```
 
 """
-function middle(a, b)
+function middle(a, b) # working 
     criterion = nothing
     criterion = midCriterion(a, b)
     # check = nothing;check = midCriterion(m) #b-a
@@ -313,13 +302,13 @@ function middle(a, b)
     condition = criterion #   b-a 
     if condition == true
         #return true #a.s. #eucledian Distance divided by 2 returing a whole integer
-        check = ϟ(a, b) // 2 # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ
+        check = Int( ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ
 
     elseif condition == false
         #return false #a.s.# check = euclideanDist(a,b)//2*1.0
-        #GET CEIL & FLOOD 
+        #GET Ceil & Floor
         check = ϟ(a, b) / 2 # euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
-        above = Int(ceil(check)) #nearest index abouve
+        above = Int(ceil(check)) #nearest index above
         below = Int(floor(check))
     else # faulty Input or Unexpected Error Occured
         return check  # nothing
@@ -327,9 +316,47 @@ function middle(a, b)
     return condition, check, above, below
 end
 #
-middle(1, 4) #false 
-middle(1, 3) #true 
+middle(1, 4) #false # (false, 2.5, 3, 2) 
+middle(1, 3) #true  # 
+euclideanDist(1, 3) # (true, 2//1, nothing, nothing)
+#need functional notation so that output of middle(a,b) | middleExtraction argiments 
 
+
+function middleExtraction(condition,checkedValue;above=nothing,below=nothing)
+    ⫙ = []
+    criterion = nothing
+    criterion = condition 
+    if criterion == true # there is only 1 value  
+        # only get the checkedValue 
+        push!(⫙, checkedValue)
+    elseif criterion == false
+        #then we have above & below to get (know for sure that below is under above) 
+    
+        push!(⫙, above)
+        push!(⫙, below)
+    else # faulty input or Unexpected error Occured
+        return
+    end
+
+    return q 
+end
+#=
+⫙ = middleExtraction(true,2) #\forkv
+l = length(⫙)
+if l ==1 
+    ♐ =  
+elseif  l ==2 
+    ♐ = 
+else #error faulty Input
+    return  
+
+end
+return 
+=#
+
+
+#another idea: pass in middle function, as a whole 
+#function middleExtraction(middle,a,b) end
 #---testing area 2 
 
 """returns a boolean
@@ -370,3 +397,34 @@ function iseven(m)
     return check  #check has a valid value: either true or false 
 end
 =#
+
+#Relationship between 2 consecutive Rationals is 1 99% a.s. 
+"""BisectSort
+```input:
+v: a concrete Vector (implements an AbstractArray{T,1})
+a: 
+```
+
+```output:
+```
+"""
+function BisectSort(v::Vector, a::Int64, b::Int64)
+    #TODO: 
+    #1. get the ranges  & indicies of current vector 
+    aVal = _first = first(v)
+    bVal = _last = last(v)
+    bIdx = lastindex(b)
+    aIdx = firstindex(a)
+    #set terminal condition: in
+    if euclideanDist(aIdx, bIdx) == 1
+        # compare a, b 
+        # 
+        return 
+    #end
+    elseif  # a-b> 1#there are still indicies to explore 
+        #calculate next mini-subrange (blookup? -> not recursive, middle ->Yes )
+        middle(a,b)#1.5 false , 1.5
+        #BisectSort()  
+end
+v = collect(1:3)
+euclideanDist(3, 1)

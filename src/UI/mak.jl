@@ -49,7 +49,7 @@ begin
     kdepoly!(la4, linkeddata2[:, 1], false, color=red, linewidth=2, show_axis=false)
     kdepoly!(la5, linkeddata2[:, 2], true, color=red, linewidth=2, show_axis=false)
 
-    maingl = GridLayout(scene, 2, 1, alignmode=Outside(40))
+    maingl = GridLayout(scene, 2, 1, alignmode=Outside(40)) #makie error in the tutorial #scene rendering  
 
     sledg = maingl[2, 1] = LSlider(scene, range = LinRange(0.0, 150.0, 200))
 

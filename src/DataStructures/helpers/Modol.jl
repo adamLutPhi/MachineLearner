@@ -4,7 +4,7 @@
 
 =#
 using BenchmarkTools
-Base.@propagate_inbounds function bLookup!(a = 1, b = 4; h = 1)  #optimal #rapid: median 71.5 ns 
+Base.@propagate_inbounds function bLookup!(a = 1, b = 4; h = 1)  #optimal #rapid: median 71.5 ns #Approved 
 
     α = 1
     β = 1 #Whatever _b could be picked-up, inside loop it 'll get overwritten 
