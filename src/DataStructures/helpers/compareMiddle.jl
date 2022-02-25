@@ -1,10 +1,11 @@
+global ⫙ = []
 #=
 
 
 #another idea: pass in middle function, as a whole 
 #function middleExtraction(middle,a,b) end
 #---testing area 2 
-#=
+=#
 """returns a boolean
 ```input:
 
@@ -14,7 +15,7 @@
 
 ```
 """#testing purposes only 
-
+#= #Highly Experimental
 function checkCriterion(ch, :operator = [%, +, -, *], operand)
     check = nothing
     check = ch
@@ -30,7 +31,7 @@ function checkCriterion(ch, :operator = [%, +, -, *], operand)
     return check
 end
 checkCriterion(3, %, 2)
-=#
+ =#
 
 #check #2:middle
 """middleCriterion
@@ -55,24 +56,13 @@ checkCriterion(3, %, 2)
 
   ```
 """
-function isEven(m)#ok
-    check = nothing;
-    check = m
-    if m %2 == 0
-        check = true
-    elseif m % 2 != 0
-        check == false
-    else #faulty input, or Unexpected ERROR Occured 
-        return check 
-    end
-    return check  #check has a valid value: either true or false 
-end
+#isEven Removed #Reason: unnecessary Overhead 
 
-function midCriterion(a, b) #
-    m = euclideanDist(a, b) # | b - a |  #no definition
-    condition = isEven(m)
+function midCriterion(a, b) #ok #double-Checked 
+    m = euclideanDist(a, b) # | b - a |   definition
+    condition = m % 2 == 0 #isEven(m) #even (divisible by 2)
     check = nothing
-    if condition == true
+    if condition == true  #ERROR double if! 
         check = condition
     elseif condition == false
         check = condition
@@ -83,11 +73,11 @@ function midCriterion(a, b) #
 end
 #done!
 
+res = midCriterion(10,3)
+
 function midCriterion(euclidDistance)
-    m = 0
-    m = euclidDistance #euclideanDist(a, b) # | b - a | 
-    condition = nothing
-    condition = isEven(m)
+    m = euclidDistance #NO ERROR  #euclideanDist(a, b) # | b - a | 
+    condition = m % 2 == 0 # isEven(m)
     check = nothing
     if condition == true
         check = condition
@@ -99,27 +89,57 @@ function midCriterion(euclidDistance)
     return check #whether check is true, false, nothing
 end
 
-#cyclical code dedected! :mid to even , or even to mid 
+# cyclical code dedected! :mid to even , or even to mid  #Possible
 function middleExtraction(condition, checkedValue; above = nothing, below = nothing)
     #⫙ = []#unused detected 
     #criterion = nothing
     criterion = condition
     if criterion == true # there is only 1 value  
         # only get the checkedValue 
-        push!(⫙, checkedValue)
+        push!(checkedValue)
     elseif criterion == false
         #then we have above & below to get (know for sure that below is under above) 
-
         push!(⫙, above)
         push!(⫙, below)
     else # faulty input or Unexpected error Occured
         return
     end
-
     return q
 end
-check = Int(ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ
+#---------------------------------------
+function middleGet(condition)
+    criterion = condition
+    criterion ? ⫙.setindex(popat(checkedValue)) : ⫙.setindex(popat(ceil)), ⫙.setindex(popat(below))
+    return ⫙
+end 
 
+function middleSet(condition)
+    criterion = condition
+    criterion ? push(checkedValue) : push!(⫙,ceil), push!(⫙,below)
+end
+#----------------------------------------   
+#middleExtraction()
+check = Int(ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ
+ ⫙ = []
+function push!(ceil=above, floor=below)   
+    push!(⫙, ceil)
+    push!(⫙, below)
+
+end 
+function popDouble()
+    ceil = popat(ceil)
+    floor = popat(below)
+    return ceil, floor 
+end
+function push(checked = checkedValue)
+  push!(⫙, checked)
+end 
+function pop!()
+   checked = pop!()
+    return checked
+end
+
+function pop!()
 #--------------------------
 #---known error here 
 function middle(a, b) # working 
@@ -132,7 +152,7 @@ function middle(a, b) # working
 if condition == true
     #return true #a.s. #eucledian Distance divided by 2 returing a whole integer
     check = Int(ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ#5
-
+    middleExtraction(condition,check)
 elseif condition == false
     #return false #a.s.# check = euclideanDist(a,b)//2*1.0
     #GET Ceil & Floor
@@ -142,7 +162,7 @@ elseif condition == false
 else # faulty Input or Unexpected Error Occured
     #    return check  # nothing
 
- #end
+    #end
     return condition, check, above, below
 end  
 end 

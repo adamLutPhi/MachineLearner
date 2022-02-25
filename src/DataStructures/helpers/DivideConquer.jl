@@ -146,14 +146,14 @@ end
 """
 """
 gets the Eucldian distance between 2 numbers
-"""
+""" #Done: removed isEven(x)
 euclideanDist(a::Int64, b::Int64) = (abs(max(a, b)) - abs(min(a, b))) # was (max(a, b) - abs(min(a, b))) #Unsymmetric 
 function isMod(a::Int64, b::Int64)
-    dif = dist(a, b)  #% 2 == 0 #? fl = true : fl = false;
+    dif = euclideanDist(a, b)  #% 2 == 0 #? fl = true : fl = false;
     res = nothing
-    if dif % 2 == 0  #rem(dif, 2) == 0
+    if dif % 2 == 0  #rem(dif, 2) == 0 #Particular definition error 
         res = true
-    elseif dif % 2 != 0
+    elseif dif % 2 != 0 #isEven(dif) != 0 
         res = false
     else # sth else happened during evaluation of rem
         return res
@@ -161,7 +161,21 @@ function isMod(a::Int64, b::Int64)
     return res
 end
 isMod(1, 3)
+using BenchmarkTools
+@benchmark isEven(100)
+@benchmark 100 % 2 == 0
+#=
+BenchmarkTools.Trial: 10000 samples with 1000 evaluations.
+ Range (min … max):  0.001 ns … 19.500 ns  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     0.001 ns              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   0.037 ns ±  0.200 ns  ┊ GC (mean ± σ):  0.00% ± 0.00%
 
+  █                                                        ▁  
+  █▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁█ ▂
+Infer: isEven(x) adds an overhead reflected in a relative lag 
+#Recommendation: as possible, do not use isEven(x)
+
+  =#
 
 function dist(a::Int64, b::Int64)
     return euclideanDist(a, b)
@@ -267,7 +281,7 @@ function middle(a, b) # working
     below = nothing
     condition = criterion #   b-a 
     if condition == true
-        #return true #a.s. #eucledian Distance divided by 2 returing a whole integer
+        #return true #a.s. #euclidean Distance divided by 2 returing a whole integer
         check = Int(ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ
 
     elseif condition == false
