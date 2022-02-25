@@ -1,7 +1,17 @@
+#=
+Credits: https://discourse.julialang.org/t/swap-array-contents/7774/12?page=2
+Professor Steven @stevengj (physics) MIT lecturer, & an active julia member
+
+=#
+#---------------------------------
 function swap!(x::Float64, y::Float64)
     x, y = y, x
 end
-
+#----------------------------------
+function swap!(x::Int64, y::Int64)
+    x, y = y, x
+end
+#-------------------------------------
 """
 A wrapper 
 around Array{T,N} 
@@ -18,16 +28,28 @@ WrapArray{T,N}: inherits defintions from  `AbstractArray{T,N}`, has a type templ
 mutable struct WrapArray{T,N} <: AbstractArray{T,N}
     a::Array{T,N}
 end
-
+T = Float64;
+N = 1;
+#---------------------------------------------------
 function swap!(x::Array{T,N}, y::Array{T,N}) where {T,N}
     x.a, y.a = y.a, x.a # a is for any arbitrary item 
     return x, y
 end
+#--------------------------------------------------
+function swap!(x::VecOrMat, y::VecOrMat) #where {T,N}
+    x.a, y.a = y.a, x.a # a is for any arbitrary item 
+    return x, y
+end
+#----------------------------------------------
 #=
 function swap!(x::WrapArray{T,N}, y::WrapArray{T,N}) where {T,N}
     x.a, y.a = y.a, x.a # a is for any arbitrary item 
     return x, y
 end
+
+#footnote:
+Since this is a mutable type, the changes to the contents of x and y would be reflected in all references to those objects elsewhere. As you point out, above, though, this adds an extra indirection to array accesses.
+
 =#
 """ A type-Matching function chooses the right function based on given type
 

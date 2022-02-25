@@ -170,9 +170,28 @@ end
 function ϟ(a, b) #\upkoppa
     return a + b
 end
-
+using BenchmarkTools
 @benchmark ϟ(1, 3) # maximum time:     0.100 ns (0.00% GC)
+#=
+BenchmarkTools.Trial: 10000 samples with 1000 evaluations.
+ Range (min … max):  0.001 ns … 2.200 ns  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     0.001 ns             ┊ GC (median):    0.00%
+ Time  (mean ± σ):   0.042 ns ± 0.063 ns  ┊ GC (mean ± σ):  0.00% ± 0.00%
+
+  █                                                       ▃  
+  █▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁█ ▂=#
+
 @benchmark ϟ(1, 10^6) # maximum time:     44.800 ns (0.00% GC)
+#=
+BenchmarkTools.Trial: 10000 samples with 1000 evaluations.
+ Range (min … max):  4.700 ns …  2.682 μs  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     5.000 ns              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   8.556 ns ± 43.835 ns  ┊ GC (mean ± σ):  0.00% ± 0.00%
+
+  █▄▃▄▄▄▄▄▂▂▂▂▃▂▁▁                                           ▂
+  ██████████████████▇▇▇▆▇▆▆▇▆▆▄▆▅▅▅▄▅▆▅▅▄▄▅▅▅▆▅▄▆▆▆▇▇▆▆▆▆▅▁▅ █
+  4.7 ns       Histogram: log(frequency) by time     27.4 ns <=
+  #
 #= there exits a huge dichotomy 
 #infer: UnOptimized 
 an increase of a 10^6 yeilds an increase in time maximum by  447.99999999999994 times 
@@ -250,9 +269,9 @@ end
 
   Else, there must be an error in either input arguments: a, b (or an Unexpected error occured) 
   Otherwise,  return the `check`
- 
+
   **see also:** `iseven`
-  
+
   ```
 """
 function midCriterion(a, b)
@@ -395,7 +414,7 @@ function iseven(m)
     end
     return check  #check has a valid value: either true or false 
 end
-=#
+=# =#
 
 #Relationship between 2 consecutive Rationals is 1 99% a.s. 
 """BisectSort
@@ -439,7 +458,6 @@ end
 
 
 function BisectSort(v::Vector)
-
     #1. get the ranges  & indicies of current vector 
     aVal = first(v)
     bVal = last(v)
@@ -451,14 +469,14 @@ function BisectSort(v::Vector)
         # compare a, b  last compare 
         a, b = compare(a, bIdx)
         # 
-        return
+        return a, b
         #end  
     elseif euclidDist > 1  # a-b> 1#there are still indicies to explore 
         #calculate next mini-subrange (blookup? -> not recursive, middle ->Yes )
         #blookupRecursive()
-        # BisectSort(a,b)  #TODO:
+        # BisectSort(a,b)  #TODO: 
         return BisectSort(v, aVal, bVal) # reality 
-        return middle(a, b)#1.5 false , 1.5  #ideal expectation 
+    #return middle(a, b)#1.5 false , 1.5  #ideal expectation 
     else
         println(strError)
     end
@@ -487,33 +505,117 @@ end
 swp = include("swap.jl")
 
 
-function compare(arr, aIdx, bIdx)
-    a = 0
-    b = 0
-    aVal = arr[aIdx]
-    bVal = arr[bIdx]
+function compare(arr; aIdx, bIdx)
+    aVal = 0
+    bVal = 0
+    aVal = arr[aIdx] # 5 v[1]= 5
+    bVal = arr[bIdx] # v[last] = 1  5>1
     #if aVal < bVal
     if aVal > bVal   # a > b #should be a <b 
         #swap       
-        a, b = swapping(x, y) # (bVal, aVal)
+        aVal, bVal = swapping(aVal, bVal) #x, y) # (bVal, aVal)
     #min, max = max, min #TODO
+    elseif aVal < bVal
+        return aVal, bVal
+    else #faulty input , Unexpected code  
+        println(strError)
+        return
+    end
+    return aVal, bVal  #min, max #deketed values 
+end
+
+function compare(arr)
+    aVal = 0
+    bVal = 0
+    aVal = first(arr) # arr[aIdx] # 5 v[1]= 5
+    bVal = last(arr) #arr[bIdx] # v[last] = 1  5>1
+    aIdx = firstindex(arr)
+    bIdx = lastindex(arr) # bVal)
+    #if aVal < bVal
+    if aVal > bVal   # a > b #should be a < b 
+        #1. swap values        
+        aVal, bVal = swap(aVal, bVal) #x, y) # (bVal, aVal) #ERROR T not defined 
+        #swap indicies
+        aIdx, bIdx = bIdx, aIdx
+        #update array (with correct orders)
+        arr[aIdx], arr[bIdx] = arr[bIdx], arr[aIdx]
+
+        #min, max = max, min #TODO
+    elseif aVal < bVal # at that level (diff length) of indicies # the array is correct  
+        return aVal, bVal
 
     else #faulty input , Unexpected code  
         println(strError)
         return
     end
-    return min, max
+    return aVal, bVal  #min, max #deketed values 
 end
 
+res = compare(v) #
+aVal = first(v)# 10 
+bVal = last(v) # 3 
+aIdx = firstindex(v)
+bIdx = lastindex(v)
+#-----------------------------------
+#check indicies : a< b 
+aIdx > bIdx ? true : false
+#check valuse: aVal > bVal <---- Infer: swap (TODO:Automatic)
+aVal > bIdx ? true : false
+a, b = swap(v[aIdx], v[bIdx])
+v[aIdx], v[bIdx] = v[aIdx], v[bIdx] # swap is not functioning, as expected 
+#manual work - working !
+tmp = v[aIdx]
+v[aIdx] = v[bIdx]
+v[bIdx] = tmp
+
+#-------------------------------------------------------------------
+
+#@benchmark v[aIdx], v[bIdx] =
+@benchmark oldschoolSwap(v[aIdx], v[bIdx])
+"""
+run betrics 
+
+    @btime   80.498 ns (1 allocation: 32 bytes)
+    @time 0.000008 seconds (1 allocation: 32 bytes)
+    @benchmark 
+    BenchmarkTools.Trial: 10000 samples with 963 evaluations.
+    Range (min … max):   80.893 ns …  2.189 μs  ┊ GC (min … max): 0.00% … 95.18%
+    Time  (median):      86.604 ns              ┊ GC (median):    0.00%
+    Time  (mean ± σ):   101.256 ns ± 55.861 ns  ┊ GC (mean ± σ):  1.05% ±  2.30%
+
+    ▅▇█▄▂▁▃▅▃▂▂ ▁ ▁▁▂▁                                           ▁
+    ███████████████████████████▇▇▇▇▇▇▇▇▇▆▇▆▆▇▇▇▆▆▆▆▆▇▆▆▆▆▅▆▅▅▄▄▆ █
+    80.9 ns       Histogram: log(frequency) by time       239 ns <
+
+    Memory estimate: 32 bytes, allocs estimate: 1.
+"""
+function oldschoolSwap(x, y)
+    tmp = x
+    x = y
+    y = tmp
+    return x, y
+end
+#returning firstindex(aVal) = lastIndex(bVal) = 1 
+#infer: a swap must be done by the condition: aVal > bVal  
+
+
+swap(first(v), last(v))
+
+#testing compare 
+v = [5, 3, 1]
+
+res = compare(v, firstindex(v), firstindex(v)) #ERROR! 
+
+
 function swap(a, b)
-    a, b = nothing
+    #    a, b = nothing
     if typeof(a) == typeof(b) == Float64 || typeof(a) == typeof(b) == Array{T,N}
         # swap floats  (or arrays)
         a, b = swp.swap!(a, b)
 
     else
-        #faulty input 
-        println(strError)
+        #faulty input  
+        println(strError) #defaults to this 
     end
     return a, b
 end
@@ -523,8 +625,20 @@ end
 v = [10, 7, 3] #that's a typical scenario! 
 euclideanDist(3, 1)
 
+#res = BisectSort(v)
 
-
-BisectSort(v)
-
-
+aVal = first(v)
+bVal = last(v)
+bIdx = lastindex(v)
+aIdx = firstindex(v)
+#set terminal condition: in
+euclidDist = euclideanDist(aIdx, bIdx) #checks distance of an array
+stack = []
+if euclidDist > 1  # a-b> 1#there are still indicies to explore 
+    #calculate next mini-subrange (blookup? -> not recursive, middle ->Yes )
+    #blookupRecursive()
+    # BisectSort(a,b)  #TODO: 
+    push!(stack, BisectSort(v, aVal, bVal)) # reality 
+end
+stack #nothing 
+compare(v)
