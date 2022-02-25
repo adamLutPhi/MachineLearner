@@ -30,6 +30,25 @@ mutable struct WrapArray{T,N} <: AbstractArray{T,N}
 end
 T = Float64;
 N = 1;
+#------------
+"""
+```input:
+    x: original x value
+    y: original y value 
+```
+```output:
+    x: swapped x value 
+    y: swapped y value 
+```
+"""
+
+function oldschoolSwap(x, y)
+    tmp = x
+    x = y
+    y = tmp
+    return x, y
+end
+
 #---------------------------------------------------
 function swap!(x::Array{T,N}, y::Array{T,N}) where {T,N}
     x.a, y.a = y.a, x.a # a is for any arbitrary item 

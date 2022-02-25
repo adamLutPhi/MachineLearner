@@ -235,61 +235,9 @@ look at middle n/2
 ```output:
 ```
 """
-function midCriterion(euclidDistance)
-    m = 0
-    m = euclidDistance #euclideanDist(a, b) # | b - a | 
-    condition = nothing
-    condition = iseven(m)
-    check = nothing
-    if condition == true
-        check = condition
-    elseif condition == false
-        check = condition
-    else #if faulty input or Unexpected ERROR Occured 
-        check
-    end
-    return check #whether check is true, false, nothing
-end
 
-#check #2:middle
-"""middleCriterion
-```input
-  a: the `first()` in a range 
-  b:the `last()` in  a range 
-```
-```output
- Returns `check`: the 
 
- Output is Calculated by: `check b-a`
 
- `output = `
-   If check is true 
-
-  If check if false
-
-  Else, there must be an error in either input arguments: a, b (or an Unexpected error occured) 
-  Otherwise,  return the `check`
-
-  **see also:** `iseven`
-
-  ```
-"""
-function midCriterion(a, b)
-    m = 0
-    m = euclideanDist(a, b) # | b - a | 
-    condition = nothing
-    condition = iseven(m)
-    check = nothing
-    if condition == true
-        check = condition
-    elseif condition == false
-        check = condition
-    else #if faulty input or Unexpected ERROR Occured 
-        check
-    end
-    return check #whether check is true, false, nothing
-end
-#done!
 using BenchmarkTools
 @benchmark midCriterion(1, 3) # |3 - 1| = 2 is isEven -true-> retrun isMidCriterion ->true  #  maximum time:     13.900 ns (0.00% GC)
 @benchmark midCriterion(1, 10^6) # maximum time:     maximum time:     36.800 ns (0.00% GC)
@@ -370,51 +318,7 @@ else #error faulty Input
 
 end
 return 
-=#
 
-
-#another idea: pass in middle function, as a whole 
-#function middleExtraction(middle,a,b) end
-#---testing area 2 
-
-"""returns a boolean
-```input:
-
-```
-
-```output:
-
-```
-"""#testing purposes only 
-function checkCriterion(ch, :operator = [%, +, -, *], operand)
-    check = nothing
-    check = ch
-    condition = nothing
-    condition = :check:operator:operand
-    if condition == true
-        return true #a.s. 
-    elseif condition == false
-        return false #a.s. 
-    else # faulty Input or Unexpected Error Occured
-        return check
-    end
-    return check
-end
-checkCriterion(3, %, 2)
-#=
-function iseven(m)
-    check = nothing;
-    check = m
-    if m %2 == 0
-        check = true
-    else if m % 2 != 0
-        check == false
-    else #faulty input, or Unexpected ERROR Occured 
-        return check 
-    end
-    return check  #check has a valid value: either true or false 
-end
-=# =#
 
 #Relationship between 2 consecutive Rationals is 1 99% a.s. 
 """BisectSort
@@ -442,7 +346,7 @@ function BisectSort(v, a::Int64, b::Int64)
     euclidDist = euclideanDist(aIdx, bIdx)
     if euclidDist == 1
         # compare a, b  last compare 
-        a, b = compare(a, b)
+        a, b = compare(a, b) #possibl error (includes swap if first 1st larger than 2nd)
         # 
         return
         #end  
@@ -450,7 +354,7 @@ function BisectSort(v, a::Int64, b::Int64)
         #calculate next mini-subrange (blookup? -> not recursive, middle ->Yes )
         #blookupRecursive()
         #BisectSort()  
-        return middle(a, b)#1.5 false , 1.5 
+        return middle(a, b)#1.5 false , 1.5  ()
     else
         println(strError)
     end
@@ -463,16 +367,18 @@ function BisectSort(v::Vector)
     bVal = last(v)
     bIdx = lastindex(v)
     aIdx = firstindex(v)
+
     #set terminal condition: in
     euclidDist = euclideanDist(aIdx, bIdx) #checks distance of an array
     if euclidDist == 1 #fallback condition 
         # compare a, b  last compare 
-        a, b = compare(a, bIdx)
+        a, b = compare(v, aIdx, bIdx) #erroreous #maybe it's because it's nothing 
         # 
         return a, b
         #end  
     elseif euclidDist > 1  # a-b> 1#there are still indicies to explore 
         #calculate next mini-subrange (blookup? -> not recursive, middle ->Yes )
+
         #blookupRecursive()
         # BisectSort(a,b)  #TODO: 
         return BisectSort(v, aVal, bVal) # reality 
@@ -482,65 +388,36 @@ function BisectSort(v::Vector)
     end
 end
 
-
+"""here there is no array is provided (assumes user is proficient, knows what he's doing)
+Right hand argument is assumed to have a lower side, if not , then swap 
+```input:
+```
+```output:
+```
 """
-right hand argument is assumed to have a lower side
-"""
-function compare(a::Int64, b::Int64)
-    min = 0
-    max = 0
-    min = a
-    max = b
-    if a > b # only if  
-        #swap       
-        min, max = max, min
-    else #faulty input , Unexpected code  
-        println(strError)
-        return
-    end
-    return min, max
-end
-
-
 swp = include("swap.jl")
 
+"""compares 
+```input:
 
-function compare(arr; aIdx, bIdx)
-    aVal = 0
-    bVal = 0
-    aVal = arr[aIdx] # 5 v[1]= 5
-    bVal = arr[bIdx] # v[last] = 1  5>1
-    #if aVal < bVal
-    if aVal > bVal   # a > b #should be a <b 
-        #swap       
-        aVal, bVal = swapping(aVal, bVal) #x, y) # (bVal, aVal)
-    #min, max = max, min #TODO
-    elseif aVal < bVal
-        return aVal, bVal
-    else #faulty input , Unexpected code  
-        println(strError)
-        return
-    end
-    return aVal, bVal  #min, max #deketed values 
-end
+```
+```output:
+```
+it fails if there is are Redundant values (as it returns the first (of beginning & ending ))
+"""
+function compare(arr) #errornous #warning becareful from its values
 
-function compare(arr)
-    aVal = 0
-    bVal = 0
     aVal = first(arr) # arr[aIdx] # 5 v[1]= 5
     bVal = last(arr) #arr[bIdx] # v[last] = 1  5>1
     aIdx = firstindex(arr)
     bIdx = lastindex(arr) # bVal)
     #if aVal < bVal
     if aVal > bVal   # a > b #should be a < b 
-        #1. swap values        
-        aVal, bVal = swap(aVal, bVal) #x, y) # (bVal, aVal) #ERROR T not defined 
-        #swap indicies
-        aIdx, bIdx = bIdx, aIdx
-        #update array (with correct orders)
-        arr[aIdx], arr[bIdx] = arr[bIdx], arr[aIdx]
+        #1. Swap values        
+        aVal, bVal = oldschoolSwap(aVal, bVal) #correct #x, y) # (bVal, aVal) #ERROR T not defined 
+        #2. Swap  array indicies(with correct orders)
+        arr[aIdx], arr[bIdx] = oldschoolSwap(arr[aIdx], arr[bIdx])
 
-        #min, max = max, min #TODO
     elseif aVal < bVal # at that level (diff length) of indicies # the array is correct  
         return aVal, bVal
 
@@ -548,21 +425,51 @@ function compare(arr)
         println(strError)
         return
     end
-    return aVal, bVal  #min, max #deketed values 
+    return aVal, bVal, arr  #min, max #deketed values 
 end
-
-res = compare(v) #
-aVal = first(v)# 10 
-bVal = last(v) # 3 
+#Applied Domain 
+v = [8, 4, 2]
+aVal = first(v)
+bVal = last(v)
 aIdx = firstindex(v)
 bIdx = lastindex(v)
+#Q.are all 2 necessary (not 3)
+#1. Swap values        
+aVal, bVal = oldschoolSwap(aVal, bVal) #correct #x, y) # (bVal, aVal) #ERROR T not defined 
+#2. Swap indicies
+v[aIdx], v[bIdx] = oldschoolSwap(v[aIdx], v[bIdx])
+
+res = collect(compare(v)) #correct swap indecies & values 
+aVal = first(v)# 8 #2 
+bVal = last(v) # 2 #8
+aIdx = firstindex(v)#1
+bIdx = lastindex(v)#3
+#----
+aVal = first(res)# 8 #2 
+bVal = last(res) # 2 #8
+aIdx = firstindex(res)#1
+bIdx = lastindex(res)#3 # should be 3 #displayed 2  #why?
+#---
+aVal = first(v)
+bVal = last(v)
+bIdx = lastindex(v)
+aIdx = firstindex(v)
+#set terminal condition: in
+euclidDist = euclideanDist(aIdx, bIdx)
+
+#----
+res == v
+res === v
+typeof(v)
+typeof(res)
 #-----------------------------------
 #check indicies : a< b 
 aIdx > bIdx ? true : false
 #check valuse: aVal > bVal <---- Infer: swap (TODO:Automatic)
 aVal > bIdx ? true : false
-a, b = swap(v[aIdx], v[bIdx])
+a, b = oldschoolSwap(v[aIdx], v[bIdx])
 v[aIdx], v[bIdx] = v[aIdx], v[bIdx] # swap is not functioning, as expected 
+v[aIdx], v[bIdx] = v[aIdx], v[bIdx]
 #manual work - working !
 tmp = v[aIdx]
 v[aIdx] = v[bIdx]
@@ -598,13 +505,10 @@ end
 #returning firstindex(aVal) = lastIndex(bVal) = 1 
 #infer: a swap must be done by the condition: aVal > bVal  
 
-
-swap(first(v), last(v))
-
 #testing compare 
-v = [5, 3, 1]
+v = [8, 4, 2] #[5, 3, 1]
 
-res = compare(v, firstindex(v), firstindex(v)) #ERROR! 
+res = compare(v)#, firstindex(v), firstindex(v)) #ERROR!  2,8, [2,4,8]
 
 
 function swap(a, b)
@@ -629,16 +533,17 @@ euclideanDist(3, 1)
 
 aVal = first(v)
 bVal = last(v)
-bIdx = lastindex(v)
 aIdx = firstindex(v)
+bIdx = lastindex(v)
 #set terminal condition: in
 euclidDist = euclideanDist(aIdx, bIdx) #checks distance of an array
 stack = []
 if euclidDist > 1  # a-b> 1#there are still indicies to explore 
     #calculate next mini-subrange (blookup? -> not recursive, middle ->Yes )
     #blookupRecursive()
-    # BisectSort(a,b)  #TODO: 
-    push!(stack, BisectSort(v, aVal, bVal)) # reality 
+    # BisectSort(a,b)  #TODO:
+
+    push!(stack, BisectSort(v, aVal, bVal)) # reality  #error here possibly 
 end
 stack #nothing 
 compare(v)
