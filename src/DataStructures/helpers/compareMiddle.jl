@@ -1,4 +1,4 @@
-=#
+#=
 
 
 #another idea: pass in middle function, as a whole 
@@ -142,9 +142,9 @@ elseif condition == false
 else # faulty Input or Unexpected Error Occured
     #    return check  # nothing
 
-    #end
+ #end
     return condition, check, above, below
-end
+end  
 end 
 #--------Demonstration
 #=

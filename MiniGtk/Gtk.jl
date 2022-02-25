@@ -6,10 +6,11 @@ if isdefined(Base, :Experimental) && isdefined(Base.Experimental, Symbol("@optle
 end=#
 
 # Import Binary Definitions (for building by a binary builder)
-using GTK3_jll, Glib_jll, Xorg_xkeyboard_config_jll, gdk_pixbuf_jll, adwaita_icon_theme_jll, hicolor_icon_theme_jll
-using Librsvg_jll
-using JLLWrappers
-using Pkg.Artifacts #ERROR: Unable to parse `Pkg.Artifacts` as a package.
+using GTK3_jll, Glib_jll # handmade collection of custom package Imports  
+using Xorg_xkeyboard_config_jll, gdk_pixbuf_jll, adwaita_icon_theme_jll, hicolor_icon_theme_jll #Gnome Imports 
+using Librsvg_jll #svg maker wrapper 
+using JLLWrappers #Julia Wrapper
+using Pkg.Artifacts #ERROR: Unable to parse `Pkg.Artifacts` as a package.Fix using Artifacts
 const libgdk = libgdk3
 const libgtk = libgtk3
 const libgdk_pixbuf = libgdkpixbuf
@@ -18,6 +19,7 @@ const libgdk_pixbuf = libgdkpixbuf
 const suffix = :Leaf #define :leaf # concrete
 #include(safe_path("GLib.jl")) # GLib/GLib.jl") #TODO: fix 
 #include("..\GLib.jl") #need to include Glib 
+
 
 using .GLib
 using .GLib.MutableTypes
@@ -28,6 +30,7 @@ import .GLib:
     signal_emit, unsafe_convert,
     AbstractStringLike, bytestring
 
+
 import Base: convert, show, run, size, resize!, length, getindex, setindex!,
              insert!, push!, append!, pushfirst!, pop!, splice!, delete!, deleteat!,
              parent, isempty, empty!, first, last, in, popfirst!,
@@ -35,16 +38,18 @@ import Base: convert, show, run, size, resize!, length, getindex, setindex!,
 
 export showall, select!, start
 
+
 using Reexport
 @reexport using Graphics
 import .Graphics: width, height, getgc
+
 
 using Cairo
 import Cairo: destroy
 using Serialization
 
-const Index{I<:Integer} = Union{I, AbstractVector{I}}
 
+const Index{I<:Integer} = Union{I, AbstractVector{I}}
 export GAccessor
 #=TODO: add files ending with exports 
 include("basic_exports.jl")
@@ -52,13 +57,14 @@ include("long_exports.jl")
 include("long_leaf_exports.jl")
 =#
 
+
 global const libgtk_version = VersionNumber(
       ccall((:gtk_get_major_version, libgtk), Cint, ()),
       ccall((:gtk_get_minor_version, libgtk), Cint, ()),
       ccall((:gtk_get_micro_version, libgtk), Cint, ()))
 
-#= Required files (for Building GUI Items )
 
+#= Required files (for Building GUI Items )
 include("application.jl")
 include("builder.jl") #3
 
@@ -89,7 +95,6 @@ include("theme.jl")
 include("misc.jl")
 
 =#
-
 function __init__()
     # Set XDG_DATA_DIRS so that Gtk can find its icons and schemas
     ENV["XDG_DATA_DIRS"] = join(filter(x -> x !== nothing, [
@@ -292,7 +297,7 @@ let cachedir = joinpath(splitdir(@__FILE__)[1], "..", "gen")
         map(eval, include(constcache).args)
     end
 end
-const _ = GAccessor #TODO: No Definition for GAcessor 
+const _ = GAccessor #TODO: No Definition for GAcessor (Gnome Accessor) #Infer: Gnome wrapper package 
 using .GConstants
 #= TODO:UncommentMe
 include("windows.jl")

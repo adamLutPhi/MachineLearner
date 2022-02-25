@@ -49,14 +49,14 @@ begin
     kdepoly!(la4, linkeddata2[:, 1], false, color=red, linewidth=2, show_axis=false)
     kdepoly!(la5, linkeddata2[:, 2], true, color=red, linewidth=2, show_axis=false)
 
-    maingl = GridLayout(scene, 2, 1, alignmode=Outside(40)) #makie error in the tutorial #scene rendering  
+    maingl = GridLayout(scene, 2, 1, alignmode=Outside(40)) #makie error in the tutorial #scene rendering  function
 
     sledg = maingl[2, 1] = LSlider(scene, range = LinRange(0.0, 150.0, 200))
 
 
     gl = maingl[1, 1] = GridLayout(
         2, 2;
-        rowsizes = [Aspect(1, 1.0), Auto()],
+        rowsizes = [Aspect(1, 1.0), Auto()], #Comment:Aspect Ratio is not a Golden Ratio  
         colsizes = [Relative(0.5), Auto()],
         addedrowgaps = Fixed(20),
         addedcolgaps = Fixed(20),
