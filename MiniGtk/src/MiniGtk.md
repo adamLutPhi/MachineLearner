@@ -1,6 +1,6 @@
 # Gtk
 
-[![GtkMap](MiniGtk/../../GtkMap.png)](MiniGtk\Assets\GtkMap.png)
+[![GtkMap](MiniGtk/../GtkMap.png)](MiniGtk\Assets\GtkMap.png)
 
 
 [download xmind file](GTK.xmind)

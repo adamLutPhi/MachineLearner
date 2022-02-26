@@ -58,7 +58,8 @@ checkCriterion(3, %, 2)
   ```
 """
 #isEven Removed #Reason: unnecessary Overhead 
-
+#define euclidDist here 
+euclideanDist(a::Int64, b::Int64) = (abs(max(a, b)) - abs(min(a, b))) # was (max(a, b) - abs(min(a, b))) #Unsymmetric 
 function midCriterion(a, b) #ok #double-Checked 
     m = euclideanDist(a, b) # | b - a |   definition
     condition = m % 2 == 0 #isEven(m) #even (divisible by 2)
@@ -74,7 +75,7 @@ function midCriterion(a, b) #ok #double-Checked
 end
 #done!
 
-res = midCriterion(10,3)
+res = midCriterion(10,3) #flase Infer no middle as a whole number 
 
 function midCriterion(euclidDistance)
     m = euclidDistance #NO ERROR  #euclideanDist(a, b) # | b - a | 

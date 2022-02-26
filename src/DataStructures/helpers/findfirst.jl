@@ -19,7 +19,7 @@ findfirst() extension function
 
 function firstIndex(v::Vector) #
     #using first()
-    return findfirst(first(v)) #content 
+    return findall(first(v)) #content 
 end
 
 
@@ -56,7 +56,8 @@ v = [1, 2, 3, 4] # alg: first(index) + last(index)
 #benchmarking 
 using BenchmarkTools
 v = [1, 2, 3, 4]
-a = findIndex(v)
+#a =
+firstIndex(v)
 #= 
 1. get 1st value 
 undex0f() returns int 

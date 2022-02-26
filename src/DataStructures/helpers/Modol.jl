@@ -39,7 +39,7 @@ v = [1, 2, 3, 4]
 typeof(v)
 s(v) = last(v)
 last(v) # last equal size (length)
-isMod(last(v)/2) 
+isMod(last(v) / 2)
 first(v)
 @time begin
     flag = isMod(vec)
@@ -64,7 +64,7 @@ what is the max of list ?
 r = [1, 2, 3, 4]
 last(r)
 maxr = last(r)
-number = Int(last(r)/2)
+number = Int(last(r) / 2)
 
 isMod(r)#we can divide 
 
@@ -93,11 +93,11 @@ end
 
 #---
 #fl = nothing
-isMod(a, b; fl = nothing) = (max(a,b) - abs(min(a,b))) % 2 == 0 ? fl = true : fl = false;
+isMod(a, b; fl = nothing) = (max(a, b) - abs(min(a, b))) % 2 == 0 ? fl = true : fl = false;
 
-isMod(vec;fl=nothing) = length(vec) % 2 == 0 ? fl = true : fl = false; 
-isMod(vec::Vector;fl=nothing) = last(vec) %2 ==0 ? fl=true : fl = false; # 
-len(vec::Vector;fl=nothing) = last(vec)+1
+isMod(vec; fl = nothing) = length(vec) % 2 == 0 ? fl = true : fl = false;
+isMod(vec::Vector; fl = nothing) = last(vec) % 2 == 0 ? fl = true : fl = false; # 
+len(vec::Vector; fl = nothing) = last(vec) + 1
 
 function isMod(a::Int64, b::Int64) #any two numbers
     dif = (max(a, b) - abs(min(a, b))) #% 2 == 0 #? fl = true : fl = false;
@@ -122,8 +122,9 @@ findprev
 findprev
 
 
-function len(v::Vector)
-#=    
+
+#
+    #=    
 if(isa odd(last(v))#i.e. 3 
 
         #assumes a sorted array  # divisible
@@ -161,5 +162,9 @@ if fl == true
 elseif flag == false
     l = (length(vec) + 1) / 2 # not correct # skipping 1   
 end 
-=#
- 
+=#=#
+
+function len(v::Vector)
+    return length(v)
+end
+len(v)

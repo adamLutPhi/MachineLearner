@@ -682,7 +682,7 @@ Exclamation mark: is convention that says:
 this case, it's V 
 =#
 
-M = hcat(V[1], V[2]) # for all elements( hardcoded here for 2 item)
+M = @inbounds hcat(V[1], V[2]) # for all elements( hardcoded here for 2 item) #true positive error @even with inbounds, alerts with error  
 #vector to Array: horizontal concat hcat: horizontally contatenated vertical vectors  
 M = hcat(V...) #...:the splat: for all values of container  ; take each element in array ; put it as an argument (concatenate it)
 #splat ...: takes each element, in the Iterable, & make Another Argument (of the function)
