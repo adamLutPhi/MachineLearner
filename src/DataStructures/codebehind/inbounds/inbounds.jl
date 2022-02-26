@@ -92,7 +92,7 @@ BenchmarkTools.Trial: 10000 samples with 1000 evaluations.
  Memory estimate: 0 bytes, allocs estimate: 0.
 
  =#
-f(1, 10)
+f(1, 10) #bounds Error 
 
 #without @inbounds 
 
