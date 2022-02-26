@@ -1,12 +1,15 @@
 ### Getting and Setting Properties
 #Mutable not defined 
+Mutable= include("MutableTypes.jl")
+include("GLib.jl")
+include("gtype.jl")
 struct GValue
     g_type::GType
     field2::UInt64
     field3::UInt64
     GValue() = new(0, 0, 0)
 end
-const GV = Union{Mutable{GValue}, Ptr{GValue}}
+const GV = Union{Mutable{GValue}, Ptr{GValue}} #Mutable not #try:added MutableTypes.jl 
 Base.zero(::Type{GValue}) = GValue()
 function gvalue(::Type{T}) where T
     v = mutable(GValue())
@@ -36,15 +39,15 @@ end
 function setindex!(dest::GV, src::GV)
     ccall((:g_value_transform, libgobject), Cint, (Ptr{GValue}, Ptr{GValue}), src, dest) != 0
     src
-end
+end # GV not defined 
 
-setindex!(::Type{Nothing}, v::GV) = v
-setindex!(v::GLib.GV, x) = setindex!(v, x, typeof(x))
-setindex!(gv::GV, x, i::Int) = setindex!(mutable(gv, i), x)
+setindex!(::Type{Nothing}, v::GV) = v #GV not defined 
+setindex!(v::GLib.GV, x) = setindex!(v, x, typeof(x)) #GLib (include ) #GV not defined 
+setindex!(gv::GV, x, i::Int) = setindex!(mutable(gv, i), x)# GV not defined 
 
-getindex(gv::GV, i::Int, ::Type{T}) where {T} = getindex(mutable(gv, i), T)
-getindex(gv::GV, i::Int) = getindex(mutable(gv, i))
-getindex(v::GV, i::Int, ::Type{Nothing}) = nothing
+getindex(gv::GV, i::Int, ::Type{T}) where {T} = getindex(mutable(gv, i), T)#GV not defined 
+getindex(gv::GV, i::Int) = getindex(mutable(gv, i)) # GV not defined 
+getindex(v::GV, i::Int, ::Type{Nothing}) = nothing#GV not defined 
 
 let handled = Set()
 global make_gvalue, getindex
@@ -123,10 +126,12 @@ end
 
 const gvalue_types = Any[]
 const fundamental_fns = tuple(Function[ make_gvalue_from_fundamental_type(i, @__MODULE__) for
-                              i in 1:length(fundamental_types)]...)
-@make_gvalue(Symbol, Ptr{UInt8}, :static_string, :(g_type(AbstractString)), false)
-@make_gvalue(Type, GType, :gtype, (:g_gtype, :libgobject))
+                              i in 1:length(fundamental_types)]...)#ERROR:fundamental_types not defined 
+@make_gvalue(Symbol, Ptr{UInt8}, :static_string, :(g_type(AbstractString)), false) #GV 
+@make_gvalue(Type, GType, :gtype, (:g_gtype, :libgobject))#GType
 @make_gvalue(Ptr{GBoxed}, Ptr{GBoxed}, :gboxed, :(g_type(GBoxed)), false)
+#=WARNING: redefinition of constant gvalue_types. This may fail, cause incorrect answers, or produce other errors.
+Any[]=#
 
 function getindex(gv::GV, ::Type{Any})
     gtyp = unsafe_load(gv).g_type
@@ -192,13 +197,15 @@ struct FieldRef{T}
     FieldRef(obj::T, field::Symbol) where T = new{T}(obj, field)
 end
 
+#= UncommentMe
 getindex(f::FieldRef, ::Type{T}) where {T} = get_gtk_property(f.obj, f.field,T)
 
 function setindex!(f::FieldRef, value::T, ::Type{T}) where {T}
     isdefined(f.obj,f.field) && return setfield!(f.obj, f.field, value)
     set_gtk_property!(f.obj, f.field, value)
     return f
-end
+end #FieldRef  undefined 
+=#
 setindex!(f::FieldRef, value::K, ::Type{T}) where {K, T} = setindex!(f, convert(T,value), T)
 
 function show(io::IO, w::GObject)

@@ -1,7 +1,7 @@
 # Gtk linked list #works
 
 ## Type hierarchy information
-
+#compiles 100%
 ### an _LList is expected to have a data::Ptr{T} and next::Ptr{_LList{T}} element
 ### they are expected to be allocated and freed by GLib (e.g. with malloc/free)
 import Base: popfirst!,Base.show,Base.size,Base.length,Base.pushfirst!,Base.push!

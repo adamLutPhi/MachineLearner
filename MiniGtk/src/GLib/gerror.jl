@@ -3,8 +3,8 @@ struct GError
     domain::UInt32
     code::Cint
     message::Ptr{UInt8}
-end
-@make_gvalue(GError, Ptr{GError}, :boxed, (:g_error, :libgobject))
+end #ok
+@make_gvalue(GError, Ptr{GError}, :boxed, (:g_error, :libgobject)) #GV
 convert(::Type{GError}, err::Ptr{GError}) = GError(err)
 
 GError(err::Ptr{GError}) = unsafe_load(err)

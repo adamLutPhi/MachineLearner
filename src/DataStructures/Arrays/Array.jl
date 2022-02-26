@@ -15,6 +15,17 @@ trivial define array structur that does new things for you
 #--- is there overhead for this ?
 using BenchmarkTools
 
+#No method matching +(::Array{Float64,0}, ::Float64)
+#myfun
+#0-dimensional sum (1 scalar value)
+function mysum(A)
+    s = zeros(eltype(A))
+    @inbounds for a in A
+        s .+= a
+    end
+    s
+end
+#=should got 1 Dimensional vector=#
 function mysum(A)
     s = zeros(eltype(A))
     @inbounds for a in A
@@ -25,8 +36,12 @@ end
 
 mysum(typeof(rand(5, 5)))
 
+m = mysum(rand(5, 5))
+
+#meanwhile, emulating large dataset 
+
 A = rand(10^4, 10^4)
-B = Mappedarray(identity, A)
+B = Mappedarray(identity, A) # MappedArray not defined (yet)
 
 
 @time mysum(A)
@@ -36,6 +51,8 @@ B = Mappedarray(identity, A)
 @time mysum(B)
 @btime mysum(B)
 @Benchmarking mysum(B)
+
+#TODO: fix mysum()
 
 """
 julia has the capabilities, that allows you to handle
@@ -222,34 +239,41 @@ Apply Function (You store in container) to each element
    Notice: have to define this for Integers (it's Significant)
 
 """
-#errors out: f is not defined #that' the point of laziness
+#errors out: f is not defined #that' the point of laziness # there's more into that 
+#introduce MappedArray
 struct Mappedarray{T,N,A<:AbstractArray,F} <: AbstractArray{T,N}
     f:F
     data::A
 end #f not defined, Prof. Holy
 ###
-
-using MappedArrays, Test
+#or using an already set 
+using MappedArrays, Test # ] add MappedArrays
 
 A = rand(5, 5)
 T = ones
 
-MappedArray{T,N}(f, data::AbstractArray{T,N}) =  #defines f as ones
+MappedArray{T,N}(f, data::AbstractArray{T,N}) =  #defines f as ones # but N Not defined 
     MappedArray{typeof(f(one(T))),N,typeof(data),typeof(f)}(f, data)
 
-B = Mappedarray(sqrt, A) #only realizes computation whn calling B[i,j,..]
+B = Mappedarray(sqrt, A) #only realizes computation whn calling B[i,j,..] # no method matching 
+
+#--- 
+#sqrt() & map(sqrt,A) 
+#map approximates sqrt correctly 
+#Q. how many floating points are necessay? #TODO:
 
 A = rand()
-sqrt(A)         #implicit element-wise computation
+sqrt(A)         #implicit element-wise computation # 0.9328629863877007  
 
-map(sqrt, A)   #explicit element-wise computation 
+map(sqrt, A)   #explicit element-wise computation # 0.9328629863877007   
 
 @time sqrt(A)  # 0.000005 seconds (1 allocation: 16 bytes)
 
-@assert sqrt(A) == map(sqrt, A)
+@assert sqrt(A) == map(sqrt, A)  #True 
 
+#------
 @time map(sqrt, A) # 0.000007 seconds (2 allocations: 32 bytes)
-@btime map(sqrt, A) #183.176 ns (2 allocations: 32 bytes) ;0.9298476269411314
+@btime map(sqrt, A) #183.176 ns (2 allocations: 32 bytes) ;0.9298476269411314 # 181.304 ns #the BEST  
 @benchmark map(sqrt, A)
 #=
 BenchmarkTools.Trial: 10000 samples with 631 evaluations.
@@ -263,7 +287,8 @@ BenchmarkTools.Trial: 10000 samples with 631 evaluations.
 
  Memory estimate: 32 bytes, allocs estimate: 2.
  =#
-B = mappedarray(sqrt, A) #  either A 's items reach end of program (as expected) #Or  
+
+B = mappedarray(sqrt, A) #  either A 's items reach end of program (as expected) #Or   # ERROR: tuple must be non empty 
 #B = mappedarray(func, a) #anyways, it's generalization
 
 ##
@@ -349,7 +374,7 @@ end
 
 
 @time A = rand(10^3, 10^3) #V  0.002637 seconds (2 allocations: 7.629 MiB) 1000×1000 Matrix{Float64}:
-@time mysum(A)
+@time mysum(A) # 499774.5988719051
 @benchmark mysum(A)
 #=
   0.003270 seconds (2 allocations: 7.629 MiB)
@@ -516,11 +541,11 @@ ERROR:
 
 #T not defined: me: so is it only defined on runtime? (as it's lazy?) - at runtime but in debugging, suffice to give it a try 
 #T = Int64
-# N = 2
+ N = 2
 Base.@propagate_inbounds function Base.getindex{T,N}(P::PermutedDimsArray{T,N}, I::Vararg{T,N})
     getindex(P.parent, I[P.iperm]...)
 end
-
+#ERROR: in Type{...} expression, expected UnionAll, got a value of type typeof(getindex)
 
 """Lesson Learned: 
 Async Method on any Array ( via index)
@@ -586,7 +611,7 @@ but, essentially, (It) makes your life more convinient (a bit)
 
 
 """
-General block: for Generalization & abstraction only - Do not usE THIS code Block - Start Compile the 
+General block: for Generalization & abstraction only - Do not usE THIS code Block -  Compile the next one, please
 """
 #General case: don't compile this block
 struct structname end #always do this (in OOP Strategy - write (abstract) struct name then end ) #me: what if i have
@@ -607,7 +632,7 @@ Reindexing, at Level of Tuples
 #----works
 Base.@propagate_inbounds _getindex(i, A, As...) = (A[i], _getindex(i, As...)...)
 _getindex(i) = ()
-
+#genetic function with 2 methods 
 Base.@propagate_inbounds function _setindex!(as::As, vals::Vs, inds::Vararg{Int,N}) where {As,Vs,N}
     a1, atail = as[1], Base.tail(as)
     v1, vtail = vals[1], Base.tail(vals)
@@ -645,7 +670,7 @@ extending arrays
 how: by using the push (Bang)
 =#
 V = []
-
+w = []
 
 push!(w, "adamus")
 append!(w, [3, 4.5, "coffee costs"])

@@ -123,7 +123,7 @@ end
 
 GtkListStoreLeaf(combo::GtkComboBoxText) = GtkListStoreLeaf(ccall((:gtk_combo_box_get_model, libgtk), Ptr{GObject}, (Ptr{GObject},), combo))
 
-
+typeof(GtkListStoreLeaf)
 ## insert before
 function insert!(listStore::GtkListStoreLeaf, iter::TRI, values)
     newiter = Gtk.mutable(GtkTreeIter)

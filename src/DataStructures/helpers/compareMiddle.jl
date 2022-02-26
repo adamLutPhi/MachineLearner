@@ -1,4 +1,4 @@
-global ⫙ = []
+#global ⫙ = []
 #=
 
 
@@ -34,7 +34,8 @@ checkCriterion(3, %, 2)
  =#
 
 #check #2:middle
-"""middleCriterion
+#
+"""midCriterion
 ```input
   a: the `first()` in a range 
   b:the `last()` in  a range 
@@ -88,54 +89,63 @@ function midCriterion(euclidDistance)
     end
     return check #whether check is true, false, nothing
 end
-
+#--------------
 # cyclical code dedected! :mid to even , or even to mid  #Possible
-function middleExtraction(condition, checkedValue; above = nothing, below = nothing)
-    #⫙ = []#unused detected 
-    #criterion = nothing
+function middleExtraction(condition, checkedValue; above = nothing, below = nothing) #at least one argument is given, besides condition 
+    ⫙ = []# reset is necessary detected 
     criterion = condition
     if criterion == true # there is only 1 value  
         # only get the checkedValue 
-        push!(checkedValue)
+        ⫙ = push!(⫙, checkedValue)
     elseif criterion == false
-        #then we have above & below to get (know for sure that below is under above) 
-        push!(⫙, above)
-        push!(⫙, below)
+      #then we have above & below to get (know for sure that below is under above) 
+     ⫙ =    push!(⫙, above)
+     ⫙ =   push!(⫙, below)
     else # faulty input or Unexpected error Occured
         return
     end
-    return q
+    return ⫙ #q
 end
 #---------------------------------------
 function middleGet(condition)
     criterion = condition
-    criterion ? ⫙.setindex(popat(checkedValue)) : ⫙.setindex(popat(ceil)), ⫙.setindex(popat(below))
+    criterion ? ⫙ = (popat(checkedValue)) : ⫙ = popat(ceil); ⫙ = popat(below) #warning: unused  ⫙
     return ⫙
 end 
 
 function middleSet(condition)
     criterion = condition
-    criterion ? push(checkedValue) : push!(⫙,ceil), push!(⫙,below)
+    criterion ? push!(⫙, checkedValue) : push!(⫙, ceil); push!(⫙,below)
 end
 #----------------------------------------   
 #middleExtraction()
 check = Int(ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ
- ⫙ = []
-function push!(ceil=above, floor=below)   
+ #⫙ = []
+
+function push!(⫙, ceil = above, floor = below)#warning: ⫙, floor are Unused 
     push!(⫙, ceil)
     push!(⫙, below)
-
 end 
-function popDouble()
-    ceil = popat(ceil)
-    floor = popat(below)
+""" pops ceil & floor """
+function popDouble() 
+    ceil = popat(⫙,ceil)
+    floor = popat(⫙,below)
     return ceil, floor 
 end
+"""pushes ceil & floor """
+function  pushDouble(⫙,ceil=above, floor=below)
+    ceil = push!(⫙,ceil)
+    floor = push!(⫙,below)
+    
+    return ceil, floor 
+end
+"""pushes checked """
 function push(checked = checkedValue)
   push!(⫙, checked)
 end 
+
 function pop!()
-   checked = pop!()
+    checked = pop!()
     return checked
 end
 
@@ -145,14 +155,14 @@ function pop!()
 function middle(a, b) # working 
     criterion = midCriterion(a, b)
     # check = nothing;check = midCriterion(m) #b-a
-    check = nothing
+    checkedMiddle = nothing
     above = nothing
     below = nothing
     condition = criterion #   b-a 
 if condition == true
     #return true #a.s. #eucledian Distance divided by 2 returing a whole integer
-    check = Int(ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ#5
-    middleExtraction(condition,check)
+    checkedMiddle = Int(ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ#5
+    middleExtraction(condition,check) # Here we didn't get anything ! <-------------
 elseif condition == false
     #return false #a.s.# check = euclideanDist(a,b)//2*1.0
     #GET Ceil & Floor

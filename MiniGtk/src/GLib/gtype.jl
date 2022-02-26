@@ -3,6 +3,7 @@ using Glib_jll
 import Base.eltype
 #using Gtk.ShortNames # ShortNames to be fetched #meaningless #defined in GTK.jl's footer 
 #TODO: add _LList
+# GType 
 abstract type GObject end
 abstract type GInterface <: GObject end
 abstract type GBoxed end
@@ -50,7 +51,7 @@ const fundamental_types = (
 # NOTE: in general do not cache ids, except for these fundamental values
 g_type_from_name(name::Symbol) = ccall((:g_type_from_name, libgobject), GType, (Ptr{UInt8},), name)
 const fundamental_ids = tuple(GType[g_type_from_name(name) for (name, c, j, f) in fundamental_types]...)
-
+#ERROR: libgobject is not defined 
 g_type(gtyp::GType) = gtyp
 let jtypes = Expr(:block, :(g_type(::Type{Nothing}) = $(g_type_from_name(:void))))
     for i = 1:length(fundamental_types)
@@ -100,8 +101,8 @@ const gtype_abstracts = Dict{Symbol,Type}()
 const gtype_wrappers = Dict{Symbol,Type}()
 const gtype_ifaces = Dict{Symbol,Type}()
 
-gtype_abstracts[:GObject] = GObject
-gtype_wrappers[:GObject] = GObjectLeaf
+gtype_abstracts[:GObject] = GObject # GObject #Definition  #abstract 
+gtype_wrappers[:GObject] = GObjectLeaf #GObject # Definition #leaf # concrete 
 
 let libs = Dict{AbstractString,Any}()
     global get_fn_ptr
@@ -336,11 +337,11 @@ function wrap_gobject(hnd::Ptr{GObject})
     return T(hnd)
 end
 
-eltype(::Type{_LList{T}}) where {T<:GObject} = T
+eltype(::Type{_LList{T}}) where {T<:GObject} = T #_LList is not defined 
 ref_to(::Type{T}, x) where {T<:GObject} = gobject_ref(unsafe_convert(Ptr{GObject}, x))
 deref_to(::Type{T}, x::Ptr) where {T<:GObject} = convert(T, x)
 empty!(li::Ptr{_LList{Ptr{T}}}) where {T<:GObject} = gc_unref(unsafe_load(li).data)
-
+#_LList not defined 
 ### Miscellaneous types
 baremodule GConnectFlags
 const AFTER = 1
@@ -461,6 +462,7 @@ function gobject_ref(x::T) where {T<:GObject}
     run_delayed_finalizers()
     return x
 end
+
 gc_ref(x::GObject) = pointer_from_objref(gobject_ref(x))
 
 function run_delayed_finalizers()

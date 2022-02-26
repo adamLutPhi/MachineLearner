@@ -2,6 +2,17 @@
 # @vtjnash
 #Cross-Referenced with: #checked 
 #https://github.com/JuliaGraphics/Gtk.jl/blob/3bd7caf1eabf0c295d1f092d44c7ac4fccb67a56/src/GLib/GLib.jl
+#requires Libffi_jll
+#=
+✓ Preferences✓ JLLWrappers✓ Libffi_jll✗ FreeType2_jll✗ Libgcrypt_jll✗ Libtiff_jll✓ Preferences✓ JLLWrappers✓ Libffi_jll
+✗ FreeType2_jll✗ Libgcrypt_jll✗ Libtiff_jll✗ XML2_jll✗ Fontconfig_jll✗ XSLT_jll✗ Gettext_jll✗ Glib_jll✗ ATK_jll✗ gdk_pixbuf_jll
+✗ Cairo_jll✗ HarfBuzz_jll✗ Pango_jll✗ GTK3_jll✗ Librsvg_jll
+=also requires GTK3_jll -> errors while building (Pkg.precompile() ) 
+there're some errors: 
+in expression starting at C:\Users\adamus\.julia\packages\GTK3_jll\FbeBp\src\wrappers\x86_64-w64-mingw32.jl:4
+in expression starting at C:\Users\adamus\.julia\packages\GTK3_jll\FbeBp\src\GTK3_jll.jl:2
+this file vitally, heavily relies on Glib_jll 
+=#
 module GLib
 #=requires
 1. ] add Glib_jll [REPL] {an obscure name for a set of various Julia Libraries} #Requires looking into into
@@ -69,10 +80,10 @@ using .MutableTypes
 
 include("gerror.jl")
 include("glist.jl")
-include("gtype.jl")
-include("gvalues.jl")
+include("gtype.jl")#ERROR 
+include("gvalues.jl")#ERROR
 include("gsignals.jl")
-#include("gwrap.jl") #Excluded
+#include("gwrap.jl") #Excluded with new releases 
 
 export @g_type_delegate
 macro g_type_delegate(eq)
@@ -94,6 +105,7 @@ end
 if Base.VERSION >= v"1.4.2"
     precompile(Tuple{typeof(addref),Any})   # time: 0.003988418
     # precompile(Tuple{typeof(gc_ref),Any})   # time: 0.002649791
-end
+end#ERROR #addref undefined
+
 
 end # module
