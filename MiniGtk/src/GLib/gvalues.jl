@@ -3,9 +3,9 @@
 Mutable= include("MutableTypes.jl")
 include("GLib.jl")
 include("gtype.jl")
-include("gen/gtk_get_set_gen.jl")
+include("../gen/gtk_get_set_gen.jl")
 #=
-GV -> GValue 
+requires GV -that requires-> GValue (gvalues.jl) -that requires-> 
 =#
 struct GValue
     g_type::GType
