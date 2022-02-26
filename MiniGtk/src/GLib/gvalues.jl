@@ -3,6 +3,10 @@
 Mutable= include("MutableTypes.jl")
 include("GLib.jl")
 include("gtype.jl")
+include("gen/gtk_get_set_gen.jl")
+#=
+GV -> GValue 
+=#
 struct GValue
     g_type::GType
     field2::UInt64

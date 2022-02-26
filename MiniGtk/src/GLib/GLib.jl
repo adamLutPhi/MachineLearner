@@ -80,9 +80,10 @@ using .MutableTypes
 
 include("gerror.jl")
 include("glist.jl")
+include("signals.jl")
 include("gtype.jl")#ERROR 
-include("gvalues.jl")#ERROR
-include("gsignals.jl")
+
+#include("gvalues.jl")#ERROR
 #include("gwrap.jl") #Excluded with new releases 
 
 export @g_type_delegate
@@ -103,7 +104,7 @@ macro g_type_delegate(eq)
 end
 
 if Base.VERSION >= v"1.4.2"
-    precompile(Tuple{typeof(addref),Any})   # time: 0.003988418
+    precompile(Tuple{typeof(addref),Any})   # time: 0.003988418 #errors out
     # precompile(Tuple{typeof(gc_ref),Any})   # time: 0.002649791
 end#ERROR #addref undefined
 

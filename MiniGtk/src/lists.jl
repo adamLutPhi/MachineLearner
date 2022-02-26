@@ -129,7 +129,7 @@ function insert!(listStore::GtkListStoreLeaf, iter::TRI, values)
     newiter = Gtk.mutable(GtkTreeIter)
     ccall((:gtk_list_store_insert_before, Gtk.libgtk), Nothing, (Ptr{GObject}, Ptr{GtkTreeIter}, Ref{GtkTreeIter}), listStore, newiter, iter)
     list_store_set_values(listStore, newiter, values)
-    newiter[]
+    newiter[]   
 end
 
 ## insert into a list store after index
@@ -613,7 +613,7 @@ GtkCellRendererSpinnerLeaf() = GtkCellRendererSpinnerLeaf(
 
 ### GtkTreeViewColumn
 # 2 Leafs 
-GtkTreeViewColumnLeaf() = GtkTreeViewColumnLeaf(ccall((:gtk_tree_view_column_new, libgtk), Ptr{GObject}, ()))#possible method call error 
+GtkTreeViewColumnLeaf() = GtkTreeViewColumnLeaf(ccall((:gtk_tree_view_column_new, libgtk), Ptr{GObject}, ()))#possible method call error #TODO: #Error in: GtkTreeViewColumnLeaf, ccall,gtk_tree_view_column_new,libgtk,GObject ?
 function GtkTreeViewColumnLeaf(renderer::GtkCellRenderer, mapping)
     treeColumn = GtkTreeViewColumnLeaf()
     pushfirst!(treeColumn, renderer)
