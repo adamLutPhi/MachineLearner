@@ -184,3 +184,5 @@ f((Int,)) #ERROR: MethodError: `f` has no method matching f(::Tuple{DataType}) #
 #ERROR: MethodError: `f` has no method matching f(::Tuple{DataType}) Closest candidates are: f(::Tuple{Type{Int64}})
 
 #= Warning f(::Tuple{Type{Int64}}) #f(::Tuple{DataType}) #OPEN! #BUGGY ERROR Detected (for more review: src\UI\Gtk\issues\open\isa_issue.jl for more examples of buggy code)
+#=Remark:in 2013, pointing to a hidden bug, with a one word f((Int,)) -that breaks Julia itself- was later discovered by chance in 2015; till today the issue is open (because it is as deep as LLVM)
+the presenter is the least, but the fellow 'scientists' that he resemble are, hereby, spooky=#

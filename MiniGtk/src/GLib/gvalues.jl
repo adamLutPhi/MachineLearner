@@ -1,11 +1,11 @@
 ### Getting and Setting Properties
 #Mutable not defined 
-Mutable= include("MutableTypes.jl")
+Mutable = include("MutableTypes.jl")
 include("GLib.jl")
 include("gtype.jl")
 include("../gen/gtk_get_set_gen.jl")
 #=
-requires GV -that requires-> GValue (gvalues.jl) -that requires-> 
+requires GV -that requires-> GValue (gvalues.jl) -that requires->  gtk_get_set_gen.jl ("../gen/gtk_get_set_gen.jl")
 =#
 struct GValue
     g_type::GType
@@ -13,9 +13,9 @@ struct GValue
     field3::UInt64
     GValue() = new(0, 0, 0)
 end
-const GV = Union{Mutable{GValue}, Ptr{GValue}} #Mutable not #try:added MutableTypes.jl 
+const GV = Union{Mutable{GValue},Ptr{GValue}} #Mutable not #try:added MutableTypes.jl 
 Base.zero(::Type{GValue}) = GValue()
-function gvalue(::Type{T}) where T
+function gvalue(::Type{T}) where {T}
     v = mutable(GValue())
     v[] = T
     v
@@ -54,83 +54,93 @@ getindex(gv::GV, i::Int) = getindex(mutable(gv, i)) # GV not defined
 getindex(v::GV, i::Int, ::Type{Nothing}) = nothing#GV not defined 
 
 let handled = Set()
-global make_gvalue, getindex
-function make_gvalue(pass_x, as_ctype, to_gtype, with_id, cm::Module, allow_reverse::Bool = true, fundamental::Bool = false)
-    with_id === :error && return
-    if isa(with_id, Tuple)
-        with_id = with_id::Tuple{Symbol, Any}
-        with_id = :(ccall($(Expr(:tuple, Meta.quot(Symbol(string(with_id[1], "_get_type"))), with_id[2])), GType, ()))
-    end
-    if pass_x !== Union{} && !(pass_x in handled)
-        Core.eval(cm, quote
-            function Base.setindex!(v::GLib.GV, ::Type{T}) where T <: $pass_x
-                ccall((:g_value_init, GLib.libgobject), Nothing, (Ptr{GLib.GValue}, Csize_t), v, $with_id)
-                v
-            end
-            function Base.setindex!(v::GLib.GV, x, ::Type{T}) where T <: $pass_x
-                $(  if to_gtype == :string
-                        :(x = GLib.bytestring(x))
-                    elseif to_gtype == :pointer || to_gtype == :boxed
-                        :(x = GLib.mutable(x))
-                    elseif to_gtype == :gtype
-                        :(x = GLib.g_type(x))
-                    end)
-                ccall(($(string("g_value_set_", to_gtype)), GLib.libgobject), Nothing, (Ptr{GLib.GValue}, $as_ctype), v, x)
-                if isa(v, GLib.MutableTypes.MutableX)
-                    finalizer((v::GLib.MutableTypes.MutableX) -> ccall((:g_value_unset, GLib.libgobject), Nothing, (Ptr{GLib.GValue},), v), v)
+    global make_gvalue, getindex
+    function make_gvalue(pass_x, as_ctype, to_gtype, with_id, cm::Module, allow_reverse::Bool = true, fundamental::Bool = false)
+        with_id === :error && return
+        if isa(with_id, Tuple)
+            with_id = with_id::Tuple{Symbol,Any}
+            with_id = :(ccall($(Expr(:tuple, Meta.quot(Symbol(string(with_id[1], "_get_type"))), with_id[2])), GType, ()))
+        end
+        if pass_x !== Union{} && !(pass_x in handled)
+            Core.eval(cm, quote
+                function Base.setindex!(v::GLib.GV, ::Type{T}) where {T<:$pass_x}
+                    ccall((:g_value_init, GLib.libgobject), Nothing, (Ptr{GLib.GValue}, Csize_t), v, $with_id)
+                    v
                 end
-                v
-            end
-        end)
+                function Base.setindex!(v::GLib.GV, x, ::Type{T}) where {T<:$pass_x}
+                    $(
+                        if to_gtype == :string
+                            :(x = GLib.bytestring(x))
+                        elseif to_gtype == :pointer || to_gtype == :boxed
+                            :(x = GLib.mutable(x))
+                        elseif to_gtype == :gtype
+                            :(x = GLib.g_type(x))
+                        end
+                    )
+                    ccall(($(string("g_value_set_", to_gtype)), GLib.libgobject), Nothing, (Ptr{GLib.GValue}, $as_ctype), v, x)
+                    if isa(v, GLib.MutableTypes.MutableX)
+                        finalizer((v::GLib.MutableTypes.MutableX) -> ccall((:g_value_unset, GLib.libgobject), Nothing, (Ptr{GLib.GValue},), v), v)
+                    end
+                    v
+                end
+            end)
+        end
+        if to_gtype == :static_string
+            to_gtype = :string
+        end
+        if pass_x !== Union{} && !(pass_x in handled)
+            push!(handled, pass_x)
+            Core.eval(cm, quote
+                function Base.getindex(v::GLib.GV, ::Type{T}) where {T<:$pass_x}
+                    x = ccall(($(string("g_value_get_", to_gtype)), GLib.libgobject), $as_ctype, (Ptr{GLib.GValue},), v)
+                    $(
+                        if to_gtype == :string
+                            :(x = GLib.bytestring(x))
+                        elseif pass_x == Symbol
+                            :(x = Symbol(x))
+                        end
+                    )
+                    return Base.convert(T, x)
+                end
+            end)
+        end
+        if fundamental || allow_reverse
+            fn = Core.eval(cm, quote
+                function (v::GLib.GV)
+                    x = ccall(($(string("g_value_get_", to_gtype)), GLib.libgobject), $as_ctype, (Ptr{GLib.GValue},), v)
+                    $(
+                        if to_gtype == :string
+                            :(x = GLib.bytestring(x))
+                        end
+                    )
+                    $(
+                        if pass_x !== Union{}
+                            :(return Base.convert($pass_x, x))
+                        else
+                            :(return x)
+                        end
+                    )
+                end
+            end)
+            allow_reverse && pushfirst!(gvalue_types, [pass_x, Core.eval(cm, :(() -> $with_id)), fn])
+            return fn
+        end
+        return nothing
     end
-    if to_gtype == :static_string
-        to_gtype = :string
-    end
-    if pass_x !== Union{} && !(pass_x in handled)
-        push!(handled, pass_x)
-        Core.eval(cm, quote
-            function Base.getindex(v::GLib.GV, ::Type{T}) where T <: $pass_x
-                x = ccall(($(string("g_value_get_", to_gtype)), GLib.libgobject), $as_ctype, (Ptr{GLib.GValue},), v)
-                $(  if to_gtype == :string
-                        :(x = GLib.bytestring(x))
-                    elseif pass_x == Symbol
-                        :(x = Symbol(x))
-                    end)
-                return Base.convert(T, x)
-            end
-        end)
-    end
-    if fundamental || allow_reverse
-        fn = Core.eval(cm, quote
-            function(v::GLib.GV)
-                x = ccall(($(string("g_value_get_", to_gtype)), GLib.libgobject), $as_ctype, (Ptr{GLib.GValue},), v)
-                $(if to_gtype == :string; :(x = GLib.bytestring(x)) end)
-                $(if pass_x !== Union{}
-                    :(return Base.convert($pass_x, x))
-                else
-                    :(return x)
-                end)
-            end
-        end)
-        allow_reverse && pushfirst!(gvalue_types, [pass_x, Core.eval(cm, :(() -> $with_id)), fn])
-        return fn
-    end
-    return nothing
-end
 end #let
 
 macro make_gvalue(pass_x, as_ctype, to_gtype, with_id, opt...)
     esc(:(make_gvalue($pass_x, $as_ctype, $to_gtype, $with_id, $__module__, $(opt...))))
 end
 
-function make_gvalue_from_fundamental_type(i,cm)
-  (name, ctype, juliatype, g_value_fn) = fundamental_types[i]
-  return make_gvalue(juliatype, ctype, g_value_fn, fundamental_ids[i], cm, false, true)
+function make_gvalue_from_fundamental_type(i, cm)
+    (name, ctype, juliatype, g_value_fn) = fundamental_types[i]
+    return make_gvalue(juliatype, ctype, g_value_fn, fundamental_ids[i], cm, false, true)
 end
 
 const gvalue_types = Any[]
-const fundamental_fns = tuple(Function[ make_gvalue_from_fundamental_type(i, @__MODULE__) for
-                              i in 1:length(fundamental_types)]...)#ERROR:fundamental_types not defined 
+const fundamental_fns = tuple(Function[make_gvalue_from_fundamental_type(i, @__MODULE__) for
+                                       i in 1:length(fundamental_types)]...)#ERROR:fundamental_types not defined 
 @make_gvalue(Symbol, Ptr{UInt8}, :static_string, :(g_type(AbstractString)), false) #GV 
 @make_gvalue(Type, GType, :gtype, (:g_gtype, :libgobject))#GType
 @make_gvalue(Ptr{GBoxed}, Ptr{GBoxed}, :gboxed, :(g_type(GBoxed)), false)
@@ -168,9 +178,9 @@ function getindex(gv::GV, ::Type{Any})
 end
 #end
 
-get_gtk_property(w::GObject, name::AbstractString, ::Type{T}) where T = get_gtk_property(w, String(name)::String, T)
-get_gtk_property(w::GObject, name::Symbol, ::Type{T}) where T = get_gtk_property(w, String(name), T)
-function get_gtk_property(w::GObject, name::String, ::Type{T}) where T
+get_gtk_property(w::GObject, name::AbstractString, ::Type{T}) where {T} = get_gtk_property(w, String(name)::String, T)
+get_gtk_property(w::GObject, name::Symbol, ::Type{T}) where {T} = get_gtk_property(w, String(name), T)
+function get_gtk_property(w::GObject, name::String, ::Type{T}) where {T}
     v = gvalue(T)
     ccall((:g_object_get_property, libgobject), Nothing,
         (Ptr{GObject}, Ptr{UInt8}, Ptr{GValue}), w, name, v)
@@ -179,7 +189,7 @@ function get_gtk_property(w::GObject, name::String, ::Type{T}) where T
     return val
 end
 
-set_gtk_property!(w::GObject, name, ::Type{T}, value) where T = set_gtk_property!(w, name, convert(T, value))
+set_gtk_property!(w::GObject, name, ::Type{T}, value) where {T} = set_gtk_property!(w, name, convert(T, value))
 set_gtk_property!(w::GObject, name::AbstractString, value) = set_gtk_property!(w::GObject, String(name)::String, value)
 set_gtk_property!(w::GObject, name::Symbol, value) = set_gtk_property!(w::GObject, String(name), value)
 function set_gtk_property!(w::GObject, name::String, value)
@@ -193,12 +203,12 @@ struct FieldRef{T}
     obj::T
     field::Symbol
 
-    global function getproperty(obj::T, field::Symbol) where {T <: GObject}
+    global function getproperty(obj::T, field::Symbol) where {T<:GObject}
         isdefined(obj, field) && return getfield(obj, field)
         new{T}(obj, field)
     end
 
-    FieldRef(obj::T, field::Symbol) where T = new{T}(obj, field)
+    FieldRef(obj::T, field::Symbol) where {T} = new{T}(obj, field)
 end
 
 #= UncommentMe
@@ -210,10 +220,10 @@ function setindex!(f::FieldRef, value::T, ::Type{T}) where {T}
     return f
 end #FieldRef  undefined 
 =#
-setindex!(f::FieldRef, value::K, ::Type{T}) where {K, T} = setindex!(f, convert(T,value), T)
+setindex!(f::FieldRef, value::K, ::Type{T}) where {K,T} = setindex!(f, convert(T, value), T)
 
 function show(io::IO, w::GObject)
-    READABLE   = 0x00000001
+    READABLE = 0x00000001
     DEPRECATED = 0x80000000
     print(io, typeof(w), '(')
     if unsafe_convert(Ptr{GObject}, w) == C_NULL
@@ -236,7 +246,7 @@ function show(io::IO, w::GObject)
         if (param.flags & READABLE) != 0 &&
            (param.flags & DEPRECATED) == 0 &&
            (ccall((:g_value_type_transformable, libgobject), Cint,
-                (Int, Int), param.value_type, g_type(AbstractString)) != 0)
+               (Int, Int), param.value_type, g_type(AbstractString)) != 0)
             ccall((:g_object_get_property, libgobject), Nothing,
                 (Ptr{GObject}, Ptr{UInt8}, Ptr{GValue}), w, param.name, v)
             str = ccall((:g_value_get_string, libgobject), Ptr{UInt8}, (Ptr{GValue},), v)
