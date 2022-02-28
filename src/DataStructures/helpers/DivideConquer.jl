@@ -156,7 +156,7 @@ function isMod(a::Int64, b::Int64)
     elseif dif % 2 != 0 #isEven(dif) != 0 
         res = false
     else # sth else happened during evaluation of rem
-        return res
+        return res      
     end
     return res
 end
@@ -209,9 +209,12 @@ BenchmarkTools.Trial: 10000 samples with 1000 evaluations.
 #= there exits a huge dichotomy 
 #infer: UnOptimized 
 an increase of a 10^6 yeilds an increase in time maximum by  447.99999999999994 times 
-=#
+=# =#
 @time ϟ(1, 3) #  0.000000 seconds # in @time,  we care about allocation  
 @time ϟ(1, 10^6)
+
+
+
 
 #using Base.Threads
 
