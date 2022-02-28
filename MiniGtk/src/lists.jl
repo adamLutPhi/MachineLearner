@@ -25,7 +25,13 @@
 
 #GtkComboBox — A widget used to choose from a list of items
 #GtkComboBoxText — A simple, text-only combo box
-#needs GObject #not defined 
+#needs GObject #not defined #requires BinaryBuilder  , 
+#= 1.Mutable  2. GtkComboBoxText 3. GtkListStore  4. GtkTreeStore 5. GtkTreeModel 6.  treeStore 7. GtkTreeStore 8. GtkTreeModelSort
+9.GtkTreeModelFilterLeaf 10.GtkListStore 11. GtkTreeModelFilter 12. GtkCellRenderer 13.GtkTreeView  14.GtkCellLayout  15. GtkCellLayout=#
+GtkListStore
+import Base: pushfirst!
+import Mutable
+import Gtk #requires precompile()
 
 GtkComboBoxTextLeaf(with_entry::Bool = false) = GtkComboBoxTextLeaf(
     if with_entry
@@ -61,15 +67,15 @@ struct GtkTreeIter
     user_data3::Ptr{Nothing}
     GtkTreeIter() = new(0, C_NULL, C_NULL, C_NULL)
 end
-
-const TRI = Union{Mutable{GtkTreeIter},GtkTreeIter} #Struct{GtkTreeIter} 
+#TODO: Mutable 
+const TRI = Union{Mutable{GtkTreeIter},GtkTreeIter} #Struct{GtkTreeIter} #TODO:Mutable 
 zero(::Type{GtkTreeIter}) = GtkTreeIter()
 copy(ti::GtkTreeIter) = ti
 copy(ti::Mutable{GtkTreeIter}) = mutable(ti[])
 show(io::IO, iter::GtkTreeIter) = print("GtkTreeIter(...)")
 
 Base.cconvert(::Type{Ref{GtkTreeIter}}, x::GtkTreeIter) = Ref(x)
-Base.cconvert(::Type{Ref{GtkTreeIter}}, x::Gtk.Mutable{GtkTreeIter}) = Ref(x[])
+Base.cconvert(::Type{Ref{GtkTreeIter}}, x::Gtk.Mutable{GtkTreeIter}) = Ref(x[]) #TODO:Gtk
 
 ### GtkTreePath
 
@@ -80,7 +86,7 @@ Base.cconvert(::Type{Ref{GtkTreeIter}}, x::Gtk.Mutable{GtkTreeIter}) = Ref(x[])
 #    indices::Ptr{Cint}
 # end
 
-mutable struct GtkTreePath <: GBoxed
+mutable struct GtkTreePath <: GBoxed #TODO:GBoxed
     handle::Ptr{GtkTreePath}
     function GtkTreePath(pathIn::Ptr{GtkTreePath}, own::Bool = false)
         x = new(own ? pathIn :
@@ -113,8 +119,9 @@ function iter_from_string_index(store, index::AbstractString)
     iter[]
 end
 
-### GtkListStore
-#5 Leafs 
+#---GtkListStore
+### GtkListStore definition  #ERROR: GObject not defined (Requires binary builder )
+#5. Leafs 
 function GtkListStoreLeaf(types::Type...)
     gtypes = GLib.gtypes(types...)
     handle = ccall((:gtk_list_store_newv, libgtk), Ptr{GObject}, (Cint, Ptr{GLib.GType}), length(types), gtypes)
@@ -129,7 +136,7 @@ function insert!(listStore::GtkListStoreLeaf, iter::TRI, values)
     newiter = Gtk.mutable(GtkTreeIter)
     ccall((:gtk_list_store_insert_before, Gtk.libgtk), Nothing, (Ptr{GObject}, Ptr{GtkTreeIter}, Ref{GtkTreeIter}), listStore, newiter, iter)
     list_store_set_values(listStore, newiter, values)
-    newiter[]   
+    newiter[]
 end
 
 ## insert into a list store after index
@@ -154,7 +161,7 @@ function list_store_set_values(store::GtkListStore, iter, values)
         ccall((:gtk_list_store_set_value, Gtk.libgtk), Nothing, (Ptr{GObject}, Ptr{GtkTreeIter}, Cint, Ptr{Gtk.GValue}),
             store, iter, i - 1, Gtk.gvalue(value))
     end
-end
+end #TODO:GtkListStore not defined 
 
 function push!(listStore::GtkListStore, values::Tuple)
     iter = mutable(GtkTreeIter)
@@ -185,7 +192,6 @@ empty!(listStore::GtkListStore) =
     ccall((:gtk_list_store_clear, libgtk), Nothing, (Ptr{GObject},), listStore)
 
 ## by index
-
 
 
 isvalid(listStore::GtkListStore, iter::TRI) =
@@ -224,6 +230,7 @@ function tree_store_set_values(treeStore::GtkTreeStoreLeaf, iter, values)
     iter[]
 end
 
+#TODO: treeStore GtkTreeStore
 ## index can be :parent or :sibling
 ## insertion can be :after or :before
 function insert!(treeStore::GtkTreeStoreLeaf, piter::TRI, values; how::Symbol = :parent, where::Symbol = :after)
@@ -284,7 +291,7 @@ function insert!(treeStore::GtkTreeStoreLeaf, piter::TRI, values; how::Symbol = 
     tree_store_set_values(treeStore, iter, values)
 end
 
-
+#TODO: GtkTreeStore
 function delete!(treeStore::GtkTreeStore, iter::TRI)
     # not sure what to do with the return value here
     deleted = ccall((:gtk_tree_store_remove, libgtk), Cint, (Ptr{GObject}, Ref{GtkTreeIter}), treeStore, iter)
@@ -317,23 +324,24 @@ getindex(store::Union{GtkTreeStore,GtkListStore}, iter::TRI) = getindex(GtkTreeM
 getindex(store::GtkTreeStore, row::Vector{Int}, column) = getindex(store, iter_from_index(store, row), column)
 getindex(store::GtkTreeStore, row::Vector{Int}) = getindex(store, iter_from_index(store, row))
 
-
-function setindex!(store::Union{GtkListStore,GtkTreeStore}, value, iter::TRI, column::Integer)
-    Gtk.G_.value(store, Gtk.mutable(iter), column - 1, gvalue(value))
-end
-
 function setindex!(store::GtkTreeStore, value, index::Vector{Int}, column::Integer)
     setindex!(store, value, Gtk.iter_from_index(store, index), column)
 end
+#-- GtkListStore
+function setindex!(store::Union{GtkListStore,GtkTreeStore}, value, iter::TRI, column::Integer)
+    Gtk.G_.value(store, Gtk.mutable(iter), column - 1, gvalue(value))
+end
+-
+#---end of GtkListStore
 
 
 
-### GtkTreeModelFilter
+### #TODO:GtkTreeModelFilter
 #1 Leaf
-
+#TODO: GObject
 GtkTreeModelFilterLeaf(child_model::GObject) = GtkTreeModelFilterLeaf(
     ccall((:gtk_tree_model_filter_new, libgtk), Ptr{GObject}, (Ptr{GObject}, Ptr{Nothing}), child_model, C_NULL))
-
+#---GtkTreeModelFilter
 function convert_iter_to_child_iter(model::GtkTreeModelFilter, filter_iter::TRI)
     child_iter = mutable(GtkTreeIter)
     ccall((:gtk_tree_model_filter_convert_iter_to_child_iter, libgtk), Nothing,
@@ -349,12 +357,12 @@ function convert_child_iter_to_iter(model::GtkTreeModelFilter, child_iter::TRI)
         model, filter_iter, child_iter)
     filter_iter[]
 end
+#--end of GtkTreeModelFilter
 
-### GtkTreeModelSort
-
+#--GObject 
 GtkTreeModelSortLeaf(child_model::GObject) = GtkTreeModelSortLeaf(
     ccall((:gtk_tree_model_sort_new_with_model, libgtk), Ptr{GObject}, (Ptr{GObject},), child_model))
-
+#--- GtkTreeModelSort
 function convert_iter_to_child_iter(model::GtkTreeModelSort, sort_iter::TRI)
     child_iter = mutable(GtkTreeIter)
     ccall((:gtk_tree_model_sort_convert_iter_to_child_iter, libgtk), Nothing,
@@ -370,9 +378,9 @@ function convert_child_iter_to_iter(model::GtkTreeModelSort, child_iter::TRI)
         model, sort_iter, child_iter)
     sort_iter[]
 end
+#--- end of GtkTreeModelSort
 
-
-### GtkTreeModel
+### #TODO: GtkTreeModel
 
 function getindex(treeModel::GtkTreeModel, iter::TRI, column::Integer)
     val = mutable(GValue())
@@ -409,6 +417,7 @@ function get_iter_first(treeModel::GtkTreeModel, iter = Mutable{GtkTreeIter})
     ret != 0
 end
 
+#TODO: Mutable 
 ## return (Bool, iter)
 function get_iter_next(treeModel::GtkTreeModel, iter::Mutable{GtkTreeIter})
     ret = ccall((:gtk_tree_model_iter_next, libgtk), Cint,
@@ -451,6 +460,7 @@ function iter_n_children(treeModel::GtkTreeModel, iter::TRI)
     ret
 end
 
+#--- Mutable 
 ## update iter pointing to nth child n in 1:nchildren)
 ## As a special case, if parent is NULL, then the n-th root node is set
 ## return boolean
@@ -470,6 +480,21 @@ function iter_parent(treeModel::GtkTreeModel, iter::Mutable{GtkTreeIter}, citer:
     ret != 0
 end
 
+
+## these mutate iter to point to new object.
+next(treeModel::GtkTreeModel, iter::Mutable{GtkTreeIter}) = get_iter_next(treeModel, iter)
+prev(treeModel::GtkTreeModel, iter::Mutable{GtkTreeIter}) = get_iter_previous(treeModel, iter)
+up(treeModel::GtkTreeModel, iter::Mutable{GtkTreeIter}) = iter_parent(treeModel, iter, copy(iter))
+down(treeModel::GtkTreeModel, iter::Mutable{GtkTreeIter}) = iter_children(treeModel, iter, copy(iter))
+#---end of Mutable 
+length(treeModel::GtkTreeModel, iter::TRI) = iter_n_children(treeModel, iter)
+string(treeModel::GtkTreeModel, iter::TRI) = get_string_from_iter(treeModel, iter)
+
+## index is Int[] 1-based
+#--- GtkTreeModel
+#--- treeModel 
+index_from_iter(treeModel::GtkTreeModel, iter::TRI) = map(int, split(get_string_from_iter(treeModel, iter), ":")) + 1
+
 ## string is of type "0:1:0" (0-based)
 function get_string_from_iter(treeModel::GtkTreeModel, iter::TRI)
     val = ccall((:gtk_tree_model_get_string_from_iter, libgtk), Ptr{UInt8},
@@ -477,23 +502,13 @@ function get_string_from_iter(treeModel::GtkTreeModel, iter::TRI)
         treeModel, iter)
     val = bytestring(val)
 end
-
-## these mutate iter to point to new object.
-next(treeModel::GtkTreeModel, iter::Mutable{GtkTreeIter}) = get_iter_next(treeModel, iter)
-prev(treeModel::GtkTreeModel, iter::Mutable{GtkTreeIter}) = get_iter_previous(treeModel, iter)
-up(treeModel::GtkTreeModel, iter::Mutable{GtkTreeIter}) = iter_parent(treeModel, iter, copy(iter))
-down(treeModel::GtkTreeModel, iter::Mutable{GtkTreeIter}) = iter_children(treeModel, iter, copy(iter))
-
-length(treeModel::GtkTreeModel, iter::TRI) = iter_n_children(treeModel, iter)
-string(treeModel::GtkTreeModel, iter::TRI) = get_string_from_iter(treeModel, iter)
-
-## index is Int[] 1-based
-index_from_iter(treeModel::GtkTreeModel, iter::TRI) = map(int, split(get_string_from_iter(treeModel, iter), ":")) + 1
-
+#----end GtkTreeModel
+#TODO:GtkTreeStore
 ## An iterator to walk a tree, e.g.,
 ## for iter in Gtk.TreeIterator(store) ## or Gtk.TreeIterator(store, piter)
 ##   println(store[iter, 1])
 ## end
+#--- TreeIterator
 mutable struct TreeIterator
     store::GtkTreeStore
     model::GtkTreeModel
@@ -575,15 +590,16 @@ function path(treeModel::GtkTreeModel, iter::TRI)
         (Ptr{GObject}, Ref{GtkTreeIter}),
         treeModel, iter))
 end
-
+#---end of treeModel
 depth(path::GtkTreePath) = ccall((:gtk_tree_path_get_depth, libgtk), Cint,
     (Ptr{GtkTreePath},), path)
-
+#ERROR- invalid type #forReview
 #---Leafs
 
 ### GtkTreeSortable
 
-### GtkCellRenderer
+### -----#TODO:GtkCellRenderer
+### GtkCellRenderer #Uncommentme 
 #= #TODO fix problems #add corresponding files (?)
 GtkCellRendererAccelLeaf() = GtkCellRendererAccelLeaf(
     ccall((:gtk_cell_renderer_accel_new, libgtk), Ptr{GObject}, ()))
@@ -611,7 +627,7 @@ GtkCellRendererSpinnerLeaf() = GtkCellRendererSpinnerLeaf(
     =#
 
 
-### GtkTreeViewColumn
+
 # 2 Leafs 
 GtkTreeViewColumnLeaf() = GtkTreeViewColumnLeaf(ccall((:gtk_tree_view_column_new, libgtk), Ptr{GObject}, ()))#possible method call error #TODO: #Error in: GtkTreeViewColumnLeaf, ccall,gtk_tree_view_column_new,libgtk,GObject ?
 function GtkTreeViewColumnLeaf(renderer::GtkCellRenderer, mapping)
@@ -621,21 +637,21 @@ function GtkTreeViewColumnLeaf(renderer::GtkCellRenderer, mapping)
         add_attribute(treeColumn, renderer, string(k), v)
     end
     treeColumn
-end
+end #TODO: GtkCellRenderer
 
 function GtkTreeViewColumnLeaf(title::AbstractString, renderer::GtkCellRenderer, mapping)
     set_gtk_property!(GtkTreeViewColumnLeaf(renderer, mapping), :title, title)
 end
 
 
-### GtkTreeView
+### GtkTreeView #TODO: GtkTreeModel
 #1 Leaf 
 
 GtkTreeViewLeaf() = GtkTreeViewLeaf(ccall((:gtk_tree_view_new, libgtk), Ptr{GObject}, ()))
 GtkTreeViewLeaf(treeStore::GtkTreeModel) = GtkTreeViewLeaf(
     ccall((:gtk_tree_view_new_with_model, libgtk), Ptr{GObject}, (Ptr{GObject},), treeStore))
 
-
+#GtkTreeViewColumn #TODO: GtkTreeViewColumn, Base.pushfirst!
 empty!(treeColumn::GtkTreeViewColumn) =
     ccall((:gtk_tree_view_column_clear, libgtk), Nothing, (Ptr{GObject},), treeColumn)
 
@@ -655,8 +671,8 @@ add_attribute(treeColumn::GtkTreeViewColumn, renderer::GtkCellRenderer,
     attribute::AbstractString, column::Integer) =
     ccall((:gtk_tree_view_column_add_attribute, libgtk), Nothing,
         (Ptr{GObject}, Ptr{GObject}, Ptr{UInt8}, Cint), treeColumn, renderer, bytestring(attribute), column)
-
-### GtkTreeSelection
+#----end of GtkCellRendered 
+### GtkTreeSelection #TODO:
 function selected(selection::GtkTreeSelection)
     hasselection(selection) || error("No selection for GtkTreeSelection")
 
@@ -692,6 +708,7 @@ function selected_rows(selection::GtkTreeSelection)
     iters
 end
 
+#--- TODO: GtkTreeSelection
 length(selection::GtkTreeSelection) =
     ccall((:gtk_tree_selection_count_selected_rows, libgtk), Cint, (Ptr{GObject},), selection)
 
@@ -710,27 +727,21 @@ selectall!(selection::GtkTreeSelection) =
 
 unselectall!(selection::GtkTreeSelection) =
     ccall((:gtk_tree_selection_unselect_all, libgtk), Nothing, (Ptr{GObject},), selection)
-
-
+#---end of  GtkTreeSelection 
+#-----GtkTreeViewColumn
 function push!(treeView::GtkTreeView, treeColumns::GtkTreeViewColumn...)
     for col in treeColumns
         ccall((:gtk_tree_view_append_column, libgtk), Nothing, (Ptr{GObject}, Ptr{GObject}), treeView, col)
     end
     treeView
 end
-
+#--- GTKTreeView 
 function insert!(treeView::GtkTreeView, index::Integer, treeColumn::GtkTreeViewColumn)
     ccall((:gtk_tree_view_insert_column, libgtk), Nothing, (Ptr{GObject}, Ptr{GObject}, Cint), treeView, treeColumn, index - 1)
     treeView
 end
-
-function delete!(treeView::GtkTreeView, treeColumns::GtkTreeViewColumn...)
-    for col in treeColumns
-        ccall((:gtk_tree_view_remove_column, libgtk), Nothing, (Ptr{GObject}, Ptr{GObject}), treeView, col)
-    end
-    treeView
-end
-
+#---end of GtkTreeViewColumn
+#---GtkTreeView 
 function expand_to_path(tree_view::GtkTreeView, path::GtkTreePath)
     return ccall(
         (:gtk_tree_view_expand_to_path, libgtk), Cvoid,
@@ -738,7 +749,7 @@ function expand_to_path(tree_view::GtkTreeView, path::GtkTreePath)
     )
 end
 
-function treepath(path::AbstractString)
+function treepath(path::AbstractString) #compiles 
     ptr = ccall(
         (:gtk_tree_path_new_from_string, libgtk), Ptr{GtkTreePath},
         (Ptr{UInt8},), bytestring(path)
@@ -771,8 +782,9 @@ function path_at_pos(treeView::GtkTreeView, x::Integer, y::Integer)
     end
     ret, path
 end
+#---end of GtkTreeView
 
-### GtkCellLayout
+###---- GtkCellLayout
 function cells(cellLayout::GtkCellLayout)
     cells = Gtk.GLib.GList(ccall((:gtk_cell_layout_get_cells, Gtk.libgtk),
         Ptr{Gtk._GList{Gtk.GtkCellRenderer}}, (Ptr{GObject},), cellLayout))
