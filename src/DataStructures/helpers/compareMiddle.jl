@@ -1,3 +1,4 @@
+using BenchmarkTools
 #global ⫙ = []
 #=
 
@@ -33,11 +34,11 @@ end
 checkCriterion(3, %, 2)
  =#
 #check #1 ϟ - \upkoppa 
-function ϟ(a,b)
+function ϟ(a, b)
     return abs(a) + abs(b)
-end 
+end
 
- #check #2:middle
+#check #2:middle
 #
 """evenCriterion
 ```input
@@ -79,7 +80,7 @@ function evenCriterion(a, b) #ok #double-Checked
 end
 #done!
 
-res = evenCriterion(1,3) #flase Infer no middle as a whole number 
+res = evenCriterion(1, 3) #flase Infer no middle as a whole number 
 #=
 function midCriterion(euclidDistance)
     m = euclidDistance #NO ERROR  #euclideanDist(a, b) # | b - a | 
@@ -96,7 +97,7 @@ function midCriterion(euclidDistance)
 end
 =#
 #--------------
-# cyclical code dedected! :mid to even , or even to mid  #Possible
+#Recheck - cyclical code dedected! :mid to even , or even to mid  #Possible #depreciatable 
 function middleExtraction(condition, checkedValue; above = nothing, below = nothing) #at least one argument is given, besides condition 
     ⫙ = []# reset is necessary detected 
     criterion = condition
@@ -104,9 +105,9 @@ function middleExtraction(condition, checkedValue; above = nothing, below = noth
         # only get the checkedValue 
         ⫙ = push!(⫙, checkedValue)
     elseif criterion == false
-      #then we have above & below to get (know for sure that below is under above) 
-     ⫙ =    push!(⫙, above)
-     ⫙ =   push!(⫙, below)
+        #then we have above & below to get (know for sure that below is under above) 
+        ⫙ = push!(⫙, above)
+        ⫙ = push!(⫙, below)
     else # faulty input or Unexpected error Occured
         return
     end
@@ -115,40 +116,51 @@ end
 #---------------------------------------
 function middleGet(condition)
     criterion = condition
-    criterion ? ⫙ = (popat(checkedValue)) : ⫙ = popat(ceil); ⫙ = popat(below) #warning: unused  ⫙
-    return ⫙
-end 
-
-function middleSet(condition)
-    criterion = condition
-    criterion ? push!(⫙, checkedValue) : push!(⫙, ceil); push!(⫙,below)
+    criterion ? ⫙ = (popat(checkedValue)) : ⫙ = popat(ceil)
+    val = popat(below) #warning: unused  ⫙
+    return val
 end
+
+function doublepush!(m = ⫙, above, below)
+    push!(m, above)
+    push!(m, below)
+end
+
+
+function middleSet(condition; m = ⫙, checkedValue, above, below)
+    criterion = condition
+    criterion ? push!(m, checkedValue) : doublepush(m, above, below) #push!(⫙, ceil)
+
+end
+arr = [10, 4, 2, 8]
+middleGet(ϟ(first(arr), last(arr)))
 #----------------------------------------   
 #middleExtraction()
 check = Int(ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ
- #⫙ = []
+#⫙ = []
 
 function push!(⫙, ceil = above, floor = below)#warning: ⫙, floor are Unused 
     push!(⫙, ceil)
     push!(⫙, below)
-end 
-""" pops ceil & floor """
-function popDouble() 
-    ceil = popat(⫙,ceil)
-    floor = popat(⫙,below)
-    return ceil, floor 
+end
+""" pops Double  """
+function popDouble()
+    ceil = popat(⫙, ceil)
+    floor = popat(⫙, below)
+    return ceil, floor
 end
 """pushes ceil & floor """
-function  pushDouble(⫙,ceil=above, floor=below)
-    ceil = push!(⫙,ceil)
-    floor = push!(⫙,below)
-    
-    return ceil, floor 
+function pushDouble(⫙, ceil = above, floor = below)
+    ceil = push!(⫙, ceil)
+    floor = push!(⫙, below)
+
+    return ceil, floor
 end
+#=
 """pushes checked """
 function push(checked = checkedValue)
-  push!(⫙, checked)
-end 
+    push!(⫙, checked)
+end
 
 function pop!()
     checked = pop!()
@@ -156,6 +168,7 @@ function pop!()
 end
 
 #function pop!()
+=#
 #--------------------------
 #---known error here 
 """returns a middle(s)
@@ -176,30 +189,117 @@ function middle(a, b) # working
     checkedMiddle = nothing
     above = nothing
     below = nothing
-    check = nothing 
+    check = nothing
+    q = []
     if condition == true
         #return true #a.s. #eucledian Distance divided by 2 returing a whole integer
         check = Int(ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ#5
         #middleExtraction(condition, check) # Here we didn't get anything ! <------------- # check not defined here 
         #return condition, check 
+        push!(q, check)
     elseif condition == false
         #return false #a.s.# check = euclideanDist(a,b)//2*1.0
         #GET Ceil & Floor
         check = ϟ(a, b) / 2 # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
         above = Int(ceil(check)) #nearest index above
         below = Int(floor(check))
+        push!(q, below)
+        push!(q, above)
     else # faulty Input or Unexpected Error Occured
         #    return check  # nothing
-        return condition, check, above, below
+        return q #condition, check, above, below
     end
-    return condition, check, above, below
-end 
-condition = nothing;check=nothing;
-condition, check, above, below = middle(1,3)
+    return q #condition, check, above, below
+end
+condition = nothing;
+check = nothing;
+# condition, check, above, below = middle(1, 3)
+q = middle(1, 3)
+typeof(q)
+Q = zeros(length(q) + 1) # for future testing purposes
+#Note: there should be a math formula to translate points into range (numbers)
+l = length(q)      # <--- length of q mid-point(s)  
+#=
+while  l >= 1
 
+end
+=#
+val = popfirst!(q) #can only observe value once consumed & popped out
 
+"""
+gets number of total points, based on number of mid-point(s)
+
+```input:
+l: number of mid-points , a Julia's length function length(middle(lowerbound, upperbound) ) 
+; modulo: (Optional) the modulo ,defaults to 2 (otherwise, untested )
+```
+
+```output:
+if even, returns 4 (sumPts * _two (start ))
+```
+"""
+function numPts(Length= l; modulo = 2)
+    _two = modulo
+    sumPts = _two
+    if Length % _two == 0 # even
+        sumPts = sumPts + _two # multiplier * 2 i.e. 2 * 2 = 4
+    elseif Length % _two != 0
+        sumPts = sumPts + (_two / _two)     #multiplier + 1 i.e. 2 + 1 = 3
+    else
+        return
+    end
+    return Int(sumPts)
+end
+q= middle(1,10)
+Length = length(q)
+nPoints = numPts(Length)
+
+using BenchmarkTools
+@benchmark n = numPts(l)
+
+numPts()
+
+#-risk-free experiments below 
+lenpts = l * 2 + l # if l== 1 (1 midpoint), apply condition that you should add a + 1  (mid point)  #Got inspired the numPts function 
+for i ∈ (q)
+    #   for j ∈(Q)
+    i = q.pop()
+
+end
+ranges = []
+#if condition == true 
+push!(ranges, 1:check)
+push!(ranges, check:3)
+
+popfirst!(ranges)
+
+#bottleneck is the first middle 
+arr = [8, 5, 2, 7, 4]
+q = []
+push!(q, middle(arr[first(arr)], arr[last(arr)] ) ) 
+#q = push!( middle(arr[first(arr)], arr[(last(arr))])) # find middle points #funto-watch!
+ q
+
+function middle(arr, a, b)
+    #ϟ(arr)
+    q = []
+    push!(q, middle(arr[a], arr[b])) # find middle point(s)
+    return q
+end
+
+#finished leaf example
+q = middle(first(arr), last(arr))
 
 #correct till this point 
+function goabove!(arr, middle, last) end
+
+function gobelow!(arr, first, middle)
+    #evaluate value 
+
+end
+#done 
+
+
 
 #=
 if condition == true # 1 midpoint 
@@ -213,51 +313,50 @@ if condition == false # 2 midpouts #done
      #end 
 end 
 =#
-#comp(arr,a,b) = arr_a =  arr[a]; arr[b]  = arr_b; arr_a>arr_b ? oldschoolSwap(arr[a],arr[b])
-function comp(arr,a,b)
-     arr_a =  arr[a]; arr[b]  = arr_b; 
-    if  arr_a > arr_b
-       arr_a, arr_b = oldschoolSwap(arr[a],arr[b])
+# comp(arr,a,b) = arr_a =  arr[a]; arr[b]  = arr_b; arr_a>arr_b ? oldschoolSwap(arr[a],arr[b])
+
+function comp(arr, a, b)
+    arr_a = arr[a]
+    arr[b] = arr_b
+    if arr_a > arr_b
+        arr_a, arr_b = oldschoolSwap(arr[a], arr[b])
     end
-    return arr_a, arr_b 
-end 
+    return arr_a, arr_b
+end
 
 #--------Demonstration
-#=
+
 middle(1, 4) #false # (false, 2.5, 3, 2) 
 middle(1, 3) #true  # 
-euclideanDist(1, 3) # (true, 2//1, nothing, nothing)
-=#
-#need functional notation so that output of middle(a,b) | middleExtraction argiments 
-
+#=euclideanDist(1, 3) # (true, 2//1, nothing, nothing)=#
 
 #---testing of testing 
-middle(1,3)
+middle(1, 3)
 
-    """
-    Assumes right most argument should be the lowest 
-    Thus, if it has a higher value, swap it (with the other one)
-    ```input:
-    a: Int(64,128) or float(64, or 128)
-    b: Int(64,128) or float(64, or 128)
-    ```
-    
-    ```output:
-    returns an ordered pair of a & b 
-    (comparison might be needed only if a is larger)
-    ```
-    """
+"""
+Assumes right most argument should be the lowest 
+Thus, if it has a higher value, swap it (with the other one)
+```input:
+a: Int(64,128) or float(64, or 128)
+b: Int(64,128) or float(64, or 128)
+```
+
+```output:
+returns an ordered pair of a & b 
+(comparison might be needed only if a is larger)
+```
+"""
 function oldschoolComp(a, b)
     if a > b
-        a , b = oldschoolswap(a, b)
-        return a,b
+        a, b = oldschoolswap(a, b)
+        return a, b
     elseif a < b
         # move on
-        return a , b
+        return a, b
     else
-        return 0 , 0 
+        return 0, 0
     end
-    return a ,  b
+    return a, b
 end
 """
 compares an arbitrary array 
