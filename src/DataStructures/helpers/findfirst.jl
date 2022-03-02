@@ -16,35 +16,63 @@ findfirst() extension function
 #first(v) # first : returns the contents of the first index 
 #Q.need for firstIndex() 
 
-
+#------------
+#---Index 
 function firstIndex(v::Vector) #
     #using first()
-    return findall(first(v)) #content 
+    return elementat(v,1)#[1] #content 
 end
 
+#checked 
+"""
+returns index of value i   
+"""
+function indexOf(i, v::Vector) #where {T<:Union{Float64,Int64}}
+    try
+        res = findfirst(isequal(i), v)
+        typeof(res) == Nothing ? res = -1 :
+        return Int(res) #res[1] #
+    catch
+        return -1
+    end
 
-function firstIndex(v::Vector, i::Int)
-    return findnext(v, i)  #findfirst(v,i)    #v>=  i 
 end
 
-
+#---element 
+#checked 
 function elementat(v::Vector, i)
-    return findnext(v, i)
+    return elementat(i, v) #findall(x -> x == i, v)[1]
+end
+
+function elementat(i, v::Vector)
+    try
+        res = findall(x -> x == i, v)[1]
+        length(res) == 0 ? res = -1 : res = res
+    catch
+        return -1
+    end
+
+   # return res
+end
+
+function elementat(v::Vector)
+    # return findall(x -> x == 1, v)[1]
+    return elementat(1, v::Vector)
+
 end
 
 
-function indexof(v::Vector) #, i)
-    #findIndex(v::Vector) #Note Takes 1 argument(parameter)- v::Vector -only
-    return findIndex(v) #, i) 
-end
+#---elements 
+
+#--------------------------------
 
 """
 returns an array
 """
 
-function firstIndicies(v::Vector)::AbstractArray{T,N}
+function firstIndicies(v::Vector, i) #::AbstractArray{T,N}
     return findall(v)
-
+    return findall(x -> x == i, v)
 end
 
 #i.e. solution for these 

@@ -186,14 +186,13 @@ above,below: 2 mid-point middles (the realized leaf-bounds between the theoretic
 function middle(a, b) # working 
     condition = evenCriterion(a, b) #   b-a 
     # check = nothing;check = midCriterion(m) #b-a
-    checkedMiddle = nothing
     above = nothing
     below = nothing
     check = nothing
     q = []
     if condition == true
         #return true #a.s. #eucledian Distance divided by 2 returing a whole integer
-        check = Int(ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ#5
+        check = Int(ϟ(a, b) // 2) # | b + a | // 2 isa Integer #euclideanDist -to-> ϟ#5
         #middleExtraction(condition, check) # Here we didn't get anything ! <------------- # check not defined here 
         #return condition, check 
         push!(q, check)
@@ -238,7 +237,7 @@ l: number of mid-points , a Julia's length function length(middle(lowerbound, up
 if even, returns 4 (sumPts * _two (start ))
 ```
 """
-function numPts(Length= l; modulo = 2)
+function numPts(Length = l; modulo = 2)
     _two = modulo
     sumPts = _two
     if Length % _two == 0 # even
@@ -250,7 +249,7 @@ function numPts(Length= l; modulo = 2)
     end
     return Int(sumPts)
 end
-q= middle(1,10)
+q = middle(1, 10)
 Length = length(q)
 nPoints = numPts(Length)
 
@@ -276,26 +275,15 @@ popfirst!(ranges)
 #bottleneck is the first middle 
 arr = [8, 5, 2, 7, 4]
 q = []
-push!(q, middle(arr[first(arr)], arr[last(arr)] ) ) 
+push!(q, middle(arr[first(arr)], arr[last(arr)]))
 #q = push!( middle(arr[first(arr)], arr[(last(arr))])) # find middle points #funto-watch!
- q
+q
 
 function middle(arr, a, b)
     #ϟ(arr)
     q = []
     push!(q, middle(arr[a], arr[b])) # find middle point(s)
     return q
-end
-
-#finished leaf example
-q = middle(first(arr), last(arr))
-
-#correct till this point 
-function goabove!(arr, middle, last) end
-
-function gobelow!(arr, first, middle)
-    #evaluate value 
-
 end
 #done 
 
@@ -358,23 +346,64 @@ function oldschoolComp(a, b)
     end
     return a, b
 end
-"""
-compares an arbitrary array 
-based on it's first & last elements 
-"""
+elementat() #returns element 
+indexOf()#returns index
+
+
+#new:Experimental
+isDiff(a, b, aVal, bVal) = aVal != a && bVal != b ? true : false
+function oldschoolComp(arr, a = first(arr), b = last(arr))
+    aVal = a = first(arr)
+    bVal = b = last(arr)
+
+    aVal, bVal = oldschoolComp(a, b)
+    arr[aVal]
+    ans = isDiff(a, b, aVal, bVal) #true 
+    ans == true ? arr[indexOf(a, arr)], arr[indexOf(b, arr)] = arr[indexOf(b, arr)], arr[indexOf(a, arr)] :
+    arr
+    arr[]
+
+
+
+
+
+    if a > b
+        a, b = oldschoolswap(a, b)
+        return a, b
+    elseif a < b
+        # move on
+        return a, b
+    else
+        return 0, 0
+    end
+    return a, b
+end
+
+aVal = first(arr)
+bVal = last(arr)
+
+aVal, bVal = oldschoolComp(a, b)
+
+arr[aVal]
+
+ans = isDiff(a, b, aVal, bVal) #true 
+ans == true ? arr[indexOf(a, arr)], arr[indexOf(b, arr)] = arr[indexOf(b, arr)], arr[indexOf(a, arr)] : """
+                                                                                                        compares an arbitrary array 
+                                                                                                        based on it's first & last elements 
+                                                                                                        """
 #=
 function compare(arr) #errornous #warning becareful from its values
     aVal = first(arr) # arr[aIdx] # 5 v[1]= 5
     bVal = last(arr) #arr[bIdx] # v[last] = 1  5>1
     aIdx = firstindex(arr)
     bIdx = lastindex(arr) # bVal)
-     
+
     #1. Heuristic#1: Check euclideanDist 
 
     total = ϟ(aIdx,bIdx)
     dist = euclideanDist(aIdx,bIdx)
     midpoint 
-    
+
     if dist == 1 #1,2 ; 2,3 ; 3,4 
        #final compare of values 
       aVal,bVal =  oldschoolComp(aVal,bVal)#compare & swap, if applicable
@@ -409,3 +438,107 @@ function compare(arr) #errornous #warning becareful from its values
     end
 end 
 =#
+
+
+arr = [8, 5, 2, 7, 4]
+#finished leaf example
+aVal = first(arr)
+bVal = last(arr)
+aVal, bVal = oldschoolComp(aVal, bVal)
+
+q = middle(first(arr), last(arr))
+
+n = numPts(length(q)) # 3 middles 
+
+q = middle(first(arr), last(arr))
+l = length(q) # length 1 # errornous process 
+
+ans = popfirst!(q)
+
+count = 1
+val = 2
+#---new 
+if count <= n
+    q = middle(first(arr), last(arr)) # 
+    val = firstindex(q) # findall(x -> x == val, arr) #popfirst!(q)
+end
+#---end 
+
+#method at least julia 1.7 
+#i = find(x -> x == val, arr) #removed 
+
+arr = [8, 5, 2, 7, 4]
+elementat(arr, 8)
+res = indexOf(1, arr)
+_last = arr[indexOf(last(arr), arr)]
+_first = arr[indexOf(first(arr), arr)]
+ans = indexOf(arr, elementat(arr, 5)[1])
+
+indexOf(elementat(7, arr), arr)
+
+length(elementat(1, arr))
+using BenchmarkTools
+@benchmark last(arr)
+#=
+ Range (min … max):  18.236 ns … 182.966 ns  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     19.639 ns               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   23.044 ns ±  12.668 ns  ┊ GC (mean ± σ):  0.00% ± 0.00%
+
+  ▄█▄          ▁                                               ▁
+  ████▅▅▅▄▄▃▂▂▅██▇█████▇▆▄▄▅▇▆▆▅▅▇▆▆▇▆▆▆▅▄▅▄▄▄▃▄▄▂▄▄▃▃▃▃▃▃▂▄▄▃ █
+  18.2 ns       Histogram: log(frequency) by time      83.8 ns <
+
+ Memory estimate: 0 bytes, allocs estimate: 0.
+=#
+length(arr)
+
+if _first < _last
+    arr[1], arr[length(arr)] = oldschoolComp(_first, _last)
+end
+ 
+@inbounds arr[1], arr[length(arr)] = arr[length(arr)], arr[1] #
+
+function Swap(arr, a = arr[1], b = arr[length(arr)])
+   return  @inbounds arr[1], arr[length(arr)] = arr[length(arr)], arr[1]
+
+end
+
+#arr[1], arr[last(arr)] = oldschoolComp(arr[1], arr[last(arr)])
+
+arr[1], arr[last(arr)]
+
+val = 2
+ans = firstindex(q) #true 
+i = elementat(arr, 2) # 
+#i[1] # 
+ans = elementat(arr, 2)
+ans # index 
+
+ans = indexOf(arr, i)
+
+elementat(arr, 5) # working 
+
+#firstIndex()
+#Q.how far 3 from start? 
+first(arr) #first val 
+ans = indexin(i[1], arr)
+
+d1 = euclideanDist(i[1], first(arr))
+
+
+#valIdx = findall(arr, val)
+
+val
+
+#correct till this point 
+function goabove!(arr, middle, last) end
+
+function gobelow!(arr, first, middle)
+    #evaluate value 
+
+end
+
+#-----
+
+arr = [8, 5, 2, 7, 4]
+
