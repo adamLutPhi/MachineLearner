@@ -353,22 +353,17 @@ elementat() #returns element
 indexOf()#returns index
 
 
-#new:Experimental
+#----new: Experimental------
 isDiff(a, b, aVal, bVal) = aVal != a && bVal != b ? true : false
 function oldschoolComp(arr, a = first(arr), b = last(arr))
     aVal = a = first(arr)
     bVal = b = last(arr)
 
     aVal, bVal = oldschoolComp(a, b)
-    arr[aVal]
+    arr[aVal] 
     ans = isDiff(a, b, aVal, bVal) #true 
-    ans == true ? arr[indexOf(a, arr)], arr[indexOf(b, arr)] = arr[indexOf(b, arr)], arr[indexOf(a, arr)] :
-    arr
+    ans == true ? arr[indexOf(a, arr)], arr[indexOf(b, arr)] = arr[indexOf(b, arr)], arr[indexOf(a, arr)] : arr
     arr[]
-
-
-
-
 
     if a > b
         a, b = oldschoolswap(a, b)
@@ -516,7 +511,7 @@ arr[newMid]
 arr
 res = Int(ϟ(1, length(arr)) / 2)
 res % 2 == 0 ? true : false #false - 2 midpoints
-#Ceil =
+#Ceil = 
 #    floor =
 check = res / 2 # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
 above = Int(ceil(check)) #nearest index above

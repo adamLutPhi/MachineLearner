@@ -1,86 +1,142 @@
-strMsg = "ERROR: unexpected input:  please check input arguments , then try again  "
-UnexpMsg = ""
+import Base: @propagate_inbounds, @inbounds
+import BenchmarkTools: @btime, @time, @benchmark
+UnexpMsg = "ERROR: unexpected input:  please check input arguments , then try again  "
+
+
 euclidDist(a, b) = abs(a + b)
-function makeRange(a, b)
+
+@propagate_inbounds isEven(st = 1, ed = 10) = middle(st, ed) % 2 == 0 ? true : false
+
+@propagate_inbounds isEven(mid) = mid % 2 == 0 ? true : false
+
+@propagate_inbounds function makeRange(a, b)
     return collect(a:b)
 end
 
-function ranging(a, mid, b)
+@propagate_inbounds function buildMiddle(a, mid, b)
     q = []
-    push!(q, makeRange(a, mid))
-    push!(q, makeRange(mid + 1, b))
+    @inbounds push!(q, makeRange(a, mid))
+    @inbounds push!(q, makeRange(mid + 1, b))
 
     return q
-
 end
 
-ranges = ranging(1, 2, 4)
-range = popfirst!(ranges)
+ranges = []
+#--- test: buildMiddle 
+@btime resMid = buildMiddle(1, 5, 10) # 104.920 ns (4 allocations: 320 bytes)
+
+@propagate_inbounds function buildAboveSoBelow(a, below, above, b)
+    q = []
+    @inbounds push!(q, makeRange(a, below))
+    @inbounds push!(q, makeRange(below + 1, above))
+    @inbounds push!(q, makeRange(above + 1, b))
+end
 
 
-"""a middle function stub"""
-function middle(a, b)
+"""a middle function stub without array/vector input feed- the Best? """
+@propagate_inbounds function middle(a, b)
     mid = middle(a, b)
     cond = isEven(mid)
+
     if cond # got mid, mid +1 #start of next range 
-        ranges = ranging(a, mid, b)
+        @inbounds push!(ranges, buildMiddle(a, mid, b))
 
     elseif !cond # got 2 midpoints float, in middle , floor(below), ceil(above)
+        above = ceil(mid)
+        below = floor(mid)
+        @inbounds push!(ranges, buildAboveSoBelow(a, below, above, b))
+
     else
         println(UnexpError)
     end
 end
+#--- testing ------
 
+
+#---test buildMiddle ------
+ranges = buildMiddle(1, 2, 4)
+typeof(ranges)
+range = popfirst!(ranges)
+#end buildMiddle -----
+
+#--- test middle(a,b) ---
+
+#---test buildAboveSoBelow----
+#--- test - easy : 
+res = buildAboveSoBelow(1, 3, 5, 10) # a <below < above < b 
+#fine 
+res = buildAboveSoBelow(1, -1, 5, 10) #TODO: check input arguments are only positive 
+#up until negative - 1 : range is omitted, returns an empty Int64[] range , else return other positive ranges # fine
+#Warning: results in an Unbalanced Ranges 
+#--- 
 
 #---
 #check n/2 is a whole number
 #--- Left Half 
 
-function divideConquer(arr = [1, 2, 3, 4], a = 1, b = length(arr))
+"""divideConquer - try again """
+@propagate_inbounds function divideConquer(arr = [1, 2, 3, 4], a = 1, b = length(arr))
     count = 1
     mid = middle(a, b)
     #check valid range 
-    cond =mid - count >= 0 ? true : false
+    cond = mid - count >= 0 ? true : false
     q = []
     #if cond
     if a[mid] < a[mid-1] # only look at left half 1 . . . n/2 − − − 1 to look for peak
         pushfirst!(q, goleft(arr, a, mid))
-    
+
     elseif a[mid] < a[mid+1] # only look at right half n/2 + 1 . . . n to look for peak
         pushfirst!(q, goright(a))
-    
+
     else # a[mid] =?= a[mid+1]
         pushfirst!(q, mid) # the peak!
     end
 end
 
-arr = [1, 2, 3, 4]
-
-mid = middle(a, b)
-cond = isEven(mid)
-
 function goleft(arr = [1, 2, 3, 4], a = 1, b = mid)
     computeRange!(arr, a, b)
 end
+
 function goright(arr = [1, 2, 3, 4], a = mid + 1, b = length(arr))
     computeRange!(arr, a, b)
 end
 
+#---test ------
+arr = [1, 2, 3, 4]
+#middle(st=1, ed =4)
+mid = middle(1, 4) # ambiguous function 
+cond = isEven(mid)
 
-function middle(st, ed)
-    return Int(abs(st + ed) / 2)
+"""(this) Could be a valid middle - Classic #old"""
 
+@propagate_inbounds function middle(st, ed)
+    cond = isEven(st, ed)
+    @inbounds if cond
+        #return mid , mid+1
+        mid = Int(abs(st + ed) // 2)
+        return mid, mid + 1
+        #@inbounds
+    elseif !cond #mid = 2.5 #inapplicable for an index 
+        above = ceil(mid)
+        below = floor(mid)
+        return below, above
+        # @inbounds
+    else
+        println(UnexpMsg)
+    end
 end
 
-isEven(st = 1, ed = 10) = middle(st, ed) % 2 == 0 ? true : false
+middle(1, 10)
 
-isEven(mid) = mid % 2 == 0 ? true : false
+#isEven(st = 1, ed = 10) = middle(st, ed) % 2 == 0 ? true : false
 
+#isEven(mid) = mid % 2 == 0 ? true : false
 
 q = []
 cond = isEven(1, 3)
 res = -1
 
+#---test run tryout
 
 #1,3 total range 
 # 1+3/2 = 2 
@@ -93,14 +149,14 @@ abs(2 - 3) == 1
 a[1]
 
 
-
 #called on every range  (of the TotalRange)
 #Q. how to build a range ? 
 
-
+@inbounds
 if cond == true
     res = (1 + 3) // 2
     pushfirst!(q, Int(res))
+    @inbounds
 elseif cond == false
     res = 1 + 3 / 2
     above = ceil(res)
@@ -115,26 +171,29 @@ length(q)
 
 
 """Plain comparison - flip if lower index has a higher value, otherwise return"""
-function doCompare(a = [2, 1, 3, 4], st = 1, ed = 2)
+@propagate_inbounds function doCompare(a = [2, 1, 3, 4], st = 1, ed = 2)
 
     # Base.@propagate_inbounds 
-    @inbounds if a[st] > a[ed]
+    @inbounds
+    if a[st] > a[ed]
         #Base.@propagate_inbounds  
         @inbounds a[st], a[ed] = a[ed], a[st]        #an inbounds swap #actual array swap 
-    #Base.@inbounds 
+        #Base.@inbounds 
+        @inbounds
     elseif a[st] < a[ed]
         #don't flip # return values  
         return a[st], a[ed]
         #@inbounds a[st], a[ed] = a[st] , a[ed]        #an inbounds swap 
+        @inbounds
     else
-        println(strMsg())
+        println(UnexpMsg)
         return nothing
         # end
     end
-    return a[st], a[ed] 
+    return a[st], a[ed]
 end
 
-#---test 
+#--- test:  run flow ------------------ 
 
 res = doCompare() #1 .compare 
 
@@ -144,35 +203,37 @@ typeof(res)
 # 3. build range 
 range1 = res[1]:res[2]
 
-
 res = doCompare([1, 2, 3, 4], 3, 4) #1.compare the next range 
 res = collect(res) #2.collect (tuple -> vector)
 range2 = res[1]:res[2] #3. build range 
 
 collect(range2)
 
-
-#Q. are there any more middles ? NO! how to return  (them correctly ) # i.e. try above & below mid-point extraction 
+#Q. are there any more middles? NO! If so, how to return (them correctly ) # i.e. try above & below mid-point extraction 
 # terminal condition 
-
 
 range1[1]
 cond = abs(range1[2] - range1[1]) # 4. check distance
-
+divideOrNot(range1)
 
 #range1[2] = 4 # setindex! not defined for  UnitRange Int64 
 #range1[1] = 2
 
-#= UncommentMe 
-if  cond == 1 # check current range # if 1 (nothing more to explore )
-    #finish this range, get out 
-    return 
-#end
-elseif cond > 1 # there are still ranges in-between  
-if abs(range2[2] - range2[1]) == 1 
-    return 
+#TODO:
+@propogate_inbounds function divideOrNot(range)
+    cond = abs(range1[2] - range1[1])
+
+    @inbounds if cond == 1 # check current range # if 1 (nothing more to explore )
+        #finish this range, get out 
+        #final
+        return
+
+        @inbounds
+    elseif cond > 1 # there are still ranges in-between  (to explore)
+        #TODO 
+    end
 end
-=#
+
 middle(a, b) = Int(euclidDist(a, b) // 2)
 
 
@@ -205,16 +266,14 @@ range1 = collect(a:b)
 #returns new range 2:3 # vectorized version 
 
 
-
-
-
-function computeRange!(arr = [1, 2, 3, 4], a = 2, b = 4)
+@propagate_inbounds function computeRange!(arr = [1, 2, 3, 4], a = 2, b = 4)
     abs(b - a) # 2 #inferred |4 - 2 | = 2  # 1. check boundary distance 
-    if abs(b - a) == 1
+    @inbounds if abs(b - a) == 1
         return
         #mid=-1
+        @inbounds
     else
-        if abs(b + a) > 1 #2. check middle 
+        @inbounds if abs(b + a) > 1 #2. check middle 
             mid = middle(2, 4)
         end # 3 
         # compare ranges  
@@ -236,7 +295,7 @@ anEven = isEven(mid) # 3 is not even  #check even
 
 
 #"""assumes lower indicies have lower values, swap otherwise """
-function comp(a = [1, 2, 3, 4], st = 1, ed = 2)
+@propagate_inbounds function comp(a = [1, 2, 3, 4], st = 1, ed = 2)
     if st < ed
 
         #@boundscheck if a[st] > a[ed]
@@ -246,6 +305,4 @@ function comp(a = [1, 2, 3, 4], st = 1, ed = 2)
     elseif st > ed # ed smaller can work with that 
         a[ed], a[st] = doCompare(a, ed, st)
     end
-end 
-#
-
+end

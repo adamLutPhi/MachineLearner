@@ -251,7 +251,7 @@ using MappedArrays, Test # ] add MappedArrays
 
 A = rand(5, 5)
 T = ones
-
+N= ones
 MappedArray{T,N}(f, data::AbstractArray{T,N}) =  #defines f as ones # but N Not defined 
     MappedArray{typeof(f(one(T))),N,typeof(data),typeof(f)}(f, data)
 
@@ -681,7 +681,7 @@ Exclamation mark: is convention that says:
 1 argument (or more ) is gonna be modified 
 this case, it's V 
 =#
-
+#- hcat - horizontal cat 
 M = @inbounds hcat(V[1], V[2]) # for all elements( hardcoded here for 2 item) #true positive error @even with inbounds, alerts with error  
 #vector to Array: horizontal concat hcat: horizontally contatenated vertical vectors  
 M = hcat(V...) #...:the splat: for all values of container  ; take each element in array ; put it as an argument (concatenate it)
@@ -689,8 +689,8 @@ M = hcat(V...) #...:the splat: for all values of container  ; take each element 
 
 #toget it back (as vector of vectors), transpose it 
 
-M = hcat(v...)'
-
+M = hcat(V...)'
+#1x1 adjoint matrix eltype Int64  - example 
 #or we directly can write vecto as 
 
 v = Vector{Int}[[3, 4], [5, 6]] #2-element Vector{Vector{Int64}}:
