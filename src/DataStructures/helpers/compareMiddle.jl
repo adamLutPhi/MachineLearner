@@ -204,12 +204,15 @@ function middle(a, b) # working
         below = Int(floor(check))
         push!(q, below)
         push!(q, above)
+
     else # faulty Input or Unexpected Error Occured
         #    return check  # nothing
         return q #condition, check, above, below
     end
     return q #condition, check, above, below
 end
+
+
 condition = nothing;
 check = nothing;
 # condition, check, above, below = middle(1, 3)
@@ -305,7 +308,7 @@ end
 
 function comp(arr, a, b)
     arr_a = arr[a]
-    arr[b] = arr_b
+    arr_b = arr[b]
     if arr_a > arr_b
         arr_a, arr_b = oldschoolSwap(arr[a], arr[b])
     end
@@ -495,16 +498,45 @@ length(arr)
 if _first < _last
     arr[1], arr[length(arr)] = oldschoolComp(_first, _last)
 end
- 
+
 @inbounds arr[1], arr[length(arr)] = arr[length(arr)], arr[1] #
 
 function Swap(arr, a = arr[1], b = arr[length(arr)])
-   return  @inbounds arr[1], arr[length(arr)] = arr[length(arr)], arr[1]
+    return @inbounds arr[1], arr[length(arr)] = arr[length(arr)], arr[1]
 
 end
-
+#-------------------
 #arr[1], arr[last(arr)] = oldschoolComp(arr[1], arr[last(arr)])
 
+arr[1], arr[length(arr)] = comp(arr, 1, length(arr))
+q = middle(1,length(arr))
+newMid = q[1]
+elementat(arr,newMid) #should be 2  
+arr[newMid]
+arr
+res = Int(ϟ(1, length(arr)) / 2)
+res % 2 == 0 ? true : false #false - 2 midpoints
+#Ceil =
+#    floor =
+check = res / 2 # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
+above = Int(ceil(check)) #nearest index above
+below = Int(floor(check))
+arr[below]
+arr[above]
+elementat(arr,arr[below])
+elementat(arr,arr[above])
+
+arr
+#=
+1:2
+2:
+=#
+arr[1+2], arr[length(arr)-1] = comp(arr, 1 + 1, length(arr) - 1)
+arr[1+2], arr[length(arr)-1] = comp(arr, 1 + 1, length(arr) - 1)
+
+arr
+
+#----testing Area 
 arr[1], arr[last(arr)]
 
 val = 2
@@ -524,6 +556,7 @@ first(arr) #first val
 ans = indexin(i[1], arr)
 
 d1 = euclideanDist(i[1], first(arr))
+
 
 
 #valIdx = findall(arr, val)
