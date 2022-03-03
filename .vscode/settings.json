@@ -1,6 +1,9 @@
 {
     "julia.environmentPath": "C:\\Users\\adamus\\.julia\\environments\\v1.7",
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+   /* "editor.defaultFormatter": "esbenp.prettier-vscode", */
+    "[julia]": {
+    "editor.defaultFormatter": "singularitti.vscode-julia-formatter"},
     "git.ignoreLimitWarning": true
-    
+
 }
+    

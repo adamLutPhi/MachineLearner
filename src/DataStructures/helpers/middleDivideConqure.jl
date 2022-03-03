@@ -3,9 +3,9 @@ import BenchmarkTools: @btime, @time, @benchmark
 UnexpMsg = "ERROR: unexpected input:  please check input arguments , then try again  "
 
 
-euclidDist(a, b) = abs(a + b)
-
-@propagate_inbounds isEven(st = 1, ed = 10) = middle(st, ed) % 2 == 0 ? true : false
+@propagate_inbounds euclidDist(a, b) = abs(a + b)
+#ambiguous here : even is calling middle #Warning 
+@propagate_inbounds isEven(st = 1, ed = 10) = euclidDist(st, ed) % 2 == 0 ? true : false
 
 @propagate_inbounds isEven(mid) = mid % 2 == 0 ? true : false
 
@@ -33,25 +33,27 @@ ranges = []
 end
 
 
-"""a middle function stub without array/vector input feed- the Best? """
+#=UncommentMe
+"""a middle function stub without array/vector input feed- the Best? - unbounded """
 @propagate_inbounds function middle(a, b)
     mid = middle(a, b)
     cond = isEven(mid)
 
     if cond # got mid, mid +1 #start of next range 
-        @inbounds push!(ranges, buildMiddle(a, mid, b))
+         push!(ranges, buildMiddle(a, mid, b))
 
     elseif !cond # got 2 midpoints float, in middle , floor(below), ceil(above)
         above = ceil(mid)
         below = floor(mid)
-        @inbounds push!(ranges, buildAboveSoBelow(a, below, above, b))
+        
+         push!(ranges, buildAboveSoBelow(a, below, above, b))
 
     else
         println(UnexpError)
     end
 end
+=# 
 #--- testing ------
-
 
 #---test buildMiddle ------
 ranges = buildMiddle(1, 2, 4)
@@ -104,13 +106,14 @@ end
 #---test ------
 arr = [1, 2, 3, 4]
 #middle(st=1, ed =4)
-mid = middle(1, 4) # ambiguous function 
-cond = isEven(mid)
+mid = middle(1, 4) # ambiguous function  # StackOverflowError:
+cond = isEven(mid) # ERROR: LoadError: UndefVarError: mid not defined
 
 """(this) Could be a valid middle - Classic #old"""
 
-@propagate_inbounds function middle(st, ed)
-    cond = isEven(st, ed)
+#@propagate_inbounds 
+function middle(st, ed)
+    cond = 1+4 = isEven(st, ed)
     @inbounds if cond
         #return mid , mid+1
         mid = Int(abs(st + ed) // 2)
