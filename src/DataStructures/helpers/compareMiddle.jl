@@ -65,7 +65,8 @@ end
 #isEven Removed #Reason: unnecessary Overhead 
 #define euclidDist here 
 euclideanDist(a::Int64, b::Int64) = (abs(max(a, b)) - abs(min(a, b))) # was (max(a, b) - abs(min(a, b))) #Unsymmetric  
-function evenCriterion(a, b) #ok #double-Checked 
+#=
+function evenCriterion(a, b) #ok #double-Checked # depreciated # erroneous 
     m = ϟ(a, b) # | b + a |   definition
     condition = m % 2 == 0 #isEven(m) #even (divisible by 2)
     check = nothing
@@ -78,6 +79,7 @@ function evenCriterion(a, b) #ok #double-Checked
     end
     return check #whether check is true, false, nothing
 end
+=#
 #done!
 
 res = evenCriterion(1, 3) #flase Infer no middle as a whole number 

@@ -1,11 +1,11 @@
 import Base: @propagate_inbounds, @inbounds
 import BenchmarkTools: @btime, @time, @benchmark
 UnexpMsg = "ERROR: unexpected input:  please check input arguments , then try again  "
-positiveMsg =  "ERROR: expected input arguments are only allowed:  please check input arguments, then try again"
-
+positiveMsg =  "ERROR: Only Positive input arguments are allowed - please check input arguments, then try again"
+#=
 @benchmark  +(10000, 1000000) #simple + is WAY much Bloated, it isn't simple, anymore  
 
-@benchmark euclidDist(10000, 1000000)
+@benchmark euclidDist(10000, 1000000) =#
 
 @propagate_inbounds euclidDist(a, b) = abs(a + b) # Range (min … max):  0.001 ns … 0.100 ns
 #ambiguous here : even is calling middle #Warning 
@@ -16,7 +16,7 @@ positiveMsg =  "ERROR: expected input arguments are only allowed:  please check 
 @propagate_inbounds isEven(num) = num % 2 == 0 ? true : false #q. do we check only middle, or also the  total length ?  (depends )
 
 
-@propagate_inbounds ϟ(a, b) = a-b >= 0 || b-a >= 0 ? max(a,b) - min(a,b) : nothing #  abs(a + b)
+@propagate_inbounds ϟ(a, b) = a-b >= 0 || b-a >= 0 ? max(a,b) - min(a,b) : println(positiveMsg) #  abs(a + b)
 
 
 @propagate_inbounds function makeRange(a, b)
@@ -49,7 +49,9 @@ end
     end 
 end
 
+
 ranges = buildAboveSoBelow(1,5,6,11) #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
+
 
 #---- 
 
@@ -85,16 +87,18 @@ elseif actualSize >= 1 # still values to choose from
 end
 q = [] 
 #-----------------  using Findfirst: indexOF #TODO:
-include("Findfirst.jl"):indexOf
+include("Findfirst.jl")
+
 if !isEven(actualSize) # false # 5 there is a fractional middle with ceil & above we can make it  
-   a = indexOf(arr[1]) 
+   a = Findfirst.indexOf(arr[1])
     b = actualSize - 1; 
       fractionalMid = actualSize / 2 # 5/2 = 2.5 #does not exist 
     above = ceil(fractionalMid)
     below = floor(fractionalMid)
 
    q = buildAboveSoBelow(a,below, above,b)
-#end 
+end 
+q = buildAboveSoBelow(a,below, above,b)
 q 
 #middle(ar)
 
@@ -354,7 +358,7 @@ divideOrNot(range1)
 #range1[2] = 4 # setindex! not defined for  UnitRange Int64 
 #range1[1] = 2
 
-#TODO:
+#TODO: Check this 
 @propogate_inbounds function divideOrNot(range)
     cond = abs(range1[2] - range1[1])  # upkoppa
 
@@ -368,6 +372,7 @@ divideOrNot(range1)
         #TODO 
     end
 end
+
 
 middle(a, b) = Int(euclidDist(a, b) // 2)
 

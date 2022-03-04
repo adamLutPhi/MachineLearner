@@ -17,8 +17,10 @@ Positive definite matrix #todo: how to define
  5  2
  2  3
 
- """
+ """ 
 
 A = [5 2; 2 3]
+imp
+ 
+# smoothFunction(A) #UncommentMe
 
-smoothFunction(A)
