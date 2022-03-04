@@ -164,7 +164,7 @@ BenchmarkTools.Trial: 10000 samples with 977 evaluations.
   66.1 ns       Histogram: log(frequency) by time        318 ns <
 
 """
-heap = bLookup!()
+heap = Blookup.bLookup!()
 copiedHeap = deepcopy(heap) # 65.169 ns (4 allocations: 192 bytes)   #65.881 ns (4 allocations: 192 bytes) #0.000003 seconds (4 allocations: 192 bytes)
 #=   memory estimate:  192 bytes
   allocs estimate:  4
@@ -205,9 +205,6 @@ collect(Iterators.flatten(x)) #OR
 
  [x[j] for x in x for j in eachindex(x)] 
 
-
-
-
 #---
 #for i in heap
 
@@ -243,6 +240,7 @@ size(copiedHeap)
 typeof(heap)  # Deque -> Dict -> Tuple
 length(heap)
 #
+
 dims = deepcopy(size(collect(minimum(heap)))) # == size(copiedHeap)
 ω = []
 copiedHeap = deepcopy(heap)

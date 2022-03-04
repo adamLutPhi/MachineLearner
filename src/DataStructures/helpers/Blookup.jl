@@ -113,8 +113,9 @@ end
 
 isMod(1, 3)
 
-"""elementat() mind procrastinates by asking anohter interesting question (don't answer it )
-odd  = odd +1 = last() + findfirst() #easier than last()+first()can also (to prevent misconseptions)-what if one made 0-vector? (wrecks whole thing) so do this correct 
+#
+"""elementat() mind procrastinates by asking another interesting question (don't answer it ) #Done! 
+odd  = odd +1 = last() + Findfirst.indexOf() # findfirst() #easier than last()+first() can also (to prevent misconseptions)-what if one made 0-vector? (wrecks whole thing) so do this correct 
 
 possibilities 
 findprev

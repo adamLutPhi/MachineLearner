@@ -1,36 +1,116 @@
 import Base: @propagate_inbounds, @inbounds
 import BenchmarkTools: @btime, @time, @benchmark
 UnexpMsg = "ERROR: unexpected input:  please check input arguments , then try again  "
+positiveMsg =  "ERROR: expected input arguments are only allowed:  please check input arguments, then try again"
 
+@benchmark  +(10000, 1000000) #simple + is WAY much Bloated, it isn't simple, anymore  
 
-@propagate_inbounds euclidDist(a, b) = abs(a + b)
+@benchmark euclidDist(10000, 1000000)
+
+@propagate_inbounds euclidDist(a, b) = abs(a + b) # Range (min … max):  0.001 ns … 0.100 ns
 #ambiguous here : even is calling middle #Warning 
+
 @propagate_inbounds isEven(st = 1, ed = 10) = euclidDist(st, ed) % 2 == 0 ? true : false
 
-@propagate_inbounds isEven(mid) = mid % 2 == 0 ? true : false
+
+@propagate_inbounds isEven(num) = num % 2 == 0 ? true : false #q. do we check only middle, or also the  total length ?  (depends )
+
+
+@propagate_inbounds ϟ(a, b) = a-b >= 0 || b-a >= 0 ? max(a,b) - min(a,b) : nothing #  abs(a + b)
+
 
 @propagate_inbounds function makeRange(a, b)
     return collect(a:b)
 end
 
-@propagate_inbounds function buildMiddle(a, mid, b)
-    q = []
-    @inbounds push!(q, makeRange(a, mid))
-    @inbounds push!(q, makeRange(mid + 1, b))
 
-    return q
+@propagate_inbounds function buildRangeAroundPoint(a, mid, b)
+    if a >=0 && mid >= 0 && b >= 0
+        q = []
+        @inbounds push!(q, makeRange(a, mid))
+        @inbounds push!(q, makeRange(mid + 1, b))
+
+        return q
+    else
+        println(positiveMsg)
+    end
 end
 
-ranges = []
-#--- test: buildMiddle 
-@btime resMid = buildMiddle(1, 5, 10) # 104.920 ns (4 allocations: 320 bytes)
 
 @propagate_inbounds function buildAboveSoBelow(a, below, above, b)
-    q = []
-    @inbounds push!(q, makeRange(a, below))
-    @inbounds push!(q, makeRange(below + 1, above))
-    @inbounds push!(q, makeRange(above + 1, b))
+    if a >=0 && below >=0 && above >=0 && b >= 0 
+        q = []
+        @inbounds push!(q, makeRange(a, below))
+        @inbounds push!(q, makeRange(below + 1, above))
+        @inbounds push!(q, makeRange(above + 1, b))
+        return q 
+    else 
+       println(positiveMsg)
+    end 
 end
+
+ranges = buildAboveSoBelow(1,5,6,11) #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
+
+#---- 
+
+@propagate_inbounds function middle(a, b) #use this 
+    q = []
+    # mid = middle(a, b) # function calls itself! 
+    mid = euclidDist(a,b) #enforce \upkoppa 
+    cond = isEven(mid)
+
+    if cond # got mid, mid +1 #start of next range 
+        q =  buildRangeAroundPoint(a, mid, b)
+        # push!(ranges, buildRangeAroundPoint(a, mid, b)) # returns [a, mid] , [mid+1, b]
+
+    elseif !cond # got 2 midpoints float, in middle , floor(below), ceil(above)
+        mid = mid /2  # get  updated middle (fractional) 
+        above = Int(ceil(mid))     
+        below = Int(floor(mid)) 
+       q = buildAboveSoBelow(a, below, above, b)
+        # push!(ranges, buildAboveSoBelow(a, below, above, b)) # [a, below] , [above, b]
+         
+    else
+        println(UnexpError)
+    end
+    return q 
+end
+arr = [1,22,34,44,55]
+actualSize = length(arr) + 1  #length = size - 1 #5 
+if actualSize == 1 return 
+elseif actualSize >= 1 # still values to choose from 
+    #euclidD = actualSize
+    if !isEven(actualSize) # false 
+    end
+end
+q = [] 
+#-----------------  using Findfirst: indexOF #TODO:
+include("Findfirst.jl"):indexOf
+if !isEven(actualSize) # false # 5 there is a fractional middle with ceil & above we can make it  
+   a = indexOf(arr[1]) 
+    b = actualSize - 1; 
+      fractionalMid = actualSize / 2 # 5/2 = 2.5 #does not exist 
+    above = ceil(fractionalMid)
+    below = floor(fractionalMid)
+
+   q = buildAboveSoBelow(a,below, above,b)
+#end 
+q 
+#middle(ar)
+
+q = middle(1,10) # true
+length(q) # if length == 3 : Right middle, Left situation #examine each on its own 
+#if subrange == 1 return 
+length(q[1]) 
+middle(q[1])
+q[2]
+q[3]
+goright(q[3])
+#---Datas fields -----
+ranges = []
+
+#--- test: buildRangeAroundPoint 
+@btime resMid = buildRangeAroundPoint(1, 5, 10) # 104.920 ns - 105.297 ns  (4 allocations: 320 bytes)
 
 
 #=UncommentMe
@@ -56,7 +136,9 @@ end
 #--- testing ------
 
 #---test buildMiddle ------
-ranges = buildMiddle(1, 2, 4)
+ranges = buildMiddle(1, 2, 4) # error brings up numbers not in the list (as if its reading off a theoretical array found only in the head )
+
+
 typeof(ranges)
 range = popfirst!(ranges)
 #end buildMiddle -----
@@ -71,7 +153,6 @@ res = buildAboveSoBelow(1, -1, 5, 10) #TODO: check input arguments are only posi
 #up until negative - 1 : range is omitted, returns an empty Int64[] range , else return other positive ranges # fine
 #Warning: results in an Unbalanced Ranges 
 #--- 
-
 #---
 #check n/2 is a whole number
 #--- Left Half 
@@ -95,41 +176,92 @@ res = buildAboveSoBelow(1, -1, 5, 10) #TODO: check input arguments are only posi
     end
 end
 
-function goleft(arr = [1, 2, 3, 4], a = 1, b = mid)
+function goleft(arr = [1, 2, 3, 4], a = 1, b = length(arr))
     computeRange!(arr, a, b)
 end
 
-function goright(arr = [1, 2, 3, 4], a = mid + 1, b = length(arr))
+function goright(arr = [1, 2, 3, 4], a = 1, b = length(arr))  #mid + 1, b = length(arr))
     computeRange!(arr, a, b)
+   isEven(length(arr)) #either even or not 
 end
 
 #---test ------
 arr = [1, 2, 3, 4]
+length(arr)
 #middle(st=1, ed =4)
 mid = middle(1, 4) # ambiguous function  # StackOverflowError:
 cond = isEven(mid) # ERROR: LoadError: UndefVarError: mid not defined
 
 """(this) Could be a valid middle - Classic #old"""
+function middle(a, b) # working 
+    condition = evenCriterion(a, b) #   b-a 
+    # check = nothing;check = midCriterion(m) #b-a
+    #above = nothing
+    #below = nothing
+    #check = nothing
+    q = []
+    if condition == true
+        #return true #a.s. #eucledian Distance divided by 2 returing a whole integer
+        check = Int(ϟ(a, b) // 2) # | b + a | // 2 isa Integer #euclideanDist -to-> ϟ#5
+        #middleExtraction(condition, check) # Here we didn't get anything ! <------------- # check not defined here 
+        #return condition, check 
+        push!(q, check)
+    elseif !condition # == false
+        #return false #a.s.# check = euclideanDist(a,b)//2*1.0
+        #GET Ceil & Floor
+        check = ϟ(a, b) / 2 # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
+        above = Int(ceil(check)) #nearest index above
+        below = Int(floor(check))
+        push!(q, below)
+        push!(q, above)
+
+    else # faulty Input or Unexpected Error Occured
+        #    return check  # nothing
+        return q #condition, check, above, below
+    end
+    return q #condition, check, above, below
+end
+ϟ(a, b) = abs(a + b) # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
+#---test --- 
+mid = 2.5 
+above = Int(ceil(mid))
+below = Int(floor(mid))
 
 #@propagate_inbounds 
 function middle(st, ed)
-    cond = 1+4 = isEven(st, ed)
+    q = []
+    cond = isEven(st, ed)
     @inbounds if cond
         #return mid , mid+1
-        mid = Int(abs(st + ed) // 2)
-        return mid, mid + 1
-        #@inbounds
+        mid = Int(ϟ(st, ed) // 2)
+        # return mid, mid + 1
+        push!(q, mid)
+        push!(q, mid+1)
+    #@inbounds
     elseif !cond #mid = 2.5 #inapplicable for an index 
-        above = ceil(mid)
-        below = floor(mid)
-        return below, above
+        mid = ϟ(st, ed) / 2 # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
+       # above = Int(ceil(check)) #nearest index above
+      #  below = Int(floor(check))
+        above = Int(ceil(mid))
+        below = Int(floor(mid))
+        push!(q, below)
+        push!(q, above)
+        # return q  #return below, above
         # @inbounds
     else
         println(UnexpMsg)
     end
+    return q
 end
 
-middle(1, 10)
+_midV= middle(1, 10) # yes, mid = 5 return 5,6 
+
+#TODO: #UncommentMe
+#=function ()
+    
+end=#
+
+# _mid[] #check this 
 
 #isEven(st = 1, ed = 10) = middle(st, ed) % 2 == 0 ? true : false
 
@@ -224,7 +356,7 @@ divideOrNot(range1)
 
 #TODO:
 @propogate_inbounds function divideOrNot(range)
-    cond = abs(range1[2] - range1[1])
+    cond = abs(range1[2] - range1[1])  # upkoppa
 
     @inbounds if cond == 1 # check current range # if 1 (nothing more to explore )
         #finish this range, get out 
@@ -299,13 +431,14 @@ anEven = isEven(mid) # 3 is not even  #check even
 
 #"""assumes lower indicies have lower values, swap otherwise """
 @propagate_inbounds function comp(a = [1, 2, 3, 4], st = 1, ed = 2)
-    if st < ed
+   @inbounds if st < ed
 
         #@boundscheck if a[st] > a[ed]
         #      @inbounds a[ed], a[st] = a[st] , a[ed]        #an inbounds swap 
         @inbounds a[ed], a[st] = doCompare(a, st, ed)
         #end 
+    @inbounds 
     elseif st > ed # ed smaller can work with that 
-        a[ed], a[st] = doCompare(a, ed, st)
+       @inbounds a[ed], a[st] = doCompare(a, ed, st)
     end
 end

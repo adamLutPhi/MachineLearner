@@ -1,3 +1,8 @@
+#= 
+1. get 1st value 
+undex0f() returns int 
+
+
 #=cheatsheet
 nofindfirst - no problem 
 findfirst() extension function 
@@ -9,6 +14,7 @@ findfirst() extension function
     elementat(v::Vector, i)
     indexof(v::Vector, i)
 
+=#
 =#
 #function last(index) #returns fallback / extension we're making! 
 #function indexin()
@@ -75,6 +81,7 @@ function firstIndicies(v::Vector, i) #::AbstractArray{T,N}
     return findall(x -> x == i, v)
 end
 
+#= the rest is for the test part 
 #i.e. solution for these 
 v = [0, 1, 2, 3]
 v = [1, 2, 3, 4] # alg: first(index) + last(index) 
@@ -86,6 +93,4 @@ using BenchmarkTools
 v = [1, 2, 3, 4]
 #a =
 firstIndex(v)
-#= 
-1. get 1st value 
-undex0f() returns int 
+=#
