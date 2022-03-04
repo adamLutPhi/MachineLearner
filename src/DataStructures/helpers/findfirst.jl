@@ -25,7 +25,8 @@ findfirst() extension function
 #------------
 #---Index 
 
-export firstIndex, indexOf
+export firstIndex, indexOf, elementat
+
 function firstIndex(v::Vector) #
     #using first()
     return elementat(v, 1)#[1] #content 

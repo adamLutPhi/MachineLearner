@@ -1,7 +1,7 @@
 import Base: @propagate_inbounds, @inbounds
 import BenchmarkTools: @btime, @time, @benchmark
 UnexpMsg = "ERROR: unexpected input:  please check input arguments , then try again  "
-positiveMsg =  "ERROR: Only Positive input arguments are allowed - please check input arguments, then try again"
+positiveMsg = "ERROR: Only Positive input arguments are allowed - please check input arguments, then try again"
 #=
 @benchmark  +(10000, 1000000) #simple + is WAY much Bloated, it isn't simple, anymore  
 
@@ -16,7 +16,8 @@ positiveMsg =  "ERROR: Only Positive input arguments are allowed - please check 
 @propagate_inbounds isEven(num) = num % 2 == 0 ? true : false #q. do we check only middle, or also the  total length ?  (depends )
 
 
-@propagate_inbounds ϟ(a, b) = a-b >= 0 || b-a >= 0 ? max(a,b) - min(a,b) : println(positiveMsg) #  abs(a + b)
+@propagate_inbounds ϟ(a, b) =
+    a - b >= 0 || b - a >= 0 ? max(a, b) - min(a, b) : println(positiveMsg) #  abs(a + b)
 
 
 @propagate_inbounds function makeRange(a, b)
@@ -25,7 +26,7 @@ end
 
 
 @propagate_inbounds function buildRangeAroundPoint(a, mid, b)
-    if a >=0 && mid >= 0 && b >= 0
+    if a >= 0 && mid >= 0 && b >= 0
         q = []
         @inbounds push!(q, makeRange(a, mid))
         @inbounds push!(q, makeRange(mid + 1, b))
@@ -36,76 +37,100 @@ end
     end
 end
 
-
-@propagate_inbounds function buildAboveSoBelow(a, below, above, b)
-    if a >=0 && below >=0 && above >=0 && b >= 0 
+""" Assumes there is a rational series of numbers from point a to point b """
+@propagate_inbounds function buildAboveSoBelow(a, below, above, b) #Checked 
+    if a >= 0 && below >= 0 && above >= 0 && b >= 0
         q = []
         @inbounds push!(q, makeRange(a, below))
-        @inbounds push!(q, makeRange(below + 1, above))
-        @inbounds push!(q, makeRange(above + 1, b))
-        return q 
-    else 
-       println(positiveMsg)
-    end 
+        @inbounds push!(q, makeRange(below , above))
+        @inbounds push!(q, makeRange(above , b))
+        return q
+    else
+        println(positiveMsg)
+    end
+end
+"""with a vector provided, """
+@propagate_inbounds function buildAboveSoBelow(a, below, above, b,vec) #Checked 
+    if a >= 0 && below >= 0 && above >= 0 && b >= 0
+        #doCompare function
+        doCompare(vec,a,b) #a,b are aompared 
+        doCompare(vec,above,below)
+        q = []
+        @inbounds push!(q, makeRange(a, below))
+        @inbounds push!(q, makeRange(below , above))
+        @inbounds push!(q, makeRange(above , b))
+        return q
+    else
+        println(positiveMsg)
+    end
 end
 
 
-ranges = buildAboveSoBelow(1,5,6,11) #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
+ranges = buildAboveSoBelow(1, 5, 6, 11) #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
 
 
 #---- 
-
 @propagate_inbounds function middle(a, b) #use this 
     q = []
     # mid = middle(a, b) # function calls itself! 
-    mid = euclidDist(a,b) #enforce \upkoppa 
+    mid = euclidDist(a, b) #enforce \upkoppa 
     cond = isEven(mid)
 
     if cond # got mid, mid +1 #start of next range 
-        q =  buildRangeAroundPoint(a, mid, b)
+        q = buildRangeAroundPoint(a, mid, b)
         # push!(ranges, buildRangeAroundPoint(a, mid, b)) # returns [a, mid] , [mid+1, b]
 
     elseif !cond # got 2 midpoints float, in middle , floor(below), ceil(above)
-        mid = mid /2  # get  updated middle (fractional) 
-        above = Int(ceil(mid))     
-        below = Int(floor(mid)) 
-       q = buildAboveSoBelow(a, below, above, b)
+        mid = mid / 2  # get  updated middle (fractional) 
+        above = Int(ceil(mid))
+        below = Int(floor(mid))
+        q = buildAboveSoBelow(a, below, above, b)
         # push!(ranges, buildAboveSoBelow(a, below, above, b)) # [a, below] , [above, b]
-         
+
     else
         println(UnexpError)
     end
-    return q 
+    return q
 end
-arr = [1,22,34,44,55]
+arr = [1, 22, 34, 44, 55]
 actualSize = length(arr) + 1  #length = size - 1 #5 
-if actualSize == 1 return 
+if actualSize == 1
+    return
 elseif actualSize >= 1 # still values to choose from 
     #euclidD = actualSize
     if !isEven(actualSize) # false 
     end
 end
-q = [] 
+q = []
 #-----------------  using Findfirst: indexOF #TODO:
 include("Findfirst.jl")
 
 if !isEven(actualSize) # false # 5 there is a fractional middle with ceil & above we can make it  
-   a = Findfirst.indexOf(arr[1])
-    b = actualSize - 1; 
-      fractionalMid = actualSize / 2 # 5/2 = 2.5 #does not exist 
+    a = Findfirst.indexOf(arr[1], arr)
+    b = actualSize - 1
+    fractionalMid = Int(actualSize / 2)  # 5/2 = 2.5 #does not exist 
     above = ceil(fractionalMid)
     below = floor(fractionalMid)
 
-   q = buildAboveSoBelow(a,below, above,b)
-end 
-q = buildAboveSoBelow(a,below, above,b)
-q 
+    q = buildAboveSoBelow(a, below, above, b)
+end
+arr = [1, 2, 3, 4, 5]
+#  length(arr)
+a = indexOf(arr[1], arr)
+b = actualSize - 1;
+fractionalMid = length(arr) / 2 # 5/2 = 2.5 #does not exist 
+above = Int(ceil(fractionalMid)) # 3
+below = Int(floor(fractionalMid)) # 2
+
+q = buildAboveSoBelow(a, below, above, b)
+q = buildAboveSoBelow(a, below, above, b)
+q
 #middle(ar)
 
-q = middle(1,10) # true
+q = middle(1, 10) # true
 length(q) # if length == 3 : Right middle, Left situation #examine each on its own 
 #if subrange == 1 return 
-length(q[1]) 
+length(q[1])
 middle(q[1])
 q[2]
 q[3]
@@ -129,14 +154,14 @@ ranges = []
     elseif !cond # got 2 midpoints float, in middle , floor(below), ceil(above)
         above = ceil(mid)
         below = floor(mid)
-        
+
          push!(ranges, buildAboveSoBelow(a, below, above, b))
 
     else
         println(UnexpError)
     end
 end
-=# 
+=#
 #--- testing ------
 
 #---test buildMiddle ------
@@ -186,7 +211,7 @@ end
 
 function goright(arr = [1, 2, 3, 4], a = 1, b = length(arr))  #mid + 1, b = length(arr))
     computeRange!(arr, a, b)
-   isEven(length(arr)) #either even or not 
+    isEven(length(arr)) #either even or not 
 end
 
 #---test ------
@@ -227,7 +252,7 @@ function middle(a, b) # working
 end
 ϟ(a, b) = abs(a + b) # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
 #---test --- 
-mid = 2.5 
+mid = 2.5
 above = Int(ceil(mid))
 below = Int(floor(mid))
 
@@ -240,12 +265,12 @@ function middle(st, ed)
         mid = Int(ϟ(st, ed) // 2)
         # return mid, mid + 1
         push!(q, mid)
-        push!(q, mid+1)
-    #@inbounds
+        push!(q, mid + 1)
+        #@inbounds
     elseif !cond #mid = 2.5 #inapplicable for an index 
         mid = ϟ(st, ed) / 2 # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
-       # above = Int(ceil(check)) #nearest index above
-      #  below = Int(floor(check))
+        # above = Int(ceil(check)) #nearest index above
+        #  below = Int(floor(check))
         above = Int(ceil(mid))
         below = Int(floor(mid))
         push!(q, below)
@@ -258,11 +283,11 @@ function middle(st, ed)
     return q
 end
 
-_midV= middle(1, 10) # yes, mid = 5 return 5,6 
+_midV = middle(1, 10) # yes, mid = 5 return 5,6 
 
 #TODO: #UncommentMe
 #=function ()
-    
+
 end=#
 
 # _mid[] #check this 
@@ -313,17 +338,16 @@ length(q)
 @propagate_inbounds function doCompare(a = [2, 1, 3, 4], st = 1, ed = 2)
 
     # Base.@propagate_inbounds 
-    @inbounds
-    if a[st] > a[ed]
+    @inbounds if a[st] > a[ed]
         #Base.@propagate_inbounds  
         @inbounds a[st], a[ed] = a[ed], a[st]        #an inbounds swap #actual array swap 
         #Base.@inbounds 
-        @inbounds
+
     elseif a[st] < a[ed]
         #don't flip # return values  
         return a[st], a[ed]
         #@inbounds a[st], a[ed] = a[st] , a[ed]        #an inbounds swap 
-        @inbounds
+ 
     else
         println(UnexpMsg)
         return nothing
@@ -436,14 +460,14 @@ anEven = isEven(mid) # 3 is not even  #check even
 
 #"""assumes lower indicies have lower values, swap otherwise """
 @propagate_inbounds function comp(a = [1, 2, 3, 4], st = 1, ed = 2)
-   @inbounds if st < ed
+    @inbounds if st < ed
 
         #@boundscheck if a[st] > a[ed]
         #      @inbounds a[ed], a[st] = a[st] , a[ed]        #an inbounds swap 
         @inbounds a[ed], a[st] = doCompare(a, st, ed)
         #end 
-    @inbounds 
+        @inbounds
     elseif st > ed # ed smaller can work with that 
-       @inbounds a[ed], a[st] = doCompare(a, ed, st)
+        @inbounds a[ed], a[st] = doCompare(a, ed, st)
     end
 end
