@@ -17,7 +17,7 @@ import .GLib:
     signal_emit, unsafe_convert,
     AbstractStringLike, bytestring
 =#
-"""Guide by Ahmad Lutfi 
+"""Guide 
 
 GTK3_jll: standard Gtk package Imports 
 

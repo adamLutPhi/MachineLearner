@@ -19,6 +19,23 @@ positiveMsg = "ERROR: Only Positive input arguments are allowed - please check i
 @propagate_inbounds ϟ(a, b) =
     a - b >= 0 || b - a >= 0 ? max(a, b) - min(a, b) : println(positiveMsg) #  abs(a + b)
 
+@propagate_inbounds function doCompare(st = 1, ed = 2, a = [2, 1, 3, 4])
+    
+    # Base.@propagate_inbounds 
+    @inbounds if a[st] > a[ed]
+        #Base.@propagate_inbounds  
+        @inbounds a[st], a[ed] = a[ed], a[st]        #an inbounds swap #actual array swap 
+    #Base.@inbounds 
+
+    elseif a[st] < a[ed]
+        #don't flip # return values  
+        # return a[st], a[ed]
+        #@inbounds a[st], a[ed] = a[st] , a[ed]        #an inbounds swap 
+    else
+        println(UnexpMsg)
+    end
+    return a[st], a[ed]
+end
 
 @propagate_inbounds function makeRange(a, b)
     return collect(a:b)
@@ -42,23 +59,23 @@ end
     if a >= 0 && below >= 0 && above >= 0 && b >= 0
         q = []
         @inbounds push!(q, makeRange(a, below))
-        @inbounds push!(q, makeRange(below , above))
-        @inbounds push!(q, makeRange(above , b))
+        @inbounds push!(q, makeRange(below, above))
+        @inbounds push!(q, makeRange(above, b))
         return q
     else
         println(positiveMsg)
     end
 end
 """with a vector provided, """
-@propagate_inbounds function buildAboveSoBelow(a, below, above, b,vec) #Checked 
+@propagate_inbounds function buildAboveSoBelow(a, below, above, b, vec) #Checked 
     if a >= 0 && below >= 0 && above >= 0 && b >= 0
         #doCompare function
-        doCompare(vec,a,b) #a,b are aompared 
-        doCompare(vec,above,below)
+        doCompare(a, b,vec) #a,b are aompared 
+        doCompare( above, below, vec)
         q = []
         @inbounds push!(q, makeRange(a, below))
-        @inbounds push!(q, makeRange(below , above))
-        @inbounds push!(q, makeRange(above , b))
+        @inbounds push!(q, makeRange(below, above))
+        @inbounds push!(q, makeRange(above, b))
         return q
     else
         println(positiveMsg)
@@ -69,7 +86,7 @@ end
 ranges = buildAboveSoBelow(1, 5, 6, 11) #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
 
 
-#---- 
+#---- middle ------------
 @propagate_inbounds function middle(a, b) #use this 
     q = []
     # mid = middle(a, b) # function calls itself! 
@@ -101,7 +118,33 @@ elseif actualSize >= 1 # still values to choose from
     if !isEven(actualSize) # false 
     end
 end
+#--- 
+
 q = []
+#-------------------------
+function isNotDivide(range)
+    cond = abs(range1[2] - range1[1])  # upkoppa #condition Not Divide 
+    response = nothing
+    if cond == 1 # check current range # if 1 (nothing more to explore )
+        #finish this range, get out 
+        #final
+        return true
+
+    elseif cond > 1 # there are still ranges in-between  (to explore)
+        #TODO 
+        return false
+    end
+end
+"""completes the infinite dragon, at the end there is only 1"""
+function calldivideConquer(arr, range)
+    divideConquer(arr, range[1], length(range[1]))
+    divideConquer(arr, range[2], length(range[2]))
+
+end
+#the absurd call of divide
+#--------------------------------------------/
+
+
 #-----------------  using Findfirst: indexOF #TODO:
 include("Findfirst.jl")
 
@@ -114,27 +157,32 @@ if !isEven(actualSize) # false # 5 there is a fractional middle with ceil & abov
 
     q = buildAboveSoBelow(a, below, above, b)
 end
+
 arr = [1, 2, 3, 4, 5]
 #  length(arr)
 a = indexOf(arr[1], arr)
 b = actualSize - 1;
-fractionalMid = length(arr) / 2 # 5/2 = 2.5 #does not exist 
+fractionalMid = length(arr) / 2 # 5/2 = 2.5 #does not exist go to the nearest neighbor
 above = Int(ceil(fractionalMid)) # 3
 below = Int(floor(fractionalMid)) # 2
 
 q = buildAboveSoBelow(a, below, above, b)
-q = buildAboveSoBelow(a, below, above, b)
+#q = buildAboveSoBelow(a, below, above, b)
+#doCompare()
 q
+doCompare(below, above, arr)
 #middle(ar)
 
 q = middle(1, 10) # true
 length(q) # if length == 3 : Right middle, Left situation #examine each on its own 
 #if subrange == 1 return 
 length(q[1])
-middle(q[1])
+#middle(q[1])
 q[2]
-q[3]
-goright(q[3])
+q[3] #finished middle 
+
+#goright(q[3]) # right is the higher side  #TODO: 
+
 #---Datas fields -----
 ranges = []
 
@@ -157,7 +205,7 @@ ranges = []
 
          push!(ranges, buildAboveSoBelow(a, below, above, b))
 
-    else
+        else
         println(UnexpError)
     end
 end
@@ -167,9 +215,8 @@ end
 #---test buildMiddle ------
 ranges = buildMiddle(1, 2, 4) # error brings up numbers not in the list (as if its reading off a theoretical array found only in the head )
 
-
 typeof(ranges)
-range = popfirst!(ranges)
+#range = popfirst!(ranges)
 #end buildMiddle -----
 
 #--- test middle(a,b) ---
@@ -186,13 +233,17 @@ res = buildAboveSoBelow(1, -1, 5, 10) #TODO: check input arguments are only posi
 #check n/2 is a whole number
 #--- Left Half 
 
-"""divideConquer - try again """
-@propagate_inbounds function divideConquer(arr = [1, 2, 3, 4], a = 1, b = length(arr))
+"""divideConquer """
+
+#choosing a,b is choosing arr , this is a mean, not a goal 
+  divideConquer(arr, range[1], length(range[1]))
+@propagate_inbounds function divideConquer(arr = [1, 2, 3, 4], a = 1, b = length(arr))  ## arr is an initial value, while the goal would be , 1  length(other size of bound to walk on  ) a code that never walks..
     count = 1
-    mid = middle(a, b)
+    mid = middle(a, b) # first Domino
     #check valid range 
     cond = mid - count >= 0 ? true : false
     q = []
+
     #if cond
     if a[mid] < a[mid-1] # only look at left half 1 . . . n/2 − − − 1 to look for peak
         pushfirst!(q, goleft(arr, a, mid))
@@ -221,9 +272,9 @@ length(arr)
 mid = middle(1, 4) # ambiguous function  # StackOverflowError:
 cond = isEven(mid) # ERROR: LoadError: UndefVarError: mid not defined
 
-"""(this) Could be a valid middle - Classic #old"""
+"""(this) Could be a valid middle - Classic #old #depreciated """
 function middle(a, b) # working 
-    condition = evenCriterion(a, b) #   b-a 
+    condition = isEven(a, b) #   b-a 
     # check = nothing;check = midCriterion(m) #b-a
     #above = nothing
     #below = nothing
@@ -316,12 +367,10 @@ a[1]
 #called on every range  (of the TotalRange)
 #Q. how to build a range ? 
 
-@inbounds
-if cond == true
+@inbounds if cond == true
     res = (1 + 3) // 2
     pushfirst!(q, Int(res))
-    @inbounds
-elseif cond == false
+     elseif cond == false
     res = 1 + 3 / 2
     above = ceil(res)
     pushfirst!(q, Int(above))
@@ -334,73 +383,57 @@ length(q)
 #return res 
 
 
-"""Plain comparison - flip if lower index has a higher value, otherwise return"""
-@propagate_inbounds function doCompare(a = [2, 1, 3, 4], st = 1, ed = 2)
+"""Plain comparison - flip if lower index has a higher value, otherwise return
+given bound values of indicies, find their corresponding value that they weigh, 
+then compare them together, as well 
 
-    # Base.@propagate_inbounds 
-    @inbounds if a[st] > a[ed]
-        #Base.@propagate_inbounds  
-        @inbounds a[st], a[ed] = a[ed], a[st]        #an inbounds swap #actual array swap 
-        #Base.@inbounds 
+```input:
+st: start bound 
+ed: ending bound 
+a: corresponding vector array to traverse
+```
 
-    elseif a[st] < a[ed]
-        #don't flip # return values  
-        return a[st], a[ed]
-        #@inbounds a[st], a[ed] = a[st] , a[ed]        #an inbounds swap 
- 
-    else
-        println(UnexpMsg)
-        return nothing
-        # end
-    end
-    return a[st], a[ed]
-end
+```output:
+```
+
+"""
+#---test  -----
 
 #--- test:  run flow ------------------ 
 
-res = doCompare() #1 .compare 
+res = doCompare() #1 .compare #1, 2
 
 res = collect(res) #2. collect 
 typeof(res)
 
 # 3. build range 
 range1 = res[1]:res[2]
+#1.Range (Mid) -to-> weights 
+res = doCompare(3, 4, arr) #1.1.compare the next range # (below= 3 , above= 4)#infer: mid 3.5  
+res = collect(res) #1.2.collect (tuple -> vector)
 
-res = doCompare([1, 2, 3, 4], 3, 4) #1.compare the next range 
-res = collect(res) #2.collect (tuple -> vector)
-range2 = res[1]:res[2] #3. build range 
-
+#2. Range weights [vector of weights]
+range2 = res[1]:res[2] #3. build range # 3:4
 collect(range2)
 
 #Q. are there any more middles? NO! If so, how to return (them correctly ) # i.e. try above & below mid-point extraction 
 # terminal condition 
 
 range1[1]
-cond = abs(range1[2] - range1[1]) # 4. check distance
-divideOrNot(range1)
+cond = abs(range1[2] - range1[1]) # 4. check distance #the thing: 3 -4 == 1 
+response = isNotDivide(range1)
+calldivideConquer(arr, range1)
 
-#range1[2] = 4 # setindex! not defined for  UnitRange Int64 
-#range1[1] = 2
-
-#TODO: Check this 
-@propogate_inbounds function divideOrNot(range)
-    cond = abs(range1[2] - range1[1])  # upkoppa
-
-    @inbounds if cond == 1 # check current range # if 1 (nothing more to explore )
-        #finish this range, get out 
-        #final
-        return
-
-        @inbounds
-    elseif cond > 1 # there are still ranges in-between  (to explore)
-        #TODO 
-    end
-end
+#Halt
 
 
-middle(a, b) = Int(euclidDist(a, b) // 2)
+calldivideConquer(arr, range1)
+calldivideConquer(arr, range)
 
 
+
+
+#------------------------------------------------------------------------------------------------
 res = doCompare([1, 2, 3, 4], 2, 4) #compare a range (& its values )
 #2. check distance euclid distnace  > 1 
 #1. check difference a -b if > 1 (there is still sth to move)  if b - a > 
@@ -409,7 +442,7 @@ a = 2;
 b = 4;
 c = middle(a, b) #  euclidDist(2,4) / 2
 # build range  
-
+#----testing Area ------- 
 
 abs(b - a) # 2 #inferred |4 - 2 | = 2  # 1. check boundary distance 
 #if abs(b - a) > 0  
@@ -430,44 +463,15 @@ range1 = collect(a:b)
 #returns new range 2:3 # vectorized version 
 
 
-@propagate_inbounds function computeRange!(arr = [1, 2, 3, 4], a = 2, b = 4)
-    abs(b - a) # 2 #inferred |4 - 2 | = 2  # 1. check boundary distance 
-    @inbounds if abs(b - a) == 1
-        return
-        #mid=-1
-        @inbounds
-    else
-        @inbounds if abs(b + a) > 1 #2. check middle 
-            mid = middle(2, 4)
-        end # 3 
-        # compare ranges  
-        #start , mid: 2, 3 
-        # mid , end: 3, 4 
-        st = 2
-        ed = 3
-        a, b = comp(arr, st, ed) #3. compare  # returns values of these  at index 2 , 3 #r
-
-        #4. build range 
-        #TODO: indexOf(a), indexOf(b) = a, b #then a:b 
-        range1 = collect(a:b)
-        #returns new range 2:3 # vectorized version 
-        computeRange!(arr, 2, 3) # where it will return
-    end
-end
-#finally , new range enters the check again , if boundaty is 1 return 
-anEven = isEven(mid) # 3 is not even  #check even 
-
-
-#"""assumes lower indicies have lower values, swap otherwise """
+#"""assumes lower indicies have lower values, swap otherwise """ #Redundant
 @propagate_inbounds function comp(a = [1, 2, 3, 4], st = 1, ed = 2)
-    @inbounds if st < ed
-
+    if st < ed
         #@boundscheck if a[st] > a[ed]
         #      @inbounds a[ed], a[st] = a[st] , a[ed]        #an inbounds swap 
-        @inbounds a[ed], a[st] = doCompare(a, st, ed)
+        a[ed], a[st] = doCompare(a, st, ed)
         #end 
-        @inbounds
+
     elseif st > ed # ed smaller can work with that 
-        @inbounds a[ed], a[st] = doCompare(a, ed, st)
+        a[ed], a[st] = doCompare(a, ed, st)
     end
 end

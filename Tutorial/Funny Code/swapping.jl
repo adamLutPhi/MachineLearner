@@ -4,7 +4,7 @@ src\DataStructures\heap.jl:
 =#
 
 using BenchmarkTools
-
+i=j=0
 @btime begin
     m = n = 10
     for i = 1:m, j = 1:n

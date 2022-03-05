@@ -16,6 +16,7 @@ function midCriterion(a, b) #ok
     return check #whether check is true, false, nothing
 end
 
+
 function midCriterion(a, b) #ok 
     m = euclideanDist(a, b) # | b - a |   definition
     condition = isEven(m) #even (divisible by 2)
@@ -29,3 +30,4 @@ function midCriterion(a, b) #ok
     end
     return check #whether check is true, false, nothing
 end
+
