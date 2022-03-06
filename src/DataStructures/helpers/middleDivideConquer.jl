@@ -3,12 +3,13 @@
 10 helper functions 
 
 Divide & Conquer 
- does  a Bisection Sort on an array 
- where it measurees the length, our Objective Function, of a vector bounds (both upper, & lower ):
+ Does  a Bisection Sort on an array where it measures the length 
+our Objective Function, of a vector bounds (both upper, & lower ):
 #------------------
  A:
  if it is equal to 1, 
-    1. first compare their contents(if left value of a vector is higher than the right one, swap vector contents ),
+    1. first compare their contents 
+    (if left value of a vector is higher than the right one, swap vector contents )
     2.then we have to stop (as no more middles are available to explore) 
     congratulations, you've reached the end #HALT! 
 #------------------
@@ -22,11 +23,11 @@ B: However if distance between vector bounds is higher than 1 (hence there is at
     
     [this bifurcates the workflow of the program, hence, try one function at once, [the validity of a range is the Priority]   ]
     at each rangebuilding, we also check the contents of each bounds  
-    2. for each new range (we got ), check distance (& we're back to square 1, to A: ) #Done! 
+    2. for each new range (we got ), check distance (& we're back to square 1, to A ) #Done! 
 
 #------------------
 if middlle 
-    - is even?:Yes -> has 1 middle 
+    - is even?: Yes -> has 1 middle #now-here
     -if not, there's a fractionalMid, need to approximate index to get below & above 
 else 
  go left middle(a,b,arr) #mid, mid+1 or below & above 
@@ -39,34 +40,92 @@ import BenchmarkTools: @btime, @time, @benchmark
 UnexpMsg = "ERROR: unexpected input:  please check input arguments , then try again  "
 positiveMsg = "ERROR: Only Positive input arguments are allowed - please check input arguments, then try again"
 #=
-@benchmark  +(10000, 1000000) #simple + is WAY much Bloated, it isn't simple, anymore  
-@benchmark euclidDist(10000, 1000000) =#
+@benchmark  +(10000, 1000000) #simple + is WAY much Bloated, it isn't simple, anymore :S  
+@benchmark euclidDist(10000, 1000000) 
+=#
 
 @propagate_inbounds isPositive(num) = num > 0 ? true : false
 
-
 @benchmark length(1:10)
-@benchmark euclidDist(1,10)
 #@propagate_inbounds euclidDist(a, b) = abs(a + b) +1> # Range (min … max):  0.001 ns … 0.100 ns
 
 @propagate_inbounds function euclidDist(a, b)
-    cond = abs(a + b) - 1 # the actual bound length  in julia 
+    cond = abs(a + b) - 1
  @inbounds  if cond >= 1 
     return cond
-    else
-    end 
-    return
+ end
 end 
 
 @benchmark euclidDist(1,10)
 
-#ambiguous here : even is calling middle #Warning 
+#= =#
+""" checks evinity of a bound between point a to point b   #TODO: Research  >= v.s. > 
+```input:
+a: lower bound 
+b: upper bound 
 
-@propagate_inbounds isEven(st = 1, ed = 10) =
-    isPositive(num) && euclidDist(st, ed) % 2 == 0 ? true : false
+calculates eucledian distance between a & b 
+1. checks if condition is positive 
+2. checks evenity  
+
+```
+```output:
+true  if it's positive & even 
+false: if either #improve 
+```
+"""
+function isEven1(a = 1, b = 10)
+    try 
+        if a >= 0 && b >= 0    
+            distance = euclidDist(a, b) #1. distance 
+            _isPositive =  isPositive(distance) #2. positive distance 
+            if _isPositive #positive? 
+            isEven = distance % 2 == 0 ? true : false 
+            if isEven           # even? 
+                return true 
+            elseif !isEven # || isPositive
+                return false
+            else println(UnexpMsg)
+            end 
+        else throw(error("Positive number error")) 
+        end 
+        #end 
+        end 
+    catch positiveError
+        #Exception 
+       @error "ERROR: "* positiveMsg exception=(positiveError, catch_backtrace())   
+       println(positiveMsg) #positive arguments error 
+    end 
+end
+isEven1(-1,10)
+isEven1(1,10) 
+
+function isEven2(a = 1, b = 10) # =
+    distance = euclidDist(a, b) #1.distance 
+    distaneCond = distance % 2 == 0 ? true : false
+    isPositive =  isPositive(distance)
+    if distaneCond && isPositive #ok 
+        return true 
+    elseif !distaneCond || isPositive
+        return false 
+    end
+end 
+
+isEven1()
+isEven2() 
 
 
-@propagate_inbounds isEven(num) = isPositive(num) && num % 2 == 0 ? true : false #q. do we check only middle, or also the  total length ?  (depends )
+@benchmark isEven1()
+@benchmark isEven2()
+
+#the goal 
+@benchmark isEven() #correct #optimized 
+
+
+
+isEven(1,10)
+
+# @propagate_inbounds isEven(num) = isPositive(num) && num % 2 == 0 ? true : false #q. do we check only middle, or also the  total length ?  (depends )
 
 
 ϟ(a, b) = (a - b > 0) ⊻ (b - a > 0) ? max(a, b) - min(a, b) : println(positiveMsg) #  abs(a - b)
@@ -115,7 +174,7 @@ r(a=1,b=19) = abs(b + a) -1 #or
 length((1:10)) #length Built-in function understands it, as well #use it #instead of a+B range calculation (of the middle )
  
 9:11 -+ 1:11 - 9:11 #:10 #
-
+  
 """ Assumes there is a rational series of numbers from point a to point b """
 @propagate_inbounds function buildAboveSoBelow(a, below, above, b) #Checked 
     if a >= 0 && below >= 0 && above >= 0 && b >= 0
