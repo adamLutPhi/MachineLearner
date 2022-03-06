@@ -29,9 +29,9 @@ if middlle
     - is even?:Yes -> has 1 middle 
     -if not, there's a fractionalMid, need to approximate index to get below & above 
 else 
- go left 
+ go left middle(a,b,arr) #mid, mid+1 or below & above 
 
- go right 
+ go right middle(a,b,arr) # mid, mid+1. or below & above
 
 =#
 import Base: @propagate_inbounds, @inbounds
@@ -40,13 +40,26 @@ UnexpMsg = "ERROR: unexpected input:  please check input arguments , then try ag
 positiveMsg = "ERROR: Only Positive input arguments are allowed - please check input arguments, then try again"
 #=
 @benchmark  +(10000, 1000000) #simple + is WAY much Bloated, it isn't simple, anymore  
-
 @benchmark euclidDist(10000, 1000000) =#
 
 @propagate_inbounds isPositive(num) = num > 0 ? true : false
 
 
-@propagate_inbounds euclidDist(a, b) = abs(a + b) # Range (min … max):  0.001 ns … 0.100 ns
+@benchmark length(1:10)
+@benchmark euclidDist(1,10)
+#@propagate_inbounds euclidDist(a, b) = abs(a + b) +1> # Range (min … max):  0.001 ns … 0.100 ns
+
+@propagate_inbounds function euclidDist(a, b)
+    cond = abs(a + b) - 1 # the actual bound length  in julia 
+ @inbounds  if cond >= 1 
+    return cond
+    else
+    end 
+    return
+end 
+
+@benchmark euclidDist(1,10)
+
 #ambiguous here : even is calling middle #Warning 
 
 @propagate_inbounds isEven(st = 1, ed = 10) =
@@ -58,7 +71,7 @@ positiveMsg = "ERROR: Only Positive input arguments are allowed - please check i
 
 ϟ(a, b) = (a - b > 0) ⊻ (b - a > 0) ? max(a, b) - min(a, b) : println(positiveMsg) #  abs(a - b)
 #----------------------
-@propagate_inbounds function doCompare(st = 1, ed = 2, a = [2, 1, 3, 4]) # a bit absurd (don't you think?)
+@propagate_inbounds function doCompare(st = 1, ed = 2, a = [2, 1, 3, 4]) # a bit absurd (don't you think?) #no everthing is fine # it's your nagging mind that is 
 
     # Base.@propagate_inbounds 
     @inbounds if a[st] > a[ed]
@@ -81,7 +94,7 @@ end
 end
 
 #-----------
-@propagate_inbounds function buildRangeAroundPoint(a, mid, b)
+@propagate_inbounds function buildRangeAroundPoint(a, mid, b) #checked 
     if a >= 0 && mid >= 0 && b >= 0
         q = []
         @inbounds push!(q, makeRange(a, mid))
@@ -93,6 +106,15 @@ end
     end
 end
 
+buildRangeAroundPoint(1,5,10) # i wanna 1+10 -> 5 but careful: 1+10 = 11 (odd) & 10-1 = 9 (odd) 11-#TODO: should not be niether 9 nor 11 it should be 10 (10)
+#=what-if scenario :
+1.what-if the range is already overcalculated: need to fix, using the higher figure: 1+10 -1 =  10 (even)-> 1 middle (as anticipated)
+2. generalize to any range by adding -1 
+=#
+r(a=1,b=19) = abs(b + a) -1 #or 
+length((1:10)) #length Built-in function understands it, as well #use it #instead of a+B range calculation (of the middle )
+ 
+9:11 -+ 1:11 - 9:11 #:10 #
 
 """ Assumes there is a rational series of numbers from point a to point b """
 @propagate_inbounds function buildAboveSoBelow(a, below, above, b) #Checked 
