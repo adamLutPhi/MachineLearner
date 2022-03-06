@@ -3,7 +3,28 @@
 10 helper functions 
 
 Divide & Conquer 
+ does  a Bisection Sort on an array 
+ where it measurees the length, our Objective Function, of a vector bounds (both upper, & lower ):
+#------------------
+ A:
+ if it is equal to 1, 
+    1. first compare their contents(if left value of a vector is higher than the right one, swap vector contents ),
+    2.then we have to stop (as no more middles are available to explore) 
+    congratulations, you've reached the end #HALT! 
+#------------------
+B: However if distance between vector bounds is higher than 1 (hence there is at least 1 new middle to compute & find out ):
+    1.Compute the middle: either there is a whole number, representing an actual index, with ranges (a,mid) , (mid+1, b) [2 middles mid , mid+1]
+     or we've got a fractional middle, that needs to be ceiled (as above) & floored (as below) with ranges a, below , above, b (2 middles below & above)
+    
+    -new: furter care with range processing is required say below+1 & above+1 exits & unique then ranges should be: (a, below), (below+1,above), (above+1, b) #TODO or 
+    -- if say, below-1 & above-1 exits & unique, then ranges: (a,below-1), (below, above-1), (above, b) [if each range bound exist, as a whole Int Number]
+    --- need to introduce another helper metric, the speed (of algorithm) . as both workflows are valid, it would all boil down to the number #1: speed of the Algorithm #benchmark 
+    
+    [this bifurcates the workflow of the program, hence, try one function at once, [the validity of a range is the Priority]   ]
+    at each rangebuilding, we also check the contents of each bounds  
+    2. for each new range (we got ), check distance (& we're back to square 1, to A: ) #Done! 
 
+#------------------
 if middlle 
     - is even?:Yes -> has 1 middle 
     -if not, there's a fractionalMid, need to approximate index to get below & above 
@@ -36,8 +57,8 @@ positiveMsg = "ERROR: Only Positive input arguments are allowed - please check i
 
 
 ϟ(a, b) = (a - b > 0) ⊻ (b - a > 0) ? max(a, b) - min(a, b) : println(positiveMsg) #  abs(a - b)
-
-@propagate_inbounds function doCompare(st = 1, ed = 2, a = [2, 1, 3, 4])
+#----------------------
+@propagate_inbounds function doCompare(st = 1, ed = 2, a = [2, 1, 3, 4]) # a bit absurd (don't you think?)
 
     # Base.@propagate_inbounds 
     @inbounds if a[st] > a[ed]
@@ -59,7 +80,7 @@ end
     return collect(a:b)
 end
 
-
+#-----------
 @propagate_inbounds function buildRangeAroundPoint(a, mid, b)
     if a >= 0 && mid >= 0 && b >= 0
         q = []
@@ -106,12 +127,22 @@ end
 
 ranges = buildAboveSoBelow(1, 5, 6, 11) #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
 
+#----test middle --- 
 
-#---- middle ----------- 
-@propagate_inbounds function middle(a, b) #use this 
-    q = []
     # mid = middle(a, b) # function calls itself! 
     mid = euclidDist(a, b) #enforce \upkoppa 
+    cond = isEven(mid)
+
+    if cond #isEven,  got mid, mid +1 #start of next range 
+        q = buildRangeAroundPoint(a, mid, b)
+        # push!(ranges, buildRangeAroundPoint(a, m
+
+#---- middle ----------- 
+@propagate_inbounds function middle(a, b) #can't use it #hmm there is no relation to ar whereas to pull this through, it gotta be there 
+
+    q = []
+    # mid = middle(a, b) # function calls itself! 
+    mid = euclidDist(a, b) #enforce \upkoppa  
     cond = isEven(mid)
 
     if cond #isEven,  got mid, mid +1 #start of next range 
@@ -186,10 +217,10 @@ length(6:10) - length(6:10)
 [2]
 (1:2)[1]
 isToNotDivide(1:2)
-isToNotDivide(1:4)
+#isToNotDivide(1:4)
 
 """calls divideConquer - as  at the end there is only One""" # completes the infinite dragon
-function calldivideConquer(arr, range)
+function calldivideConquer(arr, range) # contains arr #passes 
     divideConquer(arr, range[1], length(range[1]))
     divideConquer(arr, range[2], length(range[2]))
 
@@ -242,7 +273,7 @@ typeof(q[2][1]) #Vector #int64
 res = q[2] # pop!(q[2]) 
 typeof(q[2])
 
-a
+#---repeat 
 for i = 1:l #enumerate(q) # in 0:l#4 Always!    #enumerate(q) also works fine as Base.Iterator.Enumerate 
     #count would be 3 = length(q) A lways 
     #count<=l ? count += 1 : break; # count ==3 max
@@ -259,10 +290,10 @@ array
 count -= 1
 
 #count = 0->3 0 index or 1 ->4 1-index 
-ℸ = []
+ℸ = [] #empty 
 #deepcopy(ℸ,)
 
-for i = 1:l # 1-> 3 in this case, loop would alway count 3 = intended max  
+for i = 1:l #  1-> 3 in this case, loop would alway count 3 = intended max  
     #    count+=1 #either this (naive) or 
     #count<=l ? count += 1 : break; # count ==3 max #sophisicated 
     println(i)# infer i is most accurate 
@@ -347,11 +378,11 @@ typeof(res) #nothing, rather than an errourneous outcome
 #--- Left Half 
 
 function goleft(arr = [1, 2, 3, 4], a = 1, b = length(arr))
-    computeRange!(arr, a, b)
+    computeRange!(arr, a, b) # TODO: middle(arr, a, b) #or # TODO: middle(a, b, arr)
 end
 
 function goright(arr = [1, 2, 3, 4], a = 1, b = length(arr))  #mid + 1, b = length(arr))
-    computeRange!(arr, a, b)
+    computeRange!(arr, a, b) # # TODO: middle(arr, a, b) #or # TODO: middle(a, b, arr)
     isEven(length(arr)) #either even or not 
 end
 #--------------------------------------------------------------------------
