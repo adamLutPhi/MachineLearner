@@ -35,7 +35,7 @@ else
  go right middle(a,b,arr) # mid, mid+1. or below & above
 
 =#
-import Base: @propagate_inbounds, @inbounds
+import Base: @propagate_inbounds, @inbounds # compiler inlines a function, while retaining the caller's inbounds context
 import BenchmarkTools: @btime, @time, @benchmark
 UnexpMsg = "ERROR: unexpected input:  please check input arguments , then try again  "
 positiveMsg = "ERROR: Only Positive input arguments are allowed - please check input arguments, then try again"
@@ -47,8 +47,7 @@ positiveMsg = "ERROR: Only Positive input arguments are allowed - please check i
 
 @benchmark length(1:10)
 #@propagate_inbounds euclidDist(a, b) = abs(a + b) +1> # Range (min … max):  0.001 ns … 0.100 ns
-
-@propagate_inbounds function euclidDist(a, b)
+@propagate_inbounds function euclidDist(a, b) #euclidDist subtracts 1 (complies with julia logic)
     cond = abs(a + b) - 1
     @inbounds if cond >= 1
         return cond
@@ -80,7 +79,7 @@ end
         end
     catch positiveError
         #Exception 
-        @error "ERROR: " * positiveMsg exception = (positiveError, catch_backtrace())
+        @error positiveMsg exception = (positiveError, catch_backtrace())
         println(positiveMsg) #positive arguments error 
     end
 end
@@ -147,7 +146,6 @@ end
 isEven1()
 isEven2(1, 10)
 
-
 @benchmark isEven1()
 @benchmark isEven2(1, 10) #slightly does better 
 @benchmark isEven2()
@@ -155,16 +153,35 @@ isEven2(1, 10)
 isEven2 is slighly better than isEven1 - besides it's more compact, readable 
 one obvious reason is: number of if statements: isEven2 has only 2 ifs, while is isEven1 has 3  
 =#
-
+@propagate_inbounds isEven(a, b) = isEven2(a, b)
+@propagate_inbounds isEven(m) = isEven2(m)
 #either 1 of the conditions are true all time 
-ϟ(a, b) = (a > b) ⊻ (b > a) ? max(a, b) - min(a, b) : println(positiveMsg) #  abs(a - b)
+
+@propagate_inbounds ϟ(a, b) =
+    (a > b) ⊻ (b > a) ? max(a, b) - min(a, b) : println(positiveMsg) #  abs(a - b)
+
+
+
+#--- makeRange 
+
+@propagate_inbounds function makeRange(a, b)
+
+    return collect((a, b))
+end
+
+makeRange(1, 2)
+
+@propagate_inbounds function makeRange(tuple) 
+
+    return collect((tuple[1], tuple[2])) 
+end
 
 #----------------------
 @propagate_inbounds function doCompare(st = 1, ed = 2, a = [2, 1, 3, 4]) #errrorneous # a bit absurd (don't you think?) #no everthing is fine # it's your nagging mind that is 
     _first = copy(a[st])
     _last = copy(a[ed])  #creates a shallow copy (what's desired for optimization)
     # Base.@propagate_inbounds 
-    @inbounds if _first > _last #a[st] > a[ed] #2 > 1 true 
+    @inbounds if a[st] > a[ed] #valueAt(2) > valueAt(1) isa true  #_first > _last #
         #Base.@propagate_inbounds  
         @inbounds a[st], a[ed] = a[ed], a[st]        #an inbounds swap #actual array swap 
 
@@ -177,7 +194,62 @@ one obvious reason is: number of if statements: isEven2 has only 2 ifs, while is
     return v # ERROR: BoundsError: attempt to access 2-element Vector{Int64} at index [10]
 end
 
-doCompare()
+@propagate_inbounds function indexOf(i, v::Vector)
+    try
+        res = findfirst(isequal(i), v)
+        typeof(res) == Nothing ? res = -1 : return Int(res) #res[1] #
+    catch
+        return -1
+    end
+
+end
+
+""" compares vector a, it's element at first index ℵ with second element at index ℶ 
+
+```input:
+ℵ: first index of comparison
+ℶ: second index of comparison 
+a: original vector array
+```
+
+```output:
+an ordered tuple of the corrected indecies of the vector array 
+
+```
+"""  #requires the use of indexOF
+function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
+
+    try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
+        _first = Int(indexOf(ℵ, a)) # copy(a[st])
+        _last  = Int(indexOf(ℶ, a)) # copy(a[ed])
+       firstIndex= a[_first] ; lastIndex= a[_last];
+        @inbounds if firstIndex > lastIndex #valueAt(2) > valueAt(1) isa true  #_first > _last #
+             println(a[_first], a[_last]) # debugging purposes only 
+            return @inbounds a[_first], a[_last] = a[_last], a[_first]     #an inbounds swap #actual array swap 
+        
+        elseif firstIndex < lastIndex #only possible - correct situation (to deal with)
+            #Intent: skip 
+            return
+        else #2. throw frisbe error here
+            throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
+        end
+
+    catch UnexpectedError # 3. catch `materialize` (UnexpectedError object )
+        @error UnexpMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. positiveError object, 2. call catch_backtrace() (to catch it) 
+    end #ends try - finally afterthat return whatever correct value you've been working on  (if not already ) 
+
+end
+
+compareVector()
+typeof(compareVector)
+tuple = compareVector()
+vector = makeRange(tuple)# pass-in a tuple   # makeRange(tuple[1],tuple[2])
+
+#replaceVecs(v, a) afterwards 
+#------------------
+doCompare() #errorneous output 
+
+#--------
 @propagate_inbounds function replaceVecs(v = [2, 3], a = [1, 2, 4, 5]; i = 1)
     lenV = length(v)
     @inbounds if lenV < length(a) # first assumption 
@@ -192,12 +264,6 @@ end
 
 replaceVecs() # correct 
 
-@propagate_inbounds function makeRange(a, b) #was collect(a:b)
-
-    return collect((a, b)) #nocollect
-end
-
-makeRange(1, 2)
 #----------- questionable 
 @propagate_inbounds function buildRangeAroundPoint(a, mid, b) #checked #works but unhelpful #building theoretical ranges  won't belp in  sorting 
     if a >= 0 && mid >= 0 && b >= 0
@@ -211,10 +277,11 @@ makeRange(1, 2)
     end
 end
 
-#makeRange
-transpose(makeRange(1, 5)) # transpose
-makeRange(1, 5)' #adjoint 
-
+#---transpose (new) (2) possible functions 
+#makeRange: note different type of functions used to map the transpose 
+@propagate_inbounds transpose(makeRange(1, 5)) # transpose
+@propagate_inbounds makeRange(1, 5)' #adjoint 
+#-----
 buildRangeAroundPoint(1, 5, 9) #errourneous # i wanna 1+10 -> 5 but careful: 1+10 = 11 (odd) & 10-1 = 9 (odd) 11-#TODO: should not be niether 9 nor 11 it should be 10 (10)
 #=what-if scenario :
 1.what-if the range is already overcalculated: need to fix, using the higher figure: 1+10 -1 =  10 (even)-> 1 middle (as anticipated)
@@ -225,7 +292,7 @@ length((1:10)) #perfect! # length: Built-in function understands it, as well #us
 
 # 9:11-+1:11-9:11 #:10 =#
 #---------------------
-""" Assumes there exits a rational series of numbers from point a to point b """
+""" Assumes there exits a rational series of numbers from point a to point b """ #observe, it has no arr inside (there's no translation map into the arr space for it ) #TODO:  
 @propagate_inbounds function buildAboveSoBelow(a, below, above, b) #Checked 
     if a >= 0 && below >= 0 && above >= 0 && b >= 0
         q = []
@@ -238,12 +305,12 @@ length((1:10)) #perfect! # length: Built-in function understands it, as well #us
     end
 end
 
-
+#-------------------------------
 """with a vector provided, making things easier with Comparing, on the spot""" #UncommentMe
-@propagate_inbounds function buildAboveSoBelow(a, below, above, b, vec) #Checked 
+@propagate_inbounds function buildAboveSoBelow(a, below, above, b, vec) #Checked  #possible # erroreous  
     if a >= 0 && below >= 0 && above >= 0 && b >= 0
-        #doCompare function
-        doCompare(a, b, vec) #a,b are Compared 
+        #doCompare function # it's an erroreous function
+        doCompare(a, b, vec) #a,b are Compared  #ERROR: here <----------------
         doCompare(above, below, vec)
         q = []
         @inbounds push!(q, makeRange(a, below))
@@ -255,8 +322,8 @@ end
     end
 end
 #---------------------------------------
-
-ranges = buildAboveSoBelow(1, 5, 6, 10, [1, 11]) #ERROR: cgeck arguments  #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
+#ERROR 
+ranges = buildAboveSoBelow(1, 5, 6, 10, [1, 11]) #ERROR: check arguments  #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
 
 #----test middle --- 
 
@@ -293,7 +360,7 @@ end
     end
     return q
 end
-middle(1, 5) #errourneous  2.5 3, 4  
+middle(1, 5) #errourneous  2.5 3, 4
 #------------------------------------------
 #e.g. Example 
 
@@ -323,8 +390,8 @@ isEven(actualSize)
 
 q = []
 #-------------------------
-""" important function for divideConquer: the terminal condition where the distance of ranges become 1  """
-function isToNotDivide(range::UnitRange)
+""" important function for divideConquer: the terminal condition where the distance of ranges become 1  """ # last (first) function of a divideConquer cycle
+function isToNotDivide(range::UnitRange) # bounds error 
     cond = abs(length(range)[2] - (range)[1])  # upkoppa #condition Not Divide 
     # response = nothing
     if cond == 1 # check current range # if 1 (nothing more to explore )
@@ -347,7 +414,7 @@ length(6:10) - length(6:10)
 [3]
 [2]
 (1:2)[1]
-isToNotDivide(1:2)
+isToNotDivide(1:2) #bounds error 
 #isToNotDivide(1:4)
 
 """calls divideConquer - as  at the end there is only One""" # completes the infinite dragon

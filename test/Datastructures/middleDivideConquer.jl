@@ -46,7 +46,7 @@ end
 isEven1(-1, 10)
 isEven1(1, -10)
 isEven1(-1, -10)
-@benchmark isEven1()
+#@benchmark isEven1()
 
 #--- isEven2
 
@@ -114,8 +114,12 @@ replaceVecs()
 
 
 #-----------------
-res = doCompare()
+res = doCompare() #<------          Attention!
+
+println(res)
 typeof(res)
+
+#-----------------
 @propagate_inbounds function buildRangeAroundPoint(a, mid, b) #checked  # the point of buildingRanges is the one I'm concerned about 
     if a >= 0 && mid >= 0 && b >= 0
         q = []
@@ -131,7 +135,8 @@ v = collect((2, 2))
 rr = [1, 2, 3, 4]
 res = replaceVecs(v, rr) #done 
 
-reduce(vcat,map(exp, reduce(hcat, transpose(res))))
+#--later 
+@propagate_inbounds reduce(vcat, map(exp, reduce(hcat, transpose(res))))  #try maping data (vector) to a function of choice (exp)
 
 v = [2, 2]
 a = [1, 2, 3, 4]
@@ -152,8 +157,6 @@ reduce(vcat, transpose([collect(1:3) for i = 1:2]))#ERROR: no vcat  # done [;,;,
 stack(collect(1:3) for i = 1:2; dims = 1) #not for julia 1.8 
 
 
-
-
 #--------
 
 #--------
@@ -164,6 +167,39 @@ below = Int(floor(mid))
 
 #@propagate_inbounds 
 function middle(st, ed)
+    try
+        q = []
+        cond = isEven(st, ed)
+        @inbounds if cond
+            #return mid , mid+1
+            mid = Int(ϟ(st, ed) // 2)
+            # return mid, mid + 1
+            push!(q, mid)
+            push!(q, mid + 1)
+            #@inbounds
+        elseif !cond #mid = 2.5 #inapplicable for an index 
+            mid = ϟ(st, ed) / 2 # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
+            # above = Int(ceil(check)) #nearest index above
+            #  below = Int(floor(check))
+            above = Int(ceil(mid))
+            below = Int(floor(mid))
+            push!(q, below)
+            push!(q, above)
+            # return q  #return below, above
+            # @inbounds
+        else #throws erro  
+            throw(error(UnexpObj)) #generate error Object UnexpObj 
+
+        end # placecatch here @error $stringMsg exception = (ErrorObject, catch_backtrace())
+    catch UnexpMsg
+        exception = (UnexpObj, catch_backtrace)
+    end   # or if anything is smooth, return as below   
+    return q
+end# final end 
+#catch  the UnexpObj - on the catch_backtrace
+#end 
+#=
+
     q = []
     cond = isEven(st, ed)
     @inbounds if cond
@@ -183,10 +219,170 @@ function middle(st, ed)
         push!(q, above)
         # return q  #return below, above
         # @inbounds
-    else
-        println(UnexpMsg)
+    else #throws erro  #generate error Object UnexpObj 
+        throw(error(UnexpObj)) 
+
     end
     return q
+end# final end - placecatch here @error $stringMsg exception = (ErrorObject, catch_backtrace())
+catch 
+@error UnexpMsg exception =(UnexpObj, catch_backtrace()) 
+println(positiveMsg) #positive arguments error 
+end 
+=#
+_midV = middle(1, 10) # yes, mid = 5 return 5,6 
+
+#--- we are here [current bottleNeck ]
+#requires makeRange 
+#uses triad if-elseif-else  
+#TODO:solution 
+
+#Don't run this codeblock!
+#=
+@propagate_inbounds function doCompare(st = 1, ed = 2, a = [2, 1, 3, 4]) #errrorneous # a bit absurd (don't you think?) #no everthing is fine # it's your nagging mind that is 
+    try
+        _first = copy(a[st])
+        _last = copy(a[ed])  #creates a shallow copy (what's desired for optimization)
+        @inbounds if a[st] > a[ed] #valueAt(2) > valueAt(1) isa true  #_first > _last #
+            @inbounds a[st], a[ed] = a[ed], a[st]        #an inbounds swap #actual array swap 
+        elseif _first < _last # <--------- necessary step, to jump later into errorchecking else 
+        else #can throw error - here 
+            throw()
+            println(UnexpMsg)
+        end
+        v = makeRange(_first, _last)  #collect((_first, _last))
+        return v # ERROR: BoundsError: attempt to access 2-element Vector{Int64} at index [10]
+    catch
+
+    end
+
+
+end 
+doCompare(1, 2)=#
+#---------Start from here 
+#issue reconstruction
+a = [2, 1, 3, 4]
+st = 1;
+ed = 2; # todo move st ed until end of arr 
+
+#1. check comparison  #check
+#2. check _first & _last   - a copy only copies the value of content (lightweight) - Desired  #check
+
+_first = copy(a[st])
+_last = copy(a[ed])
+
+#works fine  -fair enough # add only this condition - which we're intereste to evaluate 
+
+@inbounds if _first > _last #valueAt(2) > valueAt(1) isa true  #_first > _last #
+    #Base.@propagate_inbounds# directly change contents of the Original Array   
+    @inbounds a[st], a[ed] = a[ed], a[st]        #an inbounds swap #actual array swap 
+end
+#elseif  _first < _last #this line should be omitted at all costs 
+
+#skip line
+#do nothing 
+#end 
+
+#no issues here 
+a #array #correct!
+
+
+#---noq here: apply try -catch playing safe 
+#should work fine, as well 
+
+try
+    _first = copy(a[st])
+    _last = copy(a[ed])
+
+    #works fine  -fair enough - goal: walk me through code until we reach the catch part 
+
+    @inbounds if _first > _last #valueAt(2) > valueAt(1) isa true  #_first > _last #
+        #Base.@propagate_inbounds# directly change contents of the Original Array   
+        println(a[st], a[ed])
+        return @inbounds a[st], a[ed] = a[ed], a[st]        #an inbounds swap #actual array swap 
+    #end
+    elseif _first < _last #possible - correct situation (to deal with)
+        #Intent: skip 
+        return  # this  makes things work ! 
+    else #2. throw frisbe error here
+        throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
+    end
+
+catch UnexpectedError # 3. catch (UnexpectedError object )
+    @error "ERROR: " * positiveMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. positiveError object, 2. call catch_backtrace() (to catch it) 
+end #ends try - finally afterthat return whatever correct value you've been working on  (if not already ) 
+
+
+
+
+@propagate_inbounds function indexOf(i, v::Vector)
+    try
+        res = findfirst(isequal(i), v)
+        typeof(res) == Nothing ? res = -1 : return Int(res) #res[1] #
+    catch
+        return -1
+    end
+
 end
 
-_midV = middle(1, 10) # yes, mid = 5 return 5,6 
+ res = findfirst(isequal(i), v)
+        typeof(res) == Nothing ? res = -1 : return Int(res)
+""" compares vector a, it's element at first index ℵ with second element at index ℶ 
+
+```input:
+ℵ: first index of comparison
+ℶ: second index of comparison 
+a: original vector array
+```
+
+```output:
+an ordered tuple of the corrected indecies of the vector array 
+
+```
+""" #requires the use of indexOF,elementAt 
+ a = [2, 1, 3, 4]
+ ℵ = 1; ℶ = 2;
+fst =Int(findfirst(isequal(ℵ), vector)) #indexOf(first)
+lst =  Int(findfirst(isequal(ℶ), vector)) #indexOf(last)
+#elementAt(first) < elementAt(last)
+ a[fst]
+a[lst]
+#=if a[fst] > a[lst] # 1 > 2 
+ if a[fst] > a[lst]  # 2 > 1 #then flip 
+ a[fst] , a[lst] =  oldschoolSwap!(a[fst],a[lst])
+res = oldschoolSwap!(a[fst],a[lst])
+=#
+function oldschoolSwap!(x, y)
+    tmp = x
+    x = y
+    y = tmp
+    return x, y
+end
+function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
+    response =nothing 
+    vector = a; 
+    try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
+        _first = Int(findfirst(isequal(ℵ), vector)) # Int(indexOf(ℵ, a)) # copy(a[st]) # 2
+        _last  =  Int(findfirst(isequal(ℶ), vector)) # Int(indexOf(ℶ, a)) # copy(a[ed]) # 1 
+       firstIndex= a[_first] ; lastIndex= a[_last]; 
+        @inbounds if firstIndex > lastIndex #valueAt(2) > valueAt(1) isa true  #_first > _last #
+            println(a[_first], a[_last]) # debugging purposes only 
+            response = @inbounds a[first], a[last] = oldschoolSwap!(a[fst],a[lst])
+        #   #= return=# response = @inbounds a[_first], a[_last] = a[_last], a[_first]     #an inbounds swap #actual array swap 
+        
+        elseif firstIndex < lastIndex #only possible - correct situation (to deal with)
+            #Intent: skip 
+            return
+        else #2. throw frisbe error here
+            throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
+        end
+
+    catch UnexpectedError # 3. catch `materialize` (UnexpectedError object )
+        @error UnexpMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. positiveError object, 2. call catch_backtrace() (to catch it) 
+    end #ends try - finally afterthat return whatever correct value you've been working on  (if not already ) 
+    return response 
+end
+
+res = compareVector()
+typeof(res)
+makeRange(res)
