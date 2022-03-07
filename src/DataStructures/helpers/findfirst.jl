@@ -39,13 +39,22 @@ returns index of value i
 @propagate_inbounds function indexOf(i, v::Vector) #where {T<:Union{Float64,Int64}}
     try
         res = findfirst(isequal(i), v)
-        typeof(res) == Nothing ? res = -1 : return Int(res) #res[1] #
+        
     catch
         return -1
     end
 
 end
 
+@propagate_inbounds function indexOf(i, v::Vector)
+    try
+        res = findfirst(isequal(i), v) #warning it's never used 
+        #typeof(res) == Nothing ? res = -1 : return Int(res) #res[1] #
+    catch
+        return -1
+    end
+    return res 
+end
 #---    elementat ---- 
 
 #checked 

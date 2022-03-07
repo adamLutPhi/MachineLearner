@@ -341,12 +341,18 @@ an ordered tuple of the corrected indecies of the vector array
 ```
 """ #requires the use of indexOF,elementAt 
  a = [2, 1, 3, 4]
- ℵ = 1; ℶ = 2;
-fst =Int(findfirst(isequal(ℵ), vector)) #indexOf(first)
-lst =  Int(findfirst(isequal(ℶ), vector)) #indexOf(last)
-#elementAt(first) < elementAt(last)
- a[fst]
-a[lst]
+ ℵ = 1 
+ ℶ = 2
+
+firstContent =Int(findfirst(isequal(ℵ), a)) #indexOf(first)
+lastContent =  Int(findfirst(isequal(ℶ), a)) #indexOf(last)
+
+#---correct 
+if firstContent > lastContent #correct
+ a[ℵ], a[ℶ] = oldschoolSwap!(a[ℵ],a[ℶ]) #plain content swap in julia 
+end 
+a #array values are changed
+
 #=if a[fst] > a[lst] # 1 > 2 
  if a[fst] > a[lst]  # 2 > 1 #then flip 
  a[fst] , a[lst] =  oldschoolSwap!(a[fst],a[lst])
@@ -358,19 +364,17 @@ function oldschoolSwap!(x, y)
     y = tmp
     return x, y
 end
+
 function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
     response =nothing 
-    vector = a; 
     try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
-        _first = Int(findfirst(isequal(ℵ), vector)) # Int(indexOf(ℵ, a)) # copy(a[st]) # 2
-        _last  =  Int(findfirst(isequal(ℶ), vector)) # Int(indexOf(ℶ, a)) # copy(a[ed]) # 1 
-       firstIndex= a[_first] ; lastIndex= a[_last]; 
-        @inbounds if firstIndex > lastIndex #valueAt(2) > valueAt(1) isa true  #_first > _last #
-            println(a[_first], a[_last]) # debugging purposes only 
-            response = @inbounds a[first], a[last] = oldschoolSwap!(a[fst],a[lst])
-        #   #= return=# response = @inbounds a[_first], a[_last] = a[_last], a[_first]     #an inbounds swap #actual array swap 
-        
-        elseif firstIndex < lastIndex #only possible - correct situation (to deal with)
+       firstContent =Int(findfirst(isequal(ℵ), a)) #indexOf(first)
+       lastContent =  Int(findfirst(isequal(ℶ), a)) #indexOf(last)
+
+        if firstContent > lastContent # correct
+            response = @inbounds   a[ℵ], a[ℶ] = oldschoolSwap!(a[ℵ],a[ℶ]) #plain content swap in julia  #swap array contents directly
+
+        elseif firstContent < lastContent #only possible - correct situation (to deal with)
             #Intent: skip 
             return
         else #2. throw frisbe error here
@@ -385,4 +389,4 @@ end
 
 res = compareVector()
 typeof(res)
-makeRange(res)
+v= makeRange(res)

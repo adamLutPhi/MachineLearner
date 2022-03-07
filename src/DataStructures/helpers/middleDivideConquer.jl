@@ -171,39 +171,60 @@ end
 
 makeRange(1, 2)
 
-@propagate_inbounds function makeRange(tuple) 
+@propagate_inbounds function makeRange(tuple)
 
-    return collect((tuple[1], tuple[2])) 
+    return collect((tuple[1], tuple[2]))
 end
 
 #----------------------
-@propagate_inbounds function doCompare(st = 1, ed = 2, a = [2, 1, 3, 4]) #errrorneous # a bit absurd (don't you think?) #no everthing is fine # it's your nagging mind that is 
-    _first = copy(a[st])
-    _last = copy(a[ed])  #creates a shallow copy (what's desired for optimization)
-    # Base.@propagate_inbounds 
-    @inbounds if a[st] > a[ed] #valueAt(2) > valueAt(1) isa true  #_first > _last #
-        #Base.@propagate_inbounds  
-        @inbounds a[st], a[ed] = a[ed], a[st]        #an inbounds swap #actual array swap 
-
-    elseif _first < _last
-
-    else
-        println(UnexpMsg)
-    end
-    v = makeRange(_first, _last)  #collect((_first, _last))
-    return v # ERROR: BoundsError: attempt to access 2-element Vector{Int64} at index [10]
+function oldschoolSwap!(x, y)
+    tmp = x
+    x = y
+    y = tmp
+    return x, y
 end
+
+function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
+    response = nothing
+    try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
+        firstContent = Int(findfirst(isequal(ℵ), a)) #indexOf(first)
+        lastContent = Int(findfirst(isequal(ℶ), a)) #indexOf(last)
+
+        if firstContent > lastContent # correct
+            response = @inbounds a[ℵ], a[ℶ] = oldschoolSwap!(a[ℵ], a[ℶ]) #plain content swap in julia  #swap array contents directly
+
+        elseif firstContent < lastContent #only possible - correct situation (to deal with)
+            #Intent: skip 
+            return
+        else #2. throw frisbe error here
+            throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
+        end
+
+    catch UnexpectedError # 3. catch `materialize` (UnexpectedError object )
+        @error UnexpMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. positiveError object, 2. call catch_backtrace() (to catch it) 
+    end #ends try - finally afterthat return whatever correct value you've been working on  (if not already ) 
+    return response
+end
+
+res = compareVector()
+typeof(res)
+v = makeRange(res)
+#we're good to go! 
 
 @propagate_inbounds function indexOf(i, v::Vector)
     try
         res = findfirst(isequal(i), v)
-        typeof(res) == Nothing ? res = -1 : return Int(res) #res[1] #
-    catch
-        return -1
+        if !res isa Number
+            throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
+        end
+    catch UnexpectedError
+        @error UnexpMsg exception = (UnexpectedError, catch_backtrace())
     end
-
+    return res
 end
 
+indexOf(1, a)
+indexOf(2, a)
 """ compares vector a, it's element at first index ℵ with second element at index ℶ 
 
 ```input:
@@ -221,12 +242,13 @@ function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
 
     try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
         _first = Int(indexOf(ℵ, a)) # copy(a[st])
-        _last  = Int(indexOf(ℶ, a)) # copy(a[ed])
-       firstIndex= a[_first] ; lastIndex= a[_last];
+        _last = Int(indexOf(ℶ, a)) # copy(a[ed])
+        firstIndex = a[_first]
+        lastIndex = a[_last]
         @inbounds if firstIndex > lastIndex #valueAt(2) > valueAt(1) isa true  #_first > _last #
-             println(a[_first], a[_last]) # debugging purposes only 
+            println(a[_first], a[_last]) # debugging purposes only 
             return @inbounds a[_first], a[_last] = a[_last], a[_first]     #an inbounds swap #actual array swap 
-        
+
         elseif firstIndex < lastIndex #only possible - correct situation (to deal with)
             #Intent: skip 
             return
