@@ -336,7 +336,7 @@ a: original vector array
 ```
 
 ```output:
-an ordered tuple of the corrected indecies of the vector array 
+an ordered tuple of the corrected indicies (of the vector array) 
 
 ```
 """ #requires the use of indexOF,elementAt 
@@ -353,11 +353,6 @@ if firstContent > lastContent #correct
 end 
 a #array values are changed
 
-#=if a[fst] > a[lst] # 1 > 2 
- if a[fst] > a[lst]  # 2 > 1 #then flip 
- a[fst] , a[lst] =  oldschoolSwap!(a[fst],a[lst])
-res = oldschoolSwap!(a[fst],a[lst])
-=#
 function oldschoolSwap!(x, y)
     tmp = x
     x = y
@@ -387,6 +382,81 @@ function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
     return response 
 end
 
-res = compareVector()
-typeof(res)
-v= makeRange(res)
+
+@propagate_inbounds function replaceVector(v = [2, 3], a = [1, 2, 4, 5]; i = 1)
+try 
+    lenV =copy(length(v))
+    lenA = copy(length(a))
+
+    @inbounds if lenV < lenA # first assumption  # |v| < |a|
+        @inbounds a[i:lenV] = v[i:lenV]
+
+        else #2. throw frisbe error here
+            throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
+        end
+
+    catch UnexpectedError # 3. catch `materialize` (UnexpectedError object )
+        @error UnexpMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. positiveError object, 2. call catch_backtrace() (to catch it) 
+    end #ends try - finally afterthat return whatever correct value you've been working on  (if not already ) 
+    return response 
+end
+
+replaceVector()
+
+@benchmark replaceVector()
+
+#ends 
+#=    
+else
+        println(UnexpMsg)
+    end
+    return a
+end
+=#
+replaceVector() # correct 
+@benchmark replaceVector() # optimizable - can do better 
+
+
+#---- 
+
+res = compareVector() #(1,2) tuple
+typeof(res)#tuple 
+v= makeRange(res) #to vector 
+a = replaceVecs(v,a)
+a
+
+
+
+
+#---test indexOf 
+a=[2,1,3,4]
+indexOf(1, a)
+indexOf(2, a)
+@benchmark indexOf(1, a)
+
+#=
+BenchmarkTools.Trial: 96 samples with 1 evaluation.
+ Range (min … max):  41.404 ms … 103.842 ms  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     48.335 ms               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   52.409 ms ±  12.069 ms  ┊ GC (mean ± σ):  0.49% ± 2.38%
+
+     █▂▄█     
+  ▇█▆██████▇▆▆▇▆▁▅▆▆▁▆▃▁▃▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▅▁▁▁▁▃▁▁▁▁▁▁▃▃▁▁▁▁▁▁▁▃ ▁
+  41.4 ms         Histogram: frequency by time          100 ms <
+
+ Memory estimate: 1.11 MiB, allocs estimate: 14363.
+
+indexOf (generic function with 1 method)
+
+1       
+
+2       
+
+4-element Vector{Int64}:
+ 2
+ 1
+ 3
+ 4
+
+2   
+ =#

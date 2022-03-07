@@ -46,6 +46,21 @@ returns index of value i
 
 end
 
+#fixed 
+@propagate_inbounds function indexOf(i, v::Vector)
+    try
+        res = findfirst(isequal(i), v)
+        if res isa Number
+            return res
+        else
+            throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
+        end
+    catch UnexpectedError
+        @error UnexpMsg exception = (UnexpectedError, catch_backtrace())
+    end
+    # return res
+end
+
 @propagate_inbounds function indexOf(i, v::Vector)
     try
         res = findfirst(isequal(i), v) #warning it's never used 

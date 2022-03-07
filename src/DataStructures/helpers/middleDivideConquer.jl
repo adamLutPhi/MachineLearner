@@ -183,7 +183,19 @@ function oldschoolSwap!(x, y)
     y = tmp
     return x, y
 end
+""" compares vector a, it's element at first index ℵ with second element at index ℶ 
 
+```input:
+ℵ: first index of comparison
+ℶ: second index of comparison 
+a: original vector array
+```
+
+```output:
+an ordered tuple of the corrected indicies (of the vector array) 
+
+```
+""" #requires the use of indexOF,elementAt
 function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
     response = nothing
     try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
@@ -209,22 +221,24 @@ end
 res = compareVector()
 typeof(res)
 v = makeRange(res)
-#we're good to go! 
+#we're good to go!
+
 
 @propagate_inbounds function indexOf(i, v::Vector)
     try
         res = findfirst(isequal(i), v)
-        if !res isa Number
+        if res isa Number
+            return res
+        else
             throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
         end
     catch UnexpectedError
         @error UnexpMsg exception = (UnexpectedError, catch_backtrace())
     end
-    return res
+    # return res
 end
 
-indexOf(1, a)
-indexOf(2, a)
+
 """ compares vector a, it's element at first index ℵ with second element at index ℶ 
 
 ```input:
@@ -262,15 +276,13 @@ function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
 
 end
 
+
 compareVector()
 typeof(compareVector)
 tuple = compareVector()
-vector = makeRange(tuple)# pass-in a tuple   # makeRange(tuple[1],tuple[2])
+v = makeRange(tuple)# pass-in a tuple   # makeRange(tuple[1],tuple[2])
 
-#replaceVecs(v, a) afterwards 
-#------------------
-doCompare() #errorneous output 
-
+##TODO: replaceVecs(v, a) afterwards 
 #--------
 @propagate_inbounds function replaceVecs(v = [2, 3], a = [1, 2, 4, 5]; i = 1)
     lenV = length(v)
@@ -284,7 +296,19 @@ doCompare() #errorneous output
     return a
 end
 
+#------------------
+# doCompare() #Removed & Replaced 
+res = compareVector() #(1,2) tuple
+
+
 replaceVecs() # correct 
+#-----------------
+
+res = compareVector() #(1,2) tuple
+typeof(res)#tuple 
+v= makeRange(res) #to vector 
+a = replaceVecs(v,a)
+a
 
 #----------- questionable 
 @propagate_inbounds function buildRangeAroundPoint(a, mid, b) #checked #works but unhelpful #building theoretical ranges  won't belp in  sorting 
