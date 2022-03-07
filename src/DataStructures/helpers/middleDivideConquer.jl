@@ -16,15 +16,15 @@ our Objective Function, of a vector bounds (both upper, & lower ):
 B: However if distance between vector bounds is higher than 1 (hence there is at least 1 new middle to compute & find out ):
     1.Compute the middle: either there is a whole number, representing an actual index, with ranges (a,mid) , (mid+1, b) [2 middles mid , mid+1]
      or we've got a fractional middle, that needs to be ceiled (as above) & floored (as below) with ranges a, below , above, b (2 middles below & above)
-    
+
     -new: furter care with range processing is required say below+1 & above+1 exits & unique then ranges should be: (a, below), (below+1,above), (above+1, b) #TODO or 
     -- if say, below-1 & above-1 exits & unique, then ranges: (a,below-1), (below, above-1), (above, b) [if each range bound exist, as a whole Int Number]
     --- need to introduce another helper metric, the speed (of algorithm) . as both workflows are valid, it would all boil down to the number #1: speed of the Algorithm #benchmark 
-    
+
     [this bifurcates the workflow of the program, hence, try one function at once, [the validity of a range is the Priority]   ]
     at each rangebuilding, we also check the contents of each bounds  
     2. for each new range (we got ), check distance (& we're back to square 1, to A ) #Done! 
-
+#are the middles compared too (well, as we'd be comparing every range, that would be inlusive of generated middles) 
 #------------------
 if middlle 
     - is even?: Yes -> has 1 middle #now-here
@@ -41,8 +41,7 @@ UnexpMsg = "ERROR: unexpected input:  please check input arguments , then try ag
 positiveMsg = "ERROR: Only Positive input arguments are allowed - please check input arguments, then try again"
 #=
 @benchmark  +(10000, 1000000) #simple + is WAY much Bloated, it isn't simple, anymore :S  
-@benchmark euclidDist(10000, 1000000) 
-=#
+@benchmark euclidDist(10000, 1000000) =#
 
 @propagate_inbounds isPositive(num) = num > 0 ? true : false
 
@@ -51,14 +50,43 @@ positiveMsg = "ERROR: Only Positive input arguments are allowed - please check i
 
 @propagate_inbounds function euclidDist(a, b)
     cond = abs(a + b) - 1
- @inbounds  if cond >= 1 
-    return cond
- end
-end 
+    @inbounds if cond >= 1
+        return cond
+    end
+end
 
-@benchmark euclidDist(1,10)
+@benchmark euclidDist(1, 10)
 
-#= =#
+#--------------
+
+@propagate_inbounds function isEven1(a = 1, b = 10) #3 if-statements
+    try
+        @inbounds if a >= 0 && b >= 0
+            distance = euclidDist(a, b) #1. distance 
+            _isPositive = isPositive(distance) #2. positive distance 
+            @inbounds if _isPositive #positive? 
+                isEven = distance % 2 == 0 ? true : false
+                @inbounds if isEven           # even? 
+                    return true
+                elseif !isEven # || isPositive
+                    return false
+                else
+                    println(UnexpMsg)
+                end
+            else
+                throw(error("Positive number error"))
+            end
+            #end 
+        end
+    catch positiveError
+        #Exception 
+        @error "ERROR: " * positiveMsg exception = (positiveError, catch_backtrace())
+        println(positiveMsg) #positive arguments error 
+    end
+end
+isEven1(-1, 10)
+isEven1(1, 10)
+
 """ checks evinity of a bound between point a to point b   #TODO: Research  >= v.s. > 
 ```input:
 a: lower bound 
@@ -74,86 +102,104 @@ true  if it's positive & even
 false: if either #improve 
 ```
 """
-function isEven1(a = 1, b = 10)
-    try 
-        if a >= 0 && b >= 0    
-            distance = euclidDist(a, b) #1. distance 
-            _isPositive =  isPositive(distance) #2. positive distance 
-            if _isPositive #positive? 
-            isEven = distance % 2 == 0 ? true : false 
-            if isEven           # even? 
-                return true 
-            elseif !isEven # || isPositive
+@propagate_inbounds function isEven2(a = 1, b = 10) # = readable #preferred #fast  #optimized  #2 if-statements
+    try
+        @inbounds if a >= 0 && b >= 0   #==#
+            distance = euclidDist(a, b) #1.distance 
+            evenCond = distance % 2 == 0 ? true : false
+            _isPositive = isPositive(distance)
+            @inbounds if evenCond && _isPositive #ok 
+                return true
+            elseif !evenCond || !_isPositive
                 return false
-            else println(UnexpMsg)
-            end 
-        else throw(error("Positive number error")) 
-        end 
-        #end 
-        end 
+            end
+        else
+            throw(error("Positive number error"))
+        end
     catch positiveError
         #Exception 
-       @error "ERROR: "* positiveMsg exception=(positiveError, catch_backtrace())   
-       println(positiveMsg) #positive arguments error 
-    end 
+        @error "ERROR: " * positiveMsg exception = (positiveError, catch_backtrace())
+        println(positiveMsg) #positive arguments error 
+    end #==#
 end
-isEven1(-1,10)
-isEven1(1,10) 
 
-function isEven2(a = 1, b = 10) # =
-    distance = euclidDist(a, b) #1.distance 
-    distaneCond = distance % 2 == 0 ? true : false
-    isPositive =  isPositive(distance)
-    if distaneCond && isPositive #ok 
-        return true 
-    elseif !distaneCond || isPositive
-        return false 
-    end
-end 
+@propagate_inbounds function isEven2(m = 10) # = readable #preferred #fast  #optimized  #2 if-statements
+    try
+        @inbounds if m >= 0  # && b >= 0   #==#
+            distance = m  #euclidDist(m) #1.distance 
+            evenCond = distance % 2 == 0 ? true : false
+            _isPositive = isPositive(distance)
+            @inbounds if evenCond && _isPositive #ok 
+                return true
+            elseif !evenCond || !_isPositive
+                return false
+            end
+        else
+            throw(error("Positive number error"))
+        end
+    catch positiveError
+        #Exception 
+        @error "ERROR: " * positiveMsg exception = (positiveError, catch_backtrace())
+        println(positiveMsg) #positive arguments error 
+    end #==#
+end
 
 isEven1()
-isEven2() 
+isEven2(1, 10)
 
 
 @benchmark isEven1()
+@benchmark isEven2(1, 10) #slightly does better 
 @benchmark isEven2()
+#=concludes
+isEven2 is slighly better than isEven1 - besides it's more compact, readable 
+one obvious reason is: number of if statements: isEven2 has only 2 ifs, while is isEven1 has 3  
+=#
 
-#the goal 
-@benchmark isEven() #correct #optimized 
+#either 1 of the conditions are true all time 
+ϟ(a, b) = (a > b) ⊻ (b > a) ? max(a, b) - min(a, b) : println(positiveMsg) #  abs(a - b)
 
-
-
-isEven(1,10)
-
-# @propagate_inbounds isEven(num) = isPositive(num) && num % 2 == 0 ? true : false #q. do we check only middle, or also the  total length ?  (depends )
-
-
-ϟ(a, b) = (a - b > 0) ⊻ (b - a > 0) ? max(a, b) - min(a, b) : println(positiveMsg) #  abs(a - b)
 #----------------------
-@propagate_inbounds function doCompare(st = 1, ed = 2, a = [2, 1, 3, 4]) # a bit absurd (don't you think?) #no everthing is fine # it's your nagging mind that is 
-
+@propagate_inbounds function doCompare(st = 1, ed = 2, a = [2, 1, 3, 4]) #errrorneous # a bit absurd (don't you think?) #no everthing is fine # it's your nagging mind that is 
+    _first = copy(a[st])
+    _last = copy(a[ed])  #creates a shallow copy (what's desired for optimization)
     # Base.@propagate_inbounds 
-    @inbounds if a[st] > a[ed]
+    @inbounds if _first > _last #a[st] > a[ed] #2 > 1 true 
         #Base.@propagate_inbounds  
         @inbounds a[st], a[ed] = a[ed], a[st]        #an inbounds swap #actual array swap 
-    #Base.@inbounds 
 
-    elseif a[st] < a[ed]
-        #don't flip # return values  
-        # return a[st], a[ed]
-        #@inbounds a[st], a[ed] = a[st] , a[ed]        #an inbounds swap 
+    elseif _first < _last
+
     else
         println(UnexpMsg)
     end
-    return a[st], a[ed]
+    v = makeRange(_first, _last)  #collect((_first, _last))
+    return v # ERROR: BoundsError: attempt to access 2-element Vector{Int64} at index [10]
 end
 
-@propagate_inbounds function makeRange(a, b)
-    return collect(a:b)
+doCompare()
+@propagate_inbounds function replaceVecs(v = [2, 3], a = [1, 2, 4, 5]; i = 1)
+    lenV = length(v)
+    @inbounds if lenV < length(a) # first assumption 
+        @inbounds a[i:lenV] = v[i:lenV]
+
+    elseif lenV > length(a)  #function is ok (with or without this line) (appearntly)
+    else
+        println(UnexpMsg)
+    end
+    return a
 end
 
-#-----------
-@propagate_inbounds function buildRangeAroundPoint(a, mid, b) #checked 
+replaceVecs() # correct 
+
+@propagate_inbounds function makeRange(a, b) #was collect(a:b)
+
+    return collect((a, b)) #nocollect
+end
+
+makeRange(1, 2)
+#----------- questionable 
+@propagate_inbounds function buildRangeAroundPoint(a, mid, b) #checked #works but unhelpful #building theoretical ranges  won't belp in  sorting 
     if a >= 0 && mid >= 0 && b >= 0
         q = []
         @inbounds push!(q, makeRange(a, mid))
@@ -165,23 +211,27 @@ end
     end
 end
 
-buildRangeAroundPoint(1,5,10) # i wanna 1+10 -> 5 but careful: 1+10 = 11 (odd) & 10-1 = 9 (odd) 11-#TODO: should not be niether 9 nor 11 it should be 10 (10)
+#makeRange
+transpose(makeRange(1, 5)) # transpose
+makeRange(1, 5)' #adjoint 
+
+buildRangeAroundPoint(1, 5, 9) #errourneous # i wanna 1+10 -> 5 but careful: 1+10 = 11 (odd) & 10-1 = 9 (odd) 11-#TODO: should not be niether 9 nor 11 it should be 10 (10)
 #=what-if scenario :
 1.what-if the range is already overcalculated: need to fix, using the higher figure: 1+10 -1 =  10 (even)-> 1 middle (as anticipated)
 2. generalize to any range by adding -1 
-=#
-r(a=1,b=19) = abs(b + a) -1 #or 
-length((1:10)) #length Built-in function understands it, as well #use it #instead of a+B range calculation (of the middle )
- 
-9:11 -+ 1:11 - 9:11 #:10 #
-  
-""" Assumes there is a rational series of numbers from point a to point b """
+#Either:
+r(a = 1, b = 19) = abs(b + a) - 1 #Or 
+length((1:10)) #perfect! # length: Built-in function understands it, as well #use it #instead of a+B range calculation (of the middle )
+
+# 9:11-+1:11-9:11 #:10 =#
+#---------------------
+""" Assumes there exits a rational series of numbers from point a to point b """
 @propagate_inbounds function buildAboveSoBelow(a, below, above, b) #Checked 
     if a >= 0 && below >= 0 && above >= 0 && b >= 0
         q = []
         @inbounds push!(q, makeRange(a, below))
-        @inbounds push!(q, makeRange(below, above))
-        @inbounds push!(q, makeRange(above, b))
+        @inbounds push!(q, makeRange(below + 1, above))
+        @inbounds push!(q, makeRange(above + 1, b))
         return q
     else
         println(positiveMsg)
@@ -189,7 +239,7 @@ length((1:10)) #length Built-in function understands it, as well #use it #instea
 end
 
 
-"""with a vector provided, making things easier with Comparing, on the spot"""
+"""with a vector provided, making things easier with Comparing, on the spot""" #UncommentMe
 @propagate_inbounds function buildAboveSoBelow(a, below, above, b, vec) #Checked 
     if a >= 0 && below >= 0 && above >= 0 && b >= 0
         #doCompare function
@@ -197,8 +247,8 @@ end
         doCompare(above, below, vec)
         q = []
         @inbounds push!(q, makeRange(a, below))
-        @inbounds push!(q, makeRange(below, above))
-        @inbounds push!(q, makeRange(above, b))
+        @inbounds push!(q, makeRange(below + 1, above))
+        @inbounds push!(q, makeRange(above + 1, b))
         return q
     else
         println(positiveMsg)
@@ -206,18 +256,18 @@ end
 end
 #---------------------------------------
 
-ranges = buildAboveSoBelow(1, 5, 6, 11) #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
+ranges = buildAboveSoBelow(1, 5, 6, 10, [1, 11]) #ERROR: cgeck arguments  #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
 
 #----test middle --- 
 
-    # mid = middle(a, b) # function calls itself! 
-    mid = euclidDist(a, b) #enforce \upkoppa 
-    cond = isEven(mid)
+# mid = middle(a, b) # function calls itself! 
+mid = euclidDist(a, b) #enforce \upkoppa 
+cond = isEven(mid)
 
-    if cond #isEven,  got mid, mid +1 #start of next range 
-        q = buildRangeAroundPoint(a, mid, b)
-        # push!(ranges, buildRangeAroundPoint(a, m
-
+if cond #isEven,  got mid, mid +1 #start of next range 
+    q = buildRangeAroundPoint(a, mid, b)
+    # push!(ranges, buildRangeAroundPoint(a, m
+end
 #---- middle ----------- 
 @propagate_inbounds function middle(a, b) #can't use it #hmm there is no relation to ar whereas to pull this through, it gotta be there 
 
@@ -243,7 +293,7 @@ ranges = buildAboveSoBelow(1, 5, 6, 11) #exhausts mid ranges[2] = 6 , 3 element,
     end
     return q
 end
-middle(1,5) #errourneous  2.5 3, 4  
+middle(1, 5) #errourneous  2.5 3, 4  
 #------------------------------------------
 #e.g. Example 
 
@@ -288,7 +338,7 @@ function isToNotDivide(range::UnitRange)
     end
 
 end
-
+#---testing length properties 
 length(6:10) - length(3:7) === length(6:10) - length(5:9)
 length(6:10) - length(6:10)
 #they  not equal 
@@ -326,9 +376,9 @@ end
 #----------------------------------------------
 
 arr = [1, 2, 3, 4, 5]
-#  length(arr)
-a = indexOf(arr[1], arr)
-b = actualSize - 1;
+actual = first(arr) + length(arr) #emulates an actual errourneous input 
+a = indexOf(arr[1], arr) # 1
+b = actualSize - 1; #fudging the number
 fractionalMid = length(arr) / 2 # 5/2 = 2.5 #does not exist go to the nearest neighbor
 above = Int(ceil(fractionalMid)) # 3
 below = Int(floor(fractionalMid)) # 2
@@ -408,7 +458,6 @@ ranges = []
 
 #--- test: buildRangeAroundPoint 
 @btime resMid = buildRangeAroundPoint(1, 5, 10) # 104.920 ns - 105.297 ns  (4 allocations: 320 bytes)
-
 
 #=UncommentMe #seems an alternative is already present 
 """a middle function stub without array/vector input feed- the Best? - unbounded """
@@ -534,50 +583,8 @@ function middle(a, b) # working
     return q #condition, check, above, below
 end
 
-#---test --- 
-mid = 2.5
-above = Int(ceil(mid))
-below = Int(floor(mid))
 
-#@propagate_inbounds 
-function middle(st, ed)
-    q = []
-    cond = isEven(st, ed)
-    @inbounds if cond
-        #return mid , mid+1
-        mid = Int(ϟ(st, ed) // 2)
-        # return mid, mid + 1
-        push!(q, mid)
-        push!(q, mid + 1)
-        #@inbounds
-    elseif !cond #mid = 2.5 #inapplicable for an index 
-        mid = ϟ(st, ed) / 2 # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
-        # above = Int(ceil(check)) #nearest index above
-        #  below = Int(floor(check))
-        above = Int(ceil(mid))
-        below = Int(floor(mid))
-        push!(q, below)
-        push!(q, above)
-        # return q  #return below, above
-        # @inbounds
-    else
-        println(UnexpMsg)
-    end
-    return q
-end
 
-_midV = middle(1, 10) # yes, mid = 5 return 5,6 
-
-#TODO: #UncommentMe
-#=function ()
-
-end=#
-
-# _mid[] #check this 
-
-#isEven(st = 1, ed = 10) = middle(st, ed) % 2 == 0 ? true : false
-
-#isEven(mid) = mid % 2 == 0 ? true : false
 
 q = []
 cond = isEven(1, 3)
@@ -590,8 +597,10 @@ res = -1
 #yeilds 1:2 , 2:3 
 #check dist 
 
-abs(2 - 3) == 1
+abs(2 - 3) == 1 # bounds are apart by 1 #sweet!
+
 # final comparison 
+#doCompare(2,3,arr)
 #compare current ranges with their value , do comparison when required  
 a[1]
 

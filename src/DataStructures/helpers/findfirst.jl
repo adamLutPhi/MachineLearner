@@ -27,7 +27,7 @@ findfirst() extension function
 
 export firstIndex, indexOf, elementat
 
-function firstIndex(v::Vector) #
+@propagate_inbounds function firstIndex(v::Vector) #
     #using first()
     return elementat(v, 1)#[1] #content 
 end
@@ -36,7 +36,7 @@ end
 """
 returns index of value i   
 """
-function indexOf(i, v::Vector) #where {T<:Union{Float64,Int64}}
+@propagate_inbounds function indexOf(i, v::Vector) #where {T<:Union{Float64,Int64}}
     try
         res = findfirst(isequal(i), v)
         typeof(res) == Nothing ? res = -1 : return Int(res) #res[1] #
@@ -53,7 +53,7 @@ function elementat(v::Vector, i)
     return elementat(i, v) #findall(x -> x == i, v)[1]
 end
 
-function elementat(i, v::Vector)
+@propagate_inbounds function elementat(i, v::Vector)
     try
         res = findall(x -> x == i, v)[1]
         length(res) == 0 ? res = -1 : res = res
@@ -65,7 +65,7 @@ function elementat(i, v::Vector)
 end
 
 
-function elementat(v::Vector)
+@propagate_inbounds function elementat(v::Vector)
     # return findall(x -> x == 1, v)[1]
     return elementat(1, v::Vector)
 
@@ -80,7 +80,7 @@ end
 """
 returns an array
 """
-function firstIndicies(v::Vector, i) #::AbstractArray{T,N}
+@propagate_inbounds function firstIndicies(v::Vector, i) #::AbstractArray{T,N}
     return findall(v)
     return findall(x -> x == i, v)
 end
