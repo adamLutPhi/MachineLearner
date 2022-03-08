@@ -99,7 +99,7 @@ isEven1(-1, -10)
 end
 
 
-@propagate_inbounds function replaceVecs(v = [2, 3], a = [1, 2, 3, 4]; i = 1)
+@propagate_inbounds function replaceVector(v = [2, 3], a = [1, 2, 3, 4]; i = 1)
     lenV = length(v)
     @inbounds if lenV < length(a) # first assumption 
         @inbounds a[i:lenV] = v[i:lenV]
@@ -110,7 +110,7 @@ end
     return a
 end
 
-replaceVecs()
+replaceVector()
 
 
 #-----------------
@@ -123,8 +123,8 @@ typeof(res)
 @propagate_inbounds function buildRangeAroundPoint(a, mid, b) #checked  # the point of buildingRanges is the one I'm concerned about 
     if a >= 0 && mid >= 0 && b >= 0
         q = []
-        @inbounds push!(q, makeRange(a, mid))
-        @inbounds push!(q, makeRange(mid + 1, b))
+        @inbounds push!(q, buildInterval(a, mid))
+        @inbounds push!(q, buildInterval(mid + 1, b))
 
         return q
     else
@@ -133,7 +133,7 @@ typeof(res)
 end
 v = collect((2, 2))
 rr = [1, 2, 3, 4]
-res = replaceVecs(v, rr) #done 
+res = replaceVector(v, rr) #done 
 
 #--later 
 @propagate_inbounds reduce(vcat, map(exp, reduce(hcat, transpose(res))))  #try maping data (vector) to a function of choice (exp)
@@ -233,7 +233,7 @@ end
 _midV = middle(1, 10) # yes, mid = 5 return 5,6 
 
 #--- we are here [current bottleNeck ]
-#requires makeRange 
+#requires buildInterval 
 #uses triad if-elseif-else  
 #TODO:solution 
 
@@ -250,7 +250,7 @@ _midV = middle(1, 10) # yes, mid = 5 return 5,6
             throw()
             println(UnexpMsg)
         end
-        v = makeRange(_first, _last)  #collect((_first, _last))
+        v = buildInterval(_first, _last)  #collect((_first, _last))
         return v # ERROR: BoundsError: attempt to access 2-element Vector{Int64} at index [10]
     catch
 
@@ -406,7 +406,7 @@ replaceVector()
 @benchmark replaceVector()
 
 #ends 
-#=    
+#=
 else
         println(UnexpMsg)
     end
@@ -421,11 +421,11 @@ replaceVector() # correct
 
 res = compareVector() #(1,2) tuple
 typeof(res)#tuple 
-v= makeRange(res) #to vector 
-a = replaceVecs(v,a)
-a
+v= buildInterval(res) #to vector 
+a = replaceVector(v,a)
+a #check a's contents  
 
-
+#--- here 
 
 
 #---test indexOf 
@@ -460,3 +460,31 @@ indexOf (generic function with 1 method)
 
 2   
  =#
+
+ function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
+
+    try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
+        _first = Int(indexOf(ℵ, a)) # copy(a[st])
+        _last = Int(indexOf(ℶ, a)) # copy(a[ed])
+        firstIndex = a[_first]
+        lastIndex = a[_last]
+        @inbounds if firstIndex > lastIndex #valueAt(2) > valueAt(1) isa true  #_first > _last #
+            println(a[_first], a[_last]) # debugging purposes only 
+            return @inbounds a[_first], a[_last] = a[_last], a[_first]     #an inbounds swap #actual array swap 
+
+        elseif firstIndex < lastIndex #only possible - correct situation (to deal with)
+            #Intent: skip 
+            return
+        else #2. throw frisbe error here
+            throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
+        end
+
+    catch UnexpectedError # 3. catch `materialize` (UnexpectedError object )
+        @error UnexpMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. positiveError object, 2. call catch_backtrace() (to catch it) 
+    end #ends try - finally afterthat return whatever correct value you've been working on  (if not already ) 
+
+end
+
+a =  [2, 1, 3, 4]
+_first = Int(indexOf(1, a)) # copy(a[st])
+_last = Int(indexOf(2, a)) # copy(a[ed])
