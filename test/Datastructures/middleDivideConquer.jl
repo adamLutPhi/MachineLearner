@@ -287,7 +287,7 @@ end
 a #array #correct!
 
 
-#---noq here: apply try -catch playing safe 
+#---not here: apply try -catch playing safe 
 #should work fine, as well 
 
 try
@@ -327,7 +327,7 @@ end
 
  res = findfirst(isequal(i), v)
         typeof(res) == Nothing ? res = -1 : return Int(res)
-""" compares vector a, it's element at first index ℵ with second element at index ℶ 
+#=compares vector a, it's element at first index ℵ with second element at index ℶ 
 
 ```input:
 ℵ: first index of comparison
@@ -339,13 +339,18 @@ a: original vector array
 an ordered tuple of the corrected indicies (of the vector array) 
 
 ```
-""" #requires the use of indexOF,elementAt 
+=#
+
+#--- compareVector
+#=requires the use of indexOF,elementAt 
  a = [2, 1, 3, 4]
  ℵ = 1 
  ℶ = 2
 
 firstContent =Int(findfirst(isequal(ℵ), a)) #indexOf(first)
 lastContent =  Int(findfirst(isequal(ℶ), a)) #indexOf(last)
+
+=#
 
 #---correct 
 if firstContent > lastContent #correct
@@ -405,6 +410,14 @@ replaceVector()
 
 @benchmark replaceVector()
 
+
+#---------------- test 
+v = compareVector()
+typeof(compareVector)
+tuple = compareVector()
+v = buildInterval(tuple)# pass-in a tuple   # buildInterval(tuple[1],tuple[2])
+
+
 #ends 
 #=
 else
@@ -425,14 +438,13 @@ v= buildInterval(res) #to vector
 a = replaceVector(v,a)
 a #check a's contents  
 
-#--- here 
 
 
 #---test indexOf 
 a=[2,1,3,4]
 indexOf(1, a)
 indexOf(2, a)
-@benchmark indexOf(1, a)
+@benchmark indexOf(1, a) #possible errrorneous
 
 #=
 BenchmarkTools.Trial: 96 samples with 1 evaluation.
@@ -489,4 +501,34 @@ a =  [2, 1, 3, 4]
 _first = Int(indexOf(1, a)) # copy(a[st])
 _last = Int(indexOf(2, a)) # copy(a[ed])
 
+
 #------
+
+
+#=
+BenchmarkTools.Trial: 10000 samples with 983 evaluations.
+ Range (min … max):  54.527 ns …   5.274 μs  ┊ GC (min … max): 0.00% … 97.01%
+ Time  (median):     60.936 ns               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   88.895 ns ± 126.925 ns  ┊ GC (mean ± σ):  5.20% ±  3.98%
+
+  ▆█▅▃▂▂▂▃▂▁▃▃▃▂▃▂▂▁▁▁▁▁  ▁                                    ▁
+  ████████████████████████████████████▇▆▇▇▇▇▆▆▅▆▇▇▆▅▆▅▆▆▅▅▅▅▄▅ █
+  54.5 ns       Histogram: log(frequency) by time       262 ns <
+
+
+=#
+
+#------
+#@benchmark replaceVector2(v,a) 
+@benchmark replaceVector(v, a)
+#=
+ Range (min … max):  21.063 ns … 130.391 ns  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     22.568 ns               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   26.359 ns ±  10.667 ns  ┊ GC (mean ± σ):  0.00% ± 0.00%
+
+  ▅█▆▃            ▁▂▂ ▁▁ ▁ ▁                                   ▁
+  █████▇▇▇▇▆▅▁▃▄▄████████████▇▆▆▆▆▆▆▅▆▇▇▇▇▇▇▇▇▇▆▅▆▆▇▅▅▆▄▅▅▅▄▅▅ █
+  21.1 ns       Histogram: log(frequency) by time      75.5 ns <
+
+ Memory estimate: 0 bytes, allocs estimate: 0.
+=#

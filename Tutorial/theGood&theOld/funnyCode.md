@@ -1,0 +1,3 @@
+
+What's harder than not `being funny` is 
+ `not wanting to be one`...

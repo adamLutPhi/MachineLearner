@@ -7,19 +7,24 @@
     n /= m 
     end
 end
+#=
+maybe the point of inline is not the speed at all, but 
+only the stability of your code? #research 
+=#
+#inline is not the best  for speed
+  @inline function div2(n=10,m=6)    # the faster # depreciate
+   k=m
+    @inbounds for i ∈ 1:k
+    n /= m 
+    end
+end
+
 @propagate_inbounds function mul(n=10,m=6)
     k = m 
    @inbounds for i ∈ 1:k    
         n *= m  
     end
 end 
-#inline is not the best  for speed
-  @inline function div2(n=10,m=6)    # the fastest 
-   k=m
-    @inbounds for i ∈ 1:k
-    n /= m 
-    end
-end
 #-----------------------
 t1 = @benchmark div()
 t2 = @benchmark div2()

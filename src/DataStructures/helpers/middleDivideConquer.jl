@@ -50,7 +50,7 @@ outofBoundsMsg = "ERROR: input's length is larger than original vector- kindly c
 @propagate_inbounds isPositive(num) = num > 0 ? true : false
 
 @benchmark length(1:10)
-#@propagate_inbounds euclidDist(a, b) = abs(a + b) +1> # Range (min … max):  0.001 ns … 0.100 ns
+
 @propagate_inbounds function euclidDist(a, b) #euclidDist subtracts 1 (complies with julia logic)
     cond = abs(a + b) - 1
     @inbounds if cond >= 1
@@ -63,35 +63,6 @@ end
 #--------------
 #3 if-statement-logic (if-elseif-else)
 
-"""isEven1 experimential Performance: always below isEven2 """
-
-@propagate_inbounds function isEven1(a = 1, b = 10) #3 if-statements
-    try
-        @inbounds if a >= 0 && b >= 0
-            distance = euclidDist(a, b) #1. distance 
-            _isPositive = isPositive(distance) #2. positive distance 
-            @inbounds if _isPositive #positive? 
-                isEven = distance % 2 == 0 ? true : false
-                @inbounds if isEven           # even? 
-                    return true
-                elseif !isEven # || isPositive
-                    return false
-                else
-                    println(UnexpMsg)
-                end
-            else
-                throw(error("Positive number error"))
-            end
-            #end 
-        end
-    catch positiveError
-        #Exception 
-        @error positiveMsg exception = (positiveError, catch_backtrace())
-        println(positiveMsg) #positive arguments error 
-    end
-end
-isEven1(-1, 10)
-isEven1(1, 10)
 
 """ checks evinity of a bound between point a to point b   #TODO: Research  >= v.s. > 
 ```input:
@@ -122,9 +93,9 @@ false: if either #improve
         else
             throw(error("Positive number error"))
         end
-    catch positiveError
+    catch notPositiveInputError
         #Exception 
-        @error "ERROR: " * positiveMsg exception = (positiveError, catch_backtrace())
+        @error positiveMsg exception = (notPositiveInputError, catch_backtrace())
         println(positiveMsg) #positive arguments error 
     end #==#
 end
@@ -143,9 +114,9 @@ end
         else
             throw(error("Positive number error"))
         end
-    catch positiveError
-        #Exception 
-        @error "ERROR: " * positiveMsg exception = (positiveError, catch_backtrace())
+    catch notPositiveInputError
+
+        @error positiveMsg exception = (notPositiveInputError, catch_backtrace())
         println(positiveMsg) #positive arguments error 
     end #==#
 end
@@ -167,8 +138,6 @@ one obvious reason is: number of if statements: isEven2 has only 2 ifs, while is
 @propagate_inbounds ϟ(a, b) =
     (a > b) ⊻ (b > a) ? max(a, b) - min(a, b) : println(positiveMsg) #  abs(a - b)
 
-
-
 #--- buildInterval 
 
 @propagate_inbounds function buildInterval(a, b)
@@ -183,13 +152,17 @@ buildInterval(1, 2)
     return collect((tuple[1], tuple[2]))
 end
 
-#----------------------
+
 function oldschoolSwap!(x, y)
     tmp = x
     x = y
     y = tmp
     return x, y
 end
+#----------------------
+middles=[] # need to track middles 
+
+#----------------------
 """ compares vector a, it's element at first index ℵ with second element at index ℶ 
 
 ```input:
@@ -205,24 +178,24 @@ an ordered tuple of the corrected indicies (of the vector array)
 """ #requires: of indexOf,oldschoolSwap!
 function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
     response = nothing
-    try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
+    try #1. call this function when we'd like to compare bounds (ℵ ,ℶ) of a Vector array
+        #1.1. check inputs if positive     
+        if isnumeric(ℵ) && isnumeric(ℶ) && is  ℵ >= 0 && ℶ >= 0
         firstContent = Int(findfirst(isequal(ℵ), a)) #indexOf(first)
         lastContent = Int(findfirst(isequal(ℶ), a)) #indexOf(last)
-
         if firstContent > lastContent # correct
-            response = @inbounds a[ℵ], a[ℶ] = oldschoolSwap!(a[ℵ], a[ℶ]) #plain content swap in julia  #swap array contents directly
+            response = @inbounds a[ℵ], a[ℶ] = oldschoolSwap!(a[ℵ], a[ℶ]) #plain content swap
 
-        elseif firstContent < lastContent #only possible - correct situation (to deal with)
+        elseif firstContent < lastContent #only possible - correct situation
             #Intent: skip 
             return
         else #2. throw frisbe error here
             throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
         end
-
+    end
     catch UnexpectedError # 3. catch `materialize` (UnexpectedError object )
-        @error UnexpMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. positiveError object, 2. call catch_backtrace() (to catch it) 
+        @error UnexpMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. notPositiveInputError object, 2. call catch_backtrace() (to catch it) 
     end #ends try - finally afterthat return whatever correct value you've been working on  (if not already ) 
-    return response
 end
 
 res = compareVector()
@@ -234,7 +207,7 @@ v = buildInterval(res)
 @propagate_inbounds function indexOf(i, v::Vector)
     try
         res = findfirst(isequal(i), v)
-        if res isa Number
+        if isnumeric(res) #  isa Number
             return res
         else
             throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
@@ -242,35 +215,27 @@ v = buildInterval(res)
     catch UnexpectedError
         @error UnexpMsg exception = (UnexpectedError, catch_backtrace())
     end
-    # return res
 end
 
 
-a =  [2, 1, 3, 4]
+a = [2, 1, 3, 4]
 _first = Int(indexOf(1, a)) # copy(a[st])
 _last = Int(indexOf(2, a)) # copy(a[ed])
 
 #----------
-# test 
-v = compareVector()
-typeof(compareVector)
-tuple = compareVector()
-v = buildInterval(tuple)# pass-in a tuple   # buildInterval(tuple[1],tuple[2])
-
-
-#--------
 
 @propagate_inbounds function replaceVector(v = [1, 2], a = [2, 3, 4, 5]; i = 1) #optimized 
-    lenV = copy(length(v)) 
+    lenV = copy(length(v))
     lenA = copy(length(a))
     @inbounds if lenV < lenA # first assumption 
-        for j in 1:lenV 
+        for j ∈ 1:lenV
             a[j] = v[j]
-        #a[2] = v[2] #... lenV
-        end 
+            #a[2] = v[2] #... lenV
+        end
 
-    #elseif lenV > lenA #v can't be larger than original vector a (throws an outofBoundsError )
-    else  throw(error("Unexpected error Occured"))
+        #elseif lenV > lenA #v can't be larger than original vector a (throws an outofBoundsError )
+    else
+        throw(error("Unexpected error Occured"))
         println(UnexpMsg)
     end
     return a
@@ -279,16 +244,17 @@ end
 #= to be removed #Uncoment for Debugging
 @propagate_inbounds function replaceVector2(v = [1, 2], a = [2, 3, 4, 5]; i = 1)
 =#
-    lenV = copy(length(v)) 
-    lenA = copy(length(a))
-    @inbounds if lenV < lenA # first assumption 
-        @inbounds a[i:lenV] = v[i:lenV]
+lenV = copy(length(v))
+lenA = copy(length(a))
+@inbounds if lenV < lenA # first assumption 
+    @inbounds a[i:lenV] = v[i:lenV]
 
     #elseif lenV > lenA #v can't be larger than original vector a (throws an outofBoundsError )
-    else  throw(error("Positive number error"))
-        println(UnexpMsg)
-    end
-    return a
+else
+    throw(error("Positive number error"))
+    println(UnexpMsg)
+end
+return a
 
 #------------------
 a = [2, 3, 4, 5]
@@ -297,75 +263,27 @@ v = [1, 2]
 tuple = compareVector()
 v = buildInterval(tuple)# pass-in a tuple   # buildInterval(tuple[1],tuple[2])
 
-a= replaceVector(v,a) #ok #returns correct range
+a = replaceVector(v, a) #ok #returns correct range
 
 
-# α = replaceVector2(v,a) #Uncoment for Debugging
-a == α && a === α #true - doesn't matter which one to pick 
-
+#Uncoment for Debugging 
 #=
-BenchmarkTools.Trial: 10000 samples with 983 evaluations.
- Range (min … max):  54.527 ns …   5.274 μs  ┊ GC (min … max): 0.00% … 97.01%
- Time  (median):     60.936 ns               ┊ GC (median):    0.00%
- Time  (mean ± σ):   88.895 ns ± 126.925 ns  ┊ GC (mean ± σ):  5.20% ±  3.98%
-
-  ▆█▅▃▂▂▂▃▂▁▃▃▃▂▃▂▂▁▁▁▁▁  ▁                                    ▁
-  ████████████████████████████████████▇▆▇▇▇▇▆▆▅▆▇▇▆▅▆▅▆▆▅▅▅▅▄▅ █
-  54.5 ns       Histogram: log(frequency) by time       262 ns <
-
-
-=# 
-#----
-
-@benchmark replaceVector(v,a)
-
-
-
-
-
-
-
-#------
-#@benchmark replaceVector2(v,a) 
-@benchmark replaceVector(v,a) 
-#=
- Range (min … max):  21.063 ns … 130.391 ns  ┊ GC (min … max): 0.00% … 0.00%
- Time  (median):     22.568 ns               ┊ GC (median):    0.00%
- Time  (mean ± σ):   26.359 ns ±  10.667 ns  ┊ GC (mean ± σ):  0.00% ± 0.00%
-
-  ▅█▆▃            ▁▂▂ ▁▁ ▁ ▁                                   ▁
-  █████▇▇▇▇▆▅▁▃▄▄████████████▇▆▆▆▆▆▆▅▆▇▇▇▇▇▇▇▇▇▆▅▆▆▇▅▅▆▄▅▅▅▄▅▅ █
-  21.1 ns       Histogram: log(frequency) by time      75.5 ns <
-
- Memory estimate: 0 bytes, allocs estimate: 0.
+@debug a = replaceVector(v,a)  
+@debug α = replaceVector2(v,a) 
+@debug a == α && a === α #true - doesn't matter which one to pick 
 =#
+
 #-----------------
 
 res = compareVector() #(1,2) tuple
 typeof(res)#tuple 
-v= buildInterval(res) #to vector 
+v = buildInterval(res) #to vector 
 #a = replaceVector2(v,a) #ERROR: 
 
-#benchmarking 
-@benchmark replaceVector(v,a)
-#=
-BenchmarkTools.Trial: 10000 samples with 983 evaluations.
- Range (min … max):  53.815 ns …   4.591 μs  ┊ GC (min … max): 0.00% … 95.95%
- Time  (median):     59.105 ns               ┊ GC (median):    0.00%
- Time  (mean ± σ):   76.398 ns ± 122.569 ns  ┊ GC (mean ± σ):  6.20% ±  4.00%
-
-  ▄█▆▄▂▂▁▂▂▂▂▁ ▁▃▂▂▁▁▁▁▁                                       ▁
-  ██████████████████████████▇▇▇▇▇▇▇▇▆▆▇▆▅▅▆▅▆▅▆▅▅▅▅▅▄▄▄▄▅▆▄▄▄▃ █
-  53.8 ns       Histogram: log(frequency) by time       208 ns <
-=#
-#lenV = copy(length(v)) 
-#lenA = copy(length(v))
-#@inbounds if lenV < lenA # first assumption 
-#        @inbounds a[i:lenV] = v[i:lenV]
 
 
 
-#----------- questionable #builds an arbitrary rational numbers fron bound a to b  
+#----------- questionable #builds an arbitrary rational numbers fron bound a to b  #0ld-thinking #check-if-Working 
 @propagate_inbounds function buildRangeAroundPoint(a, mid, b) #checked #works but unhelpful #building theoretical ranges  won't belp in  sorting 
     if a >= 0 && mid >= 0 && b >= 0
         q = []
@@ -384,6 +302,8 @@ end
 @propagate_inbounds buildInterval(1, 5)' #adjoint 
 #-----
 buildRangeAroundPoint(1, 5, 9) #errourneous # i wanna 1+10 -> 5 but careful: 1+10 = 11 (odd) & 10-1 = 9 (odd) 11-#TODO: should not be niether 9 nor 11 it should be 10 (10)
+
+
 #=what-if scenario :
 1.what-if the range is already overcalculated: need to fix, using the higher figure: 1+10 -1 =  10 (even)-> 1 middle (as anticipated)
 2. generalize to any range by adding -1 
@@ -407,50 +327,66 @@ interval: original vector interval
 
 ```
 # Examples: 
-""" #observe, it has no arr inside (there's no translation map into the arr space for it ) #TODO:  
-@propagate_inbounds function buildAboveSoBelow(α, below, above, β,interval) #Checked #requires arr  a as input  
-    if a >= 0 && below >= 0 && above >= 0 && b >= 0
-        q = []
-        tuple = compareVector()
-        replaceVector()
-        @inbounds push!(q, buildInterval(α, below)) #replaced in a 
-        @inbounds push!(q, buildInterval(below + 1, above)) #replace in a 
-        @inbounds push!(q, buildInterval(above + 1, β))# replace in a 
-        return q
-    else
-        println(positiveMsg)
+""" # There's a translation map for a vector space a as well as index space  <---------------
+@propagate_inbounds function buildAboveSoBelow(below, above, a) #Checked #requires arr  a as input   
+    try
+        if a >= 0 && below >= 0 && above >= 0 && b >= 0
+
+        tuple = compareVector(below, above,a)
+        interval = buildInterval(tuple)
+        replaceVector(interval, a)
+
+    else throw(error("input arguments must be positive"))
+    end 
+
+    catch notPositiveInputError
+        @error positiveMsg exception = (notPositiveInputError, catch_backtrace())
     end
+    return a 
 end
+#end
+
+#= in the same context, we can logmsg(), debug(), info(), warn()
+
+macro logmsg(level, exs...) logmsg_code((@_sourceinfo)..., esc(level), exs...) end
+macro debug(exs...) logmsg_code((@_sourceinfo)..., :Debug, exs...) end
+macro  info(exs...) logmsg_code((@_sourceinfo)..., :Info,  exs...) end
+macro  warn(exs...) logmsg_code((@_sourceinfo)..., :Warn,  exs...) end
+
+=#
 
 #-------------------------------
 """with a vector provided, making things easier with Comparing, on the spot
 
-""" #Vital function 
-@propagate_inbounds function buildAboveSoBelow(α, below, above, β, interval=[1,2,3,4,5] ) #Checked  #possible # erroreous  
-    if a >= 0 && below >= 0 && above >= 0 && b >= 0 #at this point: the state variable of above & below is uncertain (cannot be sure ) 
-        #doCompare function # it's an erroreous function
-        tuple = compareVector(α,β,interval) #correct
-        Interval = buildInterval(tuple)
-        replaceVector() #-<--- here  
-        tuple = compareVector(above,below,interval)
-       Interval = buildInterval(above,below ) 
-      a =  replaceVector()
+""" #Vital function  #here
+@propagate_inbounds function buildAboveSoBelow(
+    α,
+    β,
+    a = [1, 2, 3, 4, 5],
+) #Checked
+    try
+        if a >= 0 && α >= 0 && β >= 0 && b >= 0 #at this point: the state variable of above & below is uncertain (cannot be sure ) 
+            #Q. is there a need for comparison?  yes, inside compareVector if no need for change tuple would be empty
+            tuple = compareVector(α, β, a) #correct 
+            interval = buildInterval(tuple)
+            replaceVector(interval, a)
 
-
-        #=q = []
-        @inbounds push!(q, buildInterval(α, below))
-        @inbounds push!(q, buildInterval(below + 1, above))
-        @inbounds push!(q, buildInterval(above + 1, β))
-        return q=#
-        return a
-    else
-        println(positiveMsg)
+        else
+            throw(error("Unexpected input arguments"))
+        end
+    catch UnexpectedError 
+        @error positiveMsg exception = (UnexpectedError, catch_backtrace())
     end
+
+    return q=#
+    return a
+
 end
+
 #---------------------------------------
 #=test: building above & below (should be automatic)=#
 # (α, below, above, β, interval=[1,2,3,4,5] )
-a = buildAboveSoBelow(1, 5, 6, 1, arr=[1,2,3,4,5]) #ERROR: check arguments  #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
+a = buildAboveSoBelow(1, 5, arr) #should return the array a #ERROR: check arguments  #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
 
 
 
@@ -465,7 +401,7 @@ a = buildAboveSoBelow(1, 5, 6, 1, arr=[1,2,3,4,5]) #ERROR: check arguments  #exh
 
 # mid = middle(a, b) # function calls itself! 
 mid = euclidDist(a, b) #enforce \upkoppa 
-cond = isEven(mid)
+cond = isEven2(mid)
 
 if cond #isEven,  got mid, mid +1 #start of next range 
     q = buildRangeAroundPoint(α, mid, β)
@@ -479,10 +415,10 @@ end
     interval = euclidDist(α, β) #enforce ϟ \upkoppa [Intent: current Interval bounds α, β]  
     cond = isEven(interval) #
     #calculate middle 
-    mid = middle(α,β)
+    mid = middle(α, β)
     if cond #isEven,  got mid, mid +1 #start of next range 
         q = buildRangeAroundPoint(α, mid, β) #To-be-Checked
-        # push!(ranges, buildRangeAroundPoint(a, mid, b)) # returns [a, mid] , [mid+1, b]
+    # push!(ranges, buildRangeAroundPoint(a, mid, b)) # returns [a, mid] , [mid+1, b]
 
     elseif !cond #!isEven got a fraction, estimated to  2 midpoint Indicies, around middle: below=floor(mid), above = ceil(mid)
         mid = mid / 2  # get  updated middle (fractional) 
@@ -490,7 +426,7 @@ end
 
         below = Int(floor(mid))
         q = buildAboveSoBelow(α, below, above, β)#To-be-Checked 
-        # push!(ranges, buildAboveSoBelow(a, below, above, b)) # [a, below] , [above, b]
+    # push!(ranges, buildAboveSoBelow(a, below, above, b)) # [a, below] , [above, b]
 
     else
         println(UnexpError)
@@ -580,7 +516,7 @@ end
 #----------------------------------------------
 #example
 arr = [1, 2, 3, 4, 5]
-Length= copy(length(arr))
+Length = copy(length(arr))
 actual = arr[1] + Length #first(arr) + length(arr) #emulates an actual errourneous input 
 a = indexOf(arr[1], arr) # 1
 b = actualSize - 1; #fudging the number
@@ -681,8 +617,8 @@ typeof(ranges)
 
 #--- test buildAboveSoBelow----
 #--- test - easy : 
-a= [1,2,3,4,5]
-res = buildAboveSoBelow(1, 3, 5, 10,a) # a <below < above < b 
+a = [1, 2, 3, 4, 5]
+res = buildAboveSoBelow(1, 3, 5, 10, a) # a <below < above < b 
 
 #fine 
 res = buildAboveSoBelow(1, -1, 5, 10, a) #TODO: check input arguments are only positive 
@@ -696,12 +632,12 @@ typeof(res) #nothing, rather than an errourneous outcome
 #check n/2 is a whole number
 #--- Left Half 
 #---------------------------------------------------
-function goleft(a = [1, 2, 3, 4], α = 1, β = length(arr) -1)
+function goleft(a = [1, 2, 3, 4], α = 1, β = length(arr) - 1)
     computeRange!(arr, a, b) # TODO: middle(arr, a, b) #or # TODO: middle(a, b, arr)
 end
 
-function goright(a = [1, 2, 3, 4], α = 1, β = length(arr)-1)  #mid + 1, b = length(arr))
-    computeRange!(a, α , β) # # TODO: middle(arr, a, b) #or # TODO: middle(a, b, arr)
+function goright(a = [1, 2, 3, 4], α = 1, β = length(arr) - 1)  #mid + 1, b = length(arr))
+    computeRange!(a, α, β) # # TODO: middle(arr, a, b) #or # TODO: middle(a, b, arr)
     isEven(length(arr)) #either even or not 
 end
 
@@ -738,7 +674,7 @@ end
 # creditL mit 6.006 
 #choosing a,b is choosing arr , this is a mean, not a goal 
 # divideConquer(a, range[1], length(range[1])) #check 
-@propagate_inbounds function divideConquer(a = [1, 2, 3, 4]; α = arr[1], β = length(a)-1)  ## arr is an initial value, while the goal would be , 1  length(other size of bound to walk on  ) a code that never walks..
+@propagate_inbounds function divideConquer(a = [1, 2, 3, 4]; α = arr[1], β = length(a) - 1)  ## arr is an initial value, while the goal would be , 1  length(other size of bound to walk on  ) a code that never walks..
     count = 1
     mid = middle(α, β) # first Domino #this presumes middle returns 1 middle # immature 
     #check valid Interval  
@@ -763,7 +699,7 @@ end
 
 #----test-----------------------------------------------
 arr = [1, 2, 3, 4]
-divideConquer(arr, arr[1], length(arr)-1)
+divideConquer(arr, arr[1], length(arr) - 1)
 
 length(arr)
 #middle(st=1, ed =4)
@@ -852,7 +788,8 @@ response(range1) = isToNotDivide(range1) # last function
 
 if !response(range1) # it will only be called when true 
     calldivideConquer(arr, range1)
-else return(0) # HALT 
+else
+    return (0) # HALT 
 end
 #Halt 
 #---test---------
@@ -874,7 +811,7 @@ c = middle(a, b) #  euclidDist(2,4) / 2
 #----testing Area ------- 
 
 abs(β - α) # 2 #inferred ϟ = |4 - 2 | = 2  # 1. check boundary distance 
-ϟ(a,b)
+ϟ(a, b)
 #if abs(b - a) > 0  
 mid = 0
 #2.computer middle 
