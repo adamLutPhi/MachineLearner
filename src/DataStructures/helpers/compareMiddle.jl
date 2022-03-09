@@ -72,7 +72,7 @@ function evenCriterion(a, b) #ok #double-Checked # depreciated # erroneous
     check = nothing
     if condition == true  #ERROR double if! 
         check = condition
-    elseif condition == false
+    elseif condition == false 
         check = condition
     else #if faulty input or Unexpected ERROR Occured 
         check

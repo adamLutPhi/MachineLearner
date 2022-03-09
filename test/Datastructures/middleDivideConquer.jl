@@ -488,3 +488,5 @@ end
 a =  [2, 1, 3, 4]
 _first = Int(indexOf(1, a)) # copy(a[st])
 _last = Int(indexOf(2, a)) # copy(a[ed])
+
+#------

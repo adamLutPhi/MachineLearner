@@ -44,9 +44,8 @@ UnexpMsg = "ERROR: unexpected input:  please check input arguments , then try ag
 positiveMsg = "ERROR: Only Positive input arguments are allowed - please check input arguments, then try again"
 outofBoundsMsg = "ERROR: input's length is larger than original vector- kindly check again "
 
-
-@benchmark  +(10000, 1000000) #simple + is WAY much Bloated, it isn't simple, anymore :S  
-@benchmark euclidDist(10000, 1000000) =#
+#@benchmark  +(10000, 1000000) #simple + is WAY much Bloated, it isn't simple, anymore :S  
+#@benchmark euclidDist(10000, 1000000) =#
 
 @propagate_inbounds isPositive(num) = num > 0 ? true : false
 
@@ -261,7 +260,7 @@ v = buildInterval(tuple)# pass-in a tuple   # buildInterval(tuple[1],tuple[2])
 
 #--------
 
-@propagate_inbounds function replaceVector2(v = [1, 2], a = [2, 3, 4, 5]; i = 1)
+@propagate_inbounds function replaceVector(v = [1, 2], a = [2, 3, 4, 5]; i = 1) #optimized 
     lenV = copy(length(v)) 
     lenA = copy(length(a))
     @inbounds if lenV < lenA # first assumption 
@@ -277,9 +276,9 @@ v = buildInterval(tuple)# pass-in a tuple   # buildInterval(tuple[1],tuple[2])
     return a
 end
 
-
-
-@propagate_inbounds function replaceVector(v = [1, 2], a = [2, 3, 4, 5]; i = 1)
+#= to be removed #Uncoment for Debugging
+@propagate_inbounds function replaceVector2(v = [1, 2], a = [2, 3, 4, 5]; i = 1)
+=#
     lenV = copy(length(v)) 
     lenA = copy(length(a))
     @inbounds if lenV < lenA # first assumption 
@@ -290,7 +289,6 @@ end
         println(UnexpMsg)
     end
     return a
-end
 
 #------------------
 a = [2, 3, 4, 5]
@@ -299,12 +297,12 @@ v = [1, 2]
 tuple = compareVector()
 v = buildInterval(tuple)# pass-in a tuple   # buildInterval(tuple[1],tuple[2])
 
-a= replaceVector(v,a)  
-α = replaceVector2(v,a)
-#----
+a= replaceVector(v,a) #ok #returns correct range
 
 
-@benchmark replaceVector(v,a) 
+# α = replaceVector2(v,a) #Uncoment for Debugging
+a == α && a === α #true - doesn't matter which one to pick 
+
 #=
 BenchmarkTools.Trial: 10000 samples with 983 evaluations.
  Range (min … max):  54.527 ns …   5.274 μs  ┊ GC (min … max): 0.00% … 97.01%
@@ -316,19 +314,11 @@ BenchmarkTools.Trial: 10000 samples with 983 evaluations.
   54.5 ns       Histogram: log(frequency) by time       262 ns <
 
 
-=#
-ml(n=10,m=6)= @inline [n *= n*m; for i ∈ 1:k]
+=# 
+#----
 
-dv(n=10,m=6) = @inline  [n /= n/m  for i ∈ 1:k]
+@benchmark replaceVector(v,a)
 
-for i in 1:m
-    dv /= 10
-end
-
-
-μ =
-#Ratios 
-max = 5.274 *μs
 
 
 
@@ -336,8 +326,8 @@ max = 5.274 *μs
 
 
 #------
-@benchmark replaceVector2(v,a) 
-@benchmark replaceVector2(v,a)
+#@benchmark replaceVector2(v,a) 
+@benchmark replaceVector(v,a) 
 #=
  Range (min … max):  21.063 ns … 130.391 ns  ┊ GC (min … max): 0.00% … 0.00%
  Time  (median):     22.568 ns               ┊ GC (median):    0.00%
@@ -348,20 +338,26 @@ max = 5.274 *μs
   21.1 ns       Histogram: log(frequency) by time      75.5 ns <
 
  Memory estimate: 0 bytes, allocs estimate: 0.
-
 =#
-
-
-
 #-----------------
 
 res = compareVector() #(1,2) tuple
 typeof(res)#tuple 
 v= buildInterval(res) #to vector 
-a = replaceVector(v,a) #ERROR: 
+#a = replaceVector2(v,a) #ERROR: 
+
 #benchmarking 
 @benchmark replaceVector(v,a)
+#=
+BenchmarkTools.Trial: 10000 samples with 983 evaluations.
+ Range (min … max):  53.815 ns …   4.591 μs  ┊ GC (min … max): 0.00% … 95.95%
+ Time  (median):     59.105 ns               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   76.398 ns ± 122.569 ns  ┊ GC (mean ± σ):  6.20% ±  4.00%
 
+  ▄█▆▄▂▂▁▂▂▂▂▁ ▁▃▂▂▁▁▁▁▁                                       ▁
+  ██████████████████████████▇▇▇▇▇▇▇▇▆▆▇▆▅▅▆▅▆▅▆▅▅▅▅▅▄▄▄▄▅▆▄▄▄▃ █
+  53.8 ns       Histogram: log(frequency) by time       208 ns <
+=#
 #lenV = copy(length(v)) 
 #lenA = copy(length(v))
 #@inbounds if lenV < lenA # first assumption 
@@ -437,23 +433,33 @@ end
         Interval = buildInterval(tuple)
         replaceVector() #-<--- here  
         tuple = compareVector(above,below,interval)
-        buildInterval(above,below ) 
-       replaceVector()
-       #doCompare(a, b, vec) #removed
-        #doCompare(above, below, vec) #removed 
+       Interval = buildInterval(above,below ) 
+      a =  replaceVector()
 
-        q = []
+
+        #=q = []
         @inbounds push!(q, buildInterval(α, below))
         @inbounds push!(q, buildInterval(below + 1, above))
         @inbounds push!(q, buildInterval(above + 1, β))
-        return q
+        return q=#
+        return a
     else
         println(positiveMsg)
     end
 end
 #---------------------------------------
 #=test: building above & below (should be automatic)=#
-ranges = buildAboveSoBelow(1, 5, 6, 1, arr=[1,2,3,4,5]) #ERROR: check arguments  #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
+# (α, below, above, β, interval=[1,2,3,4,5] )
+a = buildAboveSoBelow(1, 5, 6, 1, arr=[1,2,3,4,5]) #ERROR: check arguments  #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
+
+
+
+
+
+
+
+
+
 
 #----test middle --- 
 
