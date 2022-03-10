@@ -703,46 +703,7 @@ function goright(a = [1, 2, 3, 4], α = 1, β = length(arr) - 1)  #mid + 1, b = 
     end #finaly return 
     
 end
-#=unclear, gray Area , should be end =#
-
-"""a valid middle - Classic #old #depreciated ,why it uses q """
-function middle(α, β) # 
-    condition = isEven(α, β) #  not | b-a 
-    #q = []
-    if condition == true
-        #return true #a.s. #eucledian Distance divided by 2 returing a whole integer
-        check = Int(sumInterval(α, β) // 2) # | b + a | // 2 isa Integer #sumInterval -to-> ϟ#5
-        #middleExtraction(condition, check) # Here we didn't get anything ! <------------- # check not defined here 
-        #return condition, check 
-        #push!(q, check)
-    elseif !condition # == false
-        #return false #a.s.# check = sumInterval(a,b)//2*1.0
-        #GET Ceil & Floor
-       
-        #call middle 
-        #sumInterval(α,β)/2
-        #does other things as well : # warning  #old-thinking 
-        check = sumInterval(α , β)/2 # floating-point division sumInterval(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
-        if isEven2(check)
-            above = Int(ceil(check)) #nearest index above
-            below = Int(floor(check))
-
-      #  push!(q, below)#old thinking detected # to be changed 
-       # push!(q, above)
-
-    else # faulty Input or Unexpected Error Occured
-        #    return check  # nothing
-        return #q #condition, check, above, below
-    end
-    return #q #condition, check, above, below
-end
-resultvector = middle(1,2)
-#check length
-length(resultvector) > 1 #there's atleast 1 middle 
-
-isEven2(length(resultvector )) #divisible /2 
-
-
+#=should be the end =#
 
 #--------------------------------------------------------------------------
  
