@@ -147,9 +147,9 @@ end
 """
 gets the Eucldian distance between 2 numbers
 """ #Done: removed isEven(x)
-euclideanDist(a::Int64, b::Int64) = (abs(max(a, b)) - abs(min(a, b))) # was (max(a, b) - abs(min(a, b))) #Unsymmetric 
+sumInterval(a::Int64, b::Int64) = (abs(max(a, b)) + abs(min(a, b))) # was (max(a, b) - abs(min(a, b))) #Unsymmetric 
 function isMod(a::Int64, b::Int64)
-    dif = euclideanDist(a, b)  #% 2 == 0 #? fl = true : fl = false;
+    dif = sumInterval(a, b)  #% 2 == 0 #? fl = true : fl = false;
     res = nothing
     if dif % 2 == 0  #rem(dif, 2) == 0 #Particular definition error 
         res = true
@@ -178,7 +178,7 @@ Infer: isEven(x) adds an overhead reflected in a relative lag
   =#
 
 function dist(a::Int64, b::Int64)
-    return euclideanDist(a, b)
+    return sumInterval(a, b)
 end
 #Solve problem: A. in the Abstract Domain 
 function ϟ(a, b) #\upkoppa
@@ -222,7 +222,7 @@ an increase of a 10^6 yeilds an increase in time maximum by  447.99999999999994 
 
 using BenchmarkTools
 global strError = "ERROR: Unexpected argument(s), faulty input"
-@benchmark euclideanDist(10^2, 10^3)
+@benchmark sumInterval(10^2, 10^3)
 
 
 #=
@@ -245,7 +245,7 @@ look at middle n/2
 
 """
 ```input:
-    euclidDistance: a Calculated  Eucledian Distance (between 2 points)
+    sumInterval: a Calculated  Eucledian Distance (between 2 points)
 
 ```
 
@@ -285,12 +285,12 @@ function middle(a, b) # working
     condition = criterion #   b-a 
     if condition == true
         #return true #a.s. #euclidean Distance divided by 2 returing a whole integer
-        check = Int(ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ
+        check = Int(ϟ(a, b) // 2) # sumInterval(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #sumInterval -to-> ϟ
 
     elseif condition == false
-        #return false #a.s.# check = euclideanDist(a,b)//2*1.0
+        #return false #a.s.# check = sumInterval(a,b)//2*1.0
         #GET Ceil & Floor
-        check = ϟ(a, b) / 2 # euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
+        check = ϟ(a, b) / 2 # sumInterval(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
         above = Int(ceil(check)) #nearest index above
         below = Int(floor(check))
     else # faulty Input or Unexpected Error Occured
@@ -301,7 +301,7 @@ end
 #
 middle(1, 4) #false # (false, 2.5, 3, 2) 
 middle(1, 3) #true  # 
-euclideanDist(1, 3) # (true, 2//1, nothing, nothing)
+sumInterval(1, 3) # (true, 2//1, nothing, nothing)
 #need functional notation so that output of middle(a,b) | middleExtraction argiments 
 
 
@@ -360,14 +360,14 @@ function BisectSort(v, a::Int64, b::Int64)
     bIdx = lastindex(b)
     aIdx = firstindex(a)
     #set terminal condition: in
-    euclidDist = euclideanDist(aIdx, bIdx)
-    if euclidDist == 1
+    sumInterval = sumInterval(aIdx, bIdx)
+    if sumInterval == 1
         # compare a, b  last compare 
         a, b = compare(a, b) #possibl error (includes swap if first 1st larger than 2nd)
         # 
         return
         #end  
-    elseif euclidDist > 1  # a-b> 1#there are still indicies to explore 
+    elseif sumInterval > 1  # a-b> 1#there are still indicies to explore 
         #calculate next mini-subrange (blookup? -> not recursive, middle ->Yes )
         #blookupRecursive()
         #BisectSort()  
@@ -386,14 +386,14 @@ function BisectSort(v::Vector)
     aIdx = firstindex(v)
 
     #set terminal condition: in
-    euclidDist = euclideanDist(aIdx, bIdx) #checks distance of an array
-    if euclidDist == 1 #fallback condition 
+    sumInterval = sumInterval(aIdx, bIdx) #checks distance of an array
+    if sumInterval == 1 #fallback condition 
         # compare a, b  last compare 
         a, b = compare(v, aIdx, bIdx) #erroreous #maybe it's because it's nothing 
         # 
         return a, b
         #end  
-    elseif euclidDist > 1  # a-b> 1#there are still indicies to explore 
+    elseif sumInterval > 1  # a-b> 1#there are still indicies to explore 
         #calculate next mini-subrange (blookup? -> not recursive, middle ->Yes )
 
         #blookupRecursive()
@@ -472,7 +472,7 @@ bVal = last(v)
 bIdx = lastindex(v)
 aIdx = firstindex(v)
 #set terminal condition: in
-euclidDist = euclideanDist(aIdx, bIdx)
+sumInterval = sumInterval(aIdx, bIdx)
 
 #----
 res == v
@@ -544,7 +544,7 @@ end
 #testRun 
 # v = collect(1:3) #given intRange, collect it as a vector v=1,2,3 #that is vector of index 
 v = [10, 7, 3] #that's a typical scenario! 
-euclideanDist(3, 1)
+sumInterval(3, 1)
 
 #res = BisectSort(v)
 
@@ -553,9 +553,9 @@ bVal = last(v)
 aIdx = firstindex(v)
 bIdx = lastindex(v)
 #set terminal condition: in
-euclidDist = euclideanDist(aIdx, bIdx) #checks distance of an array
+sumInterval = sumInterval(aIdx, bIdx) #checks distance of an array
 stack = []
-if euclidDist > 1  # a-b> 1#there are still indicies to explore 
+if sumInterval > 1  # a-b> 1#there are still indicies to explore 
     #calculate next mini-subrange (blookup? -> not recursive, middle ->Yes )
     #blookupRecursive()
     # BisectSort(a,b)  #TODO:

@@ -2,7 +2,7 @@
 function isEven1(a = 1, b = 10)
     try
         if a >= 0 && b >= 0
-            distance = euclidDist(a, b) #1. distance 
+            distance = sumInterval(a, b) #1. distance 
             _isPositive = isPositive(distance) #2. positive distance 
             if _isPositive #positive? 
                 isEven = distance % 2 == 0 ? true : false
@@ -53,7 +53,7 @@ isEven1(-1, -10)
 @propagate_inbounds function isEven2(a = 1, b = 10) # = readable #preferred #fast  #optimized  #2 if-statements
     try
         @inbounds if a >= 0 && b >= 0   #==#
-            distance = euclidDist(a, b) #1.distance 
+            distance = sumInterval(a, b) #1.distance 
             evenCond = distance % 2 == 0 ? true : false
             _isPositive = isPositive(distance)
             @inbounds if evenCond && _isPositive #ok 
@@ -80,7 +80,7 @@ isEven1(-1, -10)
 @propagate_inbounds function isEven2(m) # = readable #preferred #fast  #optimized  #2 if-statements
     try
         @inbounds if m >= 0  # && b >= 0   #==#
-            distance = euclidDist(m) #1.distance 
+            distance = sumInterval(m) #1.distance 
             evenCond = distance % 2 == 0 ? true : false
             _isPositive = isPositive(distance)
             @inbounds if evenCond && _isPositive #ok 
@@ -114,8 +114,11 @@ replaceVector()
 
 
 #-----------------
-res = doCompare() #<------          Attention!
-
+res = compareVector() #<------          Attention!
+ℵ = 1;
+ ℶ = 2; 
+ arr = [2, 1, 3, 4]
+buildRangeAroundPoint(ℵ,mid,ℶ)
 println(res)
 typeof(res)
 
@@ -178,7 +181,7 @@ function middle(st, ed)
             push!(q, mid + 1)
             #@inbounds
         elseif !cond #mid = 2.5 #inapplicable for an index 
-            mid = ϟ(st, ed) / 2 # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
+            mid = ϟ(st, ed) / 2 # floating-point division sumInterval(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
             # above = Int(ceil(check)) #nearest index above
             #  below = Int(floor(check))
             above = Int(ceil(mid))
@@ -210,7 +213,7 @@ end# final end
         push!(q, mid + 1)
         #@inbounds
     elseif !cond #mid = 2.5 #inapplicable for an index 
-        mid = ϟ(st, ed) / 2 # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
+        mid = ϟ(st, ed) / 2 # floating-point division sumInterval(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
         # above = Int(ceil(check)) #nearest index above
         #  below = Int(floor(check))
         above = Int(ceil(mid))
@@ -532,3 +535,12 @@ BenchmarkTools.Trial: 10000 samples with 983 evaluations.
 
  Memory estimate: 0 bytes, allocs estimate: 0.
 =#
+
+#----test-----------------------------------------------
+arr = [1, 2, 3, 4]
+divideConquer(arr, arr[1], length(arr) - 1)
+
+length(arr)
+#middle(st=1, ed =4)
+mid = #middle(1, 4) # ambiguous function  # StackOverflowError:
+cond = isEven(mid) # ERROR: LoadError: UndefVarError: mid not defined

@@ -63,8 +63,8 @@ end
   ```
 """
 #isEven Removed #Reason: unnecessary Overhead 
-#define euclidDist here 
-euclideanDist(a::Int64, b::Int64) = (abs(max(a, b)) - abs(min(a, b))) # was (max(a, b) - abs(min(a, b))) #Unsymmetric  
+#define sumInterval here 
+sumInterval(a::Int64, b::Int64) = (abs(max(a, b)) - abs(min(a, b))) # was (max(a, b) - abs(min(a, b))) #Unsymmetric  
 #=
 function evenCriterion(a, b) #ok #double-Checked # depreciated # erroneous 
     m = ϟ(a, b) # | b + a |   definition
@@ -84,8 +84,8 @@ end
 
 res = evenCriterion(1, 3) #flase Infer no middle as a whole number 
 #=
-function midCriterion(euclidDistance)
-    m = euclidDistance #NO ERROR  #euclideanDist(a, b) # | b - a | 
+function midCriterion(sumInterval)
+    m = sumInterval #NO ERROR  #sumInterval(a, b) # | b - a | 
     condition = m % 2 == 0 # isEven(m)
     check = nothing
     if condition == true
@@ -138,7 +138,7 @@ arr = [10, 4, 2, 8]
 middleGet(ϟ(first(arr), last(arr)))
 #----------------------------------------   
 #middleExtraction()
-check = Int(ϟ(a, b) // 2) # euclideanDist(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #euclideanDist -to-> ϟ
+check = Int(ϟ(a, b) // 2) # sumInterval(a, b) // 2 #* 1.0 # | b - a | // 2 isa Integer #sumInterval -to-> ϟ
 #⫙ = []
 
 function push!(⫙, ceil = above, floor = below)#warning: ⫙, floor are Unused 
@@ -194,14 +194,14 @@ function middle(a, b) # working
     q = []
     if condition == true
         #return true #a.s. #eucledian Distance divided by 2 returing a whole integer
-        check = Int(ϟ(a, b) // 2) # | b + a | // 2 isa Integer #euclideanDist -to-> ϟ#5
+        check = Int(ϟ(a, b) // 2) # | b + a | // 2 isa Integer #sumInterval -to-> ϟ#5
         #middleExtraction(condition, check) # Here we didn't get anything ! <------------- # check not defined here 
         #return condition, check 
         push!(q, check)
     elseif condition == false
-        #return false #a.s.# check = euclideanDist(a,b)//2*1.0
+        #return false #a.s.# check = sumInterval(a,b)//2*1.0
         #GET Ceil & Floor
-        check = ϟ(a, b) / 2 # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
+        check = ϟ(a, b) / 2 # floating-point division sumInterval(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
         above = Int(ceil(check)) #nearest index above
         below = Int(floor(check))
         push!(q, below)
@@ -321,7 +321,7 @@ end
 
 middle(1, 4) #false # (false, 2.5, 3, 2) 
 middle(1, 3) #true  # 
-#=euclideanDist(1, 3) # (true, 2//1, nothing, nothing)=#
+#=sumInterval(1, 3) # (true, 2//1, nothing, nothing)=#
 
 #---testing of testing 
 middle(1, 3)
@@ -398,10 +398,10 @@ function compare(arr) #errornous #warning becareful from its values
     aIdx = firstindex(arr)
     bIdx = lastindex(arr) # bVal)
 
-    #1. Heuristic#1: Check euclideanDist 
+    #1. Heuristic#1: Check sumInterval 
 
     total = ϟ(aIdx,bIdx)
-    dist = euclideanDist(aIdx,bIdx)
+    dist = sumInterval(aIdx,bIdx)
     midpoint 
 
     if dist == 1 #1,2 ; 2,3 ; 3,4 
@@ -418,7 +418,7 @@ function compare(arr) #errornous #warning becareful from its values
         end
         #if aVal < bVal
         if total > 1 # there are still unforseen ranges 
-            #if euclidDistance(aIdx,bIdx) > 1 #reason to stay  #\upkoppa ?
+            #if sumInterval(aIdx,bIdx) > 1 #reason to stay  #\upkoppa ?
             #if aVal > bVal compare function                               # a > b #should be a < b 
             #1. Swap values        
             aVal, bVal = comp(arr, aIdx, bIdx)  # oldschoolSwap(aVal, bVal) #correct #x, y) # (bVal, aVal) #ERROR T not defined 
@@ -515,7 +515,7 @@ res = Int(ϟ(1, length(arr)) / 2)
 res % 2 == 0 ? true : false #false - 2 midpoints
 #Ceil = 
 #    floor =
-check = res / 2 # floating-point division euclideanDist(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
+check = res / 2 # floating-point division sumInterval(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
 above = Int(ceil(check)) #nearest index above
 below = Int(floor(check))
 arr[below]
@@ -552,7 +552,7 @@ elementat(arr, 5) # working
 first(arr) #first val 
 ans = indexin(i[1], arr)
 
-d1 = euclideanDist(i[1], first(arr))
+d1 = sumInterval(i[1], first(arr))
 
 
 

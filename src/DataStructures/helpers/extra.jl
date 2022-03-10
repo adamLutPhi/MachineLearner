@@ -55,6 +55,8 @@ tmul = @benchmark mul()#10^6
 maxi = 100
 count=0
 tmul = @benchmark mul()#
+
+
 #---------------------------------------------------
 @inbounds for i ∈ 1:maxi #is 10_000
     tmul = @benchmark mul()#

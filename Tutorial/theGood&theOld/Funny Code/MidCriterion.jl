@@ -3,7 +3,7 @@ a Double if statement
 """
 
 function midCriterion(a, b) #ok 
-    m = euclideanDist(a, b) # | b - a |   definition
+    m = sumInterval(a, b) # | b - a |   definition
     condition = isEven(m) #even (divisible by 2)
     check = nothing
     if condition == true if iseven #ERROR double if!  #<----------------
@@ -18,8 +18,8 @@ end
 
 
 function midCriterion(a, b) #ok 
-    m = euclideanDist(a, b) # | b - a |   definition
-    condition = isEven(m) #even (divisible by 2)
+    m = sumInterval(a, b) # | b - a |   definition
+    condition = isEven2(m) #even (divisible by 2)
     check = nothing
     if condition == true #ERROR double if!  #<----------------
         check = condition
