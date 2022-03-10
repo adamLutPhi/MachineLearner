@@ -37,7 +37,7 @@ else
 
  #tip: (execution) time can be misleading 
 =#
-
+# anymore Please 
 import Base: @propagate_inbounds, @inbounds # compiler inlines a function, while retaining the caller's inbounds context
 import BenchmarkTools: @btime, @time, @benchmark
 UnexpMsg = "ERROR: unexpected input:  please check input arguments , then try again  "
@@ -50,6 +50,12 @@ outofBoundsMsg = "ERROR: input's length is larger than original vector- kindly c
 @propagate_inbounds isPositive(num) = num > 0 ? true : false
 
 @benchmark length(1:10)
+#Euclidean Distnace https://www.sciencedirect.com/topics/mathematics/euclidean-distance#:~:text=The%20weighted%20Euclidean%20distance%20measure,element%20of%20the%20average%20profile.
+max(10) === maximum(10)
+max(10) ==maximum(10)
+
+euclideanDist(a,b) = isnumeric(a) && isnumeric(b) && a>0 && b >0 ? abs(max(a,b) -min(a,b)): positiveMsg
+
 
 @propagate_inbounds function euclidDist(a, b) #euclidDist subtracts 1 (complies with julia logic)
     cond = abs(a + b) - 1
