@@ -116,9 +116,9 @@ replaceVector()
 #-----------------
 res = compareVector() #<------          Attention!
 ℵ = 1;
- ℶ = 2; 
- arr = [2, 1, 3, 4]
-buildRangeAroundPoint(ℵ,mid,ℶ)
+ℶ = 2;
+arr = [2, 1, 3, 4]
+buildRangeAroundPoint(ℵ, mid, ℶ)
 println(res)
 typeof(res)
 
@@ -328,8 +328,8 @@ end #ends try - finally afterthat return whatever correct value you've been work
 
 end
 
- res = findfirst(isequal(i), v)
-        typeof(res) == Nothing ? res = -1 : return Int(res)
+res = findfirst(isequal(i), v)
+typeof(res) == Nothing ? res = -1 : return Int(res)
 #=compares vector a, it's element at first index ℵ with second element at index ℶ 
 
 ```input:
@@ -357,8 +357,8 @@ lastContent =  Int(findfirst(isequal(ℶ), a)) #indexOf(last)
 
 #---correct 
 if firstContent > lastContent #correct
- a[ℵ], a[ℶ] = oldschoolSwap!(a[ℵ],a[ℶ]) #plain content swap in julia 
-end 
+    a[α], a[β] = oldschoolSwap!(a[α], a[β]) #plain content swap in julia 
+end
 a #array values are changed
 
 function oldschoolSwap!(x, y)
@@ -369,13 +369,13 @@ function oldschoolSwap!(x, y)
 end
 
 function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
-    response =nothing 
+    response = nothing
     try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
-       firstContent =Int(findfirst(isequal(ℵ), a)) #indexOf(first)
-       lastContent =  Int(findfirst(isequal(ℶ), a)) #indexOf(last)
+        firstContent = Int(findfirst(isequal(ℵ), a)) #indexOf(first)
+        lastContent = Int(findfirst(isequal(ℶ), a)) #indexOf(last)
 
         if firstContent > lastContent # correct
-            response = @inbounds   a[ℵ], a[ℶ] = oldschoolSwap!(a[ℵ],a[ℶ]) #plain content swap in julia  #swap array contents directly
+            response = @inbounds a[ℵ], a[ℶ] = oldschoolSwap!(a[ℵ], a[ℶ]) #plain content swap in julia  #swap array contents directly
 
         elseif firstContent < lastContent #only possible - correct situation (to deal with)
             #Intent: skip 
@@ -387,17 +387,17 @@ function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
     catch UnexpectedError # 3. catch `materialize` (UnexpectedError object )
         @error UnexpMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. positiveError object, 2. call catch_backtrace() (to catch it) 
     end #ends try - finally afterthat return whatever correct value you've been working on  (if not already ) 
-    return response 
+    return response
 end
 
 
 @propagate_inbounds function replaceVector(v = [2, 3], a = [1, 2, 4, 5]; i = 1)
-try 
-    lenV =copy(length(v))
-    lenA = copy(length(a))
+    try
+        lenV = copy(length(v))
+        lenA = copy(length(a))
 
-    @inbounds if lenV < lenA # first assumption  # |v| < |a|
-        @inbounds a[i:lenV] = v[i:lenV]
+        @inbounds if lenV < lenA # first assumption  # |v| < |a|
+            @inbounds a[i:lenV] = v[i:lenV]
 
         else #2. throw frisbe error here
             throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
@@ -406,7 +406,7 @@ try
     catch UnexpectedError # 3. catch `materialize` (UnexpectedError object )
         @error UnexpMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. positiveError object, 2. call catch_backtrace() (to catch it) 
     end #ends try - finally afterthat return whatever correct value you've been working on  (if not already ) 
-    return response 
+    return response
 end
 
 replaceVector()
@@ -437,14 +437,14 @@ replaceVector() # correct
 
 res = compareVector() #(1,2) tuple
 typeof(res)#tuple 
-v= buildInterval(res) #to vector 
-a = replaceVector(v,a)
+v = buildInterval(res) #to vector 
+a = replaceVector(v, a)
 a #check a's contents  
 
 
 
 #---test indexOf 
-a=[2,1,3,4]
+a = [2, 1, 3, 4]
 indexOf(1, a)
 indexOf(2, a)
 @benchmark indexOf(1, a) #possible errrorneous
@@ -476,7 +476,9 @@ indexOf (generic function with 1 method)
 2   
  =#
 
- function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
+function compareVectorExperimental([1:2;], a = [2, 1, 3, 4]) end
+function compareVectorExperimental2(a = [2, 1, 3, 4], [1:2;]) end
+function compareVector(α = 1, β = 2, a = [2, 1, 3, 4])
 
     try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
         _first = Int(indexOf(ℵ, a)) # copy(a[st])
@@ -500,7 +502,7 @@ indexOf (generic function with 1 method)
 
 end
 
-a =  [2, 1, 3, 4]
+a = [2, 1, 3, 4]
 _first = Int(indexOf(1, a)) # copy(a[st])
 _last = Int(indexOf(2, a)) # copy(a[ed])
 
@@ -543,4 +545,8 @@ divideConquer(arr, arr[1], length(arr) - 1)
 length(arr)
 #middle(st=1, ed =4)
 mid = #middle(1, 4) # ambiguous function  # StackOverflowError:
-cond = isEven(mid) # ERROR: LoadError: UndefVarError: mid not defined
+    cond = isEven(mid) # ERROR: LoadError: UndefVarError: mid not defined
+
+#--test---------------  using Findfirst: indexOF #TODO:
+#include("Findfirst.jl")
+#actual size 

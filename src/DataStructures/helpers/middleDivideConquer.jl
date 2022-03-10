@@ -196,7 +196,7 @@ function compareVector(a = 1, b = 2, arr = [2, 1, 3, 4])
 
         elseif firstContent < lastContent #only possible - correct situation (to deal with)
             #Intent: skip 
-            return
+            return response = 1
         else #2. throw frisbe error here
             throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
         end
@@ -241,26 +241,39 @@ _last = Int(indexOf(2, a)) # copy(a[ed])
 
 #----------
 
-@propagate_inbounds function replaceVector(v = [1, 2], a = [2, 3, 4, 5]; i = 1) #optimized 
-    lenV = copy(length(v))
-    lenA = copy(length(a))
-    @inbounds if lenV < lenA # first assumption 
-        for j ∈ 1:lenV
-            a[j] = v[j]
-            #a[2] = v[2] #... lenV
-        end
+"""
+```
+input:
 
-        #elseif lenV > lenA #v can't be larger than original vector a (throws an outofBoundsError )
-    else
-        throw(error("Unexpected error Occured"))
-        println(UnexpMsg)
+v:  subset vector of indicies (index-space)
+a: whole element vector (element-space)
+i: the offset from the beginning
+```
+"""
+@propagate_inbounds function replaceVector(v = [1, 2], a = [2, 3, 4, 5]; i = 1) #optimized 
+  try
+        lenV = copy(length(v))
+        lenA = copy(length(a))
+        j=1
+        subsetIndex= j+i
+        @inbounds if lenV <= lenA # first assumption 
+            if subsetIndex <= lenA
+            for j ∈ 1:lenV
+                a[subsetIndex] = v[subsetIndex]
+                #a[2] = v[2] #... lenV
+            end
+
+            #elseif lenV > lenA #v can't be larger than original vector a (throws an outofBoundsError )
+            else
+                throw(error("Unexpected error Occured"))
+            end
+        end
+    catch UnexpectedError
+        @error UnexpMsg exception = (UnexpectedError, catch_backtrace())
     end
-    return a
+    return a 
 end
 
-#= to be removed #Uncoment for Debugging
-@propagate_inbounds function replaceVector2(v = [1, 2], a = [2, 3, 4, 5]; i = 1)
-=#
 v = [1, 2]
 lenV = copy(length(v))
 lenA = copy(length(a))
@@ -284,9 +297,28 @@ a = replaceVector(v, a) #returns correct range
 
 #-----------------
 
-con = compareVector() #(1,2) tuple
+res = compareVector() #(1,2) tuple
 typeof(res)#tuple 
+
+#if res == 1
+#else if res is valid 
 v = buildInterval(res) #to vector 
+
+
+ if res == 1 #no need to proceed further    
+    return 
+ elseif typeof(res) == VecOrMat
+    replaceVector(v,a;i) 
+ end
+
+function responseHandling(res,v,a = [1, 2, 3, 4];i=1)
+    if res == +1 #no need to proceed further    
+        return 
+    elseif typeof(res) == VecOrMat
+        replaceVector(v,a;i) 
+    end
+    
+end
 #a = replaceVector2(v,a) #ERROR: 
 
 #----------- questionable #builds an arbitrary rational numbers fron bound a to b  #0ld-thinking #check-if-Working 
@@ -320,7 +352,7 @@ length((1:10)) #perfect! # length: Built-in function understands it, as well #us
 
 # 9:11-+1:11-9:11 #:10 =#
 #---------------------
-""" Assumes there exits a rational series of numbers from point a to point b
+""" Warning: Assumes there exits a rational series of numbers from point a to point b
 this function applies above & below on orgirinal vecto a 
 ```input:
 α: current lower bound (of Interval)
@@ -335,7 +367,7 @@ interval: original vector interval
 ```
 # Examples: 
 """ # There's a translation map for a vector space a as well as index space  <---------------
-@propagate_inbounds function buildAboveSoBelow(below, above, a=[1,2,3,4]) #Checked #requires arr  a as input   
+@propagate_inbounds function buildAboveSoBelow(below, above, a=[1,2,3,4]) #Checked #requires arr  a as input #a.k.a divideConquer
     try
         if  below >= 0 && above >= 0 && b >= 0
 
@@ -343,10 +375,10 @@ interval: original vector interval
             interval = buildInterval(tuple)
             replaceVector(interval, a)
 
-            #right 
+            #right()
             exploreInterval(1,2,[1,2])
 
-            #left 
+            #left() 
             exploreInterval(3,4,[3,4])
 
         else
@@ -394,7 +426,7 @@ try
         return 0 # congratulations # you've rearched the end #HALT!
 
     elseif difference >=1 
-        compareVector(a,b)
+        compareVector(a,b,arr)
     else   
         throw(error("Unexpected input arguments"))
     end
@@ -524,7 +556,7 @@ length(6:10) - length(6:10)
 [2]
 (1:2)[1]
 
-isToNotDivide(buildInterval(1:2)) #bounds error 
+isToNotDivide(buildInterval(1:2;)) #bounds error 
 #isToNotDivide(1:4)
 
 """calls divideConquer - as  at the end there is only One""" # completes the infinite dragon
@@ -538,9 +570,7 @@ end
 #--------------------------------------------/
 
 
-#--test---------------  using Findfirst: indexOF #TODO:
-#include("Findfirst.jl")
-#actual size 
+
 
 #----------------------------------------------
 #example
@@ -555,7 +585,8 @@ below = Int(floor(fractionalMid)) # 2
 buildAboveSoBelow(below,above,arr)
 
 #------------------------------------------------
-q = buildAboveSoBelow(below, above, arr)
+#--- q Zone / 
+a = buildAboveSoBelow(below, above, arr)
 #= [1, 2]
  [2, 3]
  [3, 4, 5]=#
@@ -566,6 +597,7 @@ count = 1 #starting from 1
 1-> 4 (3)
 this correctly counts 1 -> 3 (sumRanges 3+1 = 4 but max is 3 )
 =#
+
 l = length(q[2]) # 2 
 array = []; # [firstvalue]
 count = 1
@@ -587,19 +619,18 @@ for i = 1:l #enumerate(q) # in 0:l#4 Always!    #enumerate(q) also works fine as
     #count+=1 # counts 4 ( size = length(q) + 1 ) #either need to count -1 
 
 end # will count 4 
-#count-=1 #learnd heuristic 
 
-#array
-count -= 1
-
+#array arr
+count -= 1 # learnd heuristic # length adjustment [of the Interval ] # q. why not measure length(v) directly (after its adjustments)? 
 #count = 0->3 0 index or 1 ->4 1-index 
 
+#q = buildAboveSoBelow(a, below, above, b) # instead: make adjustments on the array arr directtly 
 
+#--- end of q
+#--- end q Zone  
+#----------------------
+#middle(arr) # find middle #q old thinking detedted 
 
-#q = buildAboveSoBelow(a, below, above, b)
-
-
-#middle(ar)
 compareVector(1,2,arr)
 q = middle(1, 10) # true
 typeof(q)
@@ -607,13 +638,13 @@ l = length(q) # if length == 3 : Right middle, Left situation #examine each on i
 #if subrange == 1 return 
 length(q[1])
 #middle(q[1])
-q[2]
-q[3] #finished middle 
+ q[2]
+ q[3] #finished middle 
 
 #goright(q[3]) # right is the higher side  #TODO: 
 
 #---Datas fields -----
-ranges = []
+ranges = [] # all we want is middles 
 
 #--- test: buildRangeAroundPoint 
 @btime resMid = buildRangeAroundPoint(1, 5, 10) # 104.920 ns - 105.297 ns  (4 allocations: 320 bytes)
@@ -635,31 +666,48 @@ res = buildAboveSoBelow(1, 3, a) # a <below < above < b
 #fine 
 res = buildAboveSoBelow(1, -1, a) #TODO: check input arguments are only positive 
 typeof(res) #nothing, rather than an errourneous outcome
+#TODO: responseHandling
 
-#up until negative - 1 : range is omitted, returns an empty Int64[] range , else return other positive ranges # fine
-#Warning: results in an Unbalanced Ranges 
+#up until negative - 1 : Interval is omitted, returns an empty Int64[] Interval , else return other positive Interval # fine
 #---end
 
 #---
 #check n/2 is a whole number
 #--- Left Half 
+#-- right Half 
 #---------------------------------------------------
 
 function goleft(a = [1, 2, 3, 4], α = 1, β = length(arr) - 1)
-     compareVector() # TODO: middle(arr, a, b) #or # TODO: middle(a, b, arr)
+    res = compareVector(α, β ,a) # TODO: middle(arr, a, b) #or # TODO: middle(a, b, arr)
+    if res == +1 #no need to proceed further    
+        return 0
+    elseif typeof(res) == VecOrMat
+        replaceVector() 
+    end
 end
 
-function goright(a = [1, 2, 3, 4], α = 1, β = length(arr) - 1)  #mid + 1, b = length(arr))
-    compareVector()
-    replaceVector()
-    computeRange!(a, α, β) # # TODO: middle(arr, a, b) #or # TODO: middle(a, b, arr)
+function goright(a = [1, 2, 3, 4], α = 1, β = length(arr) - 1)  #mid + 1, b = length(arr)) 
+    try
+        res = compareVector(α, β ,a)
+    if res == 1 #no need to proceed further    
+        return 0
+    elseif typeof(res) == VecOrMat
+        replaceVector()
+        #computeRange!(a, α, β) # # TODO: middle(arr, a, b) #or # TODO: middle(a, b, arr) 
     isEven(length(arr)) #either even or not 
+    else
+        throw(error("Unexpected input arguments"))
+    end
+    catch UnexpectedError  
+    @error UnexpMsg exception
+    end #finaly return 
+    
 end
-#=unclear=#
+#=unclear, gray Area , should be end =#
 
-"""a valid middle - Classic #old #depreciated """
+"""a valid middle - Classic #old #depreciated ,why it uses q """
 function middle(α, β) # 
-    condition = isEven(α, β) #   b-a 
+    condition = isEven(α, β) #  not | b-a 
     #q = []
     if condition == true
         #return true #a.s. #eucledian Distance divided by 2 returing a whole integer
@@ -670,8 +718,10 @@ function middle(α, β) #
     elseif !condition # == false
         #return false #a.s.# check = sumInterval(a,b)//2*1.0
         #GET Ceil & Floor
+       
+        #call middle 
         #sumInterval(α,β)/2
-        
+        #does other things as well : # warning  #old-thinking 
         check = sumInterval(α , β)/2 # floating-point division sumInterval(a, b) / 2 * 1.0 # freely allowing floats, to be ceiled & floored 
         if isEven2(check)
             above = Int(ceil(check)) #nearest index above
@@ -693,43 +743,6 @@ length(resultvector) > 1 #there's atleast 1 middle
 isEven2(length(resultvector )) #divisible /2 
 
 
-compareVector
 
 #--------------------------------------------------------------------------
-
-
-#---------------
-
-cond = isEven(1, 3)
-res = -1
-
-#---test run tryout
-
-#1,3 total range 
-# 1+3/2 = 2 
-#yeilds 1:2 , 2:3 
-#check dist 
-
-abs(2 - 3) == 1 # bounds are apart by 1 #sweet!
-
-# final comparison 
-#doCompare(2,3,arr)
-#compare current ranges with their value , do comparison when required  
-a[1]
-
-
-
-"""Plain comparison - flip if lower index has a higher value, otherwise return
-given bound values of indicies, find their corresponding value that they weigh, 
-then compare them together, as well 
-
-```input:
-st: start bound 
-ed: ending bound 
-a: corresponding vector array to traverse
-```
-
-```output:
-```
-
-"""
+ 

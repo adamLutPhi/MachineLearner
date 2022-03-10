@@ -40,7 +40,7 @@ end
 isEven1(-1, 10)
 isEven1(1, 10)
 
-
+#=
 @inbounds if lenV < lenA # first assumption 
     @inbounds a[i:lenV] = v[i:lenV]
     #elseif lenV > lenA #v can't be larger than original vector a (throws an outofBoundsError )
@@ -48,7 +48,11 @@ else
     throw(error("Positive number error"))
     println(UnexpMsg)
 end
-return a
+#return a
+#end =#
+
+@propagate_inbounds function replaceVector2(v = [1, 2], a = [2, 3, 4, 5]; i = 1)
+
 
 """divideConquer """
 
@@ -77,3 +81,41 @@ return a
     end
 end
 #no errors 
+
+#-----------
+#---------------
+
+cond = isEven(1, 3)
+res = -1
+
+#---test run tryout
+
+#1,3 total range 
+# 1+3/2 = 2 
+#yeilds 1:2 , 2:3 
+#check dist 
+
+abs(2 - 3) == 1 # bounds are apart by 1 #sweet!
+
+# final comparison 
+#doCompare(2,3,arr)
+#compare current ranges with their value , do comparison when required  
+a[1]
+
+
+
+#=Plain comparison - flip if lower index has a higher value, otherwise return
+given bound values of indicies, find their corresponding value that they weigh, 
+then compare them together, as well 
+
+```input:
+st: start bound 
+ed: ending bound 
+a: corresponding vector array to traverse
+```
+
+```output:
+```
+
+=#
+compareVector
