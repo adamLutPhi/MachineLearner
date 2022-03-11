@@ -43,24 +43,22 @@ catch positiveError # 3. catch (positiveError object )
 end
 
 #end  
+#=
 isEven1(-1, 10)
 isEven1(1, -10)
 isEven1(-1, -10)
-#@benchmark isEven1()
+benchmark isEven1()=#
 
 #--- isEven2
 
 @propagate_inbounds function isEven2(a = 1, b = 10) # = readable #preferred #fast  #optimized  #2 if-statements
     try
         @inbounds if a >= 0 && b >= 0   #==#
-            distance = sumInterval(a, b) #1.distance 
-            evenCond = distance % 2 == 0 ? true : false
-            _isPositive = isPositive(distance)
-            @inbounds if evenCond && _isPositive #ok 
-                return true
-            elseif !evenCond || !_isPositive
-                return false
-            end
+            sumInt = sumInterval(a, b) #1.distance 
+            evenCond = sumInt % 2 == 0 ? true : false
+            _isPositive = isPositive(sumInt)
+            @inbounds if evenCond && _isPositive  ? true : false  #ok
+        end
         else
             throw(error("Positive number error"))
         end
@@ -71,11 +69,12 @@ isEven1(-1, -10)
     end #==#
 end
 
+#=
 isEven1(-1, 10)
 isEven1(1, -10)
-isEven1(-1, -10)
+isEven1(-1, -10)=#
 
-@benchmark isEven2
+@benchmark isEven2(10^7)
 
 @propagate_inbounds function isEven2(m) # = readable #preferred #fast  #optimized  #2 if-statements
     try
@@ -83,10 +82,7 @@ isEven1(-1, -10)
             distance = sumInterval(m) #1.distance 
             evenCond = distance % 2 == 0 ? true : false
             _isPositive = isPositive(distance)
-            @inbounds if evenCond && _isPositive #ok 
-                return true
-            elseif !evenCond || !_isPositive
-                return false
+            @inbounds if evenCond && _isPositive #ok ? true : false 
             end
         else
             throw(error("Positive number error"))
@@ -99,7 +95,7 @@ isEven1(-1, -10)
 end
 
 
-@propagate_inbounds function replaceVector(v = [2, 3], a = [1, 2, 3, 4]; i = 1)
+@inline @propagate_inbounds function replaceVector(v = [2, 3], a = [1, 2, 3, 4]; i = 1)
     lenV = length(v)
     @inbounds if lenV < length(a) # first assumption 
         @inbounds a[i:lenV] = v[i:lenV]
@@ -110,15 +106,31 @@ end
     return a
 end
 
-replaceVector()
+
+@inline function replaceVector2(v = [2, 3], a = [1, 2, 3, 4]; i = 1)
+    lenV = length(v)
+    @inbounds if lenV < length(a) # first assumption 
+        @inbounds a[i:lenV] = v[i:lenV]
+
+    else
+        println(UnexpMsg)
+    end
+    return a
+end
+
+@benchmark replaceVector()
+
+@benchmark replaceVector2()
+
 
 
 #-----------------
 res = compareVector() #<------          Attention!
-ℵ = 1;
-ℶ = 2;
+α = 1;
+β = 2; β
 arr = [2, 1, 3, 4]
-buildRangeAroundPoint(ℵ, mid, ℶ)
+buildRangeAroundPoint(α
+, mid, β)
 println(res)
 typeof(res)
 
@@ -330,11 +342,11 @@ end
 
 res = findfirst(isequal(i), v)
 typeof(res) == Nothing ? res = -1 : return Int(res)
-#=compares vector a, it's element at first index ℵ with second element at index ℶ 
+#=compares vector a, it's element at first index α with second element at index β 
 
 ```input:
-ℵ: first index of comparison
-ℶ: second index of comparison 
+α: first index of comparison
+β: second index of comparison 
 a: original vector array
 ```
 
@@ -347,11 +359,11 @@ an ordered tuple of the corrected indicies (of the vector array)
 #--- compareVector
 #=requires the use of indexOF,elementAt 
  a = [2, 1, 3, 4]
- ℵ = 1 
- ℶ = 2
+ α = 1 
+ β = 2
 
-firstContent =Int(findfirst(isequal(ℵ), a)) #indexOf(first)
-lastContent =  Int(findfirst(isequal(ℶ), a)) #indexOf(last)
+firstContent =Int(findfirst(isequal(α), a)) #indexOf(first)
+lastContent =  Int(findfirst(isequal(β), a)) #indexOf(last)
 
 =#
 
@@ -368,14 +380,14 @@ function oldschoolSwap!(x, y)
     return x, y
 end
 
-function compareVector(ℵ = 1, ℶ = 2, a = [2, 1, 3, 4])
+function compareVector(α = 1, β = 2, a = [2, 1, 3, 4])
     response = nothing
-    try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
-        firstContent = Int(findfirst(isequal(ℵ), a)) #indexOf(first)
-        lastContent = Int(findfirst(isequal(ℶ), a)) #indexOf(last)
+    try #1. we call this function when we'd like to compare index α with index β of a Vector array  # do your thing 
+        firstContent = Int(findfirst(isequal(α), a)) #indexOf(first)
+        lastContent = Int(findfirst(isequal(β), a)) #indexOf(last)
 
         if firstContent > lastContent # correct
-            response = @inbounds a[ℵ], a[ℶ] = oldschoolSwap!(a[ℵ], a[ℶ]) #plain content swap in julia  #swap array contents directly
+            response = @inbounds a[α], a[β] = oldschoolSwap!(a[α], a[β]) #plain content swap in julia  #swap array contents directly
 
         elseif firstContent < lastContent #only possible - correct situation (to deal with)
             #Intent: skip 
@@ -480,9 +492,9 @@ function compareVectorExperimental([1:2;], a = [2, 1, 3, 4]) end
 function compareVectorExperimental2(a = [2, 1, 3, 4], [1:2;]) end
 function compareVector(α = 1, β = 2, a = [2, 1, 3, 4])
 
-    try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
-        _first = Int(indexOf(ℵ, a)) # copy(a[st])
-        _last = Int(indexOf(ℶ, a)) # copy(a[ed])
+    try #1. we call this function when we'd like to compare index α with index β of a Vector array  # do your thing 
+        _first = Int(indexOf(α, a)) # copy(a[st])
+        _last = Int(indexOf(β, a)) # copy(a[ed])
         firstIndex = a[_first]
         lastIndex = a[_last]
         @inbounds if firstIndex > lastIndex #valueAt(2) > valueAt(1) isa true  #_first > _last #
