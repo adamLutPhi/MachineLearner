@@ -208,7 +208,6 @@ N = uncertainRangeHighLow = diffHigh - diffLow ≈  diffHigh
 N === diffHigh - diffLow 
 
 #--------------------------------------------------------------------------------
-
 #=concludes
 isEven2 is slighly better than isEven1 - besides it's more compact, readable 
 one obvious reason is: number of if statements: isEven2 has only 2 ifs, while is isEven1 has 3  
@@ -245,6 +244,7 @@ function oldschoolSwap!(x, y)
     return x, y
 end
 #----------------------
+
 middles = [] # need to track middles 
 
 #----------------------
@@ -261,6 +261,7 @@ an ordered tuple of the corrected indicies (of the vector array)
 
 ```
 """ #requires: of indexOf,oldschoolSwap!
+
 function compareVector(a = 1, b = 2, arr = [2, 1, 3, 4])
     response = nothing
     try #1. we call this function when we'd like to compare index α with index β of a Vector array  # do your thing 
@@ -284,20 +285,19 @@ function compareVector(a = 1, b = 2, arr = [2, 1, 3, 4])
     return response
 end
 
-
 res = compareVector(1,2,[2, 1, 3, 4])
 typeof(res)# no comparison is needed #ERROR
 
 #if res
 count=1 
-if res isa nothing return 
+if res === nothing return 
     compareVector(1)
 end
 typeof(res)
 v = buildInterval(res)
 #we're good to go!
-#--------------------------------------------------------
 
+#--------------------------------------------------------
 @propagate_inbounds function indexOf(i, v::Vector)
     try
         res = findfirst(isequal(i), v)
@@ -360,11 +360,14 @@ a = [2, 3, 4, 5]
 v = [1, 2]
 
 tuple = compareVector( [1, 2], [2, 3, 4, 5])
+
 v = buildInterval(tuple)# pass-in a tuple   # buildInterval(tuple[1],tuple[2])
+v = buildInterval(tuple)# pass-in a tuple   # buildInterval(tuple[1],tuple[2])
+#v = getindex(::, ::Int64)
+
 
 a = replaceVector(v, a) #returns correct range
-
-
+#--------------------------------------------
 #Uncoment for Debugging 
 #=
 @debug a = replaceVector(v,a)  
@@ -381,18 +384,17 @@ typeof(res)#tuple
 #else if res is valid 
 v = buildInterval(res) #to vector 
 
-
  if res == 1 #no need to proceed further    
     return 
  elseif typeof(res) == VecOrMat
     replaceVector(v,a;i) 
  end
 
-function responseHandling(res,v,a = [1, 2, 3, 4];i=1)
+function responseHandling(res,v,a = [1, 2, 3, 4];i=1) #TODO: check value 
     if res == +1 #no need to proceed further    
         return 
     elseif typeof(res) == VecOrMat
-        replaceVector(v,a;i) 
+   return      replaceVector(v,a;i) 
     end
     
 end
@@ -444,14 +446,15 @@ interval: original vector interval
 ```
 # Examples: 
 """ # There's a translation map for a vector space a as well as index space  <---------------
-@propagate_inbounds function buildAboveSoBelow(below, above, a=[1,2,3,4]) #Checked #requires arr  a as input #a.k.a divideConquer
+# at this stage: calculated: isEven, no-> calc fracMiddle ceil above, floor below  then we call this function
+    @propagate_inbounds function buildAboveSoBelow(below, above, a=[1,2,3,4]) #Checked #requires arr  a as input #a.k.a divideConquer
     try
         if  below >= 0 && above >= 0 && b >= 0
 
             tuple = compareVector(below, above, a)
             interval = buildInterval(tuple)
             replaceVector(interval, a)
-
+            
             #right()
             exploreInterval(1,2,[1,2])
 
@@ -503,7 +506,12 @@ try
         return 0 # congratulations # you've rearched the end #HALT!
 
     elseif difference >=1 
-        compareVector(a,b,arr)
+        #calculate Interval difference difference
+        sum = ϟ(a,b) 
+        sum =  Int( sum //2) 
+        response =  isEven2(sum)
+         HandleResponse(a,b,arr) 
+      #TODO:   compareVector(a,b,arr)
     else   
         throw(error("Unexpected input arguments"))
     end
@@ -512,6 +520,24 @@ try
     end #<---------------------------------
       
 end
+
+function middle() 
+
+function divideConquer(a=[4,5,6,7,3])
+    #check length 
+   l =  copy(length(a)-1 ) 
+   isItEven = copy(isEven2(l))
+    evenHandling(isItEven) = isItEven ? middle() : buildAboveSoBelow()
+   #call middle 
+     m = middle() #found first middle 
+    pushfirst!(m, middles)
+    #Q. where we go next?  
+    goright() # <----
+    goleft() #<--- 
+    
+
+end
+
 
 #----------the End--------
 
@@ -557,12 +583,14 @@ end
 
 #---------------------------------------
 #=test: building above & below (should be automatic)=#
-# (α, below, above, β, interval=[1,2,3,4,5] )
+# (α, below, above, β, interval=[1,2,3,4,5] ) #TODO: #@code_llvm() 
 function compareVector((1:10;),a)
 end 
 tuple = compareVector(1, 2, a) #correct 
 interval = buildInterval(tuple)
- length(interval)
+ getindex(::Nothing,::Int64)
+length(interval)
+
 #TODO: what's next checklastInterval 
 a = buildAboveSoBelow(1, 5, arr) #should return the array a #ERROR: check arguments  #exhausts mid ranges[2] = 6 , 3 element, left, mid, right # still: left, Right 
 
@@ -634,7 +662,7 @@ length(6:10) - length(6:10)
 [2]
 (1:2)[1]
 
-isToNotDivide(buildInterval(1:2;)) #bounds error 
+isToNotDivide(buildInterval(1:2;)) #bounds error  
 #isToNotDivide(1:4)
 
 """calls divideConquer - as  at the end there is only One""" # completes the infinite dragon
@@ -645,7 +673,7 @@ function calldivideConquer(a, Interval) # contains arr #passes
 end
 #the absurd call of the  divide (divine)
 #finish !
-#--------------------------------------------/
+#--------------------------------------------
 
 
 
@@ -657,55 +685,15 @@ Length = copy(length(arr))
 actual = arr[1] + Length #first(arr) + length(arr) #emulates an actual errourneous input 
 a = indexOf(arr[1], arr) # 1
 b = actualSize - 1; #fudging the number
-fractionalMid = length(arr) / 2 # 5/2 = 2.5 #does not exist go to the nearest neighbor
+fractionalMid = length(arr) / 2 # 5/2 = 2.5 #does not exist go to the nearest neighbor #mid = 2.5 
 above = Int(ceil(fractionalMid)) # 3
 below = Int(floor(fractionalMid)) # 2
-buildAboveSoBelow(below,above,arr)
-
+ buildAboveSoBelow(below,above,arr)
+function middle(a=[1,3,4,5,6])
+    ϟ(a[1],length(a)-1)
+end 
 #------------------------------------------------
-#--- q Zone / 
-a = buildAboveSoBelow(below, above, arr)
-#= [1, 2]
- [2, 3]
- [3, 4, 5]=#
-l = length(q)
-count = 1 #starting from 1
-#=
-0 -> 3 (3)
-1-> 4 (3)
-this correctly counts 1 -> 3 (sumRanges 3+1 = 4 but max is 3 )
-=#
 
-l = length(q[2]) # 2 
-array = []; # [firstvalue]
-count = 1
-temp = deepcopy(q[2])
-
-typeof(q[2][1]) #Vector #int64
-
-res = q[2] # pop!(q[2]) 
-typeof(q[2])
-
-#---repeat 
-for i = 1:l #enumerate(q) # in 0:l#4 Always!    #enumerate(q) also works fine as Base.Iterator.Enumerate 
-    #count would be 3 = length(q) A lways 
-    #count<=l ? count += 1 : break; # count ==3 max
-    #array[i] =i 
-    push!(arr, i)
-    item = Base.popfirst!(q[2]) #pop!(collection) -> item # Remove the last item in collection and return it.
-    #i<=l  ? count+= 1 : break; 
-    #count+=1 # counts 4 ( size = length(q) + 1 ) #either need to count -1 
-
-end # will count 4 
-
-#array arr
-count -= 1 # learnd heuristic # length adjustment [of the Interval ] # q. why not measure length(v) directly (after its adjustments)? 
-#count = 0->3 0 index or 1 ->4 1-index 
-
-#q = buildAboveSoBelow(a, below, above, b) # instead: make adjustments on the array arr directtly 
-
-#--- end of q
-#--- end q Zone  
 #----------------------
 #middle(arr) # find middle #q old thinking detedted 
 
@@ -768,28 +756,43 @@ end
 @benchmark 1+10^6
 
 function goright(a = [1, 2, 3, 4], α = 1, β = length(arr) - 1)  #mid + 1, b = length(arr)) 
+    response = nothing
     try
-        res = compareVector(α, β ,a)
-    if res == 1     # ?   return 0 # : replaceVector() #uncommentMe  #no need to proceed furthe
-        return 0
-
-    elseif typeof(res) == VecOrMat
+        if res == 1     # ?   return 0 # : replaceVector() #uncommentMe  #no need to proceed further
+        #return 0
+          response = HandleResponse() 
+          return response
+        else
+        throw(error("Unexpected input arguments")) 
+        end 
+        elseif typeof(res) == VecOrMat
         replaceVector()
+        end
+    catch UnexpectedError  
+        @error UnexpMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. positiveError object, 2. call catch_backtrace() (to catch it) 
+    end  #finaly return 
+    return response
+end
+
+
+function HandleResponse() # todo the hardwork
+    res = compareVector(α, β ,a)
+    if res == 1     # ?   return 0 # : replaceVector() #uncommentMe  #no need to proceed further
  
     @check_args lenA = copy(length(arr))
     #size = lenA - 1 # ture last max possible reachable range, in an Array
     isEven(lenA-1) #either even or not 
     #middle here:
-    middle = lenA / 2 
-    else
-        throw(error("Unexpected input arguments")) 
-    end
-    catch UnexpectedError  
-    @error UnexpMsg exception
-    end #finaly return 
-    
-end
-#=should be the end =#
+    middle = Int(lenA // 2) 
+
+
+
+end 
+#= the end =#
+
+
+
+
 
 #--------------------------------------------------------------------------
  

@@ -11,7 +11,9 @@ import BenchmarkTools: @btime, @time, @benchmark
     end
 end
 
-"""isEven1 experimential Performance: always below isEven2 """
+"""isEven1 experimential Performance: always below isEven2 
+edit: there's nothing called as `always`
+"""
 @propagate_inbounds function isEven1(a = 1, b = 10) #3 if-statements
     try
         @inbounds if a >= 0 && b >= 0
@@ -118,7 +120,61 @@ a: corresponding vector array to traverse
 ```
 
 =#
-compareVector
+#inputs, outputs
+
+"""
+```input:
+```
+
+```output:
+```
+"""
+compareVector()
+
+
+#--- q Zone / 
+a = buildAboveSoBelow(below, above, arr)
+#= [1, 2]
+ [2, 3]
+ [3, 4, 5]=#
+l = length(q)
+count = 1 #starting from 1
+#=
+0 -> 3 (3)
+1-> 4 (3)
+this correctly counts 1 -> 3 (sumRanges 3+1 = 4 but max is 3 )
+=#
+
+l = length(q[2]) # 2 
+array = []; # [firstvalue]
+count = 1
+temp = deepcopy(q[2])
+
+typeof(q[2][1]) #Vector #int64
+
+res = q[2] # pop!(q[2]) 
+typeof(q[2])
+
+#---repeat 
+for i = 1:l #enumerate(q) # in 0:l#4 Always!    #enumerate(q) also works fine as Base.Iterator.Enumerate 
+    #count would be 3 = length(q) A lways 
+    #count<=l ? count += 1 : break; # count ==3 max
+    #array[i] =i 
+    push!(arr, i)
+    item = Base.popfirst!(q[2]) #pop!(collection) -> item # Remove the last item in collection and return it.
+    #i<=l  ? count+= 1 : break; 
+    #count+=1 # counts 4 ( size = length(q) + 1 ) #either need to count -1 
+
+end # will count 4 
+
+#array arr
+count -= 1 # learnd heuristic # length adjustment [of the Interval ] # q. why not measure length(v) directly (after its adjustments)? 
+#count = 0->3 0 index or 1 ->4 1-index 
+
+#q = buildAboveSoBelow(a, below, above, b) # instead: make adjustments on the array arr directtly 
+
+#--- end of q
+#--- end q Zone  
 
 #=
 """a valid middle - Classic #old #depreciated ,why it uses q """
