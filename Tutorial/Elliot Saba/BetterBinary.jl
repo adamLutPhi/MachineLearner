@@ -1,10 +1,10 @@
 """Binary Builders 
-JuliaCon2018
+JuliaCon2018 - 
 Video: https://www.youtube.com/watch?v=2e0PBGSaQaI&ab_channel=TheJuliaProgrammingLanguage
-Credits: Elliot Saba @staticfloat (thank you so much!)
+Credits: Elliot `Eli` Saba @staticfloat (thank you so much!) :D 
 
 Q.How are we gonna do that?
-
+(I like the way he's seperating topics in)
 1. Unpack compiled taballs
 1.2. No:
 1.2.1. package managers 

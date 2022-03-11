@@ -50,7 +50,7 @@ else
 end
 #return a
 #end =#
-
+ #computeRange!(a, α, β) # # TODO: middle(arr, a, b) #or # TODO: middle(a, b, arr) 
 @propagate_inbounds function replaceVector2(v = [1, 2], a = [2, 3, 4, 5]; i = 1)
 
 

@@ -41,6 +41,14 @@ else
 -
  -buildAboveSoBelow(below, above, a)
 
+ go right 
+ go left 
+
+sumInt = sumInterval(a,b)
+  isEven2() #true 
+  
+
+
 =#
 
 import Base: @propagate_inbounds, @inbounds # compiler inlines a function, while retaining the caller's inbounds context
@@ -107,7 +115,7 @@ false: if either #improve
     end #==#
 end
 
-@propagate_inbounds function isEven2(m = 10) # = readable #preferred #fast  #optimized  #2 if-statements
+@propagate_inbounds function isEven2(m = 10) # = readable #preferred #fast  #optimiz-able  #2 if-statements
     try
         @inbounds if m >= 0  # && b >= 0   #==#
             distance = m  #sumInterval(m) #1.distance 
@@ -133,15 +141,47 @@ isEven2(1, 10)# not divisible by 2  -then got fractionalMid , estimate: above & 
 
 #@benchmark isEven1()
 @benchmark isEven2(1, 10) #slightly does better 
-@benchmark isEven2()
+
+@benchmark isEven2() #due to optimization max time drops from 667.437 to 211.268 = 30.483
+#in return of a `slight` incremental degredation in the overall mean = 39,860 =  9.860 
+#=
+mM(s1)=minMax(s1)= Range (min … max):(min … max)= 30.553 ns … 667.437 ns 
+mM(s2)=minMax(s2) =Range (min … max): = 30.483 ns … 211.268 ns 
+mM(s1)= minMax(s1)= (mean ± σ)= 38.030 ns ±  18.992 ns 
+nM(s2)=minMax(s2)=(mean ± σ) = 39.860 ns ±  19.883 ns
+
+diffmM(s1,s2) = mM(s2) - mM(s1) = 30.553 ns … 667.437 ns - 30.483 ns … 211.268 ns 
+mM(s2) - mM(s1) = 30.483 ns … 211.268 ns 
+
+mM(s2) / mM(s1) =  
+mM(s2) / mM(s1) = 
+
+
+=# 
+#RangeRatios
+#Low 
+diffLow = 30.553 - 30.483 # lower ranges of both trials are near i.e. how 
+RatioLow= min(30.483,30.553) / max(30.483,30.553) # low sides almost exact 0.9977088992897588 
+
+#High
+diffHigh = 667.437 - 211.268
+RatioHigh = max(30.483,30.553) / min(30.483,30.553) # ratio is almost 1   1.0022963619066365
+
+uncertainRangeHighLow = diffHigh - diffLow
+#to put things into a metric, Ratio: 
+uncertainRatio = uncertainRangeHighLow / diffHigh #almost 1 (almost equal)
+uncertainRatioLo =  uncertainRangeHiLo /diffLow # inverse of that ratio Lo i.e. diffLo/ rangeHiLo = ProbabilityRatioLo #almost not happening 
+
 #=concludes
 isEven2 is slighly better than isEven1 - besides it's more compact, readable 
 one obvious reason is: number of if statements: isEven2 has only 2 ifs, while is isEven1 has 3  
 =#
+
 @propagate_inbounds isEven(a, b) = isEven2(a, b)
 @propagate_inbounds isEven(m) = isEven2(m)
 #either 1 of the conditions are true all time 
 
+#Great handy function:
 @propagate_inbounds ϟ(a, b) =
     (a > b) ⊻ (b > a) ? max(a, b) - min(a, b) : println(positiveMsg) #  abs(a - b)
 
@@ -171,7 +211,7 @@ end
 middles = [] # need to track middles 
 
 #----------------------
-""" compares vector a, it's element at first index ℵ with second element at index ℶ 
+""" compares vector a, it's element at first index α with second element at index β 
 
 ```input:
 a: first index of comparison
@@ -186,7 +226,7 @@ an ordered tuple of the corrected indicies (of the vector array)
 """ #requires: of indexOf,oldschoolSwap!
 function compareVector(a = 1, b = 2, arr = [2, 1, 3, 4])
     response = nothing
-    try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
+    try #1. we call this function when we'd like to compare index α with index β of a Vector array  # do your thing 
        
         firstContent = Int(findfirst(isequal(a), arr)) #indexOf(first)
         lastContent = Int(findfirst(isequal(b), arr)) #indexOf(last)
@@ -396,7 +436,7 @@ function exploreInterval(a=3,b=4,arr=[3,4])
     _first =  arr[a];
    _last =  arr[b];
     cond =  _first <last 
-     try #1. we call this function when we'd like to compare index ℵ with index ℶ of a Vector array  # do your thing 
+     try #1. we call this function when we'd like to compare index α with index β of a Vector array  # do your thing 
        
         firstContent = Int(findfirst(isequal(a), arr)) #indexOf(first)
         lastContent = Int(findfirst(isequal(b), arr)) #indexOf(last)
@@ -481,7 +521,8 @@ end
 #---------------------------------------
 #=test: building above & below (should be automatic)=#
 # (α, below, above, β, interval=[1,2,3,4,5] )
-
+function compareVector((1:10;),a)
+end 
 tuple = compareVector(1, 2, a) #correct 
 interval = buildInterval(tuple)
  length(interval)
@@ -632,9 +673,9 @@ count -= 1 # learnd heuristic # length adjustment [of the Interval ] # q. why no
 #middle(arr) # find middle #q old thinking detedted 
 
 compareVector(1,2,arr)
-q = middle(1, 10) # true
-typeof(q)
-l = length(q) # if length == 3 : Right middle, Left situation #examine each on its own 
+a = middle(1, 10) # true
+typeof(a)
+l = length(a) # if length == 3 : Right middle, Left situation #examine each on its own 
 #if subrange == 1 return 
 length(q[1])
 #middle(q[1])
@@ -686,17 +727,25 @@ function goleft(a = [1, 2, 3, 4], α = 1, β = length(arr) - 1)
     end
 end
 
+@benchmark @check_args 1+10^6
+@benchmark 1+10^6
+
 function goright(a = [1, 2, 3, 4], α = 1, β = length(arr) - 1)  #mid + 1, b = length(arr)) 
     try
         res = compareVector(α, β ,a)
-    if res == 1 #no need to proceed further    
+    if res == 1     # ?   return 0 # : replaceVector() #uncommentMe  #no need to proceed furthe
         return 0
+
     elseif typeof(res) == VecOrMat
         replaceVector()
-        #computeRange!(a, α, β) # # TODO: middle(arr, a, b) #or # TODO: middle(a, b, arr) 
-    isEven(length(arr)) #either even or not 
+ 
+    @check_args lenA = copy(length(arr))
+    #size = lenA - 1 # ture last max possible reachable range, in an Array
+    isEven(lenA-1) #either even or not 
+    #middle here:
+    middle = lenA / 2 
     else
-        throw(error("Unexpected input arguments"))
+        throw(error("Unexpected input arguments")) 
     end
     catch UnexpectedError  
     @error UnexpMsg exception

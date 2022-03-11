@@ -105,7 +105,21 @@ end
     end
     return a
 end
+#= 
+BenchmarkTools.Trial: 10000 samples with 960 evaluations.
+ Range (min … max):   86.979 ns …   4.819 μs  ┊ GC (min … max):  0.00% … 97.34%
+ Time  (median):      95.729 ns               ┊ GC (median):     0.00%
+ Time  (mean ± σ):   126.652 ns ± 201.347 ns  ┊ GC (mean ± σ):  10.76% ±  6.80%
 
+  ▇██▅▄▄▄▄▄▃▃▃▃▃▂▂▂▂▂▂▁▂▁▁▁▁▁   ▁▁                              ▂
+  ███████████████████████████████████████▇▇▇█▇▇▇▅▆▅▆▁▆▅▆▅▅▃▅▅▄▅ █
+  87 ns         Histogram: log(frequency) by time        302 ns <
+
+ Memory estimate: 256 bytes, allocs estimate: 3.
+
+
+
+ =#
 
 @inline function replaceVector2(v = [2, 3], a = [1, 2, 3, 4]; i = 1)
     lenV = length(v)
@@ -118,16 +132,87 @@ end
     return a
 end
 
-@benchmark replaceVector()
+#=
+BenchmarkTools.Trial: 10000 samples with 955 evaluations.
+ Range (min … max):   87.016 ns …  13.450 μs  ┊ GC (min … max):  0.00% … 98.67%
+ Time  (median):      95.183 ns               ┊ GC (median):     0.00%
+ Time  (mean ± σ):   132.741 ns ± 239.163 ns  ┊ GC (mean ± σ):  11.10% ±  6.89%
 
-@benchmark replaceVector2()
+  ▇█▅▄▃▃▄▃▃▃▃▂▂▂▂▂▂▂▁▁▁▁▁▂▁▁▁▁                                  ▂
+  █████████████████████████████████▇▇▆▇▇▇▇▇▆▆▇▆▆▅▅▅▆▆▅▆▅▅▅▄▄▄▁▅ █
+  87 ns         Histogram: log(frequency) by time        369 ns <
+
+ Memory estimate: 256 bytes, allocs estimate: 3.
 
 
+###################
+
+ =#
+
+
+
+
+ @noninline function replaceVector3(v = [2, 3], a = [1, 2, 3, 4]; i = 1)
+    lenV = length(v)
+    @inbounds if lenV < length(a) # first assumption 
+        @inbounds a[i:lenV] = v[i:lenV]
+
+    else
+        println(UnexpMsg)
+    end
+    return a
+end
+
+
+ 
+
+@noinline @propagate_inbounds function replaceVector4(v = [2, 3], a = [1, 2, 3, 4]; i = 1)
+    lenV = length(v)
+    @inbounds if lenV < length(a) # first assumption 
+        @inbounds a[i:lenV] = v[i:lenV]
+
+    else
+        println(UnexpMsg)
+    end
+    return a
+end
+#=
+BenchmarkTools.Trial: 10000 samples with 960 evaluations.
+ Range (min … max):   86.979 ns …   4.819 μs  ┊ GC (min … max):  0.00% … 97.34%
+ Time  (median):      95.729 ns               ┊ GC (median):     0.00%
+ Time  (mean ± σ):   126.652 ns ± 201.347 ns  ┊ GC (mean ± σ):  10.76% ±  6.80%
+
+  ▇██▅▄▄▄▄▄▃▃▃▃▃▂▂▂▂▂▂▁▂▁▁▁▁▁   ▁▁                              ▂
+  ███████████████████████████████████████▇▇▇█▇▇▇▅▆▅▆▁▆▅▆▅▅▃▅▅▄▅ █
+  87 ns         Histogram: log(frequency) by time        302 ns <
+
+ Memory estimate: 256 bytes, allocs estimate: 3.
+=#
+
+#inline functions 
+@benchmark replaceVector  #noinline better 
+#=
+BenchmarkTools.Trial: 10000 samples with 1000 evaluations.
+ Range (min … max):  0.001 ns … 0.100 ns  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     0.001 ns             ┊ GC (median):    0.00%
+ Time  (mean ± σ):   0.035 ns ± 0.047 ns  ┊ GC (mean ± σ):  0.00% ± 0.00%
+
+  █                                                       ▁
+  █▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁█ ▂
+  0.001 ns       Histogram: frequency by time        0.1 ns <
+
+ Memory estimate: 0 bytes, allocs estimate: 0.
+
+@benchmark replaceVector2
+
+#no inline 
+@benchmark replaceVector3
+@benchmark replaceVector4
 
 #-----------------
 res = compareVector() #<------          Attention!
 α = 1;
-β = 2; β
+β = 2;
 arr = [2, 1, 3, 4]
 buildRangeAroundPoint(α
 , mid, β)
