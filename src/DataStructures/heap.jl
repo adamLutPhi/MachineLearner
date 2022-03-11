@@ -521,7 +521,7 @@ println("x: $x \n y: $y")
 
 function heap2Range()
 
-@inbounds for α in heap # ℵ tuple in Deque[Tuple{Int64, Int64}]  a tuple `Gigantic` one tuple percieved number is 1  [Algorithm allows for an Arbitrary  number of k ]
+@inbounds for α in heap # α tuple in Deque[Tuple{Int64, Int64}]  a tuple `Gigantic` one tuple percieved number is 1  [Algorithm allows for an Arbitrary  number of k ]
     # print(typeof(k)) #Tuple{Int64, Int64}Tuple{Int64, Int64}
     #print(k)#Tuple{Int64, Int64}(1, 2)Tuple{Int64, Int64}(2, 4) # the correct Ideal subranges we want #Extravagant! 
     #println(length(k))
@@ -533,7 +533,7 @@ function heap2Range()
     #println()
     #println(α[1], α[2]) #UncommentMe
     #=
-    for β in length(ℵ) #access a desired subrange α (me: (1,2) or (2,4))
+    for β in length(α) #access a desired subrange α (me: (1,2) or (2,4))
         println(β[1]);#println(typeof(β)) 
     end
     =#

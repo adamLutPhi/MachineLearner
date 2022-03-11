@@ -167,10 +167,11 @@ RatioLow= min(30.483,30.553) / max(30.483,30.553) # low sides almost exact 0.997
 diffHigh = 667.437 - 211.268
 RatioHigh = max(30.483,30.553) / min(30.483,30.553) # ratio is almost 1   1.0022963619066365
 
-uncertainRangeHighLow = diffHigh - diffLow
+N = uncertainRangeHighLow = diffHigh - diffLow
+lengthRatio =  diffLow /diffHigh  
 #to put things into a metric, Ratio: 
 uncertainRatio = uncertainRangeHighLow / diffHigh #almost 1 (almost equal)
-uncertainRatioLo =  uncertainRangeHiLo /diffLow # inverse of that ratio Lo i.e. diffLo/ rangeHiLo = ProbabilityRatioLo #almost not happening 
+uncertainRatioLo =  uncertainRangeHighLow /diffLow # inverse of that ratio Lo i.e. diffLo/ rangeHiLo = ProbabilityRatioLo #almost not happening 
 
 #=concludes
 isEven2 is slighly better than isEven1 - besides it's more compact, readable 
