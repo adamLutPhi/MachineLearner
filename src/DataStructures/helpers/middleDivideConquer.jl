@@ -158,20 +158,56 @@ mM(s2) / mM(s1) =
 
 
 =# 
+#1stOrder 
 #RangeRatios
 #Low 
 diffLow = 30.553 - 30.483 # lower ranges of both trials are near i.e. how 
 RatioLow= min(30.483,30.553) / max(30.483,30.553) # low sides almost exact 0.9977088992897588 
 
 #High
-diffHigh = 667.437 - 211.268
-RatioHigh = max(30.483,30.553) / min(30.483,30.553) # ratio is almost 1   1.0022963619066365
+diff2sampleHigh= diffHigh = 667.437 - 211.268 # difference high, 2 samples  # # <--------------------
+RatioHigh = max(30.483,30.553) / min(30.483,30.553) # RatioHigh  1.0022963619066365
 
-N = uncertainRangeHighLow = diffHigh - diffLow
-lengthRatio =  diffLow /diffHigh  
+#2nd order  - probabilty High difference  
+#dispersuib diffHigh - diffLow 
+
+diffHighLow =N = uncertainRangeHighLow = diffHigh - diffLow # <--------------------
+lengthRatio =  diffLow /diffHigh   
+
+
+probdiffLow =   diffLow/N # inverse of that ratio Lo i.e. diffLo/ rangeHiLo = ProbabilityRatioLo #almost not happening 
+probdiffHigh = diffHigh / N #  probabilty High difference   1
+
 #to put things into a metric, Ratio: 
-uncertainRatio = uncertainRangeHighLow / diffHigh #almost 1 (almost equal)
-uncertainRatioLo =  uncertainRangeHighLow /diffLow # inverse of that ratio Lo i.e. diffLo/ rangeHiLo = ProbabilityRatioLo #almost not happening 
+uncertainRatio = N / diffHigh #almost 1 (almost equal)
+
+#try Infer ------------------------------------------------------------------------------------------------------------------------
+lendiff_diff =  diffHigh - diffHighLow #<-------------------run this 
+diffHighLow ≈  diffHigh
+
+
+Difference2sampleHigh =  diff2sampleHigh - diffHighLow
+#------------------------------------------------------------------------------------------------------------
+
+#2nd order Ratio 
+diff2sampleHigh / diffHighLow
+
+#infer 
+diff_Difference2sampleHigh = Difference2sampleHigh - lendiff_diff # diffHigh - diffHighLow  
+diff_Difference2sampleHigh == Difference2sampleHigh - lendiff_diff
+
+ diff2sampleHigh  -   diffHigh   - (diffHighLow  - diffHighLow )
+(diff2sampleHigh)  -   diffHigh    +(diffHighLow  - diffHighLow )
+#----------------------------------------------------------------------
+diff2sampleHigh  -   diffHigh
+diff2sampleHigh == diffHigh
+diff2sampleHigh === diffHigh
+#---------------------------------------
+N = uncertainRangeHighLow = diffHigh - diffLow ≈  diffHigh
+
+N === diffHigh - diffLow 
+
+#--------------------------------------------------------------------------------
 
 #=concludes
 isEven2 is slighly better than isEven1 - besides it's more compact, readable 
