@@ -60,7 +60,7 @@ outofBoundsMsg = "ERROR: input's length is larger than original vector- kindly c
 #@benchmark  +(10000, 1000000) #simple + is WAY much Bloated, it isn't simple, anymore :S  
 #@benchmark sumInterval(10000, 1000000) =#
 
-@propagate_inbounds isPositive(num) = num > 0 ? true : false
+@propagate_inbounds isPositive(num) =  0 < num ? true : false
 
 #Euclidean Distnace https://www.sciencedirect.com/topics/mathematics/euclidean-distance#:~:text=The%20weighted%20Euclidean%20distance%20measure,element%20of%20the%20average%20profile.
 
@@ -135,7 +135,7 @@ end
         println(positiveMsg) #positive arguments error 
     end #==#
 end
-
+#--------------------
 
 isEven2(1, 10)# not divisible by 2  -then got fractionalMid , estimate: above & below 
 
@@ -377,7 +377,7 @@ a = replaceVector(v, a) #returns correct range
 
 #-----------------
 
-res = compareVector() #(1,2) tuple
+res = compareVector(1,2) #(1,2) tuple
 typeof(res)#tuple 
 
 #if res == 1
@@ -521,9 +521,9 @@ try
       
 end
 
-function middle() 
+#function middle() 
 
-function divideConquer(a=[4,5,6,7,3])
+function divideConquer(a=[4,5,6,7,3]) # <----we are here
     #check length 
    l =  copy(length(a)-1 ) 
    isItEven = copy(isEven2(l))
@@ -754,7 +754,7 @@ end
 
 @benchmark @check_args 1+10^6
 @benchmark 1+10^6
-
+#= #UncomentMe 
 function goright(a = [1, 2, 3, 4], α = 1, β = length(arr) - 1)  #mid + 1, b = length(arr)) 
     response = nothing
     try
@@ -772,10 +772,10 @@ function goright(a = [1, 2, 3, 4], α = 1, β = length(arr) - 1)  #mid + 1, b = 
         @error UnexpMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. positiveError object, 2. call catch_backtrace() (to catch it) 
     end  #finaly return 
     return response
-end
+end =# 
 
-
-function HandleResponse() # todo the hardwork
+#=
+function HandleResponse(α, β ,a) # todo the hardwork 
     res = compareVector(α, β ,a)
     if res == 1     # ?   return 0 # : replaceVector() #uncommentMe  #no need to proceed further
  
@@ -787,12 +787,92 @@ function HandleResponse() # todo the hardwork
 
 
 
-end 
+end =#
 #= the end =#
+#function definition: formula: b + a - 1  - sumInterval
+#recap 
+# checkdifference(a,b) =  # if interval length equal to 1 
+sumInterval(a,b) = 0 < b && 0 < a ? b + a - 1 : -1 ; #TODO: '-1' Handling 
+isEven2(a,b) #TODO: evenHandling - now true ? middle(a,b) : buildAboveSoBelow(a,b)
+isEven2(1,5) #true 
+function middle2(a,b)
+ if 0 < b && 0 < a #positive argument @ 
+    Int(sumInterval(a,b) //2) 
+ else 
+     -1 #it's safe to throw an error 
+ end 
+end 
+#---
+@propogate_inbounds function buildAboveSoBelow(a=1,b=5) # if false 
+#get exact value 
+end 
+#---------start here 
+res = sumInterval(1,5)
+function buildAboveSoBelow(num = 5) # if false 
+#mid gets exact value 
+    mid = num /2
+    below  =  Int( floor(mid) )
+    above = Int( ceil(mid) ) 
+    return below, above
+end 
+below, above =  buildAboveSoBelow(5)
+a= 1; b = 5;#say #-now build corresponding 2 range(tuples )
+range1 = (a,below)
+typeof(range1)
+range1 = collect(range1)
+range2  = (below+1, above) #normal way of thinking havent covered this case,yet 
+range2 = collect(range2) #where range is range of inicies
+#possible errourneous (without arr )
+function compareVector(range=range2) #a = 1, b = 2, arr = [2, 1, 3, 4])
+    response = nothing
+    try #1. we call this function when we'd like to compare index α with index β of a Vector array  # do your thing        
+        firstContent = Int(findfirst(isequal(range2[1]), range)) #indexOf(first)
+        lastContent = Int(findfirst(isequal(range2[2]), range)) #indexOf(last)
 
+        if firstContent > lastContent # correct
+            response = @inbounds arr[a], arr[b] = oldschoolSwap!(arr[a], arr[b]) #plain content swap in julia  #swap array contents directly
 
+        elseif firstContent < lastContent #only possible - correct situation (to deal with)
+            #Intent: skip 
+            return response = 1
+        else #2. throw frisbe error here
+            throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
+        end
 
+    catch UnexpectedError # 3. catch `materialize` (UnexpectedError object )
+        @error UnexpMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. positiveError object, 2. call catch_backtrace() (to catch it) 
+    end #ends try - finally afterthat return whatever correct value you've been working on  (if not already ) 
+    return response
+end
 
+#check distance, first  (we have 2 ranges range1, range2 )
+
+if  range1[2] - range1[1]  == 1 
+    a = compareVector(range1)
+end 
+a
+a = compareVector(range1)
+
+firstContent = Int(findfirst(isequal(range1[1]), range1)) #indexOf(first)
+lastContent = Int(findfirst(isequal(range1[2]), range1)) #indexOf(last)
+
+    if firstContent > lastContent # correct
+        response = @inbounds arr[a], arr[b] = oldschoolSwap!(arr[a], arr[b]) #plain content swap in julia  #swap array contents directly
+    end 
+response
+#assume first range is 1, 2 
+#must be handling for it , alerting that it's tur , first < last , returns 0 for finish correctly 
+#special unhandeled case: distance == 0 where 3 - 3 = 0 
+range2[2]
+range2[1] 
+#arr 1,2,3  
+#last range 3,3 returns 0  #singleton = 3 #scalar value - not a range ! #must insertat sth (or pushlast ) ?
+a =[1,2,3]
+ #cannot do that! \
+#input can be a ramge if dist(range)>=1  or if 0 , return that scalar element, at its index i.e. a[3]
+a[3]
+# there must be a functionality keeps track of middles ,informs that oh, we're out of middles , we're finished, we can exit safely wihth no errors 
+#middle to range functinality as well 
 
 #--------------------------------------------------------------------------
  

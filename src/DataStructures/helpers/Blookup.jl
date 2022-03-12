@@ -168,4 +168,5 @@ end
 function len(v::Vector)
     return length(v)
 end
+
 len(v)
