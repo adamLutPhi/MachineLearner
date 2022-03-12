@@ -872,7 +872,7 @@ a =[1,2,3]
 #input can be a ramge if dist(range)>=1  or if 0 , return that scalar element, at its index i.e. a[3]
 a[3]
 # there must be a functionality keeps track of middles ,informs that oh, we're out of middles , we're finished, we can exit safely wihth no errors 
-#middle to range functinality as well 
+#middle to raPnge functinality as well
 
 #--------------------------------------------------------------------------
  
