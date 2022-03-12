@@ -285,6 +285,31 @@ function compareVector(a = 1, b = 2, arr = [2, 1, 3, 4])
     return response
 end
 
+function compareVector(v=[1,2,3], arr = [2, 1, 3, 4])
+
+    try #1. we call this function when we'd like to compare index α with index β of a Vector array  # do your thing 
+        response = nothing
+        a = v[1]
+        b = length(v)-1
+        
+        firstContent = Int(findfirst(isequal(a), arr)) #indexOf(first)
+        lastContent = Int(findfirst(isequal(b), arr)) #indexOf(last)
+
+        if firstContent > lastContent # correct
+            response = @inbounds arr[a], arr[b] = oldschoolSwap!(arr[a], arr[b]) #plain content swap in julia  #swap array contents directly
+
+        elseif firstContent < lastContent #only possible - correct situation (to deal with)
+            #Intent: skip 
+            return response = 1
+        else #2. throw frisbe error here
+            throw(error("Unexpected Error")) # 2. throw(error(ExceptionError)) 
+        end
+
+    catch UnexpectedError # 3. catch `materialize` (UnexpectedError object )
+        @error UnexpMsg exception = (UnexpectedError, catch_backtrace())   # define Exception here, passing arguments 1. positiveError object, 2. call catch_backtrace() (to catch it) 
+    end #ends try - finally afterthat return whatever correct value you've been working on  (if not already ) 
+    return response
+end
 res = compareVector(1,2,[2, 1, 3, 4])
 typeof(res)# no comparison is needed #ERROR
 
