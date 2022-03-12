@@ -45,12 +45,16 @@ either findout chmod and try back on win
     or run in mac 
 
 #waiting to be consumed  on mac ... 
+#1. requires only mac  (Ubuntu references  ) #####requires focal-updates" - Ubuntu Packages # Focal Fossa (Ubuntu) # https://wiki.ubuntu.com/FocalFossa/ReleaseNotes
+2. remove
+strategy: 
+either load everything into project toml 
 =#
 
     ENV["XDG_DATA_DIRS"] = join(filter(x -> x !== nothing, [
-         #   dirname(adwaita_icons_dir),
+         #   dirname(adwaita_icons_dir), # 
          #   dirname(hicolor_icons_dir),
-            joinpath(dirname(GTK3_jll.libgdk3_path::String), "..", "share"),
+            joinpath(dirname(GTK3_jll.libgdk3_path::String), "..", "share"), #same problem as in Gui.jl 
             get(ENV, "XDG_DATA_DIRS", nothing)::Union{String,Nothing},#GTK3_jll not defined 
         ]), Sys.iswindows() ? ";" : ":")
 #=
@@ -60,7 +64,11 @@ TODO: change currrent_pwd() to artifact_hash
 # artifact_hash isa notdefined
 loaders_cache_hash = artifact_hash(loaders_cache_name, mutable_artifacts_toml)
 loaders_dir_hash = artifact_hash(loaders_dir_name, mutable_artifacts_toml)
-
+# Install Ubuntu on WSL2 on Windows 10
+# https://aka.ms/wslstore
+# install Ubuntu on  
+https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#3-download-ubuntu
+ 
 LoadError: UndefVarError: create_artifact not definedStacktrace:
 
 =#

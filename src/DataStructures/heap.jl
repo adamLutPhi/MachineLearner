@@ -108,47 +108,65 @@ end
 
 #@time
 #-----
+copiedHeap = []::Any
 function linearSort(heap)
     for i in size(heap) #compiles for a vector 
         if i > 1 #this is a must 
             if heap[i] < heap[i-1] #check code
                 heap[i], heap[i-1] = heap[i-1], heap[i] #swap 
             end
-
+            arr[i] = copiedHeap[i]
         end #arr[i] = copiedHeap[i] copy code
     end
     return heap
 end
-function biSectSort(heap)
-  #=
+
+"""checks size (for the moment)
+if length isa Even , do something 
+Otherwise, if it's odd, throws an errror 
+"""
+function biSectSort(heap) #fixed (this only checks size)
+    _size = copy(length(heap))
+    _size -= 1 #decrease always a 1 from the 'theoretical' length (to fit in the `structure `)
     try
-       size(heap) = length(heap) % 2 == 0 ?   :   ;
-   catch
-   end
-   =#
-    #try <--- start here 
-
-       # for i in size(heap) #compiles for a vector 
-
-        #=find the middle 
-        -isdivisible by 2 (is there a generalization)
-        -- check middle (why ? )  what 
-        lsize(heap)%2 === 0 
-        #check if size(heap)/2 is even → d =#
-#        si()
-        if size(heap) % 2 == 0  # odd 
-                #do something 
-        
-        elseif size(heap) % 2 !!  
+        if _size == length(heap) % 2 == 0 # ? #= add to s : =#   this checks size # why were you throwing error , irresponsibly?
+        #do something useful #like, sor, linearly 
+        else #on the else, ok <---- runs this 
+            throw(error("Debugging: this throws an error Unexpected Error found "))
         end
-            #=catch Exception #
-        print error 
-    
-
+    catch UnexpectedError # <---- runs this 
+        @error "ERROR: UnexpectedError Found-error thrown successfully " exception =
+            (UnexpectedError, catch_backtrace())
     end
-            catch Exception #
-        print error =#
+end
+biSectSort(copiedHeap) #runs # biSectSort (generic function with 1 method) #if throws your error, then it compies file 
 
+try #requires t possible error: define t first 
+
+    # for i in size(heap) #compiles for a vector 
+
+    #=find middle 
+    -isEven (is there a generalization)#review: generalizationnot now 
+    -- check middle (Q1. How? ) #Q2. isEfficient?   
+    lsize(heap) % 2  === 0 
+    #check if size(heap)/2 is even → d =#
+    _size = length(copiedHeap) - 1 # -1 #indicates #ERROR (unhandled ) 
+    if _size % 2 == 0  # TODO: odd (store in a  proper `DataStructure`)
+    #do something call function 
+
+    elseif _size % 2 != 0
+        #throw an error exception 
+        throw(error("Size Error "))
+    end
+catch SizeError   #Name the Error: any arbitrary error name (memorizable) 
+    @error "ERROR: error was unhandeled" exception = (UnexpectedError, catch_backtrace())
+end #fine! 
+#SizeError "ERROR: error was unhandeled" exception 
+#=catch error as an exception  (via  catch_backtrace)#
+print error 
+end
+end 
+turns out, it's more than a check of Evenity...=#
 #-----
 @benchmark heap = bLookup!() # get subranges #Returns Deque -> Dictionary  @test(E):0.000003 seconds (4 allocations: 192 bytes) @btime =  67.551 ns (4 allocations: 192 bytes) 
 
@@ -203,7 +221,7 @@ vector = collect(Iterators.flatten(_tuple))
 collect(Iterators.flatten(x)) #OR
 
 
- [x[j] for x in x for j in eachindex(x)] 
+[x[j] for x in x for j in eachindex(x)]
 
 #---
 #for i in heap
@@ -239,7 +257,7 @@ size(copiedHeap)
 #copiedHeap = deepcopy(heap) 
 typeof(heap)  # Deque -> Dict -> Tuple
 length(heap)
-#
+
 
 dims = deepcopy(size(collect(minimum(heap)))) # == size(copiedHeap)
 ω = []
@@ -247,11 +265,11 @@ copiedHeap = deepcopy(heap)
 try
     while true
         tmp = popfirst!(copiedHeap)
-        ω = pushfirst!(ω, tmp)#, 1)
+        ω = pushfirst!(ω, tmp)#, 1) #removes the 1's monotonicity 
     end
 catch #ErrorException
     #continue
-    print(ω) # Any[(2, 4), 1, (1, 2), 1, (2, 4), 1, (1, 2), 1] the weirdest I have ever met yet
+    print(ω) # Any[(2, 4), 1, (1, 2), 1, (2, 4), 1, (1, 2), 1] frankly the weirdest (1's monotonicity should be removable, first)
 end
 #=======Testing Area Experimental beyond this line 
 #print(ω) #this is tuple 
@@ -429,18 +447,18 @@ Base.@propagate_inbounds function getPoints(copiedHeap)
         #m = _size 
         #typeof(m) # m i a  
         #m[1]m[1][1] ok
-        m = deepcopy(α)
-        #m2 = deepcopy()
-        @inbounds β[i] = (m[1]:m[2]) # get rangeInt  #without Deque, errors out 
+        m = copy(α) #the intent #deepcopy(α)
 
-        push!(pts, m[1])
-        push(pts, m[2]) #ok 
-        ω[i] = push(ω, collect(β))
-        push(ω, collect(β))
+        @inbounds β[i] = (m[1]:m[2]) # a tuple # gets rangeInt  #without Deque, errors out 
+
+        push!(pts, m[1]) #ok you mean β[i] ? 
+        push(pts, m[2]) #ok   or pushfirst! 
+        #  ω[i] = β[i] #collect(β))
+        push(ω, collect(β[i]))
         #append!(γ, collect(β)) #no method matching append!(::OrderedSet{Any}, ::Vector{Int64})#sloved 
         #print(typeof(α[1]))
-        push!(γ, m[1]) # push!: method no method matching append!(::OrderedSet{Any}, ::Int64)
-        push!(γ, m[2])
+        # push!(γ, m[1]) # push: method no method matching append!(::OrderedSet{Any}, ::Int64)
+        # push!(γ, m[2]) #or pushfirst! 
         #print(ω)
         #print(γ)
         #print(typeof(ω))
@@ -452,14 +470,17 @@ Base.@propagate_inbounds function getPoints(copiedHeap)
             println(β[1]);#println(typeof(β)) 
         end
         =#
-        return ω, γ, β, pts #, α[1]:α[2] # values for debugging ...
+        return ω, γ, β #, pts #, α[1]:α[2] #  debugging values
     end
-end # compiles 
-ω, γ, β, pts = getPoints(copiedHeap)
+end # no error  
+ω, γ, β = getPoints(copiedHeap) #TODO: re-view
 
+function append!(s ::OrderedSet{Any}, a::Int64) #use ] OrderedCollections (for OrderedCollections.jl) #q. why Unordered Structure?  #OrderedSet not defined #review#1: use of outside code 
+return 
+end 
 #=
+function append!(s ::OrderedSet{Any}, a::Int64) #q. why Unordered Structure? 
 
-function append!(s ::OrderedSet{Any}, a::Int64)
 @inbounds for i in enumerate length(s)
     @inbounds if i!= length(s)
         @inbounds if a > s[i] && a< s[i+1] 
@@ -474,12 +495,12 @@ end
 #---- Algorithms 
 
 end 
-"""merge sort (with Difive & Conquer Strategy)
+"""merge sort (with Difive & Conquer Strategy) #the reason behind divideConquer 
 credits to @edubkendo
 https://gist.github.com/edubkendo/528d40034fd7037c55ce
 """
 
-function mergeSort(lhs::Array, rhs::Array)
+function mergeSort(lhs::Array, rhs::Array) 
     size = length(lhs) + length(rhs)
     retvals = [] #Array(Type(lhs), size)
 
@@ -498,7 +519,7 @@ function mergeSort(lhs::Array, rhs::Array)
 end
 
 #ok
-function transfer_tail(vals::Array, tail::Array, count::Int64)
+function transfer_tail(vals::Array, tail::Array, count::Int64) #TODO: #check_Utility
 @inbounds  for k = (count + 1):(length(tail) + count)
 @inbounds    vals[k] = shift!(tail)
   end
@@ -571,7 +592,7 @@ for i in enumerate(len)
 end
 println(res2); println(typeof(res2)); 
 size(A[1:1, 1]) 
-        
+
 #--------------------
 #arrays indexing rewind
 
@@ -591,7 +612,7 @@ arr = nothing
 end 
 #=" how you define behavior is how 
     julia will react "=#
- 
+
 ranges = []
 a = 1; b= 4
 #ret = nothing
@@ -601,7 +622,7 @@ A=[];B=[] #;I=[];
 #insert!()
 
 A = collect( popfirst!(heap))
-    
+
 @inbounds for (n,i) in enumerate(tmp)
     @inline   b[n] = i+1
 end 
@@ -684,31 +705,46 @@ Base.setindex!
 setindex!(collection, value, key...)
 Store the given value at the given key or index within a collection. The syntax a[i,j,...] = x is converted by the compiler to (setindex!(a, x, i, j, ...); x).
 =#
+=#
+"""trying to recursively find a subrage *writes down a while!* """  
+function  findSubrange2(a=1,b=4,n= 1) #requires revision #review#1: try to remove ; from the arguuments 
 
-function  findSubrange(a,b=4;n= 1) #requires revision
-i=n;
-#a=[]; _b=[]; 
-#_n = 1;
- _b =1; _a =1;  
+    i=copy(n) #copies n 
 
-if _b isa b #reached the end 
+    #a=[]; _b=[]
+    #_n = 1 #review#1:instead of writing here, you are passing it in the argument - as an optional parameter , thus if user forgets it , you expect it to run 
+    _a =1  
+    _b =1
+
+    if _b ==b # isa b #reached the end #review#1:comment:1stif
     _a = a  #
     return
+    #end #end-if  
+   #end #end-function 
 
-    if !(_b isa b) #
+    if !(_b isa b) #review#1:comment:2ndif
         _a + (n[1] * h)
         i += 1
 
-        while !(_b isa b)
+        while !(_b isa b)# use of while 
             _b = _a + (_n * h)
             #update _a, _b
-            i = 1:_b = _a + (i * h) # = 1 + (1 * 1) = 2  #infer: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+            i = 1:_b = _a + (i * h) # = 1 + (1 * 1) = 2  #infers: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
             i += 1
             findSubrange(_a, _b, n = i)
-        end
+        end #end-while
 
-    end
+     #end#end-if
+    end ##-end-if error:syntax "1" - not a `valid argument name` #TODO: check name 
+end #incomplete function #error 
 
+function whilefunction(a=_a,b=_b) #error at 706
+    while _b  != b #isa b)#review#1:  use of while 
+         _b = _a + (_n * h)
+        #update _a, _b
+        i = 1:_b = _a + (i * h) # = 1 + (1 * 1) = 2  #infers: sub-range [1,2]  (b=4 !isa b[1]=2  (now a[2] = b[1]=2 for next op ) a starts at 2 
+        i += 1
+        findSubrange(_a, _b, n = i)
+    end #end-while
 end
-
-#--------------------
+#--------------------=# #was erroring, because of `unterminatedError`!  -file formation complete 

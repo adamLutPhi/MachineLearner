@@ -22,9 +22,12 @@ import .GLib:
 GTK3_jll: standard Gtk package Imports 
 
 #icon packages (2):
-##1.
-"""
+##1.hicolor_icon_theme_jll
+##2. adwaita_icon_theme_jll
 
+
+"""
+#this is for MinGTK 
 using GTK3_jll, Glib_jll, Xorg_xkeyboard_config_jll, gdk_pixbuf_jll, adwaita_icon_theme_jll, hicolor_icon_theme_jll #done 
 
 using Librsvg_jll
@@ -87,7 +90,11 @@ global const libgtk_version = VersionNumber(
         
 
         ```
-      """
+references to: 
+gdk-pixbuf-loaders-cache
+gdk-pixbuf-loaders-dir
+
+    """
 function __init__()
     #for windows 
     # Set XDG_DATA_DIRS so that Gtk can find its icons & schemas
@@ -95,10 +102,10 @@ function __init__()
             dirname(adwaita_icons_dir),
             dirname(hicolor_icons_dir),
             joinpath(dirname(GTK3_jll.libgdk3_path::String), "..", "share"),
-            get(ENV, "XDG_DATA_DIRS", nothing)::Union{String,Nothing},
+            get(ENV, "XDG_DATA_DIRS", nothing)::Union{String,Nothing}, # getting XDG_DATA_DIRS
         ]), Sys.iswindows() ? ";" : ":")
 
-    # Next, ensure that gdk-pixbuf has its loaders.cache file; we generate a
+    # Next, ensure that gdk-pixbuf has its loaders.cache file; we generate a #review#1: what do you mean by this (whomever wrote this)
     # MutableArtifacts.toml file that maps in a loaders.cache we dynamically
     # generate by running `gdk-pixbuf-query-loaders:`
     mutable_artifacts_toml = joinpath(dirname(@__DIR__), "MutableArtifacts.toml")
