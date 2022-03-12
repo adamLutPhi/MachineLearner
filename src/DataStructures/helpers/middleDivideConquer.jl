@@ -529,11 +529,11 @@ function divideConquer(a=[4,5,6,7,3]) # <----we are here
    isItEven = copy(isEven2(l))
     evenHandling(isItEven) = isItEven ? middle() : buildAboveSoBelow()
    #call middle 
-     m = middle() #found first middle 
+     m = middle(a) #found first middle 
     pushfirst!(m, middles)
     #Q. where we go next?  
-    goright() # <----
-    goleft() #<--- 
+    goright(a) # <----
+    goleft(a) #<--- 
     
 
 end
@@ -667,8 +667,8 @@ isToNotDivide(buildInterval(1:2;)) #bounds error
 
 """calls divideConquer - as  at the end there is only One""" # completes the infinite dragon
 function calldivideConquer(a, Interval) # contains arr #passes 
-    divideConquer(a, Interval[1], length(Interval[1]))
-    divideConquer(a, Interval[2], length(Interval[2]))
+    divideConquer(a) #, Interval[1], length(Interval[1]))
+    divideConquer(a) #, Interval[2], length(Interval[2]))
 
 end
 #the absurd call of the  divide (divine)
@@ -698,7 +698,7 @@ end
 #middle(arr) # find middle #q old thinking detedted 
 
 compareVector(1,2,arr)
-a = middle(1, 10) # true
+a = middle(arr)#1, 10) # true
 typeof(a)
 l = length(a) # if length == 3 : Right middle, Left situation #examine each on its own 
 #if subrange == 1 return 
