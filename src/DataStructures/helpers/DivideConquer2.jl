@@ -1,6 +1,9 @@
 """Synopsis 
-index space functions: middle(a,b)
+-index space functions: middle(a,b)
 oldSchoolSwap(a, b)
+
+-value space functions:
+
 """
 
 #index space & value space function 
@@ -25,15 +28,13 @@ function divideConquer(arr; start = 1) # 1 D vector of Float32 (64) #cross-refer
         a = start #list() 
         b = list
         #isEven(a,b)
-        m1, m2, whole = middle(a, b) #doesn't matter if mid , mid+1 or below, above   # how much important is whole (in tree building wanna ensure 1 node for middle , or 2 actual middles)
+        m1, m2, whole = middle(a, b) #doesn't matter if mid , mid+1 or below, above  # how much important is whole (in tree building wanna ensure 1 node for middle , or 2 actual middles)
         #got following ranges 
         (a, m1) # 1 # right #index-space
         (m1 + 1, m2) #2 #middle range # index-space 
         (m2 + 1, b)  # 3 # left #index-space 
 
         #not good enough : need a method translating indices above to actual array values (sothat they can be called by this function recursively)
-
-
     end
 
 end
@@ -48,7 +49,7 @@ function isPositive(number)
             throw(error("Unexpected error occured"))
         end
     catch UnexpectedError
-        @error exception = (UnexpectedError, catch_backtrace)
+        @error "ERROR: Unexpected value error" exception = (UnexpectedError, catch_backtrace())
     end
 end
 #----------
@@ -66,15 +67,13 @@ function calcLength(a = 2, b = 4; s = 1)
 end
 s = 1
 calcLength(2, 4; s)
-
-
+ 
 #----------------------------------
 
-sumInterval(1, 2) # 2 + 1 -1 = 2 #should be 2 #got 3 #ERROR 
-
-
-v = fillvector(1, 2, [3, 2, 5, 6])
-typeof(v) # got 3 (expected 3,2) not passing through upper bound #increase but wich ?
+#sumInterval(1, 2) # 2 + 1 -1 = 2 #should be 2 #got 3 #ERROR  # use only when intention to calculate the mid 
+euclidDist(1,2)
+#v = fillvector(1, 2, [3, 2, 5, 6])
+#typeof(v) # got 3 (expected 3,2) not passing through upper bound #increase but wich ?
 
 # an index space function 
 """ checks whether input arguments a & b are positive , calculates Interval length, anc check if it's positive 
@@ -98,13 +97,13 @@ function isEven(a, b)
             throw(error("Unexpected value error"))
         end
     catch UnexpectedError
-        @error "Unexpected Error occured" exception = (UnexpectedError, catch_backtrace) #passing function pointer to catch_backtrace 
+       @error "ERROR: Unexpected value error" exception = (UnexpectedValueError, catch_backtrace())
+
+        #passing function pointer to catch_backtrace 
     end
 end
 
-
 isEven(number) = number > 0 && number % 2 == 0 ? true : false   #always exists (if conditions apply)
-
 
 function oldSchoolSwap(a, b)
     tmp = b #store b 
@@ -113,16 +112,14 @@ function oldSchoolSwap(a, b)
     return a, b
 end
 
-
 sumInterval(a, b) = a > 0 && b > 0 ? abs(a + b) - 1 : -1 #formula: b + a - 1
-
 
 #index space function 
 function middle(a, b) # b  + a -1 
     try
         _sum = copy(sumInterval(a, b)) #    b + a - 1 
         isItEven = copy(iseven(_sum)) # TODO: surround by a copy 
-        mid = _sum / 2  #  -1  #Idea: precalculate mid here (_sum /2 ) 
+        mid = copy(_sum / 2)  #  -1  #Idea: precalculate mid here (_sum /2 ) 
         isWhole = nothing
         below = -1
         above = -1
@@ -141,12 +138,14 @@ function middle(a, b) # b  + a -1
             throw(error("Unexpected error occured"))
         end
     catch UnexpectedError
-        @error "ERROR: UnexpectedError occured" exception =
-            (UnexpectedError, catch_backtrace)
+        @error "ERROR: Unexpected error occured" exception = (UnexpectedError, catch_backtrace())
+
     end
 end
 
+middle(1, 2)
 
+#= this won't make it divideConquer anymore
 function fillvector(a, b, arr; start = 1)
     loopstart = start # if starting index is 1 
     len_ab = euclidDist(a, b) # copy(sumInterval(a, b)) #b - a # i thought b + a - 1 i.e. 1 , 3: 3+1 - 1 =3 #problem here when changing range , problem discovered need distance between 2 values: 
@@ -165,7 +164,7 @@ function fillvector(a, b, arr; start = 1)
             throw(error("Unexpected error occured"))
         end
     catch UnexpectedError
-        @error exception = (UnexpectedError, catch_backtrace)
+        @error "ERROR: UnexpectedError occured " exception = (UnexpectedError, catch_backtrace())
     end
     return vector
 end
@@ -173,38 +172,94 @@ end
 fillvector(1, 2, [3, 2, 1, 5]) # working 
 
 fillvector(2, 3, [3, 2, 1, 5])
+=#
 
 #----
 
-
+#index & value space 
 """creates an indices between points a & b """
-function indexify(a = 1, b = 3; s = 1)
-
+function indexify(a = 1, b = 3,arr[1,3,4,5]; s = 1) # arr is not reading it 
+lenA = length(arr)
     rangeIndicies = []
     #checks #s is an important input argument, its failure may result in failure of every formula including it 
     #s != 0 || s != 1 ? s = 1 : s = 1 #it's forces s value to take 1 (if it was not set by user to either 0 or 1 )
     try
+        if s != 0 || s != 1 # s can either be 0 or 1 , if not, force s =1  
+            s = 1 # set it to 1
+            for i ∈ 1:lenA+s-1  # idea= keep fixating at start i=1 ,last length(arr)+s-1 i=1 #strict condition: requires s=i=1 to work well 
+                rangeIndicies = push!(rangeIndicies, i) #println(i) #prints range correctly 1,2,3 (accordingly) 
+            end
+        else
+            throw(error("Unexpected error"))
+        end
+    catch UnexpectedError
+        @error "ERROR: UnexpectedError: " exception = (UnexpectedError, catch_backtrace())
+    end
+    rangeIndicies
+end
 
-        if s != 0 || s != 1 # s can either be 0 or 1 , if not provided so 
+indexify(1,3)
+
+#index space: a=1, b=3
+#value space arr 
+"""creates an indices between points a & b """
+function indexify(a = 1, b = 3,arr=[1,3,4,5]; s = 1)
+    lenA =  length(arr)
+    lenV = euclidDist(a,b)
+
+    rangeIndicies = [] 
+    #checks #s is an important input argument, its failure may result in failure of every formula including it 
+    #s != 0 || s != 1 ? s = 1 : s = 1 #it's forces s value to take 1 (if it was not set by user to either 0 or 1 )
+    try
+          if s != 0 || s != 1 # s can either be 0 or 1 , if not, force s =1  
             s = 1 # set it to 1  #thik 1 move ahead 
-            for i ∈ 1:lenA+s-1  # idea= keep fixating starting i at  i=1 #strict condition: needs s=i=1 to work well 
+            for i ∈ 1:lenA+s-1  # idea= keep fixating at start i=1 ,last length(arr)+s-1 i=1 #strict condition: needs s=i=1 to work well 
                 rangeIndicies = push!(rangeIndicies, i) #println(i) #prints range correctly 1,2,3 (accordingly) 
             end
         else
             throw(error("Unexpected value for s"))
         end
     catch UnexpectedValueError
-        @error UnexpectedValueError exception = (UnexpectedValueError, back_trace)
+        @error "ERROR: Unexpected value for s" exception = (UnexpectedValueError, catch_backtrace())
     end
     rangeIndicies
 end
 
+euclidDist(1,3)
 
+# index space value 
+function indexify(a = 1, b = 3,arr=[1,3,4,5]; s = 1)
+    lenA =  length(arr)
+    lenV = euclidDist(a,b)
+    v = [lenV]
+    #levV = []
+    rangeIndicies = []
+    #checks #s is an important input argument, its failure may result in failure of every formula including it 
+    #s != 0 || s != 1 ? s = 1 : s = 1 #it's forces s value to take 1 (if it was not set by user to either 0 or 1 )
+    try
+        if s != 0 || s != 1 # s can either be 0 or 1 , if not, force s =1  
+            s = 1 # set it to 1  #thik 1 move ahead 
+            for i ∈ 1:lenA+s-1  # idea= keep fixating at start i=1 ,last length(arr)+s-1 i=1 #strict condition: needs s=i=1 to work well 
+                rangeIndicies = push!(rangeIndicies, i) #println(i) #prints range correctly 1,2,3 (accordingly) 
+            end
+        else
+            throw(error("Unexpected value for s"))
+        end
+    catch UnexpectedValueError
+        @error "ERROR: Unexpected value for s" exception = (UnexpectedValueError, catch_backtrace())
+
+    end
+    rangeIndicies
+end
+
+#-------------
 res = indexify(1, 2)
 typeof(res)
 #what's distance between: 2,1 = 2 -1 + 1
+
 function range2vector(range)
     lenA = copy(length(range)) # 3
+     i = 1 
     next = i + 1
     v = []
 
@@ -226,8 +281,8 @@ typeof(res)
 length(res)
 
 #----
-# last function 
-function indicies2values(v=[], a = [1, 4, 5, 6]) # v can be a pair v[1](1)
+# last function #uses  
+function indicies2values(v = [], a = [1, 4, 5, 6]) # v can be a pair v[1](1)
     lenV = copy(length(v))
     next = -1
     heap = []
@@ -246,7 +301,7 @@ function indicies2values(v=[], a = [1, 4, 5, 6]) # v can be a pair v[1](1)
                     Union!(subheap, _set)
 
                     _set = Union!(_set, [[], genVector])
-                   
+
                     _set = Union!(_set, [subheap, genVector]) # j=1,2
 
                 end
@@ -258,27 +313,39 @@ function indicies2values(v=[], a = [1, 4, 5, 6]) # v can be a pair v[1](1)
     end
 end
 
-function innerloop(a=[3,2,1,4,5],v=[[1,2],[2]])
-            vi = [[1, 2], [2]]
-            length(vi)
-    for j ∈ 1:vi # vi = [[1, 2], [2]]
-                next = j + 1 #warning : potential out of bounds
-                if next <= vi
-                    genVector = collect(a[j]:a[next])
-                    Union!(_set, _set)
-                    Union!(subheap, _set)
+v = [[1, 2], [2]]
+lenVi = copy(length(v))
+lenVi = copy(length(enumerate(v)))
+vi= []
+vi = [lenVi]
+typeof(vi)
 
-                    _set = Union!(_set, [[], genVector])
-                   
-                    _set = Union!(_set, [subheap, genVector]) # j=1,2
+function innerloop(a = [3, 2, 1, 4, 5], v = [[1, 2], [2]])
+    lenVi = copy(length(v))
+    vi=[lenVi]; #pushfirst!(vi,[1,2]); pushfirst!(vi,[2]) the goal 
+    length(vi)
+    #vi = 
 
-                end
-            end
+   # for j ∈ 1:lenVi # vi = [[1, 2], [2]]
+        #if   next <=
+     j=1
+        next = j + 1 #warning : potential out of bounds
+       if next <=lenVi #vi
+            genVector = collect(a[j]:a[next])
+          #  Union!(_set, _set)
+          #  Union!(subheap, _set)
+            _set= UnionAll{_set,genVector}
+          #  _set = Union!(_set, [[], genVector])
+         #   _set = Union!(_set, [subheap, genVector]) # j=1,2
+        return _set 
+      #  end
+ #   end
 
 end
+
 innerloop()
 
-
+#-----------------------------
 genVector = collect(a[j]:a[next])
 Union!(_set, _set)
 Union!(subheap, _set)

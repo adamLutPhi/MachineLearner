@@ -144,6 +144,7 @@ isEven2(1, 10)# not divisible by 2  -then got fractionalMid , estimate: above & 
 
 @benchmark isEven2() #due to optimization max time drops from 667.437 to 211.268 = 30.483
 #in return of a `slight` incremental degredation in the overall mean = 39,860 =  9.860 
+
 #=
 mM(s1)=minMax(s1)= Range (min … max):(min … max)= 30.553 ns … 667.437 ns 
 mM(s2)=minMax(s2) =Range (min … max): = 30.483 ns … 211.268 ns 
@@ -151,16 +152,16 @@ mM(s1)= minMax(s1)= (mean ± σ)= 38.030 ns ±  18.992 ns
 nM(s2)=minMax(s2)=(mean ± σ) = 39.860 ns ±  19.883 ns
 
 diffmM(s1,s2) = mM(s2) - mM(s1) = 30.553 ns … 667.437 ns - 30.483 ns … 211.268 ns 
-mM(s2) - mM(s1) = 30.483 ns … 211.268 ns 
-
-mM(s2) / mM(s1) =  
+mM(s2) - mM(s1) = 30.483 ns … 211.268 ns = 180.785
+mM(s2) / mM(s1) = 
 mM(s2) / mM(s1) = 
 
-
 =# 
+
 #1stOrder 
 #RangeRatios
 #Low 
+
 diffLow = 30.553 - 30.483 # lower ranges of both trials are near i.e. how 
 RatioLow= min(30.483,30.553) / max(30.483,30.553) # low sides almost exact 0.9977088992897588 
 
@@ -338,7 +339,7 @@ end
 
 
 a = [2, 1, 3, 4]
-_first = Int(indexOf(1, a)) # copy(a[st])
+_first = Int(indexOf(1, a)) # copy(a[st]) 
 _last = Int(indexOf(2, a)) # copy(a[ed])
 
 #----------
@@ -496,22 +497,50 @@ interval: original vector interval
     return a
 end
 
+function middle(a, b) # b  + a -1 
+    try
+        _sum = copy(sumInterval(a, b)) #    b + a - 1 
+        isItEven = copy(iseven(_sum)) # TODO: surround by a copy 
+        mid = copy(_sum / 2)  #  -1  #Idea: precalculate mid here (_sum /2 ) 
+        isWhole = nothing
+        below = -1
+        above = -1
+        if isItEven
+            # 1 middle calculate 
+            mid = Int(mid)
+            isWhole = true
+            return mid, mid + 1, isWhole
+        elseif !isItEven
+            # calculate fractionalMid 
+            below = floor(mid)
+            above = ceil(mid)
+            isWhole = false
+            return below, above, isWhole # the differenece is still 1, only way to discriminate is by using isWhole 
+        else
+            throw(error("Unexpected error occured"))
+        end
+    catch UnexpectedError
+        @error "ERROR: UnexpectedError occured" exception =
+            (UnexpectedError, catch_backtrace)
+    end
+end
+ 
 function exploreInterval(a=3,b=4,arr=[3,4])
    response = nothing 
     _first =  arr[a];
    _last =  arr[b];
     cond =  _first <last 
      try #1. we call this function when we'd like to compare index α with index β of a Vector array  # do your thing 
-       
+        
         firstContent = Int(findfirst(isequal(a), arr)) #indexOf(first)
         lastContent = Int(findfirst(isequal(b), arr)) #indexOf(last)
 
-        if firstContent > lastContent # correct
+        if firstContent > lastContent  # && # correct
             response = @inbounds a[a], a[b] = oldschoolSwap!(a[a], a[b]) #plain content swap in julia  #swap array contents directly
         
-        elseif firstContent < lastContent #only possible - correct situation (to deal with)
+        elseif firstContent < lastContent && #only possible - correct situation (to deal with)
             #Intent: skip 
-            return
+            return@error "UnexpectedValueError:Unexpected value for s" exception = (UnexpectedValueError, catch_backtrace())
         #elseif firstContent == lastContent
     
     else
@@ -523,6 +552,8 @@ function exploreInterval(a=3,b=4,arr=[3,4])
     #in the end, compare range itself, is there any more space to explore?
    checklastRange(3,4,[3,4])
 end 
+
+res = exploreInterval(3,4,[3,4]) #bounderror # attempt to access n+1 while having n length vector 
 
 function  checklastRange(a=3,b=4,arr=[3,4])
 try
