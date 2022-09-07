@@ -26,7 +26,7 @@ jobs:
     name: Juila Setup - Ubuntu      #2. process name 
     steps:
     
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       name: Check out repository
     
     - uses: julia-actions/setup-julia@v1
