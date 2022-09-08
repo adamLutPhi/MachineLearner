@@ -8,7 +8,8 @@ module normal <: genericDistribution
 export sqrt2π, pdf, cdf
 
 #const π = pi
-const sqrt2π = sqrt(2 * pi)
+const sqrt2π = sqrt(2 * pi) # contains irrationals
+const sqrt2πRational = rational(sqrt2π) # a rational version 
 
 """
 Rule: minimal use of external Modules 
