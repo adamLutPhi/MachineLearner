@@ -10,8 +10,10 @@ function getPdf(x=smoothFunction)
     """
     generalization of (any )
     """
+    #TODO: a smooth function is: (1) continuous , (2) differentiable [thus if it's not those, it would be rough]
    return pdf(x)= smoothFunction
 end 
+
 
 function pdf(x, range)
     return pdf(x, range)
