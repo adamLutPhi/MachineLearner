@@ -2,7 +2,7 @@ abstract type NN end
 
 struct Network <: NN
 
-    id::Inf64
+    id::Int64
     name::string 
     obj::Any
 
