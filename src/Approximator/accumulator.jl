@@ -1,7 +1,9 @@
 
-#struct approximator end
+
 
 mutable struct accumulator end
+export consume
+#struct approximator end
 #<: approximator end 
 
 # enum op +, -,*,/
@@ -14,12 +16,19 @@ mutable struct accumulator end
 end
 
 function consume(op, a::Float64, b::Float64)
-    if op isa Add()
-        addCall(a::Float64, b::Float64)
+    if op isa Add
+        #addCall(a::Float64, b::Float64)
+        +(a::Float64, b::Float64)
+        
     elseif op isa Sub
         #subCall()
-    elseif op isa Mul #enought- for a banach space operations (covers  rationals  (real )
-    elseif op isa Div # unnecessary for this context 
+        -(a::Float64, b::Float64)
+        
+    elseif op isa Mul #enough- for a banach space operations (covers  rationals  (real )
+        *(a::Float64, b::Float64)
+        
+    elseif op isa Div # unnecessary (for the target context )
+        /(a::Float64, b::Float64)       
     end
 end
 #TODO: Rethink a generalization about the 4 ops:
@@ -42,6 +51,8 @@ function addCall(a::Array{Float64,2}, b::Array{Float64,2}) #matrix  a, b
     return # do matrix multiplication 
 end
 
+#the following does not add any significant value:
+
 function subCall(a, b)
     return a - b
 end
@@ -50,7 +61,9 @@ function mulCall(a, b)
     return a * b
 end
 
-function divCall(a, b) end
+function divCall(a, b) 
+return a / b
+end
 
 #end
 
