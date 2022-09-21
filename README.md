@@ -75,7 +75,7 @@ A modified ziggurat algorithm for generating exponentially- and normally-distrib
 
 ## YouTube
 
-A Great Neural Network course, easily Explained by a Humble `Prof. S. Sengupta`, (S. Sirnivasa), by the NPTEL of India [right here](https://www.youtube.com/watch?v=xbYgKoG4x2g&list=PL53BE265CE4A6C056)
+A Great Neural Network course, easily Explained by a Humble `Prof. S. Sengupta`, (S: **Sirnivasa**), by the NPTEL of India [right here](https://www.youtube.com/watch?v=xbYgKoG4x2g&list=PL53BE265CE4A6C056)
 
 ## WIP (Work In Progress Project)
 
@@ -90,5 +90,5 @@ The author won't be held responsible, for any immature actions, & or any signs o
 
 ## Author
 
-[![Logo](https://github.com/adamwillisXanax/adamwillisXanax/blob/main/Assets/logo.png)
-](https://github.com/adamwillisXanax/adamwillisXanax)
+[![Logo](https://github.com/adamwillisMastery/adamwillisMastery/blob/main/Assets/logo.png)
+](https://github.com/adamwillisMastery/adamwillisMastery)
