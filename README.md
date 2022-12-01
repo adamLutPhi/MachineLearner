@@ -1,27 +1,22 @@
 # DeepLearner
 
-A Deep Learning Repository, you can also view the [project](https://github.com/users/adamwillisXanax/projects/1/views/1)
+A `Deep Learning` Repository, starting from a `machine Learning` Lens
 
-## 🗺 legend
-
-[] Important
-() Optional
-
-Life is a Set of random variables of `opportunities`
+"Life is a Set of random variables of `opportunities`"
 
 - A random Variable is:
 
-1. Neither a Random: always follow a distribution
-2. Nor a Variable: it is a function of Probability Density (_**me**:frequency_)
+1. Neither a Random: always follow a `distribution`
+2. Nor a Variable: it is a function of `Probability Density` (i.e. _frequency_)
 
 the objective is to Utilize the most of it, _effectively_- **~90%** of the time
 
 ### 🎮 Mixed-Coding mode
 
-**1. Focus**
+**1. Focused**
 The best learning is the One where pushing, to face off the Poly-shaped, Spaghetti monster complexity (like this one)
 
-**2. Relax**  
+**2. Relaxed**  
 keep Space in mind, call for relaxation, when Early _signs_ :
 
 - Once `Creativity` starts lacking, - new ideas become `transparent`
@@ -31,11 +26,15 @@ keep Space in mind, call for relaxation, when Early _signs_ :
 
 - [x] Use an RNG (Random Number Generator) (`StableRNG`)
 
-- [ ] Application of `Divide & Conquer` Algorithm
+- [ ] Application of `Divide & Conquer` Algorithm (see Repository: [Cause & Effect](https://github.com/adamwillisMastery/CauseEffect) )
+
+### Machine Learning 
+
+- [x] Outline a `widrowHoff` Algorithm 
 
 ### Open Questions
 
-- [ ] How to build A Neural-Network Model (Learning algorithm, Error function `erf`, optimization)?
+- [ ] How to build A Neural-Network Model (Learning algorithm, Error function `erf`, optimization)
 - [ ] Which differentiation Module to Pick? 🤔
   
 ## Credits
@@ -51,10 +50,9 @@ in the Alphabetic Order:
 
 ## Lessons learned
 
-- `Ziggurat function` seems to be a **Biased** Data Sampler, where Samples are `More` around the Mean, whereas
- An Ideal sampler would have `Uniformly Samples` spread across (on the x-Axis), regardless the Distribution & its respective properties
-Alas, Research on the `Tail Area` is to be quite ripe, for the time-being.
- (for that reason, I don't see it as an enhancement). Need to Cross-reference with another paper (yet to come) that studies Tails, & proves this algorithm is sound (Fairly Samples data in tail)
+1. [the Ziggurat Function](https://github.com/adamwillisMastery/DeepLearner/discussions/12#discussioncomment-4287803)
+
+
 
 - Opens up the _possibility_ for a **Statistical Repo** 💡
 - For more info, please visit [the Discussion](https://github.com/adamwillisXanax/DeepLearner/discussions/12)
