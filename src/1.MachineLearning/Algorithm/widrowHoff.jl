@@ -147,7 +147,7 @@ function findNearestNieghbors(x_test, X)
 
        #2. Add the new distance to the list
        
-       append(distances, d)
+       append!(distances, d)
 
 
        #3. finally increment the counter
