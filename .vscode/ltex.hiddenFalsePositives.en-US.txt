@@ -1,4 +1,0 @@
-{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QGtk.\\E$"}
-{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QGtkWidgetPath (37) Gtk.\\E$"}
-{"rule":"SENTENCE_WHITESPACE","sentence":"^\\QGtkWidgetPath (37) Gtk.\\E$"}
-{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QGlib\nGtk.GLib (22) Gtk.GLib.libgobject (20) Gtk.libgdk (28)\\E$"}
