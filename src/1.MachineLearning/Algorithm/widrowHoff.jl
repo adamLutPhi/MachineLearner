@@ -96,8 +96,8 @@ function findNearestNieghbor(x_test, X,kernel=min)
        d = EucledianDistance(x_test, x_i)  #max(x_test , x_i) - min(x_test, x_i)
 
        #2. add it to the minimums `vector`
-       minimums.append(d)
-
+       
+       append!(minimums, d)
        #3. Filter the min (or a la min kernel):
 
        #3.1 if there is at least 2 items
@@ -139,13 +139,15 @@ function findNearestNieghbors(x_test, X)
     #count = 0
     d = 0.0
     distances = []
-    for x_i in X:
+    
+    for x_i in X
 
        #1. Calculate the distance , to our `x_test`
        d = EucledianDistance(x_test, x_i)  #max(x_test , x_i) - min(x_test, x_i)
 
        #2. Add the new distance to the list
-       distances.append(d)
+       
+       append!(distances, d)
 
 
        #3. finally increment the counter

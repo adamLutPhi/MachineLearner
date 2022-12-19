@@ -1,4 +1,12 @@
-v0.0.1  <br />  <br />
+
+
+# &#x1F4C5; Commits on  DEc-13-2022
+
+## Delete 
+
+- `.vscode` Directory, due to irrelevant unnecessity.
+
+
 # &#x1F4C5; Commits on  Jan-25-2022
 Commits on Jan 25, 2022
 1. Co-authored-by: Ahmad Lutfi <obzajd@gmail.com> committed 16 minutes ago 31f79ec  
