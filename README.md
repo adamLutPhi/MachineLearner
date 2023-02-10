@@ -1,6 +1,6 @@
-# DeepLearner
+# Machine Learner
 
-A `Deep Learning` Repository, starting from a `machine Learning` Lens
+A `Machie Learning` Repository, and its algorithms
 
 "Life is a Set of random variables of `opportunities`"
 
@@ -28,7 +28,7 @@ keep Space in mind, call for relaxation, when Early _signs_ :
 
 - [ ] Application of `Divide & Conquer` Algorithm (see Repository: [Cause & Effect](https://github.com/adamwillisMastery/CauseEffect) )
 
-### Machine Learning 
+### Machine Learning Algorithms
 
 - [x] Outline a `widrowHoff` Algorithm 
 
