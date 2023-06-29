@@ -1,6 +1,6 @@
 # Machine Learner
 
-A `Machie Learning` Repository, and its algorithms
+A `Machine Learning` Repository, and its algorithms
 
 "Life is a Set of random variables of `opportunities`"
 
@@ -31,14 +31,16 @@ keep Space in mind, call for relaxation, when Early _signs_ :
 ### Machine Learning Algorithms
 
 - [x] Outline a `widrowHoff` Algorithm 
-
+- [x] Outline a `Green's function` Algorithm
+      
 ### Open Questions
 
 - [ ] How to build A Neural-Network Model (Learning algorithm, Error function `erf`, optimization)
 - [ ] Which differentiation Module to Pick? 🤔
+- [ ] How could we implement an Optimization function?
   
 ## Credits
-
+Prof. `Sirnivasa Singupta`,  Department of Electronics and Electrical Communication Engineering, IIT Kharagpur.
 ## Special Thanks
 
 to the Heroes behind the Scene, a list of Human Beings, & tutors, in which I couldn't do this project without,
