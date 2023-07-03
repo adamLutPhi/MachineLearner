@@ -4,12 +4,14 @@ A `Machine Learning` Repository, and its algorithms
 
 "Life is a Set of random variables of `opportunities`"
 
-- A random Variable is:
+- A `Random Variable` is:
 
-1. Neither a Random: always follow a `distribution`
-2. Nor a Variable: it is a function of `Probability Density` (i.e. _frequency_)
+1. Neither a `Random`: always follow a `distribution`
+2. Nor a `Variable`: it is a function of `Probability Density` (i.e. _frequency_)
 
-the objective is to Utilize the most of it, _effectively_- **~90%** of the time
+The `Random Variable` is Quoted from Professor `Krishna Jaganaathan` , `IIT Madras` (from a `Probability Foundation for Electrical Engineers` [Course](https://www.youtube.com/playlist?list=PLbMVogVj5nJQqGHrpAloTec_lOKsG-foc) )
+   
+The objective is to Utilize the most of it, _effectively_- **~90%** of the time
 
 ### 🎮 Mixed-Coding mode
 
@@ -17,7 +19,7 @@ the objective is to Utilize the most of it, _effectively_- **~90%** of the time
 The best learning is the One where pushing, to face off the Poly-shaped, Spaghetti monster complexity (like this one)
 
 **2. Relaxed**  
-keep Space in mind, call for relaxation, when Early _signs_ :
+Keep Space in mind, call for relaxation, when Early _signs_ :
 
 - Once `Creativity` starts lacking, - new ideas become `transparent`
 - `Novelity` vanishes into thin air, & Cloud of Routine takes over (its shadows become in everywhere you go)
@@ -32,6 +34,7 @@ keep Space in mind, call for relaxation, when Early _signs_ :
 
 - [x] Outline a `widrowHoff` Algorithm 
 - [x] Outline a `Green's function` Algorithm
+- [ ] Principal Component Analysis `PCA`
       
 ### Open Questions
 
@@ -43,7 +46,7 @@ keep Space in mind, call for relaxation, when Early _signs_ :
 Prof. `Sirnivasa Singupta`,  Department of Electronics and Electrical Communication Engineering, IIT Kharagpur.
 ## Special Thanks
 
-to the Heroes behind the Scene, a list of Human Beings, & tutors, in which I couldn't do this project without,
+To the Heroes behind the Scene, a list of Human Beings, & tutors, in which I couldn't do this project without,
 in the Alphabetic Order:
 
 - Professor `Steven G. Johnson` [@stevengj](https://github.com/stevengj): providing an MIT OCW `Introduction to Numerical Methods` [18.335J / 6.337J](https://ocw.mit.edu/courses/mathematics/18-335j-introduction-to-numerical-methods-spring-2019/) Julia course (usefully Concise Course) on [GitHub](https://github.com/mitmath/18335/tree/spring19)
