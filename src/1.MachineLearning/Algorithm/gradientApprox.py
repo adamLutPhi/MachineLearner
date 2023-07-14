@@ -1,35 +1,28 @@
 from math import tan, tanh, exp, inf 
 
 """
- recheck
+source: https://www.youtube.com/watch?v=jTzJ9zjC8nU&t=313s
+
  Loss function with weights episode : backprop
  
 Guide:
 
 To differentiate
 
-We will use a neural network
+1.we require a neural network
+2.Having an activation function
 
-Having a neural Network, having an:
-
-activation function
-
-
-activation function :
-
-having 
-layer1 = Layer( input ) --> layer2= Layer ( Hidden)
-
-still, need something in between, linking layer1 and layer2
-
+layer1(input) ,  Layer2( input ) --> ... layern= Layer( Hidden)...ouput
+map
+- need something in between, linking layer1 and layer2
+"""
 # class map
 
 class map :
      def __init__(nnLayer1, nnLayer2):
+          pass
+          #nnlayer1.  
 
-          nnlayer1.  
-
-"""
 
 """ all derivatives of u with respect to the input x
 Can be found
@@ -41,9 +34,8 @@ I had 10 hidden Neurons(multiple hidden neurons)
 Even if multiple layers (of hidden neurons) through backpropagation)
 
 you can find out
-d output/ d input 
+output/ d input 
 du / dx
-
 
 
 #rank 2 approcimation
