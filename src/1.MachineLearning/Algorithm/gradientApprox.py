@@ -1,10 +1,61 @@
 from math import tan, tanh, exp, inf 
 
+class feedForwardNetwork:
+
+    """
+    Feed Forwad
+    by taking linear combination (of non-linearity )
+    inputs:
+    ------
+    w: weights vector
+    x : values vector
+    """
+
+    def __init__(self, w, x , phi, b):
+    
+        self.bias = bias
+
+        _len = len(w)
+        
+        for i in range(_len+1):
+
+            
+            #Calc others:
+            self.w[i] = w
+            self.x[i] = x
+            
+            
+            self.phi_w = [] # list of phi , of w , at
+
+            phi_w_i_j = 0.0 
+
+           #bias
+            for j in range(len(bias) ):
+                
+                #insert scalar bias b into list entry j
+                self.bias[j] = b
+                #activation (characteristic function) phi
+                self.phi[j] = phi
+
+                # calculate the weighted average 
+                w_i_j += w * x # wieghted average 
+
+                self.phi_w[ j ] = phi(w_i_j) 
+
+                phi_w_i_j +=   self.phi_w[ j ] + b # dim [bias = N*M + b ]
+                print("phi_w_i_j =",phi_w_i_j)
+                
+                          
+"""
+ recheck
+=======
+
 """
 adamLutPhi
 lutfipro91@gmail.com
 
 source: https://www.youtube.com/watch?v=jTzJ9zjC8nU&t=313s
+
 
  Loss function with weights episode : backprop
  
@@ -12,6 +63,21 @@ Guide:
 
 To differentiate
 
+We will use a neural network
+
+Having a neural Network, having an:
+
+activation function
+
+
+activation function :
+
+having 
+layer1 = Layer( input ) --> layer2= Layer ( Hidden)
+
+still, need something in between, linking layer1 and layer2
+
+=======
 1.we require a neural network
 2.Having an activation function
 
@@ -19,12 +85,20 @@ layer1(input) ,  Layer2( input ) --> ... layern= Layer( Hidden)...ouput
 map
 - need something in between, linking layer1 and layer2
 """
+
 # class map
 
 class map :
      def __init__(nnLayer1, nnLayer2):
+
+
+          nnlayer1.  
+
+"""
+=======
           pass
           #nnlayer1.  
+
 
 
 """ all derivatives of u with respect to the input x
@@ -37,6 +111,13 @@ I had 10 hidden Neurons(multiple hidden neurons)
 Even if multiple layers (of hidden neurons) through backpropagation)
 
 you can find out
+
+d output/ d input 
+du / dx
+
+
+
+
 output/ d input 
 du / dx
 
