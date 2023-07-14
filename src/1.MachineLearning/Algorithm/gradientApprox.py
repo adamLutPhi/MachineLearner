@@ -1,5 +1,50 @@
 from math import tan, tanh, exp, inf 
+class feedForwardNetwork:
 
+    """
+    Feed Forwad
+    by taking linear combination (of non-linearity )
+    inputs:
+    ------
+    w: weights vector
+    x : values vector
+    """
+
+    def __init__(self, w, x , phi, b):
+    
+        self.bias = bias
+
+        _len = len(w)
+        
+        for i in range(_len+1):
+
+            
+            #Calc others:
+            self.w[i] = w
+            self.x[i] = x
+            
+            
+            self.phi_w = [] # list of phi , of w , at
+
+            phi_w_i_j = 0.0 
+
+           #bias
+            for j in range(len(bias) ):
+                
+                #insert scalar bias b into list entry j
+                self.bias[j] = b
+                #activation (characteristic function) phi
+                self.phi[j] = phi
+
+                # calculate the weighted average 
+                w_i_j += w * x # wieghted average 
+
+                self.phi_w[ j ] = phi(w_i_j) 
+
+                phi_w_i_j +=   self.phi_w[ j ] + b # dim [bias = N*M + b ]
+                print("phi_w_i_j =",phi_w_i_j)
+                
+                          
 """
  recheck
  Loss function with weights episode : backprop
