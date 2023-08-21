@@ -28,13 +28,12 @@ Keep Space in mind, call for relaxation, when Early _signs_ :
 
 - [x] Use an RNG (Random Number Generator) (`StableRNG`)
 
-- [ ] Application of `Divide & Conquer` Algorithm (see Repository: [Cause & Effect](https://github.com/adamwillisMastery/CauseEffect) )
+-  `Divide & Conquer` Algorithm (see Repository: [Cause & Effect](https://github.com/adamwillisMastery/CauseEffect) )
 
 ### Machine Learning Algorithms
 
 - [x] Outline a `widrowHoff` Algorithm 
 - [x] Outline a `Green's function` Algorithm
-- [ ] Principal Component Analysis `PCA`
       
 ### Open Questions
 
