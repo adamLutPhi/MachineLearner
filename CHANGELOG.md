@@ -1,91 +1,104 @@
+# &#x1F4C5; Commits on  Jan-25-2023
+
+Commits on Jan 25, 2022
+1. Co-authored-by: Ahmad Lutfi xadds a Ziggurat  **#_reason_:** Random number Generation #hint: use 
+2. Merge remote-tracking branch 'origin/main'  
+3. Commit: daily changes (3) committed 33 minutes ago ac9d628  
+4. Commit: daily changes (2) committed 33 minutes ago 7d22b31  
+
+5. Commit: edits ziggurat function (1) committed 1 hour ago 4f4dcc1  
+6. commit: Edits files committed 2 hours ago 7c54da6  
+7. Commit:"committed 2 hours ago  201dc9b  
+
+## Update 
+Edit files: <br />
+
+1. `README
 
 
+# &#x1F4C5; Commits on  Jan-22-2023
+<br />
+
+1. adds testing area, for ziggurat  experimentation  <br />
+2. _sanity check files_ -  <br />
+
+## Update
+
+1. `README.md`  <br />
+
+
+
+# &#x1F4C5;  Commits on  Jan-19-2023
+ <br />
+- [ ]  TODO: 
+
+1. Commits: Merge branch 'main' of https://github.com/adamwillisXanax/DeepLearner 9cd620e   <br />
+3. commit: **#major** @ __bounds.jl__ : adds supremum & infimum    <br />
+4. Merge pull request #6 from adamwillisXanax/featurechangeLog <br />
+5. Commit: **#major** @ __ziggurat__ function stub committed   <br />
+6. Update README.md - Verified  596fe1c    <br />
+
+7. adds the Ziggurat  **#_reason_:** of why Random number Generation #hint: use 
+<br />
+
+# &#x1F4C5;  Commits on Jan 18, 2023
+<br />
+commit: edits:  … committed 3 days ago 31d7724   <br />
+Commit:  … committed 3 days ago 2a5ee6b   <br />
+  <br />
+
+
+
+# &#x1F4C5; Commits on Jan 16, 2023
+<br />
+
+## Add 
+
+1. `license`: `copyLeft`   <br />
+2. `distributions` directory   <br />
+3. `genericDistribution` - committed 4 days ago - 961b160   <br />
+4. **random function** to `generator` - d793696   <br />
+5. A new `genericGenerator`  <br />
+
+
+
+## Update 
+1. `README.md`   <br />
+
+<br />
+
+
+# &#x1F4C5; Commits on Jan 15, 2023
+<br />
+
+## Add 
+1 . ` idea ` add: an `ide`a files
+
+Commits on Jan 14, 2022
+
+Update issue templates - committed 6 days ago 3d16eab   <br />
+
+co
+m
+mit: adds a randomwalk - committed 6 days ago    <br />
+commit: edits function: `main`  <br />
+commit: .gitignore - committed 6 days ago 1309e09   <br />
+
+1. add-code-of-conduct-1  … - committed 6 days ago Verified  96c9503  <br /> 
+
+Commit: uploads Manifest.toml, Project.toml - committed 6 days ago - 377b4db   <br />
+
+## update
+
+1. README.md-  committed 6 days ago -    <br />
+
+
+qchanges project.toml  … - committed 6 days ago ca5d169   <br />
+ 
 # &#x1F4C5; Commits on  DEc-13-2022
 
 ## Delete 
 
-- `.vscode` Directory, due to irrelevant unnecessity.
-
-
-# &#x1F4C5; Commits on  Jan-25-2022
-Commits on Jan 25, 2022
-1. Co-authored-by: Ahmad Lutfi <obzajd@gmail.com> committed 16 minutes ago 31f79ec  
-2. Merge remote-tracking branch 'origin/main' committed 27 minutes ago - 37dd36f  
-3. Commit: daily changes (3) committed 33 minutes ago ac9d628  
-4. Commit: daily changes (2) committed 33 minutes ago 7d22b31  
-
-5. Update README.md committed 39 minutes ago d421426 
-6. Commit: edits ziggurat function (1) committed 1 hour ago 4f4dcc1  
-7. commit: Edits files committed 2 hours ago 7c54da6  
-8. Commit:"committed 2 hours ago  201dc9b  
-9. Commit: edit files committed 3 hours ago  c11dd5c,ed374fd  <br />
-11. Update README.md  committed 6 hours ago 5764768  <br />
-
-
-
-# &#x1F4C5; Commits on  Jan-22-2022
-<br />
-Updates README.md - committed 2 minutes ago - Verified  b04bbf1   <br />
-commit: _sanity checks files_ - committed 4 minutes ago  5cc7be1   <br />
-commit: adds testing area in zigguratfor experimentation  … - committed 5 minutes ago - 733be06   <br />
-
-# &#x1F4C5;  Commits on  Jan-19-2022
- <br />
-- [ ]  TODO: adds a Ziggurat  **#_reason_:** Random number Generation #hint: use 
-
-1. Commits: Merge branch 'main' of https://github.com/adamwillisXanax/DeepLearner 9cd620e   <br />
-3. commit: **#major** @ __bounds.jl__ : adds supremum & infimum  6bbce41   <br />
-4. Merge pull request #6 from adamwillisXanax/featurechangeLog  - Verified  6dbccb5   <br />
-5. Commit: **#major** @ __ziggurat__ function stub committed 1 hour ago d02f474   <br />
-6. Update README.md - Verified  596fe1c    <br />
-7. Merge pull request #5 from adamwillisXanax/test  - Verified  fff6471   <br />
-<br />
-
-# &#x1F4C5;  Commits on Jan 18, 2022 
-<br />
-commit: edits:  … committed 3 days ago 31d7724   <br />
-Commit:  … committed 3 days ago 2a5ee6b   <br />
-#---  <br />
-
-
-# &#x1F4C5; Commits on Jan 17, 2022 commint revoke workflows (temporarily) c4cd02d   <br />
-
-Merge branch 'main' of https://github.com/adamwillisXanax/DeepLearner …  … 1f93d16   <br />
-Commit: adds Julia TagBotn@adamwillisXanaxnadamwillisXanax committed 4 days ago
-
-# &#x1F4C5; Commits on Jan 16, 2022 
-<br />
-Merge pull request #2 from adamwillisXanax/add-license-copyLeft  … - committed 4 days ago Verified  3ea4cb9   <br />
-Create LICENSE - committed 4 days ago Verified  56e978d   <br />
-Commit: adds genericDistribution - committed 4 days ago - 961b160   <br />
-commit: Adds distributions directory  … - committed 4 days ago 3ec8160   <br />
-Commit: seperate into 2 files:  … - 4 days ago - 3bc7026   <br />
-commit: edits generator committed 4 days ago 72a741d   <br />
-Merge branch 'main' of https://github.com/adamwillisXanax/DeepLearner …  … -  committed 4 days ago 9dadd0f   <br />
-commit: adds random function to generator - d793696   <br />
-Update README.md - committed 4 days ago - Verified  e04b652   <br />
-Commit: adds a new genericGenerator function f6f773a   <br />
-
-<br />
-
-# &#x1F4C5; Commits on Jan 15, 2022
-<br />
-commit: adds an idea files for JetBrains IDE -committed 6 days ago
-Verified  20e34d9  
-Commits on Jan 14, 2022
-Update issue templates - committed 6 days ago 3d16eab   <br />
-commit: adds a randomwalk - committed 6 days ago f30b476   <br />
-commit: edits main - committed 6 days ago b2e2823   <br />
-Merge branch 'main' of https://github.com/adamwillisXanax/DeepLearner …  … - committed 6 days ago 5c2c775  <br /> 
-commit: .gitignore - committed 6 days ago 1309e09   <br />
-Merge pull request #1 from adamwillisXanax/add-code-of-conduct-1  … - committed 6 days ago Verified  96c9503  <br /> 
-Create CODE_OF_CONDUCT.md - committed 6 days ago Verified  ce172f1  <br /> 
-Commit: changes project.toml  … - committed 6 days ago ca5d169   <br />
-Commit: uploads Manifest.toml, Project.toml - committed 6 days ago - 377b4db   <br />
-
-Updates README.md-  committed 6 days ago - Verified  6c43cc4   <br />
-
-Initial commit - committed 6 days ago - Verified  b8fccc2   <br />
-
+- `.vscode` Directory, due to irrelevant unnecessity
 
 
